@@ -1,7 +1,17 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { AppDispatch } from "../../store/types";
+import { toggleIsContactModalOpen } from "../../store/actions/system.actions";
 
 export default function BtnContact() {
+  const dispatch: AppDispatch = useDispatch();
   const { language } = useSelector((state: RootState) => state.systemModule);
-  return <button className={`btn-app-header ${language}`}>Contact Us</button>;
+  function handleBtnContactClick() {
+    dispatch(toggleIsContactModalOpen());
+  }
+  return (
+    <button className={`btn-app-header ${language}`} onClick={handleBtnContactClick}>
+      Contact Us
+    </button>
+  );
 }

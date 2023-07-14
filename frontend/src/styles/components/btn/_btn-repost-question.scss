@@ -1,0 +1,18 @@
+.btn-report-question {
+  width: 30px;
+  height: 30px;
+  color: var(--color-light);
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 0;
+  text-align: left;
+  text-decoration: underline;
+  &:hover {
+    background-color: transparent;
+    color: var(--color-warning);
+    text-decoration: underline;
+  }
+}

@@ -2,11 +2,21 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 50px;
 }
 
 .input-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
   position: relative;
-  width: 30%;
+  width: fit-content;
+  max-width: 175px;
+  align-items: center;
+
+  label {
+    font-size: 12px;
+  }
 }
 
 .input-wrapper::after {
@@ -20,17 +30,19 @@
 .input-number {
   display: block;
   width: 100%;
+  height: 80%;
   font-family: inherit;
   font-size: 1.6rem;
   color: var(--color-light);
   background-color: var(--color-darkest);
   border: 2px solid var(--color-dark);
   border-radius: 100px;
-  padding: 1.2rem 3rem 1.2rem 1.2rem;
   appearance: none;
   outline: none;
   cursor: pointer;
   transition: 0.3s;
+  padding: 0 1.2rem;
+  width: 50px;
 }
 
 .input-number:hover {
@@ -49,18 +61,6 @@
 
 .input-number {
   -moz-appearance: textfield; /* For Firefox */
-  display: block;
-  width: 100%;
-  font-family: inherit;
-  font-size: 1.6rem;
-  color: var(--color-light);
-  background-color: var(--color-darkest);
-  border: 2px solid var(--color-dark);
-  border-radius: 100px;
-  padding: 1.2rem 3rem 1.2rem 1.2rem;
-  outline: none;
-  cursor: pointer;
-  transition: 0.3s;
 }
 
 .input-number:focus {

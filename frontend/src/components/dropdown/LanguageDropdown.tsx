@@ -1,14 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { ProgrammingLanguage } from "../../../../shared/types/system";
+import { ProgrammingLanguage, systemSettings } from "../../../../shared/types/system";
 import { AppDispatch } from "../../store/types";
 import { setLanguage } from "../../store/actions/system.actions";
 
 export default function LanguageDropdown() {
   const dispatch: AppDispatch = useDispatch();
-  const {
-    systemSettings: { programmingLanguages },
-  } = useSelector((state: RootState) => state.systemModule);
+  const { systemSettings } = useSelector((state: RootState) => state.systemModule);
+  const { programmingLanguages } = systemSettings as systemSettings;
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const lang = e.target.value as ProgrammingLanguage;

@@ -134,6 +134,10 @@ function changeThemeColors(themeColors: { themeColor: string; accentColor: strin
   root.style.setProperty("--color-accent", accentColor);
 }
 
+function caplitalizeFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export {
   formatDateToRelativeTime,
   formatNumToK,
@@ -145,4 +149,5 @@ export {
   copyToClipboard,
   formatDateToCleanString,
   changeThemeColors,
+  caplitalizeFirstLetter,
 };

@@ -48,3 +48,16 @@ export type systemSettings = {
   difficultyLevels: difficultyLevels[] | [];
   themeColors: ThemeColors | {};
 };
+
+export type ContactMessage = {
+  subject: string;
+  content: string;
+  userDetails?: User;
+};
+
+export type ReportQuestionMessage = {
+  questionId: string;
+  defaultIssue: string;
+  content: string;
+  userDetails?: User;
+};

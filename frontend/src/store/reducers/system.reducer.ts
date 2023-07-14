@@ -14,6 +14,8 @@ type SystemState = {
   offSet: number;
   level: difficultyLevels;
   systemSettings: systemSettings;
+  isContactModalOpen: boolean;
+  isReportQuestionModalOpen: boolean;
 };
 
 const initialState: SystemState = {
@@ -27,6 +29,8 @@ const initialState: SystemState = {
     difficultyLevels: [],
     themeColors: {},
   },
+  isContactModalOpen: false,
+  isReportQuestionModalOpen: false,
 };
 
 export function systemReducer(
@@ -84,6 +88,16 @@ export function systemReducer(
       return {
         ...state,
         offSet: ++state.offSet,
+      };
+    case "TOGGLE_IS_CONTACT_MODAL_OPEN":
+      return {
+        ...state,
+        isContactModalOpen: !state.isContactModalOpen,
+      };
+    case "TOGGLE_IS_REPORT_QUESTION_MODAL_OPEN":
+      return {
+        ...state,
+        isReportQuestionModalOpen: !state.isReportQuestionModalOpen,
       };
     default:
       return state;

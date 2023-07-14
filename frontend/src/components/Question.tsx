@@ -1,5 +1,6 @@
 import OptionList from "./option/OptionList";
 import { Question as TypeOfQuestion } from "../../../shared/types/question";
+import BtnReportQuestion from "./btns/BtnReportQuestion";
 
 type QuestionProps = {
   question: TypeOfQuestion;
@@ -8,7 +9,10 @@ type QuestionProps = {
 function Question({ question, answerIdx }: QuestionProps) {
   return (
     <div>
-      <h4>{question.question}</h4>
+      <div className="question-header">
+        <h4>{question.question}</h4>
+        <BtnReportQuestion />
+      </div>
       <OptionList question={question} answerIdx={answerIdx} />
     </div>
   );

@@ -1,8 +1,14 @@
-export default function Loader() {
+type LoaderProps = {
+  title?: string;
+};
+
+function Loader({ title }: LoaderProps) {
   return (
     <div className="loader-container">
       <div className="loader"></div>
-      <p>Loading questions...</p>
+      {title && <p>{title}</p>}
     </div>
   );
 }
+
+export default Loader;

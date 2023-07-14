@@ -21,9 +21,7 @@ export function getQuestions({
   };
 }
 
-export function setQuestionIdx(
-  questionIdx: number
-): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
+export function setQuestionIdx(): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
   return async dispatch => {
     try {
       dispatch({ type: "SET_NEXT_QUESTION_IDX" });

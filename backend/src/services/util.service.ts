@@ -102,7 +102,7 @@ async function sendEmail(options: { email: string; subject: string; message: str
   });
 
   const mailOptions = {
-    from: "Chirper <Chirper.com>",
+    from: "Fullstack Wiz <Fullstack Wiz.com>",
     to: options.email,
     subject: options.subject,
     text: options.message,

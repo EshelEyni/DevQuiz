@@ -17,15 +17,23 @@ import Main from "./components/Main";
 import { use, useEffect } from "react";
 import { getCurrentLogo } from "./services/image.service";
 import { getQuestions } from "./store/actions/quiz.actions";
-import { getSystemSettings } from "./store/actions/system.actions";
+import {
+  getSystemSettings,
+  toggleIsContactModalOpen,
+  toggleIsReportQuestionModalOpen,
+} from "./store/actions/system.actions";
 import Header from "./components/Header";
+import ContactModal from "./components/modals/ContactModal";
+import ReportQuestionModal from "./components/modals/ReportQuestionModal";
+import Modal from "./components/modals/Modal";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
   const { questions, questionIdx, points, answerIdx, highScore } = useSelector(
     (state: RootState) => state.quizModule
   );
-  const { status, language, level, offSet } = useSelector((state: RootState) => state.systemModule);
+  const { status, language, level, offSet, isContactModalOpen, isReportQuestionModalOpen } =
+    useSelector((state: RootState) => state.systemModule);
   const numQuestions: number = questions ? questions.length : 0;
   const maxPossiblePoints = questions.reduce(
     (acc: number, curr: TypeOfQuestion) => acc + curr.points,
@@ -40,14 +48,13 @@ function App() {
       document.getElementsByTagName("head")[0].appendChild(link);
     }
     link.type = "image/x-icon";
-    console.log(language);
     link.href = getCurrentLogo(language);
   }
 
   function renderSwitch(status: string) {
     switch (status) {
       case "loading":
-        return <Loader />;
+        return <Loader title={"Loading questions..."} />;
       case "error":
         return <Error />;
       case "ready":
@@ -92,14 +99,27 @@ function App() {
 
   useEffect(() => {
     changeFavicon();
-    dispatch(getQuestions({ language, level, offSet }));
   }, [language]);
+
+  useEffect(() => {
+    dispatch(getQuestions({ language, level, offSet }));
+  }, [language, level]);
 
   return (
     <div className="app">
       <Header />
       <QuizHeader />
       <Main>{renderSwitch(status)}</Main>
+      {isContactModalOpen && (
+        <Modal onClickMainScreenFn={toggleIsContactModalOpen}>
+          <ContactModal />
+        </Modal>
+      )}
+      {isReportQuestionModalOpen && (
+        <Modal onClickMainScreenFn={toggleIsReportQuestionModalOpen}>
+          <ReportQuestionModal />
+        </Modal>
+      )}
     </div>
   );
 }

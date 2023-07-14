@@ -7,10 +7,10 @@
   color: var(--color-light);
   width: 100%;
 
-
   .inputs-container {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
     width: 60%;
 
     @media (max-width: 768px) {
@@ -20,8 +20,6 @@
     }
 
     *:not(:last-child) {
-      margin-right: 2rem;
-
       @media (max-width: 768px) {
         margin-bottom: 1rem;
         margin-right: 0;

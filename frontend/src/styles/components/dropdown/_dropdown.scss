@@ -1,0 +1,49 @@
+.select-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 30%;
+}
+
+.select-wrapper::after {
+  content: "\25BC";
+  font-size: 1.2rem;
+  color: var(--color-medium);
+  pointer-events: none;
+  position: absolute;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.select {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: 2.5rem;
+  color: var(--color-light);
+  background-color: var(--color-darkest);
+  border: 2px solid var(--color-dark);
+  border-radius: 100px;
+  padding: 1.2rem 3rem 1.2rem 1.2rem;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.select:hover {
+  border-color: var(--color-theme);
+}
+
+.select:focus {
+  border-color: var(--color-theme);
+}
+
+option {
+  height: 12rem ;
+}

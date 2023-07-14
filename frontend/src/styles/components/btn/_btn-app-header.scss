@@ -1,0 +1,50 @@
+.btn-app-header {
+  font-family: inherit;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--color-light);
+  background-color: var(--color-theme);
+  border: none;
+  border-radius: 100px;
+  padding: 1.2rem 3rem;
+  cursor: pointer;
+  transition: 0.3s;
+  outline: none;
+  text-transform: uppercase;
+
+  &.HTML,
+  &.CSS,
+  &.SQL {
+    color: var(--color-darkest);
+    background-color: var(--color-theme);
+  }
+
+  &.JavaScript,
+  &.React,
+  &.NodeJS {
+    color: var(--color-theme);
+    background-color: var(--color-theme);
+
+    &:hover {
+      color: var(--color-light);
+    }
+  }
+
+  &.TypeScript,
+  &.Vue {
+    color: var(--color-light);
+    background-color: var(--color-theme);
+  }
+
+  &.Angular {
+    color: var(--color-light);
+    background-color: var(--color-theme);
+
+    &:hover {
+      color: var(--color-darkest);
+    }
+  }
+  &:hover {
+    background-color: var(--color-accent);
+  }
+}

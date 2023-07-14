@@ -1,0 +1,68 @@
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 30%;
+}
+
+.input-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.input-number {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: 1.6rem;
+  color: var(--color-light);
+  background-color: var(--color-darkest);
+  border: 2px solid var(--color-dark);
+  border-radius: 100px;
+  padding: 1.2rem 3rem 1.2rem 1.2rem;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.input-number:hover {
+  border-color: var(--color-theme);
+}
+
+.input-number:focus {
+  border-color: var(--color-theme);
+}
+
+.input-number::-webkit-inner-spin-button,
+.input-number::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-number {
+  -moz-appearance: textfield; /* For Firefox */
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: 1.6rem;
+  color: var(--color-light);
+  background-color: var(--color-darkest);
+  border: 2px solid var(--color-dark);
+  border-radius: 100px;
+  padding: 1.2rem 3rem 1.2rem 1.2rem;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.input-number:focus {
+  border-color: var(--color-theme);
+}

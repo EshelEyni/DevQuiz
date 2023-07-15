@@ -27,6 +27,13 @@
     }
   }
 
+  .btn-navigation-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
   .btns-container {
     display: flex;
     align-items: center;

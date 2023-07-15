@@ -100,8 +100,7 @@ export const Homepage = () => {
   }, [language, level]);
 
   return (
-    <div className="app">
-      <Header />
+    <>
       <QuizHeader />
       <Main>{renderSwitch(status)}</Main>
       {isContactModalOpen && (
@@ -120,6 +119,6 @@ export const Homepage = () => {
           <LoginSignupModal />
         </Modal>
       )}
-    </div>
+    </>
   );
 };

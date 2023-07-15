@@ -1,4 +1,4 @@
-import { User } from "../../../../shared/interfaces/user.interface";
+import { User } from "../../types/user.interface";
 import { userService } from "../../services/user.service";
 
 const initialState: {

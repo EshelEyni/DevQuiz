@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { AppDispatch } from "../store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { getUser } from "../store/actions/user.actions";
 
 export const ProfileDetails = () => {
   const params = useParams();
@@ -11,6 +12,7 @@ export const ProfileDetails = () => {
 
   useEffect(() => {
     const id = params.id;
+    if (id) dispatch(getUser(id));
   }, [params]);
 
   return (

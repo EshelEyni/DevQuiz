@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { AppDispatch } from "../../store/types";
 import { Question } from "../../../../shared/types/question";
@@ -33,6 +33,7 @@ function OptionList({ question }: OptionListProps) {
   const dispatch: AppDispatch = useDispatch();
   const [focusState, setFocusState] = useState(new FocusState(question.options.length));
   const isDisabledRef = useRef(focusState.isDisabled);
+  const currFocusIdxRef = useRef(focusState.currIdx);
 
   useKey("ArrowUp", () => {
     if (isDisabledRef.current) return;
@@ -57,7 +58,8 @@ function OptionList({ question }: OptionListProps) {
 
   useKey("Enter", () => {
     clearOptionFocusArray();
-    onOptionSelection(focusState.currIdx);
+    const optionIdx = currFocusIdxRef.current;
+    onOptionSelection(optionIdx);
   });
 
   function handleOptionClick(optionIdx: number) {
@@ -65,9 +67,11 @@ function OptionList({ question }: OptionListProps) {
   }
 
   function onOptionSelection(optionIdx: number) {
+    console.log("onOptionSelection", optionIdx);
     disableOptionFocus();
     dispatch({ type: "SET_ANSWER_IDX", payload: optionIdx });
     const isOptionCorrect = question.correctOption === optionIdx;
+    console.log("isOptionCorrect", isOptionCorrect, question.correctOption, optionIdx);
     if (isOptionCorrect) dispatch({ type: "SET_POINTS" });
   }
 
@@ -79,7 +83,6 @@ function OptionList({ question }: OptionListProps) {
   }
 
   function disableOptionFocus() {
-    console.log("disbaleArr");
     setFocusState(prevState => {
       return { ...prevState, isDisabled: true };
     });
@@ -95,6 +98,10 @@ function OptionList({ question }: OptionListProps) {
   useEffect(() => {
     isDisabledRef.current = focusState.isDisabled;
   }, [focusState.isDisabled]);
+
+  useEffect(() => {
+    currFocusIdxRef.current = focusState.currIdx;
+  }, [focusState.currIdx]);
 
   useEffect(() => {
     setFocusState(new FocusState(question.options.length));

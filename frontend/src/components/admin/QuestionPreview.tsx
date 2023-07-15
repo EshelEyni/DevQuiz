@@ -40,14 +40,25 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
           ))}
         </div>
       </div>
-      <div className="question-preview-details">
-        <p>Level: {caplitalizeFirstLetter(level)}</p>
-        <p>Language: {language}</p>
-        <p>Correct Option: {correctOption + 1}</p>
-      </div>
-      <div className="question-preview-btn-container">
-        <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
-        <BtnQuestionArchive handleBtnArchiveClick={handleBtnArchiveClick} />
+      <div>
+        <div className="question-preview-details">
+          <div className="question-preview-details-item">
+            <p>Level: </p>
+            <span>{caplitalizeFirstLetter(level)}</span>
+          </div>
+          <div className="question-preview-details-item">
+            <p>Language: </p>
+            <span>{language}</span>
+          </div>
+          <div className="question-preview-details-item">
+            <p>Correct Option:</p>
+            <span className="correct-option-num">{correctOption + 1}</span>
+          </div>
+        </div>
+        <div className="question-preview-btn-container">
+          <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
+          <BtnQuestionArchive handleBtnArchiveClick={handleBtnArchiveClick} />
+        </div>
       </div>
     </li>
   );

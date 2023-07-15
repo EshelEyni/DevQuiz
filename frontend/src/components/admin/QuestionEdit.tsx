@@ -22,7 +22,7 @@ export const QuestionEdit = () => {
     setQuestion(question);
   }
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     if (!question) return;
     const { name, value } = event.target;
     if (name === "correctOption") {

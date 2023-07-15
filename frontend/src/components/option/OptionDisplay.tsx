@@ -17,8 +17,8 @@ function OptionDisplay({
   handleOptionClick,
   isFocused,
 }: OptionDisplayProps) {
+  console.log("OptionDisplay rendered");
   const { answerIdx } = useSelector((state: RootState) => state.quizModule);
-
   const isAnswered = answerIdx !== null;
   const isOptionAnswer = answerIdx === optionIdx;
   const isOptionCorrect = correctOption === optionIdx;

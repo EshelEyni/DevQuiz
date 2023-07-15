@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/types";
-import { getQuestions } from "../../store/actions/quiz.actions";
+import { resetQuiz, startNewQuiz } from "../../store/actions/quiz.actions";
 import { RootState } from "../../store/store";
 import { useKey } from "react-use";
 import { useState, useRef, useEffect } from "react";
@@ -15,7 +15,7 @@ type typeOfButton = "newQuiz" | "restart" | "none";
 
 function FinishScreen({ points, maxPossiblePoints, highScore }: FinishScreenProps) {
   const dispatch: AppDispatch = useDispatch();
-  const { language, level, offSet } = useSelector((state: RootState) => state.systemModule);
+  const { language, level, page } = useSelector((state: RootState) => state.systemModule);
   const percentage = (points / maxPossiblePoints) * 100;
 
   const [focusedBtn, setFocusedBtn] = useState<typeOfButton>("none");
@@ -28,12 +28,11 @@ function FinishScreen({ points, maxPossiblePoints, highScore }: FinishScreenProp
   else emoji = "😞";
 
   function handleNewQuizClick() {
-    dispatch(getQuestions({ language, level, offSet }));
+    dispatch(startNewQuiz({ language, level, page }));
   }
 
   function handleRestartClick() {
-    dispatch({ type: "SET_STATUS", status: "ready" });
-    dispatch({ type: "RESET_QUIZ" });
+    dispatch(resetQuiz());
   }
 
   useKey("ArrowRight", () => {

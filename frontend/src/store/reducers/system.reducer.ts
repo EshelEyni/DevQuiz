@@ -11,12 +11,9 @@ type SystemState = {
   status: AppStatus;
   language: ProgrammingLanguage;
   secondsPerQuestion: number;
-  offSet: number;
+  page: number;
   level: difficultyLevels;
   systemSettings: systemSettings;
-  isContactModalOpen: boolean;
-  isReportQuestionModalOpen: boolean;
-  isLoginSignupModalOpen: boolean;
 };
 
 const initialState: SystemState = {
@@ -24,15 +21,12 @@ const initialState: SystemState = {
   language: "HTML",
   secondsPerQuestion: 30,
   level: "beginner",
-  offSet: 1,
+  page: 1,
   systemSettings: {
     programmingLanguages: [],
     difficultyLevels: [],
     themeColors: {},
   },
-  isContactModalOpen: false,
-  isReportQuestionModalOpen: false,
-  isLoginSignupModalOpen: false,
 };
 
 export function systemReducer(
@@ -43,7 +37,7 @@ export function systemReducer(
     language: ProgrammingLanguage;
     secondsPerQuestion: number;
     level: difficultyLevels;
-    offSet: number;
+    page: number;
     systemSettings: {
       programmingLanguages: ProgrammingLanguage[];
       difficultyLevels: difficultyLevels[];
@@ -71,7 +65,7 @@ export function systemReducer(
       return {
         ...state,
         language: action.language,
-        offSet: 1,
+        page: 1,
         status: "ready",
       };
     }
@@ -79,7 +73,7 @@ export function systemReducer(
       return {
         ...state,
         level: action.level,
-        offSet: 1,
+        page: 1,
       };
     case "SET_SECONDS_PER_QUESTION":
       return {
@@ -89,22 +83,7 @@ export function systemReducer(
     case "INC_OFFSET":
       return {
         ...state,
-        offSet: ++state.offSet,
-      };
-    case "TOGGLE_IS_CONTACT_MODAL_OPEN":
-      return {
-        ...state,
-        isContactModalOpen: !state.isContactModalOpen,
-      };
-    case "TOGGLE_IS_REPORT_QUESTION_MODAL_OPEN":
-      return {
-        ...state,
-        isReportQuestionModalOpen: !state.isReportQuestionModalOpen,
-      };
-    case "TOGGLE_IS_LOGIN_SIGNUP_MODAL_OPEN":
-      return {
-        ...state,
-        isLoginSignupModalOpen: !state.isLoginSignupModalOpen,
+        page: ++state.page,
       };
     default:
       return state;

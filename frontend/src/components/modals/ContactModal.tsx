@@ -1,7 +1,7 @@
 import { ChangeEvent, useState, useEffect, useRef } from "react";
 import { AppDispatch } from "../../store/types";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleIsContactModalOpen } from "../../store/actions/system.actions";
+import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
 import { ContactMessage } from "../../../../shared/types/system";
 import { RootState } from "../../store/store";
 import { sendContactMessage } from "../../services/contact.service";
@@ -26,8 +26,8 @@ export default function ContactModal() {
     event.preventDefault();
     const msgToSend: ContactMessage = {
       ...message,
-      userDetails: loggedinUser ? { ...loggedinUser } : null,
     };
+    if (loggedinUser) msgToSend.userDetails = { ...loggedinUser };
     await sendContactMessage(msgToSend);
     setMessage({ ...defaultMsgState });
     dispatch(toggleIsContactModalOpen());

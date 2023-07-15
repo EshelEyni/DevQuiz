@@ -1,7 +1,7 @@
 import { ChangeEvent, useState, useEffect, useRef } from "react";
 import { AppDispatch } from "../../store/types";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleIsReportQuestionModalOpen } from "../../store/actions/system.actions";
+import { toggleIsReportQuestionModalOpen } from "../../store/actions/modal.actions";
 import { ReportQuestionMessage } from "../../../../shared/types/system";
 import { RootState } from "../../store/store";
 import { senReportOnQuestion } from "../../services/contact.service";
@@ -40,10 +40,8 @@ export default function ReportQuestionModal() {
   async function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
     setIsLoading(true);
     event.preventDefault();
-    const msgToSend: ReportQuestionMessage = {
-      ...message,
-      userDetails: loggedinUser ? { ...loggedinUser } : null,
-    };
+    const msgToSend: ReportQuestionMessage = { ...message };
+    if (loggedinUser) msgToSend.userDetails = { ...loggedinUser };
     await senReportOnQuestion(msgToSend);
     setMessage({ ...defaultMsgState });
     dispatch(toggleIsReportQuestionModalOpen());

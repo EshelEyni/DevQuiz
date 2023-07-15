@@ -8,15 +8,22 @@ import {
 } from "../../../../shared/types/system";
 import { setLevel } from "../../store/actions/system.actions";
 import { caplitalizeFirstLetter } from "../../services/utils.service";
+import { setFilter } from "../../store/actions/question.actions";
 
-export default function LevelDropdown() {
+type LevelDropdownProps = {
+  isAdminPage?: boolean;
+};
+
+export default function LevelDropdown({ isAdminPage = false }: LevelDropdownProps) {
   const dispatch: AppDispatch = useDispatch();
   const { systemSettings } = useSelector((state: RootState) => state.systemModule);
   const { difficultyLevels } = systemSettings as systemSettings;
+  const { filterBy } = useSelector((state: RootState) => state.questionModule);
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const level = e.target.value as TypeOfDifficultyLevels;
-    dispatch(setLevel(level));
+    if (isAdminPage) dispatch(setFilter({ ...filterBy, level }));
+    else dispatch(setLevel(level));
   }
   return (
     <div className="select-container">

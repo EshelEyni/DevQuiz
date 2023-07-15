@@ -1,22 +1,35 @@
 import { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
 import { RootState } from "../store";
-import quizService from "../../services/quiz.service";
+import questionService from "../../services/question.service";
 import { questionReqProps } from "../types";
 
-export function getQuestions({
+export function startNewQuiz({
   language,
   level,
-  offSet,
+  page,
+  limit = 25,
 }: questionReqProps): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
   return async dispatch => {
     try {
-      const questions = await quizService.query({ language, level, offSet });
+      const questions = await questionService.query({ language, level, page, limit });
       dispatch({ type: "SET_QUESTIONS", questions });
       dispatch({ type: "SET_STATUS", status: "ready" });
       dispatch({ type: "INC_OFFSET" });
     } catch (err) {
       console.log("QuizActions: err in getQuestions", err);
+    }
+  };
+}
+
+export function resetQuiz(): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
+  return async dispatch => {
+    try {
+      dispatch({ type: "SET_STATUS", status: "ready" });
+      dispatch({ type: "SET_ANSWER_IDX", answerIdx: null });
+      dispatch({ type: "RESET_QUIZ" });
+    } catch (err) {
+      console.log("QuizActions: err in resetQuiz", err);
     }
   };
 }

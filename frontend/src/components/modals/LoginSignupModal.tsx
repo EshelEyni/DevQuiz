@@ -5,7 +5,7 @@ import { login, signup } from "../../store/actions/auth.actions";
 import { UserCredentials } from "../../types/auth.types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/types";
-import { toggleIsLoginSignupModalOpen } from "../../store/actions/system.actions";
+import { toggleIsLoginSignupModalOpen } from "../../store/actions/modal.actions";
 import Loader from "../loaders/Loader";
 
 const initialState = {

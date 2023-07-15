@@ -8,7 +8,8 @@ export type AppDispatch = ThunkDispatch<RootState, undefined, AnyAction>;
 export type questionReqProps = {
   language: ProgrammingLanguage;
   level: difficultyLevels;
-  offSet: number;
+  page: number;
   limit?: number;
+  searchTerm?: string;
 };
 export type AppStatus = "loading" | "ready" | "error" | "active" | "finished";

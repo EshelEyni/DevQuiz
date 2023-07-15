@@ -138,6 +138,35 @@ function caplitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function getRandomBrightColor(i: number) {
+  const brightColors = [
+    "#FF5733", // Bright orange
+    "#FFC300", // Bright yellow
+    "#DAF7A6", // Lime green
+    "#FF33FF", // Bright pink
+    "#33FFCE", // Bright cyan
+    "#FF33D6", // Bright magenta
+    "#4CFF33", // Bright green
+    "#33C3FF", // Bright light blue
+    "#FF5733", // Bright red-orange
+    "#FFBD33", // Bright gold
+    "#C733FF", // Bright purple
+    "#FFA500", // Vivid orange
+    "#FFFF00", // Bright yellow
+    "#ADFF2F", // Green yellow
+    "#00FF7F", // Spring green
+    "#D433FF", // Bright violet
+    "#00BFFF", // Deep sky blue
+    "#FF1493", // Deep pink
+    "#00CED1", // Dark turquoise
+    "#FF4500", // Orange red
+    "#FFD700", // Gold
+    "#32CD32", // Lime green
+  ];
+
+  return brightColors[i % brightColors.length];
+}
+
 export {
   formatDateToRelativeTime,
   formatNumToK,
@@ -150,4 +179,5 @@ export {
   formatDateToCleanString,
   changeThemeColors,
   caplitalizeFirstLetter,
+  getRandomBrightColor,
 };

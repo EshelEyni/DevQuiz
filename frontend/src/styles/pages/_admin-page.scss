@@ -1,0 +1,13 @@
+.admin-page {
+  width: 100%;
+
+  .question-list-container {
+    margin: 0 auto;
+    width: 90%;
+    .question-counter {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+  }
+}

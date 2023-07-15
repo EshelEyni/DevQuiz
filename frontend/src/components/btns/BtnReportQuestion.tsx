@@ -2,7 +2,7 @@ import { MdReportGmailerrorred } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import { AppDispatch } from "../../store/types";
 import { useDispatch } from "react-redux";
-import { toggleIsReportQuestionModalOpen } from "../../store/actions/system.actions";
+import { toggleIsReportQuestionModalOpen } from "../../store/actions/modal.actions";
 
 export default function BtnReportQuestion() {
   const dispatch: AppDispatch = useDispatch();

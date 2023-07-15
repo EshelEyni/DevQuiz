@@ -15,35 +15,15 @@ import QuizHeader from "../components/QuizHeader";
 import Main from "../components/Main";
 import { useEffect } from "react";
 import { getCurrentLogo } from "../services/image.service";
-import { getQuestions } from "../store/actions/quiz.actions";
-import {
-  getSystemSettings,
-  toggleIsContactModalOpen,
-  toggleIsLoginSignupModalOpen,
-  toggleIsReportQuestionModalOpen,
-} from "../store/actions/system.actions";
-import Header from "../components/Header";
-import ContactModal from "../components/modals/ContactModal";
-import ReportQuestionModal from "../components/modals/ReportQuestionModal";
-import Modal from "../components/modals/Modal";
+import { startNewQuiz } from "../store/actions/quiz.actions";
 import { useFavicon } from "react-use";
-import LoginSignupModal from "../components/modals/LoginSignupModal";
-import { autoLogin } from "../store/actions/auth.actions";
 
 export const Homepage = () => {
   const dispatch: AppDispatch = useDispatch();
   const { questions, questionIdx, points, highScore, answerIdx } = useSelector(
     (state: RootState) => state.quizModule
   );
-  const {
-    status,
-    language,
-    level,
-    offSet,
-    isContactModalOpen,
-    isReportQuestionModalOpen,
-    isLoginSignupModalOpen,
-  } = useSelector((state: RootState) => state.systemModule);
+  const { status, language, level, page } = useSelector((state: RootState) => state.systemModule);
   const numQuestions: number = questions ? questions.length : 0;
   const maxPossiblePoints = questions.reduce(
     (acc: number, curr: TypeOfQuestion) => acc + curr.points,
@@ -91,34 +71,13 @@ export const Homepage = () => {
   }
 
   useEffect(() => {
-    dispatch(getSystemSettings());
-    dispatch(autoLogin());
-  }, []);
-
-  useEffect(() => {
-    dispatch(getQuestions({ language, level, offSet }));
+    dispatch(startNewQuiz({ language, level, page }));
   }, [language, level]);
 
   return (
     <>
       <QuizHeader />
       <Main>{renderSwitch(status)}</Main>
-      {isContactModalOpen && (
-        <Modal onClickMainScreenFn={toggleIsContactModalOpen}>
-          <ContactModal />
-        </Modal>
-      )}
-      {isReportQuestionModalOpen && (
-        <Modal onClickMainScreenFn={toggleIsReportQuestionModalOpen}>
-          <ReportQuestionModal />
-        </Modal>
-      )}
-
-      {isLoginSignupModalOpen && (
-        <Modal onClickMainScreenFn={toggleIsLoginSignupModalOpen} type="login-signup">
-          <LoginSignupModal />
-        </Modal>
-      )}
     </>
   );
 };

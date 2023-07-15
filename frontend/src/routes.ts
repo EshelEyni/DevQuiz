@@ -1,3 +1,4 @@
+import { QuestionEdit } from "./components/admin/QuestionEdit";
 import { AdminPage } from "./pages/AdminPage";
 import { Homepage } from "./pages/Homepage";
 import { ProfileDetails } from "./pages/ProfileDetails";
@@ -5,7 +6,7 @@ import { ProfileDetails } from "./pages/ProfileDetails";
 interface Route {
   path: string;
   component: () => JSX.Element;
-  onlyHomePage?: boolean;
+  nestedRoutes?: Route[];
 }
 
 const routes: Route[] = [
@@ -20,6 +21,12 @@ const routes: Route[] = [
   {
     path: "/admin",
     component: AdminPage,
+    nestedRoutes: [
+      {
+        path: "question-edit/:id?",
+        component: QuestionEdit,
+      },
+    ],
   },
 ];
 

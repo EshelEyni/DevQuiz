@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { AppDispatch } from "../../store/types";
-import { toggleIsLoginSignupModalOpen } from "../../store/actions/system.actions";
+import { toggleIsLoginSignupModalOpen } from "../../store/actions/modal.actions";
 import { useNavigate } from "react-router-dom";
 
 export default function BtnAuth() {

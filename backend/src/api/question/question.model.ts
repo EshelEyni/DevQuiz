@@ -1,4 +1,5 @@
-import { Schema, model } from "mongoose";
+import { Query, Schema, model } from "mongoose";
+import { Question } from "../../../../shared/types/question";
 
 const questionSchema = new Schema(
   {
@@ -28,6 +29,10 @@ const questionSchema = new Schema(
       type: String,
       required: true,
     },
+    isArchived: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -45,6 +50,14 @@ const questionSchema = new Schema(
         },
       },
     },
+  }
+);
+
+questionSchema.pre(
+  /^find/,
+  function (this: Query<Document, Question>, next: (err?: Error) => void) {
+    this.find({ isArchived: { $ne: true } });
+    next();
   }
 );
 

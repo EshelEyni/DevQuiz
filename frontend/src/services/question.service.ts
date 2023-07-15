@@ -18,7 +18,6 @@ async function query({
   const query = `question?language=${language}&page=${page}${levelQuery}${limitQuery}${searchFieldQuery}${searchTermQuery}`;
   try {
     const response = await httpService.get(query);
-    console.log("Question service: respose", response.data);
     return handleServerResponse<Question[]>(response);
   } catch (err) {
     console.log("Question service: err in query", err);

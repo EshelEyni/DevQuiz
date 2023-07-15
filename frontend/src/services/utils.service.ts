@@ -138,6 +138,15 @@ function caplitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function getRandomColor() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i <= 5; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 function getRandomBrightColor(i: number) {
   const brightColors = [
     "#FF5733", // Bright orange
@@ -148,17 +157,18 @@ function getRandomBrightColor(i: number) {
     "#FF33D6", // Bright magenta
     "#4CFF33", // Bright green
     "#33C3FF", // Bright light blue
+    "#C733FF", // Bright purple
     "#FF5733", // Bright red-orange
     "#FFBD33", // Bright gold
-    "#C733FF", // Bright purple
-    "#FFA500", // Vivid orange
+    "#D433FF", // Bright violet
     "#FFFF00", // Bright yellow
     "#ADFF2F", // Green yellow
+    "#FFA500", // Vivid orange
     "#00FF7F", // Spring green
-    "#D433FF", // Bright violet
     "#00BFFF", // Deep sky blue
     "#FF1493", // Deep pink
     "#00CED1", // Dark turquoise
+    "#9400D3", // Dark violet
     "#FF4500", // Orange red
     "#FFD700", // Gold
     "#32CD32", // Lime green

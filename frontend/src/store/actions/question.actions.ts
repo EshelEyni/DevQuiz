@@ -4,6 +4,7 @@ import { RootState } from "../store";
 import questionService from "../../services/question.service";
 
 import { questionReqProps } from "../types";
+import { Question } from "../../../../shared/types/question";
 
 export const actionTypes = {
   SET_FILTER: "SET_FILTER",
@@ -11,11 +12,19 @@ export const actionTypes = {
   SET_QUESTION: "SET_QUESTION",
   ADD_QUESTION: "ADD_QUESTION",
   REMOVE_QUESTION: "REMOVE_QUESTION",
+  UPDATE_QUESTION: "UPDATE_QUESTION",
   SET_IS_LOADING: "SET_IS_LOADING",
 };
 
-const { SET_FILTER, SET_IS_LOADING, SET_QUESTIONS, SET_QUESTION, ADD_QUESTION, REMOVE_QUESTION } =
-  actionTypes;
+const {
+  SET_FILTER,
+  SET_IS_LOADING,
+  SET_QUESTIONS,
+  SET_QUESTION,
+  ADD_QUESTION,
+  UPDATE_QUESTION,
+  REMOVE_QUESTION,
+} = actionTypes;
 
 export function setFilter(filterBy: {
   level: string;
@@ -65,8 +74,10 @@ export function getDuplicatedQuestions({
 }): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
   return async dispatch => {
     try {
+      dispatch({ type: SET_IS_LOADING, isLoading: true });
       const questions = await questionService.getDuplicatedQuestions({ language });
       dispatch({ type: SET_QUESTIONS, questions });
+      dispatch({ type: SET_IS_LOADING, isLoading: false });
     } catch (err) {
       console.log("QuizActions: err in getDuplicatedQuestions", err);
     }
@@ -87,7 +98,7 @@ export function getQuestion(
 }
 
 export function addQuestion(
-  question: any
+  question: Question
 ): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
   return async dispatch => {
     try {
@@ -100,12 +111,12 @@ export function addQuestion(
 }
 
 export function updateQuestion(
-  question: any
+  question: Question
 ): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
   return async dispatch => {
     try {
       const updatedQuestion = await questionService.update(question);
-      dispatch({ type: SET_QUESTION, question: updatedQuestion });
+      dispatch({ type: UPDATE_QUESTION, updatedQuestion });
     } catch (err) {
       console.log("QuizActions: err in updateQuestion", err);
     }

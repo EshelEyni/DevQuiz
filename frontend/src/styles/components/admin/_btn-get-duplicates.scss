@@ -1,4 +1,4 @@
-.btn-include-all-levels-container {
+.btn-get-duplicates-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -6,13 +6,11 @@
   padding: 10px;
   width: fit-content;
   white-space: nowrap;
-
-  .btn-include-all-level-label {
+  .btn-get-duplicates-label {
     font-size: 14px;
     font-weight: 600;
   }
-
-  .include-all-level-btn {
+  .get-duplicates-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,9 +22,8 @@
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
-
-  .include-all-level-btn:hover,
-  .include-all-level-btn:active {
+  .get-duplicates-btn:hover,
+  .get-duplicates-btn:active {
     background-color: var(--color-light);
     color: var(--color-darkest);
   }

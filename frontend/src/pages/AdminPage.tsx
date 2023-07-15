@@ -44,7 +44,7 @@ export const AdminPage = () => {
           <QuestionList questions={questions} />
         )}
       </div>
-      {/* <Outlet /> */}
+      <Outlet />
     </main>
   );
 };

@@ -41,7 +41,7 @@ export const QuestionEditForm = ({
           <input
             key={index}
             type="text"
-            name={`option${index}`}
+            name={`option-${index}`}
             value={option}
             onChange={handleChange}
             required
@@ -53,8 +53,10 @@ export const QuestionEditForm = ({
         <input
           type="number"
           name="correctOption"
-          value={question.correctOption}
+          value={question.correctOption + 1}
           onChange={handleChange}
+          min={0}
+          max={question.options.length}
           required
         />
       </label>
@@ -72,7 +74,7 @@ export const QuestionEditForm = ({
           required
         />
       </label>
-      <input type="submit" value="Submit" />
+      <button type="submit">Save</button>
     </form>
   );
 };

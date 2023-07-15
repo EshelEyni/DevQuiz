@@ -7,7 +7,7 @@ import natural from "natural";
 const getQuestions = factory.getAll(QuestionModel);
 const getQuestionById = factory.getOne(QuestionModel);
 const addQuestion = factory.createOne(QuestionModel);
-const updateQuestion = factory.updateOne(QuestionModel, []);
+const updateQuestion = factory.updateOne(QuestionModel);
 
 const archiveQuestion = asyncErrorCatcher(async (req, res, next) => {
   const question = await QuestionModel.findById(req.params.id);
@@ -33,10 +33,14 @@ const findDuplicatedQuestions = asyncErrorCatcher(async (req, res, next) => {
     .paginate();
 
   const docs = (await features.getQuery()) as any[];
-  const questions = docs.map(doc => doc.toObject());
+  const questions = docs.map(doc => {
+    const obj = doc.toObject();
+    obj.id = obj._id.toString();
+    delete obj._id;
+    return obj;
+  });
 
   const duplicates = [];
-
   const tokenizer = new natural.WordTokenizer();
   const stemmer = natural.PorterStemmer;
 
@@ -70,11 +74,17 @@ const findDuplicatedQuestions = asyncErrorCatcher(async (req, res, next) => {
     (a: any, b: any) => Number(b.similarity) - Number(a.similarity)
   );
 
+  const uniqueIds = new Set();
   const duplicatedQuestion = sortedDuplicatesBySimilarity
-    .map((duplicate: any) => {
+    .map(duplicate => {
       return [{ ...duplicate.question1 }, { ...duplicate.question2 }];
     })
-    .flat(Infinity);
+    .flat(Infinity)
+    .filter(question => {
+      if (uniqueIds.has(question.id)) return false;
+      uniqueIds.add(question.id);
+      return true;
+    });
 
   res.status(200).json({
     status: "success",

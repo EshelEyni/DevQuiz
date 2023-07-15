@@ -6,7 +6,7 @@ import { RootState } from "../../store/store";
 
 type ModalProps = {
   children: React.ReactNode;
-  onClickMainScreenFn: () => ThunkAction<Promise<void>, RootState, undefined, AnyAction>;
+  onClickMainScreenFn: () => ThunkAction<void, RootState, unknown, AnyAction> ;
   type?: string;
 };
 function Modal({ children, onClickMainScreenFn, type }: ModalProps) {

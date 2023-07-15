@@ -1,0 +1,38 @@
+.question-edit {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 80%;
+  background-color: var(--color-darkest);
+  z-index: 1000;
+  border-radius: 25px;
+  box-shadow: 0 0 10px 5px var(--color-darkest);
+  padding: 20px;
+
+  overflow: scroll;
+
+  @include scrollbar-hidden;
+
+  form {
+    width: 100%;
+
+    label {
+      gap: 1rem;
+      font-size: 1.75em;
+      width: 100%;
+    }
+
+    input,
+    textarea {
+      margin-bottom: 5px;
+    }
+
+    button {
+      font-size: 1.5em;
+    }
+  }
+}

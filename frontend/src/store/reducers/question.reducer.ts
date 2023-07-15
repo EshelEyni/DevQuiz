@@ -1,8 +1,15 @@
 import { Question, QuestionFilterBy } from "../../../../shared/types/question";
 import { actionTypes } from "../actions/question.actions";
 
-const { SET_FILTER, SET_IS_LOADING, SET_QUESTIONS, SET_QUESTION, ADD_QUESTION, REMOVE_QUESTION } =
-  actionTypes;
+const {
+  SET_FILTER,
+  SET_IS_LOADING,
+  SET_QUESTIONS,
+  SET_QUESTION,
+  UPDATE_QUESTION,
+  ADD_QUESTION,
+  REMOVE_QUESTION,
+} = actionTypes;
 
 const initialState: {
   questions: Question[];
@@ -37,6 +44,13 @@ export function questionReducer(
       return { ...state, questions: action.questions };
     case SET_QUESTION:
       return { ...state, question: action.question };
+    case UPDATE_QUESTION:
+      return {
+        ...state,
+        questions: state.questions.map(question =>
+          question.id === action.updatedQuestion.id ? action.updatedQuestion : question
+        ),
+      };
     case ADD_QUESTION:
       return { ...state, questions: [...state.questions, action.question] };
     case REMOVE_QUESTION:

@@ -24,6 +24,8 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
   }
 
   function handleBtnArchiveClick() {
+    const isConfirmed = window.confirm("Are you sure you want to archive this question?");
+    if (!isConfirmed) return;
     dispatch(archiveQuestion(id));
   }
   return (

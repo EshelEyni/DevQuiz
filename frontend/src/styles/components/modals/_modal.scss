@@ -13,6 +13,12 @@
   box-shadow: 0 0 10px 5px var(--color-darkest);
   padding: 20px;
 
+  &.login-signup{
+    top: 40%;
+    width: 40%;
+    height: 40%;
+  }
+
   h2 {
     color: #fff;
     margin-bottom: 20px;

@@ -7,8 +7,9 @@ import { RootState } from "../../store/store";
 type ModalProps = {
   children: React.ReactNode;
   onClickMainScreenFn: () => ThunkAction<Promise<void>, RootState, undefined, AnyAction>;
+  type?: string;
 };
-function Modal({ children, onClickMainScreenFn }: ModalProps) {
+function Modal({ children, onClickMainScreenFn, type }: ModalProps) {
   const dispatch: AppDispatch = useDispatch();
 
   function handleMainScreenClick() {
@@ -17,7 +18,7 @@ function Modal({ children, onClickMainScreenFn }: ModalProps) {
   return (
     <>
       <div className="main-screen dark" onClick={handleMainScreenClick}></div>
-      <div className="modal">{children}</div>
+      <div className={`modal ${type}`}>{children}</div>
     </>
   );
 }

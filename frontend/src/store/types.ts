@@ -9,5 +9,6 @@ export type questionReqProps = {
   language: ProgrammingLanguage;
   level: difficultyLevels;
   offSet: number;
+  limit?: number;
 };
 export type AppStatus = "loading" | "ready" | "error" | "active" | "finished";

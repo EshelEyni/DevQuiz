@@ -105,3 +105,18 @@ export function toggleIsReportQuestionModalOpen(): ThunkAction<
     }
   };
 }
+
+export function toggleIsLoginSignupModalOpen(): ThunkAction<
+  Promise<void>,
+  RootState,
+  undefined,
+  AnyAction
+> {
+  return async dispatch => {
+    try {
+      dispatch({ type: "TOGGLE_IS_LOGIN_SIGNUP_MODAL_OPEN" });
+    } catch (err) {
+      console.log("PostActions: err in getPosts", err);
+    }
+  };
+}

@@ -1,18 +1,15 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+
 type ProgressBarProps = {
   index: number;
   numOfQuestions: number;
   points: number;
   maxPossiblePoints: number;
-  answerIdx: number | null;
 };
 
-function ProgressBar({
-  index,
-  numOfQuestions,
-  points,
-  maxPossiblePoints,
-  answerIdx,
-}: ProgressBarProps) {
+function ProgressBar({ index, numOfQuestions, points, maxPossiblePoints }: ProgressBarProps) {
+  const { answerIdx } = useSelector((state: RootState) => state.quizModule);
   return (
     <header className="progress">
       <progress value={index + Number(answerIdx !== null)} max={numOfQuestions}></progress>

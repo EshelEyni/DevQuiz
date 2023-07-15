@@ -5,9 +5,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { authReducer } from "./reducers/auth.reducer";
 import { systemReducer } from "./reducers/system.reducer";
 import { quizReducer } from "./reducers/quiz.reducer";
+import { userReducer } from "./reducers/user.reducer";
 
 const rootReducer = combineReducers({
   authModule: authReducer,
+  userModule: userReducer,
   systemModule: systemReducer,
   quizModule: quizReducer,
 });

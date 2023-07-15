@@ -30,6 +30,9 @@ export function quizReducer(
       return {
         ...state,
         questions: action.questions,
+        questionIdx: 0,
+        answerIdx: null,
+        points: 0,
       };
     case "SET_NEXT_QUESTION_IDX":
       return {
@@ -47,11 +50,13 @@ export function quizReducer(
         points,
       };
     }
-    case "SET_POINTS":
+    case "SET_POINTS": {
+      const currQuestion = state.questions[state.questionIdx];
       return {
         ...state,
-        points: state.points + action.points,
+        points: state.points + currQuestion.points,
       };
+    }
     case "SET_HIGH_SCORE":
       return {
         ...state,

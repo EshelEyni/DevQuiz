@@ -16,6 +16,7 @@ type SystemState = {
   systemSettings: systemSettings;
   isContactModalOpen: boolean;
   isReportQuestionModalOpen: boolean;
+  isLoginSignupModalOpen: boolean;
 };
 
 const initialState: SystemState = {
@@ -31,6 +32,7 @@ const initialState: SystemState = {
   },
   isContactModalOpen: false,
   isReportQuestionModalOpen: false,
+  isLoginSignupModalOpen: false,
 };
 
 export function systemReducer(
@@ -98,6 +100,11 @@ export function systemReducer(
       return {
         ...state,
         isReportQuestionModalOpen: !state.isReportQuestionModalOpen,
+      };
+    case "TOGGLE_IS_LOGIN_SIGNUP_MODAL_OPEN":
+      return {
+        ...state,
+        isLoginSignupModalOpen: !state.isLoginSignupModalOpen,
       };
     default:
       return state;

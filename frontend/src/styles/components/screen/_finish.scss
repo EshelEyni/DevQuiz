@@ -1,2 +1,12 @@
+.finish-screen {
+  .finish-screen-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.2rem;
 
-
+    .btn-focus {
+      background-color: var(--color-darkest);
+    }
+  }
+}

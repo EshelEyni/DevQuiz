@@ -3,10 +3,15 @@ import { questionReqProps } from "../store/types";
 import { httpService } from "./http.service";
 import { handleServerResponse } from "./utils.service";
 
-async function query({ language, level, offSet }: questionReqProps): Promise<Question[]> {
+async function query({
+  language,
+  level,
+  offSet,
+  limit = 25,
+}: questionReqProps): Promise<Question[]> {
   try {
     const respose = await httpService.get(
-      `question?language=${language}&page=${offSet}&level=${level}&limit=25`
+      `question?language=${language}&page=${offSet}&level=${level}&limit=${limit}`
     );
     return handleServerResponse<Question[]>(respose);
   } catch (err) {

@@ -6,6 +6,7 @@ import { ContactMessage } from "../../../../shared/types/system";
 import { RootState } from "../../store/store";
 import { sendContactMessage } from "../../services/contact.service";
 import Loader from "../loaders/Loader";
+import { ContactForm } from "../form/ContactForm";
 
 const defaultMsgState: ContactMessage = {
   subject: "",
@@ -53,25 +54,13 @@ export default function ContactModal() {
       ) : (
         <section>
           <h2>Contact Us</h2>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Subject:
-              <input
-                type="text"
-                value={message.subject}
-                onChange={handleChange}
-                required
-                ref={subjectInputRef}
-              />
-            </label>
-            <label>
-              Message:
-              <textarea value={message.content} onChange={handleChangeTextArea} required />
-            </label>
-            <button type="submit" disabled={!message.content || !message.subject}>
-              Send
-            </button>
-          </form>
+          <ContactForm
+            message={message}
+            handleChange={handleChange}
+            handleChangeTextArea={handleChangeTextArea}
+            handleSubmit={handleSubmit}
+            subjectInputRef={subjectInputRef}
+          />
         </section>
       )}
     </>

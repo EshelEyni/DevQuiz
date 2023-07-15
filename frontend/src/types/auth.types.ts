@@ -1,9 +1,10 @@
 type UserCredentials = {
   username: string;
-  fullname: string;
   email: string;
   password: string;
   passwordConfirm: string;
 };
 
-export type { UserCredentials };
+type LoginCredentials = Pick<UserCredentials, "username" | "password">;
+
+export type { UserCredentials, LoginCredentials };

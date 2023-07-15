@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/types";
 import { RootState } from "../../store/store";
-
+import { useKey } from "react-use";
 type StartScreenProps = {
   numQuestions: number;
 };
@@ -9,6 +9,8 @@ type StartScreenProps = {
 function StartScreen({ numQuestions }: StartScreenProps) {
   const dispatch: AppDispatch = useDispatch();
   const { language } = useSelector((state: RootState) => state.systemModule);
+
+  useKey("Enter", handleStartQuiz);
 
   function handleStartQuiz() {
     dispatch({ type: "SET_STATUS", status: "active" });

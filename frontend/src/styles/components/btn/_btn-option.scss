@@ -1,6 +1,11 @@
 .btn-option {
   width: 100%;
   text-align: left;
+
+  &.focused {
+    background-color: var(--color-darkest);
+    transform: translateX(1.2rem);
+  }
 }
 
 .btn-option.correct {

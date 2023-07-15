@@ -6,6 +6,7 @@ import { ReportQuestionMessage } from "../../../../shared/types/system";
 import { RootState } from "../../store/store";
 import { senReportOnQuestion } from "../../services/contact.service";
 import Loader from "../loaders/Loader";
+import { ReportQuestionForm } from "../form/ReportQuestionForm";
 
 export default function ReportQuestionModal() {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
@@ -77,23 +78,14 @@ export default function ReportQuestionModal() {
               ))}
             </ul>
           </div>
-          <form onSubmit={handleSubmit}>
-            <div className="select-container">
-              <div className="select-wrapper">
-                <select className="select" onChange={handleChange}>
-                  {defaultReports}
-                </select>
-              </div>
-            </div>
-
-            <label>
-              Other:
-              <textarea value={message.content} onChange={handleChangeTextArea} />
-            </label>
-            <button type="submit" disabled={isBtnDisabled}>
-              Send
-            </button>
-          </form>
+          <ReportQuestionForm
+            message={message}
+            handleChange={handleChange}
+            handleChangeTextArea={handleChangeTextArea}
+            handleSubmit={handleSubmit}
+            isBtnDisabled={isBtnDisabled}
+            defaultReports={defaultReports}
+          />
         </section>
       )}
     </>

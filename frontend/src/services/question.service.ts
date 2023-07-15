@@ -8,18 +8,30 @@ async function query({
   level,
   page,
   limit = 25,
+  searchField,
   searchTerm,
 }: questionReqProps): Promise<Question[]> {
-  let query = `question?language=${language}&page=${page}&level=${level}`;
+  const levelQuery = `${level ? `&level=${level}` : ""}`;
   const limitQuery = `${limit ? `&limit=${limit}` : ""}`;
+  const searchFieldQuery = `${searchField ? `&searchField=${searchField}` : ""}`;
   const searchTermQuery = `${searchTerm ? `&searchTerm=${searchTerm}` : ""}`;
-  query += limitQuery + searchTermQuery;
-
+  const query = `question?language=${language}&page=${page}${levelQuery}${limitQuery}${searchFieldQuery}${searchTermQuery}`;
   try {
-    const respose = await httpService.get(query);
-    return handleServerResponse<Question[]>(respose);
+    const response = await httpService.get(query);
+    console.log("Question service: respose", response.data);
+    return handleServerResponse<Question[]>(response);
   } catch (err) {
     console.log("Question service: err in query", err);
+    throw err;
+  }
+}
+
+async function getDuplicatedQuestions({ language }: { language: string }): Promise<Question[]> {
+  try {
+    const response = await httpService.get(`question/duplicates?language=${language}`);
+    return handleServerResponse<Question[]>(response);
+  } catch (err) {
+    console.log("Question service: err in getDuplicatedQuestions", err);
     throw err;
   }
 }
@@ -46,7 +58,7 @@ async function add(question: Question): Promise<Question> {
 
 async function update(question: Question): Promise<Question> {
   try {
-    const updatedQuestion = await httpService.put(`question/${question.id}`, question);
+    const updatedQuestion = await httpService.patch(`question/${question.id}`, question);
     return handleServerResponse<Question>(updatedQuestion);
   } catch (err) {
     console.log("Question service: err in update", err);
@@ -56,7 +68,7 @@ async function update(question: Question): Promise<Question> {
 
 async function archive(questionId: string): Promise<Question> {
   try {
-    const archivedQuestion = await httpService.put(`question/${questionId}/archive`);
+    const archivedQuestion = await httpService.patch(`question/${questionId}/archive`);
     return handleServerResponse<Question>(archivedQuestion);
   } catch (err) {
     console.log("Question service: err in archive", err);
@@ -66,6 +78,7 @@ async function archive(questionId: string): Promise<Question> {
 
 export default {
   query,
+  getDuplicatedQuestions,
   getById,
   add,
   update,

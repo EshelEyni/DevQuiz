@@ -8,6 +8,7 @@ const getAll = (Model: ModelType<any>) =>
   asyncErrorCatcher(async (req: Request, res: Response, next: NextFunction) => {
     const features = new APIFeatures(Model.find(), req.query as QueryString)
       .filter()
+      .search()
       .sort()
       .limitFields()
       .paginate();

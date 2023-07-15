@@ -4,6 +4,9 @@ import { BtnQuestionEdit } from "./BtnQuestionEdit";
 import { BtnQuestionArchive } from "./BtnQuestionArchive";
 import { useNavigate } from "react-router-dom";
 import { caplitalizeFirstLetter } from "../../services/utils.service";
+import { AppDispatch } from "../../store/types";
+import { useDispatch } from "react-redux";
+import { archiveQuestion } from "../../store/actions/question.actions";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
@@ -14,12 +17,15 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
   question: { id, question: questionText, options, correctOption, level, language },
   bcColor,
 }) => {
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   function handleBtnEditClick() {
     navigate(`question-edit/${id}`);
   }
 
-  function handleBtnArchiveClick() {}
+  function handleBtnArchiveClick() {
+    dispatch(archiveQuestion(id));
+  }
   return (
     <li className="question-preview" style={{ backgroundColor: bcColor }}>
       <div>
@@ -39,7 +45,7 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
       </div>
       <div className="question-preview-btn-container">
         <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
-        <BtnQuestionArchive />
+        <BtnQuestionArchive handleBtnArchiveClick={handleBtnArchiveClick} />
       </div>
     </li>
   );

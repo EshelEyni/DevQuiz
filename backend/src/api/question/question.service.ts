@@ -7,6 +7,7 @@ import { Document } from "mongoose";
 async function query(queryString: QueryString): Promise<Question[]> {
   const features = new APIFeatures(QuestionModel.find(), queryString)
     .filter()
+    .search()
     .sort()
     .limitFields()
     .paginate();

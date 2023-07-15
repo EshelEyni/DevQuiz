@@ -1,28 +1,37 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/types";
 import { RootState } from "../../store/store";
-import { useEffect } from "react";
+import { useState } from "react";
 import LanguageDropdown from "../dropdown/LanguageDropdown";
 import LevelDropdown from "../dropdown/LevelDropdown";
 import { QuestionSearchInput } from "./QuestionSearchInput";
-import { getQuestions } from "../../store/actions/question.actions";
+import { getDuplicatedQuestions, getQuestions } from "../../store/actions/question.actions";
 import { BtnQuestionSearch } from "./BtnQuestionSearch";
+import { BtnIncludeAllLevel } from "./BtnIncludeAllLevel";
+import { BtnGetDuplicates } from "./BtnGetDuplicates";
 
 export const QuestionSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
   const { filterBy } = useSelector((state: RootState) => state.questionModule);
+  const [includeAllLevel, setIncludeAllLevel] = useState(false);
 
   function handleBtnSearchClick() {
     const { language, level, searchTerm } = filterBy;
     dispatch(
       getQuestions({
         language: language,
-        level: level,
+        level: includeAllLevel ? undefined : level,
         page: 1,
         limit: 1000,
+        searchField: "question",
         searchTerm: searchTerm,
       })
     );
+  }
+
+  function handleBtnGetDuplicatesClick() {
+    const { language } = filterBy;
+    dispatch(getDuplicatedQuestions({ language: language }));
   }
 
   return (
@@ -31,6 +40,11 @@ export const QuestionSearchBar = () => {
         <LanguageDropdown isAdminPage={true} />
         <LevelDropdown isAdminPage={true} />
         <QuestionSearchInput />
+        <BtnIncludeAllLevel
+          includeAllLevel={includeAllLevel}
+          setIncludeAllLevel={setIncludeAllLevel}
+        />
+        <BtnGetDuplicates handleBtnGetDuplicatesClick={handleBtnGetDuplicatesClick} />
       </div>
 
       <BtnQuestionSearch handleBtnSearchClick={handleBtnSearchClick} />

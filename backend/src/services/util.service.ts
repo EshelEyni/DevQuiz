@@ -8,6 +8,8 @@ export interface QueryString {
   sort?: string;
   limit?: string;
   fields?: string;
+  searchTerm?: string;
+  searchField?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,12 +36,24 @@ class APIFeatures<T> {
 
   filter(): APIFeatures<T> {
     const queryObj: QueryString = { ...this.queryString };
-    const excludedFields = ["page", "sort", "limit", "fields"];
+    const excludedFields = ["page", "sort", "limit", "fields", "searchTerm", "searchField"];
     excludedFields.forEach(el => delete queryObj[el]);
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt|exists)\b/g, match => `$${match}`);
+    const queryStr = JSON.stringify(queryObj).replace(
+      /\b(gte|gt|lte|lt|exists)\b/g,
+      match => `$${match}`
+    );
     this.query = this.query.find(JSON.parse(queryStr));
+    return this;
+  }
 
+  search(): APIFeatures<T> {
+    if (!this.queryString.searchTerm || !this.queryString.searchField) return this;
+    const { searchField, searchTerm } = this.queryString;
+    const searchObj: Record<string, unknown> = {};
+    searchObj[searchField] = { $regex: searchTerm, $options: "i" };
+    delete this.queryString.searchField;
+    delete this.queryString.searchTerm;
+    this.query = this.query.find(searchObj);
     return this;
   }
 

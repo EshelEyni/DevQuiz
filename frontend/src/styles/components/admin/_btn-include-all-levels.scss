@@ -1,0 +1,32 @@
+.btn-include-all-levels-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: fit-content;
+  white-space: nowrap;
+  .btn-include-all-level-label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .include-all-level-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    border: none;
+    background-color: var(--color-darkest);
+    color: var(--color-light);
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .include-all-level-btn:hover,
+  .include-all-level-btn:active {
+    background-color: var(--color-light);
+    color: var(--color-darkest);
+  }
+}

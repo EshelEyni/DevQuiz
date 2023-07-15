@@ -11,9 +11,11 @@ export const actionTypes = {
   SET_QUESTION: "SET_QUESTION",
   ADD_QUESTION: "ADD_QUESTION",
   REMOVE_QUESTION: "REMOVE_QUESTION",
+  SET_IS_LOADING: "SET_IS_LOADING",
 };
 
-const { SET_FILTER, SET_QUESTIONS, SET_QUESTION, ADD_QUESTION, REMOVE_QUESTION } = actionTypes;
+const { SET_FILTER, SET_IS_LOADING, SET_QUESTIONS, SET_QUESTION, ADD_QUESTION, REMOVE_QUESTION } =
+  actionTypes;
 
 export function setFilter(filterBy: {
   level: string;
@@ -35,13 +37,38 @@ export function getQuestions({
   page,
   limit = 25,
   searchTerm,
+  searchField,
 }: questionReqProps): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
   return async dispatch => {
     try {
-      const questions = await questionService.query({ language, level, page, limit, searchTerm });
+      dispatch({ type: SET_IS_LOADING, isLoading: true });
+      const questions = await questionService.query({
+        language,
+        level,
+        page,
+        limit,
+        searchField,
+        searchTerm,
+      });
       dispatch({ type: SET_QUESTIONS, questions });
+      dispatch({ type: SET_IS_LOADING, isLoading: false });
     } catch (err) {
       console.log("QuizActions: err in getQuestions", err);
+    }
+  };
+}
+
+export function getDuplicatedQuestions({
+  language,
+}: {
+  language: string;
+}): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
+  return async dispatch => {
+    try {
+      const questions = await questionService.getDuplicatedQuestions({ language });
+      dispatch({ type: SET_QUESTIONS, questions });
+    } catch (err) {
+      console.log("QuizActions: err in getDuplicatedQuestions", err);
     }
   };
 }

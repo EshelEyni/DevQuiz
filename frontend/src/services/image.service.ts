@@ -12,6 +12,8 @@ function getCurrentLogo(lang: ProgrammingLanguage) {
       return "../../public/assets/images/HTML.png";
     case "JavaScript":
       return "../../public/assets/images/JavaScript.png";
+    case "Jest":
+      return "../../public/assets/images/Jest.png";
     case "NodeJS":
       return "../../public/assets/images/NodeJS.png";
     case "TypeScript":

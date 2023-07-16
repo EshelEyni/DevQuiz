@@ -28,12 +28,6 @@ function OptionDisplay({
     (isAnswered ? (isOptionCorrect ? "correct" : "wrong") : "") +
     (isFocused ? "focused" : "");
 
-  // const dispatch: AppDispatch = useDispatch();
-
-  // function handleOptionClick(answerIdx: number) {
-  //   dispatch({ type: "SET_ANSWER_IDX", payload: answerIdx });
-  //   if (isOptionCorrect) dispatch({ type: "SET_POINTS", points });
-  // }
   return (
     <button
       className={optionClassName}

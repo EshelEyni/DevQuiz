@@ -67,7 +67,6 @@ function OptionList({ question }: OptionListProps) {
   }
 
   function onOptionSelection(optionIdx: number) {
-    console.log("onOptionSelection", optionIdx);
     disableOptionFocus();
     dispatch({ type: "SET_ANSWER_IDX", payload: optionIdx });
     const isOptionCorrect = question.correctOption === optionIdx;
@@ -76,6 +75,9 @@ function OptionList({ question }: OptionListProps) {
   }
 
   function clearOptionFocusArray() {
+    console.log("clearOptionFocusArray", focusState.arr);
+    // const isCleared = focusState.arr.every(item => item === false);
+    // if (isCleared) return;
     setFocusState(prevState => {
       const newArr = new Array(prevState.arr.length).fill(false);
       return { ...prevState, arr: newArr };

@@ -39,12 +39,16 @@ const questionSchema = new Schema(
     toJSON: {
       virtuals: true,
       transform: function (doc: Document, ret: Record<string, unknown>) {
+        const id = ret._id;
+        ret.id = id ? id.toString() : null;
         delete ret._id;
         return ret;
       },
       toObject: {
         virtuals: true,
         transform: function (doc: Document, ret: Record<string, unknown>) {
+          const id = ret._id;
+          ret.id = id ? id.toString() : null;
           delete ret._id;
           return ret;
         },

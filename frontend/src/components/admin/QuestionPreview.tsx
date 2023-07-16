@@ -31,6 +31,7 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
   return (
     <li className="question-preview" style={{ backgroundColor: bcColor }}>
       <div>
+        <p>{id}</p>
         <div className="question-preview-question">{questionText}</div>
         <div className="question-preview-options">
           {options.map((option, index) => (

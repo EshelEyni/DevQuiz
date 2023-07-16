@@ -35,6 +35,7 @@ export type ProgrammingLanguage =
   | "HTML"
   | "CSS"
   | "JavaScript"
+  | "Jest"
   | "TypeScript"
   | "Angular"
   | "React"

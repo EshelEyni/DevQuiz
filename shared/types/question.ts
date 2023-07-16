@@ -1,6 +1,6 @@
 import { ProgrammingLanguage, difficultyLevels } from "./system";
 
-export type Question = {
+export interface Question {
   id: string;
   question: string;
   options: string[];
@@ -8,8 +8,7 @@ export type Question = {
   language: string;
   level: string;
   points: number;
-};
-
+}
 
 export type QuestionFilterBy = {
   language: ProgrammingLanguage;

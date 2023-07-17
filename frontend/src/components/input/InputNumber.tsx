@@ -3,7 +3,7 @@ import { RootState } from "../../store/store";
 import { AppDispatch } from "../../store/types";
 import { setSecondsPerQuestion } from "../../store/actions/system.actions";
 
-function InputNumber() {
+export const InputNumber = () => {
   const dispatch: AppDispatch = useDispatch();
   const { secondsPerQuestion } = useSelector((state: RootState) => state.systemModule);
 
@@ -27,6 +27,4 @@ function InputNumber() {
       </div>
     </div>
   );
-}
-
-export default InputNumber;
+};

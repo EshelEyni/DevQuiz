@@ -1,17 +1,21 @@
 import { Question } from "../../../../shared/types/question";
 type QuizState = {
   questions: Question[];
+  numQuestions: number;
   questionIdx: number;
   answerIdx: number | null;
   points: number;
+  maxPossiblePoints: number;
   highScore: number;
 };
 
 const initialState: QuizState = {
   questions: [],
+  numQuestions: 0,
   questionIdx: 0,
   answerIdx: null,
   points: 0,
+  maxPossiblePoints: 0,
   highScore: 0,
 };
 
@@ -30,9 +34,11 @@ export function quizReducer(
       return {
         ...state,
         questions: action.questions,
+        numQuestions: action.questions.length,
         questionIdx: 0,
         answerIdx: null,
         points: 0,
+        maxPossiblePoints: action.questions.reduce((acc, curr) => acc + curr.points, 0),
       };
     case "SET_NEXT_QUESTION_IDX":
       return {

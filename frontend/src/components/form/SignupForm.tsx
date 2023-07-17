@@ -8,12 +8,12 @@ type SignupFormProps = {
   onToggleForm: () => void;
 };
 
-function SignupForm({
+export const SignupForm = ({
   userCredentials: { username, email, password, passwordConfirm },
   handleChange,
   handleSubmit,
   onToggleForm,
-}: SignupFormProps) {
+}: SignupFormProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -54,6 +54,6 @@ function SignupForm({
       </p>
     </form>
   );
-}
+};
 
 export default SignupForm;

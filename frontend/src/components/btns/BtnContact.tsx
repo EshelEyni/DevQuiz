@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/types";
 import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
 
-export default function BtnContact() {
+export const BtnContact = () => {
   const dispatch: AppDispatch = useDispatch();
   function handleBtnContactClick() {
     dispatch(toggleIsContactModalOpen());
@@ -12,4 +12,4 @@ export default function BtnContact() {
       Contact Us
     </button>
   );
-}
+};

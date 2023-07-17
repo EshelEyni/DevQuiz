@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
-// import { AppDispatch } from "../../store/types";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 type OptionDisplayProps = {
@@ -10,13 +9,13 @@ type OptionDisplayProps = {
   handleOptionClick: (answerIdx: number) => void;
 };
 
-function OptionDisplay({
+export const OptionDisplay = ({
   option,
   optionIdx,
   correctOption,
   handleOptionClick,
   isFocused,
-}: OptionDisplayProps) {
+}: OptionDisplayProps) => {
   console.log("OptionDisplay rendered");
   const { answerIdx } = useSelector((state: RootState) => state.quizModule);
   const isAnswered = answerIdx !== null;
@@ -37,6 +36,4 @@ function OptionDisplay({
       {option}
     </button>
   );
-}
-
-export default OptionDisplay;
+};

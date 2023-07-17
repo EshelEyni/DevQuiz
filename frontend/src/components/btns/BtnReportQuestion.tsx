@@ -4,7 +4,7 @@ import { AppDispatch } from "../../store/types";
 import { useDispatch } from "react-redux";
 import { toggleIsReportQuestionModalOpen } from "../../store/actions/modal.actions";
 
-export default function BtnReportQuestion() {
+export const BtnReportQuestion = () => {
   const dispatch: AppDispatch = useDispatch();
   function handleBtnClick() {
     dispatch(toggleIsReportQuestionModalOpen());
@@ -23,4 +23,4 @@ export default function BtnReportQuestion() {
       <Tooltip id="id_123" style={{ fontSize: "16px" }} />
     </>
   );
-}
+};

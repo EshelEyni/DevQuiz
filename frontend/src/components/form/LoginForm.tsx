@@ -8,12 +8,12 @@ type LoginFormProps = {
   onToggleForm: () => void;
 };
 
-function LoginForm({
+export const LoginForm = ({
   onToggleForm,
   userCredentials: { username, password },
   handleChange,
   handleSubmit,
-}: LoginFormProps) {
+}: LoginFormProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -38,6 +38,4 @@ function LoginForm({
       </p>
     </form>
   );
-}
-
-export default LoginForm;
+};

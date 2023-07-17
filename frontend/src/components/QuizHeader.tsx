@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { LanguageInfo, systemSettings } from "../../../shared/types/system";
+import { LanguageInfo } from "../../../shared/types/system";
 
-function QuizHeader() {
+export const QuizHeader = () => {
   const { language } = useSelector((state: RootState) => state.systemModule);
   const { systemSettings } = useSelector((state: RootState) => state.systemModule);
   const currLanguage = systemSettings.programmingLanguages[language] as LanguageInfo;
@@ -15,6 +15,4 @@ function QuizHeader() {
       <h1>The Fullstack Quiz</h1>
     </header>
   );
-}
-
-export default QuizHeader;
+};

@@ -1,15 +1,15 @@
-import LanguageDropdown from "../components/dropdown/LanguageDropdown";
-import LevelDropdown from "../components/dropdown/LevelDropdown";
-import InputNumber from "../components/input/InputNumber";
-import BtnContact from "./btns/BtnContact";
-import BtnAuth from "./btns/BtnAuth";
+import { LanguageDropdown } from "../components/dropdown/LanguageDropdown";
+import { LevelDropdown } from "../components/dropdown/LevelDropdown";
+import { InputNumber } from "../components/input/InputNumber";
+import { BtnContact } from "./btns/BtnContact";
+import { BtnAuth } from "./btns/BtnAuth";
 import { useLocation } from "react-router-dom";
 import { BtnGoToHomepage } from "./btns/BtnGoToHomepage";
 import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
 import { BtnGoToAdminPage } from "./btns/BtnGoToAdminPage";
 
-export default function Header() {
+export const Header = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
   const location = useLocation();
   const isHomepage = location.pathname === "/";
@@ -34,4 +34,4 @@ export default function Header() {
       </div>
     </header>
   );
-}
+};

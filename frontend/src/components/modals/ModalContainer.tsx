@@ -5,10 +5,10 @@ import {
   toggleIsLoginSignupModalOpen,
   toggleIsReportQuestionModalOpen,
 } from "../../store/actions/modal.actions";
-import ContactModal from "../../components/modals/ContactModal";
-import ReportQuestionModal from "../../components/modals/ReportQuestionModal";
-import Modal from "../../components/modals/Modal";
-import LoginSignupModal from "../../components/modals/LoginSignupModal";
+import { ContactModal } from "../../components/modals/ContactModal";
+import { ReportQuestionModal } from "../../components/modals/ReportQuestionModal";
+import { Modal } from "../../components/modals/Modal";
+import { LoginSignupModal } from "../../components/modals/LoginSignupModal";
 
 export const ModalContainer = () => {
   const { isContactOpen, isReportQuestionOpen, isLoginSignupOpen } = useSelector(

@@ -2,13 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/types";
 import { RootState } from "../../store/store";
 import { useKey } from "react-use";
-type StartScreenProps = {
-  numQuestions: number;
-};
 
-function StartScreen({ numQuestions }: StartScreenProps) {
+export const StartScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const { language } = useSelector((state: RootState) => state.systemModule);
+  const { numQuestions } = useSelector((state: RootState) => state.quizModule);
 
   useKey("Enter", handleStartQuiz);
 
@@ -25,6 +23,4 @@ function StartScreen({ numQuestions }: StartScreenProps) {
       </button>
     </div>
   );
-}
-
-export default StartScreen;
+};

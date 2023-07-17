@@ -3,13 +3,10 @@ import { AppDispatch } from "../../store/types";
 import { RootState } from "../../store/store";
 import { useKey } from "react-use";
 
-type NextButtonProps = {
-  questionIdx: number;
-  numQuestions: number;
-};
-
-function BtnNext({ questionIdx, numQuestions }: NextButtonProps) {
-  const { points, highScore } = useSelector((state: RootState) => state.quizModule);
+export const BtnNext = () => {
+  const { questionIdx, numQuestions, points, highScore } = useSelector(
+    (state: RootState) => state.quizModule
+  );
   const dispatch: AppDispatch = useDispatch();
   const isValidQuestionIdx = questionIdx >= 0 && questionIdx < numQuestions - 1;
   const isLastQuestionIdx = questionIdx === numQuestions - 1;
@@ -44,6 +41,4 @@ function BtnNext({ questionIdx, numQuestions }: NextButtonProps) {
       </button>
     );
   return <></>;
-}
-
-export default BtnNext;
+};

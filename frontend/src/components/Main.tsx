@@ -2,8 +2,6 @@ type MainProps = {
   children: React.ReactNode;
 };
 
-function main({ children }: MainProps) {
+export const Main = ({ children }: MainProps) => {
   return <main className="main">{children}</main>;
-}
-
-export default main;
+};

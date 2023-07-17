@@ -1,4 +1,4 @@
-import React from "react";
+import { ChangeEvent } from "react";
 import { AppDispatch } from "../../store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -14,13 +14,13 @@ type LevelDropdownProps = {
   isAdminPage?: boolean;
 };
 
-export default function LevelDropdown({ isAdminPage = false }: LevelDropdownProps) {
+export const LevelDropdown = ({ isAdminPage = false }: LevelDropdownProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { systemSettings } = useSelector((state: RootState) => state.systemModule);
   const { difficultyLevels } = systemSettings as systemSettings;
   const { filterBy } = useSelector((state: RootState) => state.questionModule);
 
-  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+  function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     const level = e.target.value as TypeOfDifficultyLevels;
     if (isAdminPage) dispatch(setFilter({ ...filterBy, level }));
     else dispatch(setLevel(level));
@@ -38,4 +38,4 @@ export default function LevelDropdown({ isAdminPage = false }: LevelDropdownProp
       </div>
     </div>
   );
-}
+};

@@ -9,7 +9,7 @@ type LanguageDropdownProps = {
   isAdminPage?: boolean;
 };
 
-export default function LanguageDropdown({ isAdminPage = false }: LanguageDropdownProps) {
+export const LanguageDropdown = ({ isAdminPage = false }: LanguageDropdownProps) => {
   const dispatch: AppDispatch = useDispatch();
   const { systemSettings } = useSelector((state: RootState) => state.systemModule);
   const { programmingLanguages } = systemSettings as systemSettings;
@@ -25,13 +25,13 @@ export default function LanguageDropdown({ isAdminPage = false }: LanguageDropdo
     <div className="select-container">
       <div className="select-wrapper">
         <select className="select" onChange={handleChange}>
-          {Object.values(programmingLanguages).map((lang: LanguageInfo) => (
-            <option key={lang.name} value={lang.name}>
-              {lang.name}
+          {Object.keys(programmingLanguages).map((lang: string) => (
+            <option key={lang} value={lang}>
+              {lang}
             </option>
           ))}
         </select>
       </div>
     </div>
   );
-}
+};

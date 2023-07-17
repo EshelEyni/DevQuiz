@@ -1,12 +1,12 @@
 import { useState, FormEvent } from "react";
-import LoginForm from "../form/LoginForm";
-import SignupForm from "../form/SignupForm";
+import { LoginForm } from "../form/LoginForm";
+import { SignupForm } from "../form/SignupForm";
 import { login, signup } from "../../store/actions/auth.actions";
 import { UserCredentials } from "../../types/auth.types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/types";
 import { toggleIsLoginSignupModalOpen } from "../../store/actions/modal.actions";
-import Loader from "../loaders/Loader";
+import { Loader } from "../loaders/Loader";
 
 const initialState = {
   username: "",
@@ -15,7 +15,7 @@ const initialState = {
   passwordConfirm: "",
 };
 
-function LoginSignupModal() {
+export const LoginSignupModal = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -61,6 +61,4 @@ function LoginSignupModal() {
       )}
     </div>
   );
-}
-
-export default LoginSignupModal;
+};

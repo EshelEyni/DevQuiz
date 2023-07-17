@@ -4,7 +4,7 @@ import { AppDispatch } from "../../store/types";
 import { toggleIsLoginSignupModalOpen } from "../../store/actions/modal.actions";
 import { useNavigate } from "react-router-dom";
 
-export default function BtnAuth() {
+export const BtnAuth = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
@@ -18,4 +18,4 @@ export default function BtnAuth() {
       {loggedinUser ? loggedinUser.username : "Login"}
     </button>
   );
-}
+};

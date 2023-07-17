@@ -6,13 +6,15 @@ import { Outlet } from "react-router-dom";
 import { QuestionSearchBar } from "../components/admin/QuestionSearchBar";
 import { getQuestions } from "../store/actions/question.actions";
 import { useEffect } from "react";
-import Loader from "../components/loaders/Loader";
-import { ModalContainer } from "../components/modals/ModalContainer";
+import { Loader } from "../components/loaders/Loader";
+import { ContactModal } from "../components/modals/ContactModal";
+import { toggleIsContactModalOpen } from "../store/actions/modal.actions";
+import { Modal } from "../components/modals/Modal";
 
 export const AdminPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const { questions, isLoading } = useSelector((state: RootState) => state.questionModule);
-  const { language } = useSelector((state: RootState) => state.systemModule);
+  const { isContactOpen } = useSelector((state: RootState) => state.modalModule);
   const noQuestionsFound = !isLoading && questions.length === 0;
 
   useEffect(() => {
@@ -43,7 +45,11 @@ export const AdminPage = () => {
         )}
       </div>
       <Outlet />
-      <ModalContainer />
+      {isContactOpen && (
+        <Modal onClickMainScreenFn={toggleIsContactModalOpen}>
+          <ContactModal />
+        </Modal>
+      )}
     </main>
   );
 };

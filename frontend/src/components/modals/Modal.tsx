@@ -9,7 +9,8 @@ type ModalProps = {
   onClickMainScreenFn: () => ThunkAction<Promise<void>, RootState, undefined, AnyAction>;
   type?: string;
 };
-function Modal({ children, onClickMainScreenFn, type }: ModalProps) {
+
+export const Modal = ({ children, onClickMainScreenFn, type }: ModalProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   function handleMainScreenClick() {
@@ -21,6 +22,4 @@ function Modal({ children, onClickMainScreenFn, type }: ModalProps) {
       <div className={`modal ${type}`}>{children}</div>
     </>
   );
-}
-
-export default Modal;
+};

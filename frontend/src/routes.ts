@@ -13,6 +13,12 @@ const routes: Route[] = [
   {
     path: "",
     component: Homepage,
+    nestedRoutes: [
+      {
+        path: "question-edit/:id?",
+        component: QuestionEdit,
+      },
+    ],
   },
   {
     path: "/profile/:id",

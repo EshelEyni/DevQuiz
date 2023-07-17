@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { AppDispatch } from "../../store/types";
 import { Question } from "../../../../shared/types/question";
-import OptionDisplay from "./OptionDisplay";
+import { OptionDisplay } from "./OptionDisplay";
 import { useKey } from "react-use";
 
 type OptionListProps = {
@@ -29,7 +29,7 @@ class FocusState implements TypeOfFocusState {
   }
 }
 
-function OptionList({ question }: OptionListProps) {
+export const OptionList = ({ question }: OptionListProps) => {
   const dispatch: AppDispatch = useDispatch();
   const [focusState, setFocusState] = useState(new FocusState(question.options.length));
   const isDisabledRef = useRef(focusState.isDisabled);
@@ -123,6 +123,4 @@ function OptionList({ question }: OptionListProps) {
       ))}
     </div>
   );
-}
-
-export default OptionList;
+};

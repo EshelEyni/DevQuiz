@@ -13,9 +13,12 @@ type FinishScreenProps = {
 
 type typeOfButton = "newQuiz" | "restart" | "none";
 
-function FinishScreen({ points, maxPossiblePoints, highScore }: FinishScreenProps) {
+export const FinishScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const { language, level, page } = useSelector((state: RootState) => state.systemModule);
+  const { points, maxPossiblePoints, highScore } = useSelector(
+    (state: RootState) => state.quizModule
+  );
   const percentage = (points / maxPossiblePoints) * 100;
 
   const [focusedBtn, setFocusedBtn] = useState<typeOfButton>("none");
@@ -89,6 +92,4 @@ function FinishScreen({ points, maxPossiblePoints, highScore }: FinishScreenProp
       </div>
     </section>
   );
-}
-
-export default FinishScreen;
+};

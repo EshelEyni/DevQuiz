@@ -1,4 +1,4 @@
-import Header from "./components/Header";
+import { Header } from "./components/Header";
 import { routes } from "./routes";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";

@@ -26,7 +26,7 @@ export const QuestionEditForm = ({
       <label>
         Language:
         <select name="language" value={question.language} onChange={handleChange} required>
-          {programmingLanguages.map((lang: string) => (
+          {Object.keys(programmingLanguages).map((lang: string) => (
             <option key={lang} value={lang}>
               {lang}
             </option>

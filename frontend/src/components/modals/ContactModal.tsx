@@ -5,7 +5,7 @@ import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
 import { ContactMessage } from "../../../../shared/types/system";
 import { RootState } from "../../store/store";
 import { sendContactMessage } from "../../services/contact.service";
-import Loader from "../loaders/Loader";
+import { Loader } from "../loaders/Loader";
 import { ContactForm } from "../form/ContactForm";
 
 const defaultMsgState: ContactMessage = {
@@ -13,7 +13,7 @@ const defaultMsgState: ContactMessage = {
   content: "",
 };
 
-export default function ContactModal() {
+export const ContactModal = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
   const [message, setMessage] = useState(defaultMsgState);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,4 +65,4 @@ export default function ContactModal() {
       )}
     </>
   );
-}
+};

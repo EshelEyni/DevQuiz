@@ -5,10 +5,10 @@ import { toggleIsReportQuestionModalOpen } from "../../store/actions/modal.actio
 import { ReportQuestionMessage } from "../../../../shared/types/system";
 import { RootState } from "../../store/store";
 import { senReportOnQuestion } from "../../services/contact.service";
-import Loader from "../loaders/Loader";
+import { Loader } from "../loaders/Loader";
 import { ReportQuestionForm } from "../form/ReportQuestionForm";
 
-export default function ReportQuestionModal() {
+export const ReportQuestionModal = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
   const { questions, questionIdx } = useSelector((state: RootState) => state.quizModule);
   const question = questions[questionIdx];
@@ -88,4 +88,4 @@ export default function ReportQuestionModal() {
       )}
     </>
   );
-}
+};

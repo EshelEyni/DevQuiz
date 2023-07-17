@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../store/types";
-import { RootState } from "../store/store";
-import { setIsTimerOn } from "../store/actions/quiz.actions";
+import { AppDispatch } from "../../store/types";
+import { RootState } from "../../store/store";
+import { setIsTimerOn } from "../../store/actions/quiz.actions";
 
 export const Timer = () => {
   const dispatch: AppDispatch = useDispatch();

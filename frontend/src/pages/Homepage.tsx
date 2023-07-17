@@ -4,9 +4,9 @@ import { AppDispatch } from "../store/types";
 import { Loader } from "../components/loaders/Loader";
 import { Error } from "../components/msg/Error";
 import { StartScreen } from "../components/screens/StartScreen";
-import { Question } from "../components/Question";
+import { Question } from "../components/quiz/Question";
 import { FinishScreen } from "../components/screens/FinishScreen";
-import { QuizHeader } from "../components/QuizHeader";
+import { QuizHeader } from "../components/quiz/QuizHeader";
 import { Main } from "../components/Main";
 import { useEffect } from "react";
 import { startNewQuiz } from "../store/actions/quiz.actions";
@@ -36,6 +36,10 @@ export const Homepage = () => {
 
   useEffect(() => {
     dispatch(startNewQuiz({ language, level, page }));
+
+    return () => {
+      dispatch(startNewQuiz({ language, level, page }));
+    };
   }, [language, level]);
 
   return (

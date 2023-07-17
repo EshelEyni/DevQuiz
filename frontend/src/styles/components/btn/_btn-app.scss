@@ -1,18 +1,17 @@
-.btn-app-header {
+.btn-app {
   font-family: inherit;
   font-size: 1.8rem;
   font-weight: 500;
-  color: var(--color-darkest);
-  background-color: var(--color-app);
+  color: var(--color-app);
   border: none;
   border-radius: 100px;
-  padding: 1.2rem 3rem;
+  padding: 1rem;
   cursor: pointer;
   transition: 0.3s;
   outline: none;
   text-transform: uppercase;
 
   &:hover {
-    background-color: var(--color-light);
+    color: var(--color-light);
   }
 }

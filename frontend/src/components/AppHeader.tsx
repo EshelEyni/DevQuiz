@@ -4,10 +4,10 @@ import { InputNumber } from "./input/InputNumber";
 import { BtnContact } from "./btns/BtnContact";
 import { BtnAuth } from "./btns/BtnAuth";
 import { useLocation } from "react-router-dom";
-import { BtnGoToHomepage } from "./btns/BtnGoToHomepage";
 import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
-import { BtnGoToAdminPage } from "./btns/BtnGoToAdminPage";
+import { Header } from "./Header";
+import { BtnLink } from "./btns/BtnLink";
 
 export const AppHeader = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
@@ -16,7 +16,7 @@ export const AppHeader = () => {
   const location = useLocation();
   const isHomepage = location.pathname === "/";
   return (
-    <header className="app-header">
+    <Header className="app-header">
       {isHomepage ? (
         <div className="inputs-container">
           <LanguageDropdown />
@@ -25,15 +25,18 @@ export const AppHeader = () => {
         </div>
       ) : (
         <div className="btn-navigation-container">
-          <BtnGoToHomepage />
-          {loggedinUser && isAdmin && <BtnGoToAdminPage />}
+          <BtnLink path="/" title="Homepage" />
+          <div className="vertical"></div>
+          {loggedinUser && isAdmin && <BtnLink path="/admin" title="admin page" />}
         </div>
       )}
       <div className="btns-container">
+        <BtnLink path="/about" title="About" />
+        <div className="vertical"></div>
         <BtnContact />
         <div className="vertical"></div>
         <BtnAuth />
       </div>
-    </header>
+    </Header>
   );
 };

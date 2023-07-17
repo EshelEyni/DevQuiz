@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { LanguageInfo } from "../../../shared/types/system";
+import { RootState } from "../../store/store";
+import { LanguageInfo } from "../../../../shared/types/system";
+import { Header } from "../Header";
 
 export const QuizHeader = () => {
   const { language } = useSelector((state: RootState) => state.systemModule);
@@ -10,9 +11,9 @@ export const QuizHeader = () => {
   const { img } = currLanguage;
 
   return (
-    <header className="quiz-header">
+    <Header className="quiz-header">
       <img src={img} alt="logo" />
       <h1>The Fullstack Quiz</h1>
-    </header>
+    </Header>
   );
 };

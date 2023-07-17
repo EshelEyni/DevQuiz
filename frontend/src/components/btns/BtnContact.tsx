@@ -8,7 +8,7 @@ export const BtnContact = () => {
     dispatch(toggleIsContactModalOpen());
   }
   return (
-    <button className="btn-app-header" onClick={handleBtnContactClick}>
+    <button className="btn-app" onClick={handleBtnContactClick}>
       Contact Us
     </button>
   );

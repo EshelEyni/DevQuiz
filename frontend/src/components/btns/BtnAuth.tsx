@@ -14,7 +14,7 @@ export const BtnAuth = () => {
     else navigate(`/profile/${loggedinUser.id}`);
   }
   return (
-    <button className="btn-app-header" onClick={handleLoginSignupClick}>
+    <button className="btn-app" onClick={handleLoginSignupClick}>
       {loggedinUser ? loggedinUser.username : "Login"}
     </button>
   );

@@ -1,16 +1,16 @@
-import { OptionList } from "./option/OptionList";
-import { Question as TypeOfQuestion } from "../../../shared/types/question";
-import { BtnReportQuestion } from "./btns/BtnReportQuestion";
-import { BtnQuestionEdit } from "./admin/BtnQuestionEdit";
+import { OptionList } from "../option/OptionList";
+import { Question as TypeOfQuestion } from "../../../../shared/types/question";
+import { BtnReportQuestion } from "../btns/BtnReportQuestion";
+import { BtnQuestionEdit } from "../admin/BtnQuestionEdit";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../store/store";
+import { RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { ProgressBar } from "./ProgressBar";
-import { Footer } from "./Footer";
+import { Footer } from "../Footer";
 import { Timer } from "./Timer";
-import { BtnNext } from "./btns/BtnNext";
-import { AppDispatch } from "../store/types";
-import { setIsTimerOn } from "../store/actions/quiz.actions";
+import { BtnNext } from "../btns/BtnNext";
+import { AppDispatch } from "../../store/types";
+import { setIsTimerOn } from "../../store/actions/quiz.actions";
 
 export const Question = () => {
   const dispatch: AppDispatch = useDispatch();

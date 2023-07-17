@@ -4,6 +4,7 @@ import { AppDispatch } from "../store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { getUser } from "../store/actions/user.actions";
+import { ModalContainer } from "../components/modals/ModalContainer";
 
 export const ProfileDetails = () => {
   const params = useParams();
@@ -19,6 +20,7 @@ export const ProfileDetails = () => {
     <main>
       <h1>ProfileDetails</h1>
       <pre>{JSON.stringify(user, null, 2)}</pre>
+      <ModalContainer />
     </main>
   );
 };

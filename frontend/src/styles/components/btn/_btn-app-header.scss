@@ -2,8 +2,8 @@
   font-family: inherit;
   font-size: 1.8rem;
   font-weight: 500;
-  color: var(--color-light);
-  background-color: var(--color-theme);
+  color: var(--color-darkest);
+  background-color: var(--color-app);
   border: none;
   border-radius: 100px;
   padding: 1.2rem 3rem;
@@ -12,39 +12,7 @@
   outline: none;
   text-transform: uppercase;
 
-  &.HTML,
-  &.CSS,
-  &.SQL,
-  &.JavaScript,
-  &.React,
-  &.NodeJS {
-    color: var(--color-darkest);
-    background-color: var(--color-theme);
-  }
-
-  &.JavaScript,
-  &.React,
-  &.NodeJS {
-    &:hover {
-      color: var(--color-light);
-    }
-  }
-
-  &.TypeScript,
-  &.Vue {
-    color: var(--color-light);
-    background-color: var(--color-theme);
-  }
-
-  &.Angular {
-    color: var(--color-light);
-    background-color: var(--color-theme);
-
-    &:hover {
-      color: var(--color-darkest);
-    }
-  }
   &:hover {
-    background-color: var(--color-accent);
+    background-color: var(--color-light);
   }
 }

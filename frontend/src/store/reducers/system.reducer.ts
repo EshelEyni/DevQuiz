@@ -1,8 +1,8 @@
 import {
   ProgrammingLanguage,
-  ThemeColors,
-  difficultyLevels,
+  DifficultyLevels,
   systemSettings,
+  LanguageInfo,
 } from "../../../../shared/types/system";
 import { changeThemeColors } from "../../services/utils.service";
 import { AppStatus } from "../types";
@@ -12,7 +12,7 @@ type SystemState = {
   language: ProgrammingLanguage;
   secondsPerQuestion: number;
   page: number;
-  level: difficultyLevels;
+  level: DifficultyLevels;
   systemSettings: systemSettings;
 };
 
@@ -23,9 +23,8 @@ const initialState: SystemState = {
   level: "beginner",
   page: 1,
   systemSettings: {
-    programmingLanguages: [],
+    programmingLanguages: {} as Record<ProgrammingLanguage, LanguageInfo>,
     difficultyLevels: [],
-    themeColors: {},
   },
 };
 
@@ -36,15 +35,11 @@ export function systemReducer(
     status: AppStatus;
     language: ProgrammingLanguage;
     secondsPerQuestion: number;
-    level: difficultyLevels;
+    level: DifficultyLevels;
     page: number;
-    systemSettings: {
-      programmingLanguages: ProgrammingLanguage[];
-      difficultyLevels: difficultyLevels[];
-      themeColors: ThemeColors;
-    };
+    systemSettings: systemSettings;
   }
-) {
+): SystemState {
   switch (action.type) {
     case "SET_SYSTEM_SETTINGS":
       return {
@@ -57,11 +52,9 @@ export function systemReducer(
         status: action.status,
       };
     case "SET_LANGUAGE": {
-      const themeColors = state.systemSettings.themeColors as ThemeColors;
-      if (themeColors[action.language])
-        changeThemeColors(
-          themeColors[action.language] as { themeColor: string; accentColor: string }
-        );
+      const { themeColors } = state.systemSettings.programmingLanguages[action.language];
+      if (themeColors) changeThemeColors(themeColors);
+
       return {
         ...state,
         language: action.language,

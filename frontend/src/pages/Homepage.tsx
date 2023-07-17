@@ -14,9 +14,8 @@ import FinishScreen from "../components/screens/FinishScreen";
 import QuizHeader from "../components/QuizHeader";
 import Main from "../components/Main";
 import { useEffect } from "react";
-import { getCurrentLogo } from "../services/image.service";
 import { startNewQuiz } from "../store/actions/quiz.actions";
-import { useFavicon } from "react-use";
+import { ModalContainer } from "../components/modals/ModalContainer";
 
 export const Homepage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -29,7 +28,6 @@ export const Homepage = () => {
     (acc: number, curr: TypeOfQuestion) => acc + curr.points,
     0
   );
-  useFavicon(getCurrentLogo(language));
 
   function renderSwitch(status: string) {
     switch (status) {
@@ -78,6 +76,7 @@ export const Homepage = () => {
     <>
       <QuizHeader />
       <Main>{renderSwitch(status)}</Main>
+      <ModalContainer />
     </>
   );
 };

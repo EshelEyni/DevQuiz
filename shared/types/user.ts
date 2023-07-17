@@ -4,6 +4,8 @@ export type User = {
   password?: string;
   passwordConfirm?: string;
   email: string;
-  isAdmin: boolean;
+  role: UserRoles[];
   createdAt: number;
 };
+
+export type UserRoles = "user" | "admin" | "supervisor";

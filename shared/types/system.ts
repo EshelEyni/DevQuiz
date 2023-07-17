@@ -12,19 +12,12 @@ export interface IAsyncLocalStorageStore {
   loggedinUser?: User;
 }
 
-export interface UserMsg {
-  type: "info" | "success" | "error" | "warning" | "";
-  text: string;
-  link?: string;
-}
-
 export type ThemeColors = {
-  [language in ProgrammingLanguage]?: {
-    themeColor: string;
-    accentColor: string;
-  };
+  themeColor: string;
+  accentColor: string;
 };
-export type difficultyLevels =
+
+export type DifficultyLevels =
   | "beginner"
   | "intermediate"
   | "advanced"
@@ -35,19 +28,25 @@ export type ProgrammingLanguage =
   | "HTML"
   | "CSS"
   | "JavaScript"
-  | "Jest"
   | "TypeScript"
-  | "Angular"
+  | "Jest"
   | "React"
   | "Vue"
+  | "Angular"
   | "NodeJS"
+  | "ExpressJS"
   | "SQL"
   | "MongoDB";
 
+export type LanguageInfo = {
+  name: ProgrammingLanguage;
+  img: string;
+  themeColors: ThemeColors;
+};
+
 export type systemSettings = {
-  programmingLanguages: ProgrammingLanguage[] | [];
-  difficultyLevels: difficultyLevels[] | [];
-  themeColors: ThemeColors | {};
+  programmingLanguages: Record<ProgrammingLanguage, LanguageInfo>;
+  difficultyLevels: DifficultyLevels[] | [];
 };
 
 export type ContactMessage = {

@@ -1,46 +1,51 @@
 /* eslint-disable no-unused-vars */
 import { Schema, model } from "mongoose";
+import { ProgrammingLanguage, DifficultyLevels } from "../../../../shared/types/system";
+const programmingLanguages: ProgrammingLanguage[] = [
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "TypeScript",
+  "Jest",
+  "React",
+  "Vue",
+  "Angular",
+  "NodeJS",
+  "ExpressJS",
+  "SQL",
+  "MongoDB",
+];
 
-export enum ProgrammingLanguage {
-  HTML = "HTML",
-  CSS = "CSS",
-  JavaScript = "JavaScript",
-  TypeScript = "TypeScript",
-  Angular = "Angular",
-  React = "React",
-  Vue = "Vue",
-  NodeJs = "NodeJs",
-  SQL = "SQL",
-  MongoDB = "MongoDB",
-}
+const difficultyLevels: DifficultyLevels[] = [
+  "beginner",
+  "intermediate",
+  "advanced",
+  "expert",
+  "master",
+];
+
+const LanguageInfoSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    enum: [...programmingLanguages],
+  },
+  img: { type: String, required: true },
+  themeColors: {
+    themeColor: { type: String, required: true },
+    accentColor: { type: String, required: true },
+  },
+});
 
 const systemSettingSchema = new Schema(
   {
     programmingLanguages: {
-      type: [String],
-      required: true,
-      validate: {
-        validator: (v: string[]) => {
-          return v.every((lang: string) => {
-            return Object.values(ProgrammingLanguage)
-              .map(value => value.toLowerCase())
-              .includes(lang.toLowerCase() as ProgrammingLanguage);
-          });
-        },
-        message: (props: any) => `${props.value} is not a valid programming language`,
-      },
-    },
-    themeColors: {
       type: Map,
-      of: {
-        type: Map,
-        of: String,
-      },
-      required: true,
+      of: LanguageInfoSchema,
     },
     difficultyLevels: {
       type: [String],
-      required: true,
+      enum: [...difficultyLevels],
     },
   },
   {

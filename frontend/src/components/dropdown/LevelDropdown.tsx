@@ -3,7 +3,7 @@ import { AppDispatch } from "../../store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import {
-  difficultyLevels as TypeOfDifficultyLevels,
+  DifficultyLevels as TypeOfDifficultyLevels,
   systemSettings,
 } from "../../../../shared/types/system";
 import { setLevel } from "../../store/actions/system.actions";

@@ -1,14 +1,17 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { getCurrentLogo } from "../services/image.service";
+import { LanguageInfo, systemSettings } from "../../../shared/types/system";
 
 function QuizHeader() {
   const { language } = useSelector((state: RootState) => state.systemModule);
-  const imagePath = getCurrentLogo(language);
+  const { systemSettings } = useSelector((state: RootState) => state.systemModule);
+  const currLanguage = systemSettings.programmingLanguages[language] as LanguageInfo;
+  if (!currLanguage) return null;
+  const { img } = currLanguage;
 
   return (
     <header className="quiz-header">
-      <img src={imagePath} alt="logo" />
+      <img src={img} alt="logo" />
       <h1>The Fullstack Quiz</h1>
     </header>
   );

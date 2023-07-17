@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { ProgrammingLanguage, systemSettings } from "../../../../shared/types/system";
+import { LanguageInfo, ProgrammingLanguage, systemSettings } from "../../../../shared/types/system";
 import { AppDispatch } from "../../store/types";
 import { setLanguage } from "../../store/actions/system.actions";
 import { setFilter } from "../../store/actions/question.actions";
@@ -25,9 +25,9 @@ export default function LanguageDropdown({ isAdminPage = false }: LanguageDropdo
     <div className="select-container">
       <div className="select-wrapper">
         <select className="select" onChange={handleChange}>
-          {programmingLanguages.map((lang: ProgrammingLanguage) => (
-            <option key={lang} value={lang}>
-              {lang}
+          {Object.values(programmingLanguages).map((lang: LanguageInfo) => (
+            <option key={lang.name} value={lang.name}>
+              {lang.name}
             </option>
           ))}
         </select>

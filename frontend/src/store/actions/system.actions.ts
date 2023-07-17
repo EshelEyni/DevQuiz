@@ -31,6 +31,7 @@ export function getSystemSettings(): ThunkAction<Promise<void>, RootState, undef
   return async dispatch => {
     try {
       const systemSettingsArr = (await systemService.getSystemSettings()) as any;
+      console.log("systemSettingsArr", systemSettingsArr);
       const systemSettings = systemSettingsArr[0];
       dispatch({ type: "SET_SYSTEM_SETTINGS", systemSettings });
     } catch (err) {

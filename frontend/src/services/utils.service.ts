@@ -138,15 +138,6 @@ function caplitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function getRandomColor() {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i <= 5; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
 function getRandomBrightColor(i: number) {
   const brightColors = [
     "#FF5733", // Bright orange

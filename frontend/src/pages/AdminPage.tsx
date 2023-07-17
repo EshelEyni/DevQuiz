@@ -2,20 +2,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { QuestionList } from "../components/admin/QuestionList";
 import { AppDispatch } from "../store/types";
-import { getCurrentLogo } from "../services/image.service";
-import { useFavicon } from "react-use";
 import { Outlet } from "react-router-dom";
 import { QuestionSearchBar } from "../components/admin/QuestionSearchBar";
 import { getQuestions } from "../store/actions/question.actions";
 import { useEffect } from "react";
 import Loader from "../components/loaders/Loader";
+import { ModalContainer } from "../components/modals/ModalContainer";
 
 export const AdminPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const { questions, isLoading } = useSelector((state: RootState) => state.questionModule);
   const { language } = useSelector((state: RootState) => state.systemModule);
   const noQuestionsFound = !isLoading && questions.length === 0;
-  useFavicon(getCurrentLogo(language));
 
   useEffect(() => {
     dispatch(
@@ -45,6 +43,7 @@ export const AdminPage = () => {
         )}
       </div>
       <Outlet />
+      <ModalContainer />
     </main>
   );
 };

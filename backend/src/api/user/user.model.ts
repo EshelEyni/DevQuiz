@@ -1,6 +1,9 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { UserRoles } from "../../../../shared/types/user";
+
+const userRoles: UserRoles[] = ["user", "admin", "supervisor"];
 
 interface IUser extends Document {
   username: string;
@@ -10,7 +13,7 @@ interface IUser extends Document {
   passwordChangedAt?: Date;
   passwordResetToken?: string;
   passwordResetExpires?: Date;
-  isAdmin: boolean;
+  roles: UserRoles[];
   createdAt: Date;
   updatedAt: Date;
   // eslint-disable-next-line no-unused-vars
@@ -70,7 +73,11 @@ const userSchema: Schema<IUser> = new Schema(
         message: "Please provide a valid email",
       },
     },
-    isAdmin: { type: Boolean, default: false },
+    roles: {
+      type: [String],
+      enum: [...userRoles],
+      default: ["user"],
+    },
     loginAttempts: { type: Number, default: 0 },
     lockedUntil: { type: Number, default: 0 },
   },

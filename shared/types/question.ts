@@ -1,4 +1,4 @@
-import { ProgrammingLanguage, difficultyLevels } from "./system";
+import { ProgrammingLanguage, DifficultyLevels } from "./system";
 
 export interface Question {
   id: string;
@@ -12,6 +12,6 @@ export interface Question {
 
 export type QuestionFilterBy = {
   language: ProgrammingLanguage;
-  level: difficultyLevels;
+  level: DifficultyLevels;
   searchTerm: string;
 };

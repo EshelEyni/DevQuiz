@@ -4,15 +4,16 @@ import { AppDispatch } from "../store/types";
 import { RootState } from "../store/store";
 
 export const Timer = () => {
-  const { questions } = useSelector((state: RootState) => state.quizModule);
+  const { questions, isTimerOn } = useSelector((state: RootState) => state.quizModule);
   const { secondsPerQuestion } = useSelector((state: RootState) => state.systemModule);
   const [secondsRemaining, setSecondsRemaining] = useState(questions.length * secondsPerQuestion);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const dispatch: AppDispatch = useDispatch();
   const minutes = Math.floor(secondsRemaining / 60);
   const seconds = secondsRemaining % 60;
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
+  function startTimer() {
+    const id = setInterval(() => {
       setSecondsRemaining(prev => {
         if (prev === 0) {
           dispatch({ type: "SET_STATUS", status: "finished" });
@@ -22,8 +23,23 @@ export const Timer = () => {
       });
     }, 1000);
 
-    return () => clearInterval(intervalId);
-  }, [dispatch]);
+    setIntervalId(id);
+  }
+
+  function stopTimer() {
+    if (intervalId) clearInterval(intervalId);
+  }
+
+  useEffect(() => {
+    startTimer();
+    return () => stopTimer();
+  }, []);
+
+  useEffect(() => {
+    if (isTimerOn) startTimer();
+    else stopTimer();
+  }, [isTimerOn]);
+
   return (
     <div className="timer">
       {minutes < 10 && "0"}

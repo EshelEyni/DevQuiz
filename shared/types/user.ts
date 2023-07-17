@@ -4,7 +4,7 @@ export type User = {
   password?: string;
   passwordConfirm?: string;
   email: string;
-  role: UserRoles[];
+  roles: UserRoles[];
   createdAt: number;
 };
 

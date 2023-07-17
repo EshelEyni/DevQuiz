@@ -4,6 +4,7 @@ import { LanguageInfo, ProgrammingLanguage, systemSettings } from "../../../../s
 import { AppDispatch } from "../../store/types";
 import { setLanguage } from "../../store/actions/system.actions";
 import { setFilter } from "../../store/actions/question.actions";
+import { resetQuiz } from "../../store/actions/quiz.actions";
 
 type LanguageDropdownProps = {
   isAdminPage?: boolean;
@@ -18,7 +19,10 @@ export const LanguageDropdown = ({ isAdminPage = false }: LanguageDropdownProps)
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const language = e.target.value as ProgrammingLanguage;
     if (isAdminPage) dispatch(setFilter({ ...filterBy, language }));
-    else dispatch(setLanguage(language));
+    else {
+      dispatch(setLanguage(language));
+      dispatch(resetQuiz());
+    }
   }
 
   return (

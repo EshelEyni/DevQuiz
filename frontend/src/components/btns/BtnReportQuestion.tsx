@@ -3,10 +3,12 @@ import { Tooltip } from "react-tooltip";
 import { AppDispatch } from "../../store/types";
 import { useDispatch } from "react-redux";
 import { toggleIsReportQuestionModalOpen } from "../../store/actions/modal.actions";
+import { setIsTimerOn } from "../../store/actions/quiz.actions";
 
 export const BtnReportQuestion = () => {
   const dispatch: AppDispatch = useDispatch();
   function handleBtnClick() {
+    dispatch(setIsTimerOn(false));
     dispatch(toggleIsReportQuestionModalOpen());
   }
   return (

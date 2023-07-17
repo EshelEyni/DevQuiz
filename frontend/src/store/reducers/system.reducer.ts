@@ -6,6 +6,10 @@ import {
 } from "../../../../shared/types/system";
 import { changeThemeColors } from "../../services/utils.service";
 import { AppStatus } from "../types";
+import { actionTypes } from "../actions/system.actions";
+
+const { SET_SYSTEM_SETTINGS, SET_LANGUAGE, SET_SECONDS_PER_QUESTION, SET_LEVEL, SET_STATUS } =
+  actionTypes;
 
 type SystemState = {
   status: AppStatus;
@@ -41,17 +45,17 @@ export function systemReducer(
   }
 ): SystemState {
   switch (action.type) {
-    case "SET_SYSTEM_SETTINGS":
+    case SET_SYSTEM_SETTINGS:
       return {
         ...state,
         systemSettings: action.systemSettings,
       };
-    case "SET_STATUS":
+    case SET_STATUS:
       return {
         ...state,
         status: action.status,
       };
-    case "SET_LANGUAGE": {
+    case SET_LANGUAGE: {
       const { themeColors } = state.systemSettings.programmingLanguages[action.language];
       if (themeColors) changeThemeColors(themeColors);
 
@@ -62,22 +66,18 @@ export function systemReducer(
         status: "ready",
       };
     }
-    case "SET_LEVEL":
+    case SET_LEVEL:
       return {
         ...state,
         level: action.level,
         page: 1,
       };
-    case "SET_SECONDS_PER_QUESTION":
+    case SET_SECONDS_PER_QUESTION:
       return {
         ...state,
         secondsPerQuestion: action.secondsPerQuestion,
       };
-    case "INC_OFFSET":
-      return {
-        ...state,
-        page: ++state.page,
-      };
+
     default:
       return state;
   }

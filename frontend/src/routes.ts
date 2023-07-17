@@ -1,4 +1,5 @@
 import { QuestionEdit } from "./components/admin/QuestionEdit";
+import { About } from "./pages/About";
 import { AdminPage } from "./pages/AdminPage";
 import { Homepage } from "./pages/Homepage";
 import { ProfileDetails } from "./pages/ProfileDetails";
@@ -33,6 +34,10 @@ const routes: Route[] = [
         component: QuestionEdit,
       },
     ],
+  },
+  {
+    path: "/about",
+    component: About,
   },
 ];
 

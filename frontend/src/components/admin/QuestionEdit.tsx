@@ -7,6 +7,7 @@ import { updateQuestion } from "../../store/actions/question.actions";
 import { AppDispatch } from "../../store/types";
 import { useDispatch } from "react-redux";
 import questionService from "../../services/question.service";
+import { setIsTimerOn } from "../../store/actions/quiz.actions";
 
 export const QuestionEdit = () => {
   const params = useParams();
@@ -54,6 +55,7 @@ export const QuestionEdit = () => {
 
   function onGoBack() {
     navigate(-1);
+    dispatch(setIsTimerOn(true));
   }
 
   useEffect(() => {

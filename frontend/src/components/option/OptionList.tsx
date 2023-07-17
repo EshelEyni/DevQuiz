@@ -75,7 +75,7 @@ export const OptionList = ({ question }: OptionListProps) => {
   }
 
   function clearOptionFocusArray() {
-    console.log("clearOptionFocusArray", focusState.arr);
+    // console.log("clearOptionFocusArray", focusState.arr);
     // const isCleared = focusState.arr.every(item => item === false);
     // if (isCleared) return;
     setFocusState(prevState => {

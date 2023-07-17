@@ -1,0 +1,14 @@
+.app-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  text-align: center;
+  padding: 2.5rem;
+  font-size: 2rem;
+}

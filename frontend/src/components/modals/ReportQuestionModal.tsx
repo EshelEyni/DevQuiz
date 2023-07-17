@@ -7,6 +7,7 @@ import { RootState } from "../../store/store";
 import { senReportOnQuestion } from "../../services/contact.service";
 import { Loader } from "../loaders/Loader";
 import { ReportQuestionForm } from "../form/ReportQuestionForm";
+import { setIsTimerOn } from "../../store/actions/quiz.actions";
 
 export const ReportQuestionModal = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
@@ -59,6 +60,11 @@ export const ReportQuestionModal = () => {
 
   useEffect(() => {
     if (subjectInputRef.current) subjectInputRef.current.focus();
+
+    return () => {
+      setMessage({ ...defaultMsgState });
+      dispatch(setIsTimerOn(true));
+    };
   }, []);
 
   return (

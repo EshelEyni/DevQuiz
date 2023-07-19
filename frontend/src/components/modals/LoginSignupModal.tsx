@@ -6,7 +6,7 @@ import { UserCredentials } from "../../types/auth.types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/types";
 import { toggleIsLoginSignupModalOpen } from "../../store/actions/modal.actions";
-import { Loader } from "../loaders/Loader";
+import { Loader } from "../loaders/Loader/Loader";
 
 const initialState = {
   username: "",

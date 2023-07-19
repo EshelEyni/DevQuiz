@@ -5,7 +5,7 @@ import { toggleIsReportQuestionModalOpen } from "../../store/actions/modal.actio
 import { ReportQuestionMessage } from "../../../../shared/types/system";
 import { RootState } from "../../store/store";
 import { senReportOnQuestion } from "../../services/contact.service";
-import { Loader } from "../loaders/Loader";
+import { Loader } from "../loaders/Loader/Loader";
 import { ReportQuestionForm } from "../form/ReportQuestionForm";
 import { setIsTimerOn } from "../../store/actions/quiz.actions";
 

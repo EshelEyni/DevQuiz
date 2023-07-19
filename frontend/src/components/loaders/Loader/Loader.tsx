@@ -1,3 +1,5 @@
+import "./Loader.scss";
+
 type LoaderProps = {
   title?: string;
 };

@@ -5,7 +5,7 @@ import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
 import { ContactMessage } from "../../../../shared/types/system";
 import { RootState } from "../../store/store";
 import { sendContactMessage } from "../../services/contact.service";
-import { Loader } from "../loaders/Loader";
+import { Loader } from "../loaders/Loader/Loader";
 import { ContactForm } from "../form/ContactForm";
 
 const defaultMsgState: ContactMessage = {

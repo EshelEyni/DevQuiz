@@ -1,0 +1,26 @@
+@keyframes rowup-1 {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-30%, 0, 0);
+  }
+}
+
+@keyframes shadow-loop {
+  0% {
+    transform: translate(0, -35px) scale(1.15, 0.25);
+  }
+  100% {
+    transform: translate(0, -35px) scale(1, 0.25);
+  }
+}
+
+@keyframes cloud-loop {
+  0% {
+    transform: translate(0, 15px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}

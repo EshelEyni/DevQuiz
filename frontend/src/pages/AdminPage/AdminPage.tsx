@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { QuestionList } from "../components/admin/QuestionList";
-import { AppDispatch } from "../store/types";
+import { RootState } from "../../store/store";
+import { QuestionList } from "../../components/admin/QuestionList";
+import { AppDispatch } from "../../store/types";
 import { Outlet } from "react-router-dom";
-import { QuestionSearchBar } from "../components/admin/QuestionSearchBar";
-import { getQuestions } from "../store/actions/question.actions";
+import { QuestionSearchBar } from "../../components/admin/QuestionSearchBar";
+import { getQuestions } from "../../store/actions/question.actions";
 import { useEffect } from "react";
-import { Loader } from "../components/loaders/Loader";
-import { ContactModal } from "../components/modals/ContactModal";
-import { toggleIsContactModalOpen } from "../store/actions/modal.actions";
-import { Modal } from "../components/modals/Modal";
+import { ContactModal } from "../../components/modals/ContactModal";
+import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
+import { Modal } from "../../components/modals/Modal";
+import "./AdminPage.scss";
+import { QuestionLoader } from "../../components/loaders/QuestionLoader/QuestionLoader";
 
 export const AdminPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -31,7 +32,8 @@ export const AdminPage = () => {
   return (
     <main className="admin-page">
       <QuestionSearchBar />
-      {isLoading && <Loader title="Getting questions" />}
+      {isLoading && <QuestionLoader />}
+
       <div className="question-list-container">
         <p className="question-counter">{`Number of Question: ${questions.length}`}</p>
         {noQuestionsFound ? (

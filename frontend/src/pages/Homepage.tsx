@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { AppDispatch } from "../store/types";
-import { Loader } from "../components/loaders/Loader";
+import { Loader } from "../components/loaders/Loader/Loader";
 import { Error } from "../components/msg/Error";
 import { StartScreen } from "../components/screens/StartScreen";
 import { Question } from "../components/quiz/Question";

@@ -138,33 +138,32 @@ function caplitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+export const brightColors = [
+  "#FF5733",
+  "#FFC300",
+  "#DAF7A6",
+  "#FF33FF",
+  "#33FFCE",
+  "#FF33D6",
+  "#4CFF33",
+  "#33C3FF",
+  "#C733FF",
+  "#FF5733",
+  "#FFBD33",
+  "#D433FF",
+  "#FFFF00",
+  "#ADFF2F",
+  "#FFA500",
+  "#00FF7F",
+  "#00BFFF",
+  "#FF1493",
+  "#00CED1",
+  "#9400D3",
+  "#FF4500",
+  "#FFD700",
+  "#32CD32",
+];
 function getRandomBrightColor(i: number) {
-  const brightColors = [
-    "#FF5733", // Bright orange
-    "#FFC300", // Bright yellow
-    "#DAF7A6", // Lime green
-    "#FF33FF", // Bright pink
-    "#33FFCE", // Bright cyan
-    "#FF33D6", // Bright magenta
-    "#4CFF33", // Bright green
-    "#33C3FF", // Bright light blue
-    "#C733FF", // Bright purple
-    "#FF5733", // Bright red-orange
-    "#FFBD33", // Bright gold
-    "#D433FF", // Bright violet
-    "#FFFF00", // Bright yellow
-    "#ADFF2F", // Green yellow
-    "#FFA500", // Vivid orange
-    "#00FF7F", // Spring green
-    "#00BFFF", // Deep sky blue
-    "#FF1493", // Deep pink
-    "#00CED1", // Dark turquoise
-    "#9400D3", // Dark violet
-    "#FF4500", // Orange red
-    "#FFD700", // Gold
-    "#32CD32", // Lime green
-  ];
-
   return brightColors[i % brightColors.length];
 }
 

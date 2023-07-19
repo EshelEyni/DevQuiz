@@ -1,0 +1,103 @@
+@import "./QuestionLoaderService.scss";
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+
+  .code-file-icon {
+    font-size: 55px;
+    margin: 16px;
+  }
+
+  .container {
+    position: relative;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 140px;
+    border-radius: 100%;
+    border: 9px solid #dee1e4;
+    overflow: hidden;
+  }
+
+  .container::before {
+    content: "";
+    position: absolute;
+    top: 210px;
+    left: 26px;
+    width: 100px;
+    height: 32px;
+    border-radius: 100%;
+    background-color: rgba(222, 225, 228, 0.4);
+  }
+
+  .wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+  }
+
+  span::before {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 6px;
+    background-color: #dee1e4;
+    transform: rotate(45deg);
+  }
+
+  span::after {
+    content: "";
+    position: absolute;
+    left: 30px;
+    top: 20px;
+    width: 36px;
+    height: 12px;
+    background-color: #dee1e4;
+    transform: rotate(45deg);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .box {
+    display: flex;
+    justify-content: center;
+    animation: 5s rowup-1 linear infinite normal;
+  }
+
+  .center {
+    animation-name: cloud-loop;
+    animation-duration: 0.7s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+    animation-direction: alternate;
+  }
+
+  span {
+    position: relative;
+    left: 112px;
+    top: 60px;
+    animation-name: cloud-loop;
+    animation-duration: 0.7s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+    animation-direction: alternate;
+  }
+
+  .container::before {
+    animation-name: shadow-loop;
+    animation-duration: 0.7s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+    animation-direction: alternate;
+  }
+}

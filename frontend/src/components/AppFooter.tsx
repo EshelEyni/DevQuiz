@@ -1,5 +1,5 @@
 import { Footer } from "./Footer";
-import { BtnLink } from "./btns/BtnLink";
+import { BtnLink } from "./btns/BtnLink/BtnLink";
 
 export const AppFooter = () => {
   return (

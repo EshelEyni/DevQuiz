@@ -1,8 +1,8 @@
-import { QuestionEdit } from "./components/admin/QuestionEdit";
-import { About } from "./pages/About";
+import { QuestionEdit } from "./pages/QuestionEdit/QuestionEdit";
+import { About } from "./pages/About/About";
 import { AdminPage } from "./pages/AdminPage/AdminPage";
-import { Homepage } from "./pages/Homepage";
-import { ProfileDetails } from "./pages/ProfileDetails";
+import { Homepage } from "./pages/HomePage/Homepage";
+import { ProfileDetails } from "./pages/ProfileDetails/ProfileDetails";
 
 interface Route {
   path: string;

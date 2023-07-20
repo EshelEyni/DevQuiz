@@ -1,13 +1,13 @@
-import { LanguageDropdown } from "./dropdown/LanguageDropdown";
-import { LevelDropdown } from "./dropdown/LevelDropdown";
-import { InputNumber } from "./input/InputNumber";
-import { BtnContact } from "./btns/BtnContact";
-import { BtnAuth } from "./btns/BtnAuth";
 import { useLocation } from "react-router-dom";
 import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
+import { LanguageDropdown } from "../components/Dropdown/LanguageDropdown/LanguageDropdown";
+import { LevelDropdown } from "../components/Dropdown/LevelDropdown/LevelDropdown";
+import { SecsPerQuestionInput } from "../components/Input/SecsPerQuestionInput/SecsPerQuestionInput";
+import { BtnContact } from "./Btns/BtContact/BtnContact";
+import { BtnAuth } from "./Btns/BtnAuth/BtnAuth";
+import { BtnLink } from "./Btns/BtnLink/BtnLink";
 import { Header } from "./Header";
-import { BtnLink } from "./btns/BtnLink";
 
 export const AppHeader = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
@@ -21,7 +21,7 @@ export const AppHeader = () => {
         <div className="inputs-container">
           <LanguageDropdown />
           <LevelDropdown />
-          <InputNumber />
+          <SecsPerQuestionInput />
         </div>
       ) : (
         <div className="btn-navigation-container">

@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { QuestionList } from "../../components/admin/QuestionList";
+import { QuestionList } from "../../components/Question/QuestionList/QuestionList";
 import { AppDispatch } from "../../store/types";
 import { Outlet } from "react-router-dom";
-import { QuestionSearchBar } from "../../components/admin/QuestionSearchBar";
+import { QuestionSearchBar } from "../../components/Input/QuestionSearchBar/QuestionSearchBar";
 import { getQuestions } from "../../store/actions/question.actions";
 import { useEffect } from "react";
-import { ContactModal } from "../../components/modals/ContactModal";
+import { ContactModal } from "../../components/Modals/ContactModal/ContactModal";
 import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
-import { Modal } from "../../components/modals/Modal";
+import { Modal } from "../../components/Modals/Modal/Modal";
 import "./AdminPage.scss";
-import { QuestionLoader } from "../../components/loaders/QuestionLoader/QuestionLoader";
+import { QuestionLoader } from "../../components/Loaders/QuestionLoader/QuestionLoader";
 
 export const AdminPage = () => {
   const dispatch: AppDispatch = useDispatch();

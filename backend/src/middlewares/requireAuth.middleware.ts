@@ -33,7 +33,7 @@ const requireAdmin = asyncErrorCatcher(async (req: Request, res: Response, next:
   if (!loggedinUserId) throw new AppError("User not logged in", 401);
   const user = await UserModel.findById(loggedinUserId);
   if (!user) throw new AppError("User not found", 404);
-  if (!user.isAdmin) throw new AppError("User not authorized", 403);
+  if (!user.roles.includes("admin")) throw new AppError("User not authorized", 403);
   next();
 });
 

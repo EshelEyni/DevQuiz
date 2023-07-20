@@ -32,20 +32,24 @@ export const AdminPage = () => {
   return (
     <main className="admin-page">
       <QuestionSearchBar />
-      {isLoading && <QuestionLoader />}
-
-      <div className="question-list-container">
-        <p className="question-counter">{`Number of Question: ${questions.length}`}</p>
-        {noQuestionsFound ? (
-          <div className="msg-container">
-            <h2 className="msg-no-question-found">
-              No question found.⚠️ Please try another search.
-            </h2>
-          </div>
-        ) : (
-          <QuestionList questions={questions} />
-        )}
-      </div>
+      {isLoading ? (
+        <QuestionLoader />
+      ) : (
+        <div className="question-list-container">
+          {noQuestionsFound ? (
+            <div className="msg-container">
+              <h2 className="msg-no-question-found">
+                No question found.⚠️ Please try another search.
+              </h2>
+            </div>
+          ) : (
+            <>
+              <p className="question-counter">{`Number of Question: ${questions.length}`}</p>
+              <QuestionList questions={questions} />
+            </>
+          )}
+        </div>
+      )}
       <Outlet />
       {isContactOpen && (
         <Modal onClickMainScreenFn={toggleIsContactModalOpen}>

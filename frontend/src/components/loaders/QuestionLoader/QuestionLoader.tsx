@@ -6,12 +6,14 @@ export const QuestionLoader = () => {
   return (
     <div className="loader-container">
       <div className="container">
-        <span></span>
+        <span className="maginifying-glass-handle"></span>
         <div className="center">
           <div className="wrap">
             <div className="box">
               {brightColors.map((color, index) => (
-                <FaFileCode key={index} className="code-file-icon" color={color} />
+                <div key={index} className="code-file-icon-container">
+                  <FaFileCode className="code-file-icon" color={color} />
+                </div>
               ))}
             </div>
           </div>

@@ -8,4 +8,4 @@ export type User = {
   createdAt: number;
 };
 
-export type UserRoles = "user" | "admin" | "supervisor";
+export type UserRoles = "user" | "admin" | "editor";

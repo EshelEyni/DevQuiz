@@ -11,7 +11,10 @@ import { Header } from "./Header";
 
 export const AppHeader = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
-  const isAdmin = loggedinUser?.roles.includes("admin");
+  const isQuestionEditLinkShown =
+    loggedinUser && loggedinUser?.roles.some(role => role === "admin" || role === "editor");
+
+  const isUserAdmin = loggedinUser && loggedinUser?.roles.some(role => role === "admin");
 
   const location = useLocation();
   const isHomepage = location.pathname === "/";
@@ -26,15 +29,21 @@ export const AppHeader = () => {
       ) : (
         <div className="btn-navigation-container">
           <BtnLink path="/" title="Homepage" />
-          <div className="vertical"></div>
-          {loggedinUser && isAdmin && <BtnLink path="/admin" title="admin page" />}
+          <div className="vertical" />
+          {isQuestionEditLinkShown && (
+            <BtnLink path="/question-mamagement" title="question editor" />
+          )}
+          <div className="vertical" />
+          {isUserAdmin && <BtnLink path="/user-mamagement" title="user mamagement" />}
+          <div className="vertical" />
+          {isUserAdmin && <BtnLink path="/contact-mamagement" title="contact mamagement" />}
         </div>
       )}
       <div className="btns-container">
         <BtnLink path="/about" title="About" />
-        <div className="vertical"></div>
+        <div className="vertical" />
         <BtnContact />
-        <div className="vertical"></div>
+        <div className="vertical" />
         <BtnAuth />
       </div>
     </Header>

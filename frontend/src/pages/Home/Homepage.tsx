@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { AppDispatch } from "../../store/types";
-import { Loader } from "../../components/loaders/Loader/Loader";
-import { Error } from "../../components/msg/Error/Error";
-import { StartScreen } from "../../components/screens/StartScreen/StartScreen";
+import { Loader } from "../../components/Loaders/Loader/Loader";
+import { Error } from "../../components/Msg/Error/Error";
+import { StartScreen } from "../../components/Screens/StartScreen/StartScreen";
 import { Question } from "../../components/Question/Question/Question";
-import { FinishScreen } from "../../components/screens/FinishScreen/FinishScreen";
-import { QuizHeader } from "../../components/quiz/QuizHeader/QuizHeader";
+import { FinishScreen } from "../../components/Screens/FinishScreen/FinishScreen";
+import { QuizHeader } from "../../components/Quiz/QuizHeader/QuizHeader";
 import { Main } from "../../components/Main";
 import { useEffect } from "react";
 import { startNewQuiz } from "../../store/actions/quiz.actions";
-import { ModalContainer } from "../../components/modals/ModalContainer/ModalContainer";
+import { ModalContainer } from "../../components/Modals/ModalContainer/ModalContainer";
 import { Outlet } from "react-router-dom";
 
 export const Homepage = () => {

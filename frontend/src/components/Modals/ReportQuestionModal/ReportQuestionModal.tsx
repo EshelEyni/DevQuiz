@@ -24,20 +24,7 @@ export const ReportQuestionModal = () => {
   const dispatch: AppDispatch = useDispatch();
   const subjectInputRef = useRef<HTMLInputElement | null>(null);
   const isBtnDisabled = (!message.content && !message.defaultIssue) || !message.questionId;
-  const defaultReports = [
-    "-- Please choose an issue --",
-    "The question is not clear",
-    "The answer is not correct",
-    "The question is not relevant",
-    "The question is not up to date",
-    "The question is not in the right level",
-    "The question is not in the right category",
-    "This is a duplicate question",
-  ].map((report, i) => (
-    <option key={i} value={report}>
-      {report}
-    </option>
-  ));
+
 
   async function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
     setIsLoading(true);
@@ -89,7 +76,6 @@ export const ReportQuestionModal = () => {
             handleChangeTextArea={handleChangeTextArea}
             handleSubmit={handleSubmit}
             isBtnDisabled={isBtnDisabled}
-            defaultReports={defaultReports}
           />
         </section>
       )}

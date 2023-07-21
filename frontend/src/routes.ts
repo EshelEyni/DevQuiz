@@ -1,7 +1,7 @@
 import { QuestionEdit } from "./pages/QuestionEdit/QuestionEdit";
 import { About } from "./pages/About/About";
-import { AdminPage } from "./pages/AdminPage/AdminPage";
-import { Homepage } from "./pages/HomePage/Homepage";
+import { QuestionManagementPage } from "./pages/QuestionManagement/QuestionManagementPage";
+import { Homepage } from "./pages/Home/Homepage";
 import { ProfileDetails } from "./pages/ProfileDetails/ProfileDetails";
 
 interface Route {
@@ -26,8 +26,8 @@ const routes: Route[] = [
     component: ProfileDetails,
   },
   {
-    path: "/admin",
-    component: AdminPage,
+    path: "/question-mamagement",
+    component: QuestionManagementPage,
     nestedRoutes: [
       {
         path: "question-edit/:id?",

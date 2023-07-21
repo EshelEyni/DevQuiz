@@ -68,7 +68,7 @@ export const QuestionEdit = () => {
     <>
       <div className="main-screen dark" onClick={onGoBack}></div>
       <div className="question-edit">
-        <h2>Question Edit</h2>
+        <h2>Question Editor</h2>
         {isLoading ? (
           <Loader />
         ) : (

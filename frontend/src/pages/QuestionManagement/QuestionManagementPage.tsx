@@ -9,10 +9,10 @@ import { useEffect } from "react";
 import { ContactModal } from "../../components/Modals/ContactModal/ContactModal";
 import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
 import { Modal } from "../../components/Modals/Modal/Modal";
-import "./AdminPage.scss";
+import "./QuestionManagementPage.scss";
 import { QuestionLoader } from "../../components/Loaders/QuestionLoader/QuestionLoader";
 
-export const AdminPage = () => {
+export const QuestionManagementPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const { questions, isLoading } = useSelector((state: RootState) => state.questionModule);
   const { isContactOpen } = useSelector((state: RootState) => state.modalModule);

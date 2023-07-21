@@ -89,3 +89,9 @@ export interface ReportQuestionMessage
     BasicContactMessage {
   type: "report";
 }
+
+export interface RavenDbDocument {
+  "@metadata"?: {
+    "@collection": string;
+  };
+}

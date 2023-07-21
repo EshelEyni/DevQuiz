@@ -16,7 +16,6 @@ import questionRoutes from "./api/question/question.routes";
 import systemRoutes from "./api/system/system.routes";
 import contactRoutes from "./api/contact/contact.routes";
 import { requestLimiter } from "./services/rate-limiter.service";
-// import { setupSocketAPI } from "./services/socket.service";
 
 const app = express();
 
@@ -63,7 +62,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/system", systemRoutes);
 app.use("/api/contact", contactRoutes);
-// setupSocketAPI(http);
 
 app.get("/**", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));

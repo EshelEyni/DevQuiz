@@ -12,7 +12,7 @@ const router = express.Router();
 router.get("/", getSystemSettings);
 router.post("/entry", saveSiteEntry);
 
-//router.use(requireAuth, requireAdmin);
+router.use(requireAuth, requireAdmin);
 router.post("/", addSystemSettings);
 router.patch("/", updateSystemSettings);
 

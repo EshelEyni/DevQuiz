@@ -1,6 +1,4 @@
 import { AppError, asyncErrorCatcher } from "../../services/error.service";
-import factory from "../../services/factory.service";
-import { QuestionModel } from "./question.model";
 import { QueryString } from "../../services/util.service";
 import questionService from "./question.service";
 
@@ -16,10 +14,53 @@ const getQuestions = asyncErrorCatcher(async (req, res, next) => {
   });
 });
 
-const getQuestionById = factory.getOne(QuestionModel);
-const addQuestion = factory.createOne(QuestionModel);
-const updateQuestion = factory.updateOne(QuestionModel);
-const removeQuestion = factory.deleteOne(QuestionModel);
+const getQuestionById = asyncErrorCatcher(async (req, res, next) => {
+  const questionId = req.params.id;
+  if (!req.params.id) throw new AppError("No question ID provided", 400);
+  const question = await questionService.getById(questionId);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: question,
+    },
+  });
+});
+
+const addQuestion = asyncErrorCatcher(async (req, res, next) => {
+  const questionToAdd = req.body;
+  const question = await questionService.save(questionToAdd);
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      data: question,
+    },
+  });
+});
+
+const updateQuestion = asyncErrorCatcher(async (req, res, next) => {
+  const questionToUpdate = req.body;
+  const question = await questionService.save(questionToUpdate);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: question,
+    },
+  });
+});
+
+const removeQuestion = asyncErrorCatcher(async (req, res, next) => {
+  const questionId = req.params.id;
+  if (!questionId) throw new AppError("No question ID provided", 400);
+  await questionService.remove(questionId);
+
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});
 
 const archiveQuestion = asyncErrorCatcher(async (req, res, next) => {
   const questionId = req.params.id;
@@ -35,6 +76,7 @@ const archiveQuestion = asyncErrorCatcher(async (req, res, next) => {
 });
 
 const findDuplicatedQuestions = asyncErrorCatcher(async (req, res, next) => {
+  console.log("req.query", req.query);
   const queryString = req.query as QueryString;
   const duplicatedQuestions = await questionService.findDuplicatedQuestions(queryString);
 

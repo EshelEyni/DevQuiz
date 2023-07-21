@@ -13,13 +13,13 @@ import { requireAuth, requireAdmin } from "../../middlewares/requireAuth.middlew
 const router = express.Router();
 
 router.get("/", getQuestions);
-router.get("/:id([a-fA-F0-9]{24})", getQuestionById);
+router.get("/:id", getQuestionById);
 
-router.use(requireAuth, requireAdmin);
+// router.use(requireAuth, requireAdmin);
 router.get("/duplicates", findDuplicatedQuestions);
 router.post("/", addQuestion);
-router.patch("/:id/archive", archiveQuestion);
-router.patch("/:id", updateQuestion);
+router.put("/archive", archiveQuestion);
+router.put("/", updateQuestion);
 router.delete("/:id", removeQuestion);
 
 export default router;

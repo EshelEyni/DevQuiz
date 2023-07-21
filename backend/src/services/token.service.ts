@@ -6,10 +6,8 @@ require("dotenv").config();
 function getTokenFromRequest(req: Request) {
   const { cookies } = req;
   let tokenFromHeaders;
-  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
     tokenFromHeaders = req.headers.authorization.split(" ")[1];
-  }
-
   const token = cookies.loginToken || tokenFromHeaders;
   return token;
 }

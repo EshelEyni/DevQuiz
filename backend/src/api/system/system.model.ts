@@ -2,7 +2,17 @@
 import { Schema, model } from "mongoose";
 import { difficultyLevels, programmingLanguages } from "./system.service";
 
-const LanguageInfoSchema = new Schema({
+const siteEntrySchema = new Schema(
+  {
+    ipAddress: { type: String },
+    userAgent: { type: String },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const languageInfoSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -19,7 +29,7 @@ const systemSettingSchema = new Schema(
   {
     programmingLanguages: {
       type: Map,
-      of: LanguageInfoSchema,
+      of: languageInfoSchema,
     },
     difficultyLevels: {
       type: [String],
@@ -46,5 +56,6 @@ const systemSettingSchema = new Schema(
 );
 
 const SystemSettingModel = model("system_setting", systemSettingSchema);
+const SiteEntryModel = model("site_entry", siteEntrySchema);
 
-export { SystemSettingModel };
+export { SystemSettingModel, SiteEntryModel };

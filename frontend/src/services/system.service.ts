@@ -11,4 +11,13 @@ async function getSystemSettings() {
   }
 }
 
-export default { getSystemSettings };
+async function saveSiteEntry() {
+  try {
+    httpService.post(`system/entry`);
+  } catch (err) {
+    console.log("Question service: err in query", err);
+    throw err;
+  }
+}
+
+export default { getSystemSettings, saveSiteEntry };

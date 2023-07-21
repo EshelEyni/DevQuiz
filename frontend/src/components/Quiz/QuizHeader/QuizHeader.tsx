@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { LanguageInfo } from "../../../../../shared/types/system";
-import { Header } from "../../Header";
+import { Header } from "../../Gen/Header";
 import "./QuizHeader.scss";
 
 export const QuizHeader = () => {

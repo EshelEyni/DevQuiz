@@ -1,0 +1,12 @@
+.msg-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+
+  .msg-no-result-found {
+    color: var(--color-dark);
+    font-weight: 600;
+    text-align: center;
+  }
+}

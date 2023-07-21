@@ -7,7 +7,7 @@ import { StartScreen } from "../../components/Screens/StartScreen/StartScreen";
 import { Question } from "../../components/Question/Question/Question";
 import { FinishScreen } from "../../components/Screens/FinishScreen/FinishScreen";
 import { QuizHeader } from "../../components/Quiz/QuizHeader/QuizHeader";
-import { Main } from "../../components/Main";
+import { Main } from "../../components/Gen/Main";
 import { useEffect } from "react";
 import { startNewQuiz } from "../../store/actions/quiz.actions";
 import { ModalContainer } from "../../components/Modals/ModalContainer/ModalContainer";

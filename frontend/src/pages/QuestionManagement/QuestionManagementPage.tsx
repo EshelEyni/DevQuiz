@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { QuestionList } from "../../components/Question/QuestionList/QuestionList";
+import { ManagementEntityList } from "../../components/Management/ManagementEntityList/ManagementEntityList";
 import { AppDispatch } from "../../store/types";
 import { Outlet } from "react-router-dom";
 import { QuestionSearchBar } from "../../components/Input/QuestionSearchBar/QuestionSearchBar";
@@ -11,6 +11,9 @@ import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
 import { Modal } from "../../components/Modals/Modal/Modal";
 import "./QuestionManagementPage.scss";
 import { QuestionLoader } from "../../components/Loaders/QuestionLoader/QuestionLoader";
+import { NoResMsg } from "../../components/Msg/NoResMsg/NoResMsg";
+import { ManagementEntityListContainer } from "../../components/Management/ManagementEntityListContainer/ManagementEntityListContainer";
+import { ManagementEntityCounter } from "../../components/Management/ManagementEntityCounter/ManagementEntityCounter";
 
 export const QuestionManagementPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -30,25 +33,21 @@ export const QuestionManagementPage = () => {
   }, []);
 
   return (
-    <main className="admin-page">
+    <main className="management-page question">
       <QuestionSearchBar />
       {isLoading ? (
         <QuestionLoader />
       ) : (
-        <div className="question-list-container">
+        <ManagementEntityListContainer>
           {noQuestionsFound ? (
-            <div className="msg-container">
-              <h2 className="msg-no-question-found">
-                No question found.⚠️ Please try another search.
-              </h2>
-            </div>
+            <NoResMsg title="question" />
           ) : (
             <>
-              <p className="question-counter">{`Number of Question: ${questions.length}`}</p>
-              <QuestionList questions={questions} />
+              <ManagementEntityCounter title="Questions" count={questions.length} />
+              <ManagementEntityList entities={questions} />
             </>
           )}
-        </div>
+        </ManagementEntityListContainer>
       )}
       <Outlet />
       {isContactOpen && (

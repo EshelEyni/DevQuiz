@@ -7,7 +7,7 @@ import { Question as TypeOfQuestion } from "../../../../../shared/types/question
 import { OptionList } from "../../Option/OptionList/OptionList";
 import { BtnReportQuestion } from "../../Btns/BtnReportQuestion/BtnReportQuestion";
 import { BtnQuestionEdit } from "../../Btns/BtnQuestionEdit/BtnQuestionEdit";
-import { Footer } from "../../Footer";
+import { Footer } from "../../Gen/Footer";
 import { ProgressBar } from "../../Quiz/ProgressBar/ProgressBar";
 import { Timer } from "../../Quiz/Timer/Timer";
 import { BtnNext } from "../../Btns/BtnNext/BtnNext";

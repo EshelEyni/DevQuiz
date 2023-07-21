@@ -3,6 +3,7 @@ import { About } from "./pages/About/About";
 import { QuestionManagementPage } from "./pages/QuestionManagement/QuestionManagementPage";
 import { Homepage } from "./pages/Home/Homepage";
 import { ProfileDetails } from "./pages/ProfileDetails/ProfileDetails";
+import { UserManagementPage } from "./pages/UserManagement/UserManagementPage";
 
 interface Route {
   path: string;
@@ -26,7 +27,7 @@ const routes: Route[] = [
     component: ProfileDetails,
   },
   {
-    path: "/question-mamagement",
+    path: "/question-management",
     component: QuestionManagementPage,
     nestedRoutes: [
       {
@@ -34,6 +35,10 @@ const routes: Route[] = [
         component: QuestionEdit,
       },
     ],
+  },
+  {
+    path: "/user-management",
+    component: UserManagementPage,
   },
   {
     path: "/about",

@@ -11,12 +11,12 @@ import "./QuestionPreview.scss";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
-  bcColor: string;
+  bcgColor: string;
 };
 
 export const QuestionPreview: FC<QuestionPreviewProps> = ({
   question: { id, question: questionText, options, correctOption, level, language },
-  bcColor,
+  bcgColor,
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,9 +30,9 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
     dispatch(archiveQuestion(id));
   }
   return (
-    <li className="question-preview" style={{ backgroundColor: bcColor }}>
+    <li className="question-preview" style={{ backgroundColor: bcgColor }}>
       <div>
-        <p>{id}</p>
+        <p className="question-id">Id: {id}</p>
         <div className="question-preview-question">{questionText}</div>
         <div className="question-preview-options">
           {options.map((option, index) => (

@@ -1,26 +1,28 @@
-.admin-page {
-  width: 100%;
+// .management-page {
+//   &.question {
+//     width: 100%;
 
-  .question-list-container {
-    margin: 0 auto;
-    width: 90%;
-    .question-counter {
-      font-size: 2.5rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
+//     .question-list-container {
+//       margin: 0 auto;
+//       width: 90%;
+//       .question-counter {
+//         font-size: 2.5rem;
+//         font-weight: 600;
+//         margin-bottom: 0.5rem;
+//       }
 
-    .msg-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 20px;
+//       .msg-container {
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//         margin: 20px;
 
-      .msg-no-question-found {
-        color: var(--color-dark);
-        font-weight: 600;
-        text-align: center;
-      }
-    }
-  }
-}
+//         .msg-no-question-found {
+//           color: var(--color-dark);
+//           font-weight: 600;
+//           text-align: center;
+//         }
+//       }
+//     }
+//   }
+// }

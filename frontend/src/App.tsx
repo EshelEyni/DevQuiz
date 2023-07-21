@@ -1,4 +1,4 @@
-import { AppHeader } from "./components/AppHeader";
+import { AppHeader } from "./components/App/AppHeader";
 import { routes } from "./routes";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -6,8 +6,7 @@ import { useEffect } from "react";
 import { AppDispatch } from "./store/types";
 import { autoLogin } from "./store/actions/auth.actions";
 import { getSystemSettings } from "./store/actions/system.actions";
-import { Footer } from "./components/Footer";
-import { AppFooter } from "./components/AppFooter";
+import { AppFooter } from "./components/App/AppFooter";
 
 export const App = () => {
   const dispatch: AppDispatch = useDispatch();

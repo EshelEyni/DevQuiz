@@ -13,9 +13,9 @@ export const App = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    systemService.saveSiteEntry();
+    //systemService.saveSiteEntry();
     dispatch(getSystemSettings());
-    dispatch(autoLogin());
+    //dispatch(autoLogin());
   }, []);
 
   return (

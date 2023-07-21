@@ -6,84 +6,97 @@ import { Document, Query } from "mongoose";
 import { asyncLocalStorage } from "../../services/als.service";
 import { alStoreType } from "../../middlewares/setupAls.middleware";
 import { UserRightAnswerModel } from "../user/user.model";
+import { ravenStore } from "../../server";
+import { DifficultyLevels, ProgrammingLanguage } from "../../../../shared/types/system";
+import { Session } from "inspector";
+
 const SIMILARITY_THRESHOLD = 0.65;
+
+async function getRandomQuestions(language: ProgrammingLanguage, level: DifficultyLevels){
+  const session = ravenStore.openSession();
+  const query = session.query<Question>({collection: "Questions"})
+    .randomOrdering()
+    .take(25)
+    .skip(0);
+
+  if(language) query.whereEquals("language", language);
+  if(level) query.whereEquals("level", level);
+  return await query.all();
+}
+
+
+async function getQuestionsForUser(language: ProgrammingLanguage, level: DifficultyLevels, term: string){
+  const session = ravenStore.openSession();
+  const query = session.query<Question>({collection: "Questions"})
+    .take(25)
+    .skip(0)
+    .orderByScore();
+
+  if(language) query.whereEquals("language", language);
+  if(level) query.whereEquals("level", level);
+  if(term) query.search("question", term);
+  return await query.all();
+}
 
 async function query(queryString: QueryString): Promise<Question[]> {
   const store = asyncLocalStorage.getStore() as alStoreType;
   const loggedinUserId = store?.loggedinUserId;
-  if (!loggedinUserId) {
-    const { language, level } = queryString;
-    const questions = QuestionModel.aggregate([
-      {
-        $match: {
-          language,
-          level,
-          isArchived: { $ne: true },
-        },
-      },
-      {
-        $sample: { size: 25 },
-      },
-    ]);
-
-    return questions as unknown as Question[];
-  }
-
-  const { language, level } = queryString;
-  const userRightAnswers = await UserRightAnswerModel.find({
-    userId: loggedinUserId,
-    level,
-    language,
-  }).exec();
-
-  const userRightAnswersIds = userRightAnswers.map(userRightAnswer => userRightAnswer.questionId);
-  const features = new APIFeatures(QuestionModel.find(), queryString)
-    .filter()
-    .search()
-    .sort()
-    .limitFields()
-    .paginate();
-
-  const query = features.getQuery() as Query<Question[], Question>;
-  query.where("_id").nin(userRightAnswersIds);
-  const questions = (await query.exec()) as unknown as Document[];
-  return questions as unknown as Question[];
+  const { language, level, terms } = queryString;
+  // if (!loggedinUserId) {
+  //   return await getRandomQuestions(language as ProgrammingLanguage, level as DifficultyLevels);
+  // }
+  return await getQuestionsForUser(language as ProgrammingLanguage, level as DifficultyLevels, terms as string);
 }
 
-async function getById(questionId: string): Promise<Question> {
-  const question = await QuestionModel.findById(questionId).exec();
-  return question as unknown as Question;
+async function getById(questionId: string): Promise<Question | null> {
+  const session = ravenStore.openSession();
+  return await session.load<Question>(questionId);
 }
 
 async function add(question: Question): Promise<Question> {
-  const savedQuestion = await new QuestionModel(question).save();
-  return savedQuestion as unknown as Question;
+  const session = ravenStore.openSession();
+  await session.store(question);
+  await session.saveChanges();
+  return question;
+}
+
+async function setCorrectOption(questionId: string, selection: number) {
+  const session = ravenStore.openSession();
+  var q = await session.load<Question>(questionId);
+  if(q == null)
+    return;
+  q.correctOption = selection;
+  await session.saveChanges();
 }
 
 async function update(id: string, question: Question): Promise<Question> {
-  const updatedQuestion = await QuestionModel.findByIdAndUpdate(id, question, {
-    new: true,
-    runValidators: true,
-  }).exec();
-  return updatedQuestion as unknown as Question;
+  return await add(question);
 }
 
-async function remove(questionId: string): Promise<Question> {
-  const questionRemoved = QuestionModel.findByIdAndRemove(questionId).exec();
-  return questionRemoved as unknown as Question;
+async function remove(questionId: string)  {
+  const session = ravenStore.openSession();
+  session.delete(questionId);
+  await session.saveChanges();
 }
 
-async function archive(questionId: string): Promise<Question> {
-  const archivedQuestion = await QuestionModel.findByIdAndUpdate(
-    questionId,
-    { isArchived: true },
-    { new: true }
-  ).exec();
+async function archive(questionId: string) : Promise<Question | null> {
+  const session = ravenStore.openSession();
+  var q = await session.load<Question>(questionId);
+  if(q == null)
+    return null;
 
-  return archivedQuestion as unknown as Question;
+  q.isArchived = true;
+  await session.saveChanges();
+  return q;
 }
 
 async function findDuplicatedQuestions(queryString: QueryString): Promise<Question[]> {
+
+  // const session = ravenStore.openSession();
+  // var q =  session.query<Question>({indexName: "Questions/Search"})
+  //   .moreLikeThis(b => b.usingDocument(JSON.stringify({"question": "What is the difference between == and === operators in JavaScript?"})))
+  //   .all();
+  
   type Duplicate = {
     question1: Question;
     question2: Question;

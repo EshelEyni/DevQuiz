@@ -1,4 +1,5 @@
-import { User } from "../types/user.interface";
+import { Question } from "../../../shared/types/question";
+import { User } from "../../../shared/types/user";
 import { httpService } from "./http.service";
 import { storageService } from "./storage.service";
 import { handleServerResponse } from "./utils.service";
@@ -60,7 +61,16 @@ async function update(user: User): Promise<User> {
   }
 }
 
-export const userService = {
+async function recordUserCorrectAnswer(question: Question): Promise<void> {
+  try {
+    await httpService.post(`user/correct-answer`, question);
+  } catch (err) {
+    console.log("User service: err in saveUserRightAnswer", err);
+    throw err;
+  }
+}
+
+export default {
   query,
   getById,
   getByUsername,
@@ -68,4 +78,5 @@ export const userService = {
   getDefaultUserImgUrl,
   update,
   remove,
+  recordUserCorrectAnswer,
 };

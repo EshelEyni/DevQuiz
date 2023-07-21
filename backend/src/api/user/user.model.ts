@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { UserRoles } from "../../../../shared/types/user";
+import { difficultyLevels, programmingLanguages } from "../system/system.service";
 
 const userRoles: UserRoles[] = ["user", "admin", "supervisor"];
 
@@ -24,6 +25,31 @@ interface IUser extends Document {
   loginAttempts: number;
   lockedUntil: number;
 }
+
+const userRightAnswerSchema: Schema = new Schema({
+  questionId: {
+    type: Schema.Types.ObjectId,
+    ref: "Question",
+    required: true,
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  language: {
+    type: String,
+    required: true,
+    enum: [...programmingLanguages],
+  },
+  level: {
+    type: String,
+    required: true,
+    enum: [...difficultyLevels],
+  },
+});
+
+userRightAnswerSchema.index({ questionId: 1, userId: 1 }, { unique: true });
 
 const userSchema: Schema<IUser> = new Schema(
   {
@@ -140,6 +166,7 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
+const UserRightAnswerModel = model("user_right_answer", userRightAnswerSchema);
 const UserModel = model<IUser>("User", userSchema);
 
-export { userSchema, UserModel };
+export { UserModel, UserRightAnswerModel };

@@ -1,5 +1,5 @@
 import { User } from "../../../../shared/types/user";
-import { userService } from "../../services/user.service";
+import userService from "../../services/user.service";
 import { actionTypes } from "../actions/auth.actions";
 
 const { SET_LOGGEDIN_USER, LOGOUT } = actionTypes;

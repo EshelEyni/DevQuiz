@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get("/", getSystemSettings);
 
-router.post("/", addSystemSettings);
 router.use(requireAuth, requireAdmin);
+router.post("/", addSystemSettings);
 router.patch("/", updateSystemSettings);
 
 export default router;

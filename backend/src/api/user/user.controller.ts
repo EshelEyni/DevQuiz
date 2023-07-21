@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import userService from "./user.service";
 import { asyncErrorCatcher } from "../../services/error.service";
 import factory from "../../services/factory.service";
-import { UserModel } from "./user.model";
+import { UserModel, UserRightAnswerModel } from "./user.model";
 import { User } from "../../../../shared/types/user";
 import { QueryString } from "../../services/util.service";
 
@@ -30,4 +30,15 @@ const updateUser = factory.updateOne(UserModel, [
 ]);
 const removeUser = factory.deleteOne(UserModel);
 
-export { getUsers, getUserById, addUser, updateUser, removeUser };
+const addUserCorrectAnswer = asyncErrorCatcher(async (req: Request, res: Response) => {
+  const { id, language, level } = req.body;
+  const { loggedinUserId } = req;
+  await UserRightAnswerModel.create({ userId: loggedinUserId, questionId: id, language, level });
+
+  res.status(200).json({
+    status: "success",
+    requestedAt: new Date().toISOString(),
+  });
+});
+
+export { getUsers, getUserById, addUser, updateUser, removeUser, addUserCorrectAnswer };

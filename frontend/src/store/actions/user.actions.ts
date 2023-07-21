@@ -1,8 +1,8 @@
 import { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
 import { RootState } from "../store";
-import { userService } from "../../services/user.service";
-import { User } from "../../types/user.interface";
+import  userService  from "../../services/user.service";
+import { User } from "../../../../shared/types/user";
 
 export function getUsers(): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
   return async dispatch => {

@@ -5,10 +5,21 @@ import { APIFeatures, QueryString } from "../../services/util.service";
 import natural from "natural";
 import { Document } from "mongoose";
 import { Question } from "../../../../shared/types/question";
+import questionService from "./question.service";
 
-const SIMILARITY_THRESHOLD = 0.7;
+const SIMILARITY_THRESHOLD = 0.5;
 
-const getQuestions = factory.getAll(QuestionModel);
+const getQuestions = asyncErrorCatcher(async (req, res, next) => {
+  const question = await questionService.query(req.query as QueryString);
+
+  res.status(200).json({
+    status: "success",
+    requestedAt: new Date().toISOString(),
+    results: question.length,
+    data: question,
+  });
+});
+
 const getQuestionById = factory.getOne(QuestionModel);
 const addQuestion = factory.createOne(QuestionModel);
 const updateQuestion = factory.updateOne(QuestionModel);

@@ -1,13 +1,14 @@
-import { QuestionEditForm } from "../../components/form/QuestionEditForm/QuestionEditForm";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Question } from "../../../../shared/types/question";
-import { Loader } from "../../components/loaders/Loader/Loader";
 import { updateQuestion } from "../../store/actions/question.actions";
 import { AppDispatch } from "../../store/types";
 import { useDispatch } from "react-redux";
 import questionService from "../../services/question.service";
 import { setIsTimerOn } from "../../store/actions/quiz.actions";
+import "./QuestionEdit.scss";
+import { Loader } from "../../components/Loaders/Loader/Loader";
+import { QuestionEditForm } from "../../components/Form/QuestionEditForm/QuestionEditForm";
 
 export const QuestionEdit = () => {
   const params = useParams();

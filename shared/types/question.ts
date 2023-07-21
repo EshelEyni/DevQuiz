@@ -8,6 +8,9 @@ export interface Question {
   language: string;
   level: string;
   points: number;
+  isArchived: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export type QuestionFilterBy = {

@@ -21,6 +21,7 @@ export const Question = () => {
 
   const isAdmin = loggedinUser?.roles.includes("admin");
   const navigate = useNavigate();
+
   function handleBtnEditClick() {
     dispatch(setIsTimerOn(false));
     const { id } = question;

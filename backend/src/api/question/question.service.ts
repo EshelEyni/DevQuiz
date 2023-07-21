@@ -2,16 +2,50 @@ import { Question } from "../../../../shared/types/question";
 import { QuestionModel } from "./question.model";
 
 import { APIFeatures, QueryString } from "../../services/util.service";
-import { Document } from "mongoose";
+import { Document, Query } from "mongoose";
+import { asyncLocalStorage } from "../../services/als.service";
+import { alStoreType } from "../../middlewares/setupAls.middleware";
+import { UserRightAnswerModel } from "../user/user.model";
 
 async function query(queryString: QueryString): Promise<Question[]> {
+  const store = asyncLocalStorage.getStore() as alStoreType;
+  const loggedinUserId = store?.loggedinUserId;
+  if (!loggedinUserId) {
+    const { language, level } = queryString;
+    const questions = QuestionModel.aggregate([
+      {
+        $match: {
+          language,
+          level,
+          isArchived: { $ne: true },
+        },
+      },
+      {
+        $sample: { size: 25 },
+      },
+    ]);
+
+    return questions as unknown as Question[];
+  }
+
+  const { language, level } = queryString;
+  const userRightAnswers = await UserRightAnswerModel.find({
+    userId: loggedinUserId,
+    level,
+    language,
+  }).exec();
+
+  const userRightAnswersIds = userRightAnswers.map(userRightAnswer => userRightAnswer.questionId);
   const features = new APIFeatures(QuestionModel.find(), queryString)
     .filter()
     .search()
     .sort()
     .limitFields()
     .paginate();
-  const questions = (await features.getQuery().exec()) as unknown as Document[];
+
+  const query = features.getQuery() as Query<Question[], Question>;
+  query.where("_id").nin(userRightAnswersIds);
+  const questions = (await query.exec()) as unknown as Document[];
   return questions as unknown as Question[];
 }
 

@@ -1,6 +1,5 @@
 .question-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
   gap: 10px;
-
 }

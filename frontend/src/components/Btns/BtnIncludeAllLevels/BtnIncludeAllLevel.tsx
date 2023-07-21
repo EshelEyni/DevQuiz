@@ -1,5 +1,6 @@
 import { BiCheckbox, BiCheckboxChecked } from "react-icons/bi";
 import "./BtnIncludeAllLevel.scss";
+import { CheckBox } from "../../App/CheckBox/CheckBox";
 
 type BtnIncludeAllLevelProps = {
   includeAllLevel: boolean;
@@ -23,11 +24,7 @@ export const BtnIncludeAllLevel = ({
         className="btn-include-all-level"
         onClick={handleBtnIncludeAllLevelClick}
       >
-        {includeAllLevel ? (
-          <BiCheckboxChecked size={40} color="white" />
-        ) : (
-          <BiCheckbox size={40} color="white" />
-        )}
+        <CheckBox checked={includeAllLevel} />
       </button>
     </div>
   );

@@ -2,7 +2,7 @@ import { ChangeEvent, useState, useEffect, useRef } from "react";
 import { AppDispatch } from "../../../store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleIsReportQuestionModalOpen } from "../../../store/actions/modal.actions";
-import { BasicReportQuestionMessage } from "../../../../../shared/types/system";
+import { ReportQuestionMessageContent } from "../../../../../shared/types/system";
 import { RootState } from "../../../store/store";
 import contactService from "../../../services/contact.service";
 import { Loader } from "../../Loaders/Loader/Loader";
@@ -14,7 +14,7 @@ export const ReportQuestionModal = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
   const { questions, questionIdx } = useSelector((state: RootState) => state.quizModule);
   const question = questions[questionIdx];
-  const defaultMsgState: BasicReportQuestionMessage = {
+  const defaultMsgState: ReportQuestionMessageContent = {
     content: "",
     defaultIssue: "",
     questionId: question.id,
@@ -28,7 +28,7 @@ export const ReportQuestionModal = () => {
   async function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
     setIsLoading(true);
     event.preventDefault();
-    const msgToSend: BasicReportQuestionMessage = { ...message };
+    const msgToSend: ReportQuestionMessageContent = { ...message };
     if (loggedinUser) msgToSend.userDetails = { ...loggedinUser };
     await contactService.senReportOnQuestion(msgToSend);
     setMessage({ ...defaultMsgState });

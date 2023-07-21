@@ -1,8 +1,10 @@
 @import "../../../styles/setup/mixins";
 
 .contact-msgs-list {
+  display: flex;
+  flex-direction: column;
   background-color: var(--color-light);
-
+  width: 100%;
   overflow-y: scroll;
   @include scrollbar-hidden;
 
@@ -23,8 +25,16 @@
     }
 
     .count {
-      font-size: 2rem;
+      font-size: 1.2rem;
       font-weight: 600;
     }
+  }
+
+  .no-res-msg {
+    text-align: center;
+    margin: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-dark);
   }
 }

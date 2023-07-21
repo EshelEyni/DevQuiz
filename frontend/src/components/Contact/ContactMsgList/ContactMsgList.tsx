@@ -22,7 +22,7 @@ export const ContactMsgList = ({ contactMsgs, title }: ContactMsgListProps) => {
           </li>
         ))}
 
-        {contactMsgs.length === 0 && <p>There are no contact messages</p>}
+        {contactMsgs.length === 0 && <p className="no-res-msg">There are no contact messages</p>}
       </ul>
     </section>
   );

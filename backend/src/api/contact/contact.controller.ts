@@ -18,6 +18,46 @@ const getContactMsgs = asyncErrorCatcher(async (req: Request, res: Response) => 
   });
 });
 
+const getContactMsg = asyncErrorCatcher(async (req: Request, res: Response) => {
+  const msgId = req.params.id;
+  const { type } = req.params;
+
+  let msg;
+  if (type === "contact") {
+    msg = await ContactMsgModel.findById(msgId);
+  } else if (type === "report") {
+    msg = await ReportQuestionMsgModel.findById(msgId);
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: msg,
+  });
+});
+
+const updateContactMsg = asyncErrorCatcher(async (req: Request, res: Response) => {
+  const msgId = req.params.id;
+  const { type } = req.params;
+
+  let msg;
+  if (type === "contact") {
+    msg = await ContactMsgModel.findByIdAndUpdate(msgId, req.body, {
+      new: true,
+      runValidators: true,
+    });
+  } else if (type === "report") {
+    msg = await ReportQuestionMsgModel.findByIdAndUpdate(msgId, req.body, {
+      new: true,
+      runValidators: true,
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: msg,
+  });
+});
+
 const sendContactMsg = asyncErrorCatcher(async (req: Request, res: Response) => {
   const msg = req.body as ContactMessage;
 
@@ -61,4 +101,4 @@ const reportQuestion = asyncErrorCatcher(async (req: Request, res: Response) => 
   });
 });
 
-export { getContactMsgs, sendContactMsg, reportQuestion };
+export { getContactMsgs, getContactMsg, updateContactMsg, sendContactMsg, reportQuestion };

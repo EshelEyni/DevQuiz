@@ -6,7 +6,7 @@ import { archiveQuestion } from "../../../store/actions/question.actions";
 import { AppDispatch } from "../../../store/types";
 import { caplitalizeFirstLetter } from "../../../services/utils.service";
 import { BtnQuestionEdit } from "../../Btns/BtnQuestionEdit/BtnQuestionEdit";
-import { BtnQuestionArchive } from "../../Btns/BtnQuestionArchive/BtnQuestionArchive";
+import { BtnEntityArchive } from "../../Btns/BtnEntityArchive/BtnEntityArchive";
 import "./QuestionPreview.scss";
 
 type QuestionPreviewProps = {
@@ -59,7 +59,7 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
         </div>
         <div className="question-preview-btn-container">
           <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
-          <BtnQuestionArchive handleBtnArchiveClick={handleBtnArchiveClick} />
+          <BtnEntityArchive entity="question" handleBtnArchiveClick={handleBtnArchiveClick} />
         </div>
       </div>
     </li>

@@ -53,43 +53,39 @@ export type ContactMsgType = "contact" | "report";
 
 export type ContactMsgs = Array<ContactMessage | ReportQuestionMessage>;
 
-export interface BasicContactMessage {
+interface BasicContactMessage {
+  id: string;
+  name: string;
+  markedAsRead: boolean;
+  markedAsSpam: boolean;
+  markedAsDone: boolean;
+  markedAsImportant: boolean;
+  isArchived: boolean;
+  updatedAt: Date;
+  createdAt: Date;
+  email?: string;
+  userDetails?: User;
+}
+
+export interface ContactMessageContent {
   subject: string;
   content: string;
-  userDetails?: User;
 }
 
-export interface ContactMessage extends BasicContactMessage {
-  id: string;
-  name: string;
-  email?: string;
-  markedAsRead: boolean;
-  markedAsAnswered: boolean;
-  markedAsSpam: boolean;
-  markedAsDone: boolean;
-  markedAsImportant: boolean;
+export interface ContactMessage
+  extends ContactMessageContent,
+    BasicContactMessage {
   type: "contact";
-  updatedAt: Date;
-  createdAt: Date;
 }
 
-export interface BasicReportQuestionMessage {
+export interface ReportQuestionMessageContent {
   questionId: string;
-  email?: string;
   defaultIssue: string;
   content: string;
-  userDetails?: User;
 }
 
-export interface ReportQuestionMessage extends BasicReportQuestionMessage {
-  id: string;
-  name: string;
-  markedAsRead: boolean;
-  markedAsAnswered: boolean;
-  markedAsSpam: boolean;
-  markedAsDone: boolean;
-  markedAsImportant: boolean;
+export interface ReportQuestionMessage
+  extends ReportQuestionMessageContent,
+    BasicContactMessage {
   type: "report";
-  updatedAt: Date;
-  createdAt: Date;
 }

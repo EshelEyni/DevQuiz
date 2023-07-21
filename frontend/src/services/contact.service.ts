@@ -1,6 +1,6 @@
 import {
-  BasicContactMessage,
-  BasicReportQuestionMessage,
+  ContactMessageContent,
+  ReportQuestionMessageContent,
   ContactMessage,
   ContactMsgType,
   ReportQuestionMessage,
@@ -47,7 +47,7 @@ async function update(
   type: ContactMsgType
 ): Promise<ContactMessage | ReportQuestionMessage> {
   try {
-    const respose = await httpService.put(`contact/${contactMsg.id}/${type}`, contactMsg);
+    const respose = await httpService.patch(`contact/${contactMsg.id}/${type}`, contactMsg);
     return handleServerResponse<ContactMessage | ReportQuestionMessage>(respose);
   } catch (err) {
     console.log("Contact service: err in query", err);
@@ -68,7 +68,7 @@ async function add(
   }
 }
 
-async function sendContactMessage(msg: BasicContactMessage): Promise<any> {
+async function sendContactMessage(msg: ContactMessageContent): Promise<any> {
   try {
     const respose = await httpService.post(`contact`, msg);
     return handleServerResponse<any>(respose);
@@ -78,7 +78,7 @@ async function sendContactMessage(msg: BasicContactMessage): Promise<any> {
   }
 }
 
-async function senReportOnQuestion(msg: BasicReportQuestionMessage): Promise<any> {
+async function senReportOnQuestion(msg: ReportQuestionMessageContent): Promise<any> {
   try {
     const respose = await httpService.post(`contact/report-question`, msg);
     return handleServerResponse<any>(respose);

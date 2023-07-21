@@ -46,6 +46,10 @@ export function contactMsgReducer(
         contactMsgs: state.contactMsgs.map(contactMsg =>
           contactMsg.id === action.updatedContactMsg.id ? action.updatedContactMsg : contactMsg
         ),
+        contactMsg:
+          state.contactMsg?.id === action.updatedContactMsg.id
+            ? action.updatedContactMsg
+            : state.contactMsg,
       };
     case ADD_CONTACT_MSG:
       return { ...state, contactMsgs: [...state.contactMsgs, action.contactMsg] };

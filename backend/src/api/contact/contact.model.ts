@@ -24,10 +24,6 @@ const contactMsgSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    markedAsAnswered: {
-      type: Boolean,
-      default: false,
-    },
     markedAsSpam: {
       type: Boolean,
       default: false,
@@ -44,9 +40,15 @@ const contactMsgSchema = new Schema(
       type: String,
       default: "contact",
     },
+    isArchived: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
@@ -83,10 +85,6 @@ const reportQuestionMsgSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    markedAsAnswered: {
-      type: Boolean,
-      default: false,
-    },
     markedAsSpam: {
       type: Boolean,
       default: false,
@@ -103,9 +101,15 @@ const reportQuestionMsgSchema = new Schema(
       type: String,
       default: "report",
     },
+    isArchived: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 

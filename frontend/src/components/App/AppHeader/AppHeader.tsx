@@ -1,13 +1,14 @@
 import { useLocation } from "react-router-dom";
-import { RootState } from "../../store/store";
+import { RootState } from "../../../store/store";
 import { useSelector } from "react-redux";
-import { LanguageDropdown } from "../../components/Dropdown/LanguageDropdown/LanguageDropdown";
-import { LevelDropdown } from "../../components/Dropdown/LevelDropdown/LevelDropdown";
-import { SecsPerQuestionInput } from "../../components/Input/SecsPerQuestionInput/SecsPerQuestionInput";
-import { BtnContact } from "../Btns/BtContact/BtnContact";
-import { BtnAuth } from "../Btns/BtnAuth/BtnAuth";
-import { BtnLink } from "../Btns/BtnLink/BtnLink";
-import { Header } from "../Gen/Header";
+import { LanguageDropdown } from "../../Dropdown/LanguageDropdown/LanguageDropdown";
+import { LevelDropdown } from "../../Dropdown/LevelDropdown/LevelDropdown";
+import { SecsPerQuestionInput } from "../../Input/SecsPerQuestionInput/SecsPerQuestionInput";
+import { BtnContact } from "../../Btns/BtContact/BtnContact";
+import { BtnAuth } from "../../Btns/BtnAuth/BtnAuth";
+import { BtnLink } from "../../Btns/BtnLink/BtnLink";
+import { Header } from "../../Gen/Header";
+import "./AppHeader.scss";
 
 export const AppHeader = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);

@@ -3,6 +3,21 @@ import { asyncErrorCatcher } from "../../services/error.service";
 import { ContactMessage, ReportQuestionMessage } from "../../../../shared/types/system";
 import { ContactMsgModel, ReportQuestionMsgModel } from "./contact.model";
 
+const getContactMsgs = asyncErrorCatcher(async (req: Request, res: Response) => {
+  const msgs = await ContactMsgModel.find({}).sort({ createdAt: -1 });
+  const reports = await ReportQuestionMsgModel.find({}).sort({ createdAt: -1 });
+
+  res.status(200).json({
+    status: "success",
+    requestedAt: new Date().toISOString(),
+    results: {
+      msgs: msgs.length,
+      reports: reports.length,
+    },
+    data: [...msgs, ...reports],
+  });
+});
+
 const sendContactMsg = asyncErrorCatcher(async (req: Request, res: Response) => {
   const msg = req.body as ContactMessage;
 
@@ -46,4 +61,4 @@ const reportQuestion = asyncErrorCatcher(async (req: Request, res: Response) => 
   });
 });
 
-export { sendContactMsg, reportQuestion };
+export { getContactMsgs, sendContactMsg, reportQuestion };

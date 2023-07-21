@@ -1,4 +1,4 @@
-import { User } from "./user.interface";
+import { User } from "../../../shared/types/user";
 
 export interface JsendResponse {
   status: string;

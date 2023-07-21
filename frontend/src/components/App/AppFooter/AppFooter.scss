@@ -2,6 +2,7 @@
   position: fixed;
   left: 0;
   bottom: 0;
+  height: 8rem;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -9,6 +10,6 @@
   background-color: var(--color-dark);
   color: var(--color-light);
   text-align: center;
-  padding: 2.5rem;
+  padding: 0 2.5rem;
   font-size: 2rem;
 }

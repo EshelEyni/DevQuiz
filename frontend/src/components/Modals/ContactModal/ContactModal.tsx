@@ -2,13 +2,13 @@ import { ChangeEvent, useState, useEffect, useRef } from "react";
 import { AppDispatch } from "../../../store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleIsContactModalOpen } from "../../../store/actions/modal.actions";
-import { ContactMessage } from "../../../../../shared/types/system";
+import { BasicContactMessage } from "../../../../../shared/types/system";
 import { RootState } from "../../../store/store";
-import { sendContactMessage } from "../../../services/contact.service";
-import { Loader } from "../../loaders/Loader/Loader";
+import contactService from "../../../services/contact.service";
+import { Loader } from "../../Loaders/Loader/Loader";
 import { ContactForm } from "../../Form/ContactForm/ContactForm";
 
-const defaultMsgState: ContactMessage = {
+const defaultMsgState: BasicContactMessage = {
   subject: "",
   content: "",
 };
@@ -24,11 +24,11 @@ export const ContactModal = () => {
   async function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
     setIsLoading(true);
     event.preventDefault();
-    const msgToSend: ContactMessage = {
+    const msgToSend: BasicContactMessage = {
       ...message,
     };
     if (loggedinUser) msgToSend.userDetails = { ...loggedinUser };
-    await sendContactMessage(msgToSend);
+    await contactService.sendContactMessage(msgToSend);
     setMessage({ ...defaultMsgState });
     dispatch(toggleIsContactModalOpen());
   }

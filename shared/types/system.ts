@@ -49,15 +49,47 @@ export type systemSettings = {
   difficultyLevels: DifficultyLevels[] | [];
 };
 
-export type ContactMessage = {
+export type ContactMsgType = "contact" | "report";
+
+export type ContactMsgs = Array<ContactMessage | ReportQuestionMessage>;
+
+export interface BasicContactMessage {
   subject: string;
   content: string;
   userDetails?: User;
-};
+}
 
-export type ReportQuestionMessage = {
+export interface ContactMessage extends BasicContactMessage {
+  id: string;
+  name: string;
+  email?: string;
+  markedAsRead: boolean;
+  markedAsAnswered: boolean;
+  markedAsSpam: boolean;
+  markedAsDone: boolean;
+  markedAsImportant: boolean;
+  type: "contact";
+  updatedAt: Date;
+  createdAt: Date;
+}
+
+export interface BasicReportQuestionMessage {
   questionId: string;
+  email?: string;
   defaultIssue: string;
   content: string;
   userDetails?: User;
-};
+}
+
+export interface ReportQuestionMessage extends BasicReportQuestionMessage {
+  id: string;
+  name: string;
+  markedAsRead: boolean;
+  markedAsAnswered: boolean;
+  markedAsSpam: boolean;
+  markedAsDone: boolean;
+  markedAsImportant: boolean;
+  type: "report";
+  updatedAt: Date;
+  createdAt: Date;
+}

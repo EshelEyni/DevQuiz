@@ -2,9 +2,9 @@ import { ChangeEvent, useState, useEffect, useRef } from "react";
 import { AppDispatch } from "../../../store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleIsReportQuestionModalOpen } from "../../../store/actions/modal.actions";
-import { ReportQuestionMessage } from "../../../../../shared/types/system";
+import { BasicReportQuestionMessage } from "../../../../../shared/types/system";
 import { RootState } from "../../../store/store";
-import { senReportOnQuestion } from "../../../services/contact.service";
+import contactService from "../../../services/contact.service";
 import { Loader } from "../../Loaders/Loader/Loader";
 import { ReportQuestionForm } from "../../Form/ReportQuestionForm/ReportQuestionForm";
 import { setIsTimerOn } from "../../../store/actions/quiz.actions";
@@ -14,7 +14,7 @@ export const ReportQuestionModal = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
   const { questions, questionIdx } = useSelector((state: RootState) => state.quizModule);
   const question = questions[questionIdx];
-  const defaultMsgState: ReportQuestionMessage = {
+  const defaultMsgState: BasicReportQuestionMessage = {
     content: "",
     defaultIssue: "",
     questionId: question.id,
@@ -25,13 +25,12 @@ export const ReportQuestionModal = () => {
   const subjectInputRef = useRef<HTMLInputElement | null>(null);
   const isBtnDisabled = (!message.content && !message.defaultIssue) || !message.questionId;
 
-
   async function handleSubmit(event: ChangeEvent<HTMLFormElement>) {
     setIsLoading(true);
     event.preventDefault();
-    const msgToSend: ReportQuestionMessage = { ...message };
+    const msgToSend: BasicReportQuestionMessage = { ...message };
     if (loggedinUser) msgToSend.userDetails = { ...loggedinUser };
-    await senReportOnQuestion(msgToSend);
+    await contactService.senReportOnQuestion(msgToSend);
     setMessage({ ...defaultMsgState });
     dispatch(toggleIsReportQuestionModalOpen());
   }

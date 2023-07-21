@@ -8,6 +8,7 @@ import { quizReducer } from "./reducers/quiz.reducer";
 import { userReducer } from "./reducers/user.reducer";
 import { modalReducer } from "./reducers/modal.reducer";
 import { questionReducer } from "./reducers/question.reducer";
+import { contactMsgReducer } from "./reducers/contact-msg.reducer";
 
 const rootReducer = combineReducers({
   authModule: authReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   modalModule: modalReducer,
   quizModule: quizReducer,
   questionModule: questionReducer,
+  contactMsgModule: contactMsgReducer,
 });
 
 export const store = createStore(

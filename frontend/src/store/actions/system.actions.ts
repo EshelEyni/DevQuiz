@@ -17,7 +17,7 @@ export function getSystemSettings(): ThunkAction<Promise<void>, RootState, undef
   return async dispatch => {
     try {
       const systemSettingsArr = (await systemService.getSystemSettings()) as any;
-      const systemSettings = systemSettingsArr[0];
+      const systemSettings = systemSettingsArr;
       dispatch({ type: SET_SYSTEM_SETTINGS, systemSettings });
     } catch (err) {
       console.log("PostActions: err in getPosts", err);

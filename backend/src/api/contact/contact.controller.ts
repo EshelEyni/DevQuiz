@@ -1,104 +1,55 @@
 import { Request, Response } from "express";
-import { asyncErrorCatcher } from "../../services/error.service";
-import { ContactMessage, ReportQuestionMessage } from "../../../../shared/types/system";
-import { ContactMsgModel, ReportQuestionMsgModel } from "./contact.model";
+import { AppError, asyncErrorCatcher } from "../../services/error.service";
+import { ContactMsgType } from "../../../../shared/types/system";
+import contactService from "./contact.service";
+import { QueryString } from "../../services/util.service";
 
 const getContactMsgs = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const msgs = await ContactMsgModel.find({}).sort({ createdAt: -1 });
-  const reports = await ReportQuestionMsgModel.find({}).sort({ createdAt: -1 });
-
+  const queryString = req.query as QueryString;
+  const contactMsgs = await contactService.query(queryString);
   res.status(200).json({
     status: "success",
     requestedAt: new Date().toISOString(),
-    results: {
-      msgs: msgs.length,
-      reports: reports.length,
-    },
-    data: [...msgs, ...reports],
-  });
-});
-
-const getContactMsg = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const msgId = req.params.id;
-  const { type } = req.params;
-
-  let msg;
-  if (type === "contact") {
-    msg = await ContactMsgModel.findById(msgId);
-  } else if (type === "report") {
-    msg = await ReportQuestionMsgModel.findById(msgId);
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: msg,
+    results: contactMsgs.length,
+    data: contactMsgs,
   });
 });
 
 const updateContactMsg = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const msgId = req.params.id;
-  const { type } = req.params;
-
-  let msg;
-  if (type === "contact") {
-    msg = await ContactMsgModel.findByIdAndUpdate(msgId, req.body, {
-      new: true,
-      runValidators: true,
-    });
-  } else if (type === "report") {
-    msg = await ReportQuestionMsgModel.findByIdAndUpdate(msgId, req.body, {
-      new: true,
-      runValidators: true,
-    });
-  }
+  const contactMsg = req.body as any;
+  const updatedContactMsg = await contactService.update(contactMsg);
 
   res.status(200).json({
     status: "success",
-    data: msg,
+    data: updatedContactMsg,
   });
 });
 
-const sendContactMsg = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const msg = req.body as ContactMessage;
-
+const addContactMsg = asyncErrorCatcher(async (req: Request, res: Response) => {
+  const msg = req.body as any;
+  const { type } = req.query;
+  if (!type) throw new AppError("Contact Type is required", 400);
   const name = msg.userDetails ? msg.userDetails.username : "Anonymous";
   const email = msg.userDetails ? msg.userDetails.email : "Anonymous";
   const userId = msg.userDetails ? msg.userDetails.id : null;
-
-  await ContactMsgModel.create({
+  const contactMsgToAdd = {
     name,
     email,
     userId,
     subject: msg.subject,
     content: msg.content,
-  });
-
-  res.status(200).json({
-    status: "success",
-    message: "Message sent successfully",
-  });
-});
-
-const reportQuestion = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const msg = req.body as ReportQuestionMessage;
-
-  const name = msg.userDetails ? msg.userDetails.username : "Anonymous";
-  const email = msg.userDetails ? msg.userDetails.email : "Anonymous";
-  const userId = msg.userDetails ? msg.userDetails.id : null;
-
-  await ReportQuestionMsgModel.create({
-    name,
-    email,
-    userId,
     questionId: msg.questionId,
     defaultIssue: msg.defaultIssue,
-    content: msg.content,
-  });
+    type: type as ContactMsgType,
+  };
+
+  const addedContactMsg = await contactService.add(contactMsgToAdd);
 
   res.status(200).json({
     status: "success",
     message: "Message sent successfully",
+    data: addedContactMsg,
   });
 });
 
-export { getContactMsgs, getContactMsg, updateContactMsg, sendContactMsg, reportQuestion };
+export { getContactMsgs, updateContactMsg, addContactMsg };

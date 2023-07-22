@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import tokenService from "../../services/token.service";
 import { ravenStore } from "../../server";
 import userService from "../user/user.service";
+import { trimCollectionNameFromId } from "../../services/util.service";
 
 async function login(username: string, password: string): Promise<{ user: User; token: string }> {
   const session = ravenStore.openSession();
@@ -11,7 +12,9 @@ async function login(username: string, password: string): Promise<{ user: User; 
     .query<User>({ collection: "Users" })
     .whereEquals("username", username)
     .firstOrNull();
+
   if (!user) throw new AppError("User not found", 404);
+  user.id = trimCollectionNameFromId(user.id);
   const isCorrectPassword = await _checkPassword(password, user.password!);
   if (!isCorrectPassword) throw new AppError("Incorrect username or password", 400);
   const token = tokenService.signToken(user.id);
@@ -26,6 +29,7 @@ async function autoLogin(loginToken: string): Promise<{ user: User; newToken: st
   if (!verifiedToken) throw new AppError("Invalid token", 400);
   const { id } = verifiedToken;
   const user = await userService.getById(id);
+
   if (!user) throw new AppError("User not found", 404);
   const newToken = tokenService.signToken(user.id);
   return {

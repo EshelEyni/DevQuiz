@@ -14,19 +14,6 @@ const getSystemSettings = asyncErrorCatcher(
   }
 );
 
-const addSystemSettings = asyncErrorCatcher(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const settings = req.body;
-    const session = ravenStore.openSession();
-    await session.store(settings, "System/Settings");
-    await session.saveChanges();
-    res.status(201).json({
-      status: "success",
-      data: settings,
-    });
-  }
-);
-
 const updateSystemSettings = asyncErrorCatcher(
   async (req: Request, res: Response, next: NextFunction) => {
     const settings = req.body;
@@ -67,4 +54,4 @@ const saveSiteEntry = asyncErrorCatcher(async (req: Request, res: Response, next
   });
 });
 
-export { getSystemSettings, addSystemSettings, updateSystemSettings, saveSiteEntry };
+export { getSystemSettings, updateSystemSettings, saveSiteEntry };

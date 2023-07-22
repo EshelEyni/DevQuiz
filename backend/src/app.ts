@@ -54,7 +54,8 @@ if (process.env.NODE_ENV === "production") {
 
 app.all("*", setupAsyncLocalStorage);
 app.use((req: Request, res: Response, next: NextFunction) => {
-  requestLogger(req, res, next);
+  const isDevEnv = process.env.NODE_ENV !== "production";
+  if (isDevEnv) requestLogger(req, res, next);
 });
 
 app.use("/api/user", userRoutes);

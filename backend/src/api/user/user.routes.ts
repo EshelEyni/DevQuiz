@@ -18,7 +18,7 @@ router.use(requireAdmin);
 router.post("/", addUser);
 router.get("/", getUsers);
 router.get("/:id", getUserById);
-router.patch("/:id", updateUser);
+router.put("/", updateUser);
 router.delete("/:id", removeUser);
 
 export default router;

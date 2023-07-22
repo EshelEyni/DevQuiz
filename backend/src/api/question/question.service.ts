@@ -1,5 +1,9 @@
 import { Question } from "../../../../shared/types/question";
-import { QueryString, setIdToCollectionName } from "../../services/util.service";
+import {
+  QueryString,
+  setIdToCollectionName,
+  trimCollectionNameFromId,
+} from "../../services/util.service";
 import { asyncLocalStorage } from "../../services/als.service";
 import { alStoreType } from "../../middlewares/setupAls.middleware";
 import { ravenStore } from "../../server";
@@ -9,13 +13,138 @@ import {
   RavenDbDocument,
 } from "../../../../shared/types/system";
 import { AppError } from "../../services/error.service";
+import { UserCorrectAnswer } from "../../../../shared/types/user";
 
-const collectionName = "Questions";
+const COLLECTION_NAME = "Questions";
 
-async function getRandomQuestions(language: ProgrammingLanguage, level: DifficultyLevels) {
+async function query(queryString: QueryString): Promise<Question[]> {
+  const store = asyncLocalStorage.getStore() as alStoreType;
+  const loggedinUserId = store?.loggedinUserId;
+  const { language, level, isEditPage, searchTerm } = queryString;
+
+  let questions: Question[] = [];
+
+  if (!loggedinUserId) {
+    questions = await _getRandomQuestions(
+      language as ProgrammingLanguage,
+      level as DifficultyLevels
+    );
+  }
+
+  if (isEditPage) {
+    questions = await _getQuestionsForEditPage(
+      language as ProgrammingLanguage,
+      level as DifficultyLevels,
+      searchTerm
+    );
+  } else {
+    questions = await _getQuestionsForUser(
+      loggedinUserId as string,
+      language as ProgrammingLanguage,
+      level as DifficultyLevels
+    );
+  }
+
+  for (const question of questions) question.id = trimCollectionNameFromId(question.id);
+  return questions;
+}
+
+async function getById(questionId: string): Promise<Question | null> {
+  const session = ravenStore.openSession();
+  const id = setIdToCollectionName(COLLECTION_NAME, questionId);
+  const question = await session.load<Question>(id);
+  if (question == null) throw new AppError("Question not found", 404);
+  question.id = trimCollectionNameFromId(question.id);
+  return question;
+}
+
+async function add(question: Question): Promise<Question> {
+  const session = ravenStore.openSession();
+  const doc = { ...question, createdAt: new Date() } as Question & RavenDbDocument;
+  doc["@metadata"] = { "@collection": COLLECTION_NAME };
+  await session.store(doc, COLLECTION_NAME + "/");
+  await session.saveChanges();
+  doc.id = trimCollectionNameFromId(doc.id);
+  return doc;
+}
+
+async function update(question: Question): Promise<Question> {
+  const session = ravenStore.openSession();
+  const id = setIdToCollectionName(COLLECTION_NAME, question.id);
+  const doc = await session.load<Question>(id);
+  if (doc == null) throw new AppError("Question not found", 404);
+  Object.assign(doc, question);
+  await session.saveChanges();
+  const updatedQuestion = {
+    ...doc,
+    id: trimCollectionNameFromId(doc.id),
+  };
+  return updatedQuestion;
+}
+
+async function remove(questionId: string) {
+  const session = ravenStore.openSession();
+  const id = setIdToCollectionName(COLLECTION_NAME, questionId);
+  await session.delete(id);
+  await session.saveChanges();
+}
+
+async function archive(question: Question): Promise<Question> {
+  const session = ravenStore.openSession();
+  const id = setIdToCollectionName(COLLECTION_NAME, question.id);
+  const questionToArchive = await session.load<Question>(id);
+  if (questionToArchive == null) throw new AppError("Question not found", 404);
+  questionToArchive.isArchived = true;
+  await session.saveChanges();
+  return questionToArchive;
+}
+
+async function findDuplicatedQuestions(queryString: QueryString): Promise<Question[]> {
+  const { language, level } = queryString;
+  const allQuestions = await _getQuestionsForEditPage(
+    language as ProgrammingLanguage,
+    level as DifficultyLevels
+  );
+  const duplicatedQuestions: Question[][] = [];
+  for (const question of allQuestions) {
+    const similarQuestions = await getDuplicates(question);
+    duplicatedQuestions.push(similarQuestions);
+  }
+  return duplicatedQuestions as unknown as Question[];
+}
+
+async function getDuplicates(question: Question): Promise<Question[]> {
   const session = ravenStore.openSession();
   const query = session
-    .query<Question>({ collection: collectionName })
+    .query<Question>({ indexName: "Questions/Search" })
+    .whereEquals("isArchived", false)
+    .whereNotEquals("id", question.id)
+    .whereEquals("language", question.language)
+    .whereEquals("level", question.level)
+    .moreLikeThis(q =>
+      q.usingDocument(
+        JSON.stringify({
+          question: question.question,
+        })
+      )
+    )
+    .take(5);
+
+  if (question.language) query.whereEquals("language", question.language);
+  if (question.level) query.whereEquals("level", question.level);
+
+  const similarQuestions = await query.all();
+
+  return similarQuestions;
+}
+
+async function _getRandomQuestions(
+  language: ProgrammingLanguage,
+  level: DifficultyLevels
+): Promise<Question[]> {
+  const session = ravenStore.openSession();
+  const query = session
+    .query<Question>({ collection: COLLECTION_NAME })
     .whereEquals("isArchived", false)
     .randomOrdering()
     .take(25)
@@ -26,125 +155,56 @@ async function getRandomQuestions(language: ProgrammingLanguage, level: Difficul
   return await query.all();
 }
 
-async function getQuestionsForUser(
+async function _getQuestionsForUser(
+  userId: string,
   language: ProgrammingLanguage,
-  level: DifficultyLevels,
-  term: string
-) {
+  level: DifficultyLevels
+): Promise<Question[]> {
   const session = ravenStore.openSession();
   const query = session
-    .query<Question>({ collection: collectionName })
+    .query<Question>({ collection: COLLECTION_NAME })
     .take(25)
     .skip(0)
     .orderByScore();
 
   if (language) query.whereEquals("language", language);
   if (level) query.whereEquals("level", level);
-  if (term) query.search("question", term);
+
+  const userCorrectAnswersIds = await session
+    .query<UserCorrectAnswer>({
+      collection: "UserCorrectAnswers",
+    })
+    .selectFields(["questionId"])
+    .whereEquals("userId", userId)
+    .all();
+
+  userCorrectAnswersIds.forEach(answer => {
+    query.whereNotEquals("id", answer);
+  });
   return await query.all();
 }
 
-async function query(queryString: QueryString): Promise<Question[]> {
-  const store = asyncLocalStorage.getStore() as alStoreType;
-  const loggedinUserId = store?.loggedinUserId;
-  const { language, level, terms, isEditPage } = queryString;
-  if (!loggedinUserId) {
-    return await getRandomQuestions(language as ProgrammingLanguage, level as DifficultyLevels);
-  }
-
-  if (isEditPage) {
-    return await getQuestionsForUser(
-      language as ProgrammingLanguage,
-      level as DifficultyLevels,
-      terms as string
-    );
-  }
-
-  return await getQuestionsForUser(
-    language as ProgrammingLanguage,
-    level as DifficultyLevels,
-    terms as string
-  );
-}
-
-async function getById(questionId: string): Promise<Question | null> {
+async function _getQuestionsForEditPage(
+  language: ProgrammingLanguage,
+  level: DifficultyLevels,
+  searchTerm?: string
+): Promise<Question[]> {
   const session = ravenStore.openSession();
-  const id = setIdToCollectionName(collectionName, questionId);
-  return await session.load<Question>(id);
-}
+  const query = session
+    .query<Question>({ collection: COLLECTION_NAME })
+    .whereEquals("isArchived", false);
 
-async function save(question: Question): Promise<Question> {
-  const session = ravenStore.openSession();
-  if (!question.id) {
-    const doc = { ...question } as Question & RavenDbDocument;
-    doc["@metadata"] = { "@collection": collectionName };
-    await session.store(doc, collectionName + "/");
-    await session.saveChanges();
-    return doc;
-  } else {
-    let updatedQuestion = await session.load<Question>(question.id);
-    if (updatedQuestion == null) throw new AppError("Question not found", 404);
-    updatedQuestion = { ...question };
-    await session.saveChanges();
-    return question;
-  }
-}
-
-async function remove(questionId: string) {
-  const session = ravenStore.openSession();
-  const id = setIdToCollectionName(collectionName, questionId);
-  session.delete(id);
-  await session.saveChanges();
-}
-
-async function archive(questionId: string): Promise<Question> {
-  const session = ravenStore.openSession();
-  const id = setIdToCollectionName(collectionName, questionId);
-  const question = await session.load<Question>(id);
-  if (question == null) throw new AppError("Question not found", 404);
-  question.isArchived = true;
-  await session.saveChanges();
-  return question;
-}
-
-async function findDuplicatedQuestions(queryString: QueryString): Promise<Question[]> {
-  // const { language, level } = queryString;
-  const session = ravenStore.openSession();
-  // const query = session.query<Question>({ indexName: "Questions/Search" });
-
-  // if (language) query.whereEquals("language", language);
-  // if (level) query.whereEquals("level", level);
-  // query.whereEquals("isArchived", false);
-  // query.moreLikeThis(q =>
-  //   q.usingDocument(
-  //     JSON.stringify({
-  //       question: "HTML Stands for",
-  //     })
-  //   )
-  // );
-
-  const questions = session
-    .query<Question>({ indexName: "Questions/Search" })
-    // .whereEquals("language", language)
-    // .whereEquals("level", level)
-    .moreLikeThis(q =>
-      q.usingDocument(
-        JSON.stringify({
-          question: "HTML Stands for",
-        })
-      )
-    )
-    .all();
-
-  // const questions = await query.all();
-  // console.log("questions", questions);
-  return questions;
+  if (language) query.whereEquals("language", language);
+  if (level) query.whereEquals("level", level);
+  if (searchTerm) query.search("question", searchTerm);
+  return await query.all();
 }
 
 export default {
   query,
   getById,
-  save,
+  add,
+  update,
   remove,
   archive,
   findDuplicatedQuestions,

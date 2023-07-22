@@ -40,39 +40,6 @@ const logout = asyncErrorCatcher(async (req: Request, res: Response) => {
   });
 });
 
-const updatePassword = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const { currentPassword, newPassword, newPasswordConfirm } = req.body;
-  const { loggedinUserId } = req;
-  if (!loggedinUserId) throw new AppError("User not logged in", 401);
-  const { user, newToken } = await authService.updatePassword(
-    loggedinUserId,
-    currentPassword,
-    newPassword,
-    newPasswordConfirm
-  );
-
-  _sendUserTokenSuccessResponse(res, newToken, user, 200);
-});
-
-const sendPasswordResetEmail = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const { email } = req.body;
-  if (!email) throw new AppError("Email is required", 400);
-  const resetURL = `${req.protocol}://${req.get("host")}/api/auth/resetPassword/`;
-  await authService.sendPasswordResetEmail(email, resetURL);
-  res.status(200).json({
-    status: "success",
-    message: "Password reset email sent successfully",
-  });
-});
-
-const resetPassword = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const { token } = req.params;
-  const { password, passwordConfirm } = req.body;
-  const { user, newToken } = await authService.resetPassword(token, password, passwordConfirm);
-
-  _sendUserTokenSuccessResponse(res, newToken, user, 200);
-});
-
 const _sendUserTokenSuccessResponse = (
   res: Response,
   token: string,
@@ -92,4 +59,4 @@ const _sendUserTokenSuccessResponse = (
   });
 };
 
-export { login, autoLogin, signup, logout, sendPasswordResetEmail, resetPassword, updatePassword };
+export { login, autoLogin, signup, logout };

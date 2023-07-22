@@ -47,7 +47,7 @@ async function update(
   type: ContactMsgType
 ): Promise<ContactMessage | ReportQuestionMessage> {
   try {
-    const respose = await httpService.patch(`contact/${contactMsg.id}/${type}`, contactMsg);
+    const respose = await httpService.put(`contact/${contactMsg.id}/${type}`, contactMsg);
     return handleServerResponse<ContactMessage | ReportQuestionMessage>(respose);
   } catch (err) {
     console.log("Contact service: err in query", err);

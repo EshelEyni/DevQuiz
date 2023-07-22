@@ -66,4 +66,8 @@ function setIdToCollectionName(collectionName: string, id: string): string {
   return `${collectionName}/${id}`;
 }
 
-export { sendEmail, queryRavenDB, setIdToCollectionName };
+function trimCollectionNameFromId(id: string): string {
+  return id.split("/")[1];
+}
+
+export { sendEmail, queryRavenDB, setIdToCollectionName, trimCollectionNameFromId };

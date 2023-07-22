@@ -13,9 +13,9 @@ import { requireAuth, requireAdmin } from "../../middlewares/requireAuth.middlew
 const router = express.Router();
 
 router.get("/", getQuestions);
-router.get("/:id", getQuestionById);
+router.get("/:id([0-9]{19}-[A-Z])", getQuestionById);
 
-// router.use(requireAuth, requireAdmin);
+router.use(requireAuth, requireAdmin);
 router.get("/duplicates", findDuplicatedQuestions);
 router.post("/", addQuestion);
 router.put("/archive", archiveQuestion);

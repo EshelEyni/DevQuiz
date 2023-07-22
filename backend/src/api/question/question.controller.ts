@@ -29,7 +29,7 @@ const getQuestionById = asyncErrorCatcher(async (req, res, next) => {
 
 const addQuestion = asyncErrorCatcher(async (req, res, next) => {
   const questionToAdd = req.body;
-  const question = await questionService.save(questionToAdd);
+  const question = await questionService.add(questionToAdd);
 
   res.status(201).json({
     status: "success",
@@ -41,7 +41,7 @@ const addQuestion = asyncErrorCatcher(async (req, res, next) => {
 
 const updateQuestion = asyncErrorCatcher(async (req, res, next) => {
   const questionToUpdate = req.body;
-  const question = await questionService.save(questionToUpdate);
+  const question = await questionService.update(questionToUpdate);
 
   res.status(200).json({
     status: "success",
@@ -63,9 +63,8 @@ const removeQuestion = asyncErrorCatcher(async (req, res, next) => {
 });
 
 const archiveQuestion = asyncErrorCatcher(async (req, res, next) => {
-  const questionId = req.params.id;
-  if (!questionId) throw new AppError("No question ID provided", 400);
-  const question = await questionService.archive(questionId);
+  const questionToArchive = req.body;
+  const question = await questionService.archive(questionToArchive);
 
   res.status(200).json({
     status: "success",
@@ -76,7 +75,6 @@ const archiveQuestion = asyncErrorCatcher(async (req, res, next) => {
 });
 
 const findDuplicatedQuestions = asyncErrorCatcher(async (req, res, next) => {
-  console.log("req.query", req.query);
   const queryString = req.query as QueryString;
   const duplicatedQuestions = await questionService.findDuplicatedQuestions(queryString);
 

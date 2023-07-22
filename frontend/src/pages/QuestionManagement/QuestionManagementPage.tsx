@@ -28,6 +28,7 @@ export const QuestionManagementPage = () => {
         level: "beginner",
         page: 1,
         limit: 1000,
+        isEditPage: true,
       })
     );
   }, []);

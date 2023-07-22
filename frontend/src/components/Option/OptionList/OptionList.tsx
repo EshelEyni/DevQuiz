@@ -27,6 +27,7 @@ function initialFocusState(arrLength: number): TypeOfFocusState {
 }
 
 export const OptionList = ({ question }: OptionListProps) => {
+  console.log("OptionList", question);
   const dispatch: AppDispatch = useDispatch();
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
   const [focusState, setFocusState] = useState(initialFocusState(question.options.length));

@@ -23,9 +23,8 @@ export const QuestionSearchBar = () => {
         language: language,
         level: includeAllLevel ? undefined : level,
         page: 1,
-        limit: 1000,
-        searchField: "question",
         searchTerm: searchTerm,
+        isEditPage: true,
       })
     );
   }

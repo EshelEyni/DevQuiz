@@ -21,7 +21,7 @@ export const BtnQuestionEdit = ({ handleBtnEditClick, size = 18 }: BtnQuestionEd
       >
         <BiEdit size={size} />
       </button>
-      <Tooltip id={btnId} style={{ fontSize: "12px" }} />
+      <Tooltip id={btnId} style={{ fontSize: "16px" }} />
     </>
   );
 };

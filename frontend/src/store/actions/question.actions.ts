@@ -2,9 +2,9 @@ import { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
 import { RootState } from "../store";
 import questionService from "../../services/question.service";
-
 import { questionReqProps } from "../types";
 import { Question } from "../../../../shared/types/question";
+import { actionTypes as quizActionTypes } from "./quiz.actions";
 
 export const actionTypes = {
   SET_FILTER: "SET_FILTER",
@@ -15,6 +15,7 @@ export const actionTypes = {
   UPDATE_QUESTION: "UPDATE_QUESTION",
   SET_IS_LOADING: "SET_IS_LOADING",
 };
+const { SET_QUIZ_QUESTION } = quizActionTypes;
 
 const {
   SET_FILTER,
@@ -117,6 +118,7 @@ export function updateQuestion(
     try {
       const updatedQuestion = await questionService.update(question);
       dispatch({ type: UPDATE_QUESTION, updatedQuestion });
+      dispatch({ type: SET_QUIZ_QUESTION, updatedQuestion });
     } catch (err) {
       console.log("QuizActions: err in updateQuestion", err);
     }

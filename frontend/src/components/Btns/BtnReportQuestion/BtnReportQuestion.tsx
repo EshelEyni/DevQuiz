@@ -5,8 +5,11 @@ import { useDispatch } from "react-redux";
 import { toggleIsReportQuestionModalOpen } from "../../../store/actions/modal.actions";
 import { setIsTimerOn } from "../../../store/actions/quiz.actions";
 import "./BtnReportQuestion.scss";
+import { makeId } from "../../../services/utils.service";
 
 export const BtnReportQuestion = () => {
+  const btnId = makeId();
+
   const dispatch: AppDispatch = useDispatch();
   function handleBtnClick() {
     dispatch(setIsTimerOn(false));
@@ -16,14 +19,14 @@ export const BtnReportQuestion = () => {
     <>
       <button
         className="btn-report-question"
-        data-tooltip-id="id_123"
+        data-tooltip-id={btnId}
         data-tooltip-content="Report a question"
         data-tooltip-place="top"
         onClick={handleBtnClick}
       >
         <MdReportGmailerrorred size={25} />
       </button>
-      <Tooltip id="id_123" style={{ fontSize: "16px" }} />
+      <Tooltip id={btnId} style={{ fontSize: "16px" }} />
     </>
   );
 };

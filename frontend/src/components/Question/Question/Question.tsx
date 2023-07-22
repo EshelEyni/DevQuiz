@@ -12,6 +12,8 @@ import { ProgressBar } from "../../Quiz/ProgressBar/ProgressBar";
 import { Timer } from "../../Quiz/Timer/Timer";
 import { BtnNext } from "../../Btns/BtnNext/BtnNext";
 import "./Question.scss";
+import { BtnApproveQuestion } from "../../Btns/BtnApproveQuestion/BtnApproveQuestion";
+import { updateQuestion } from "../../../store/actions/question.actions";
 
 export const Question = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -20,12 +22,18 @@ export const Question = () => {
   const question: TypeOfQuestion = questions[questionIdx];
 
   const isAdmin = loggedinUser?.roles.includes("admin");
+  const isQuestionRevised = question?.isRevised;
   const navigate = useNavigate();
 
   function handleBtnEditClick() {
     dispatch(setIsTimerOn(false));
     const { id } = question;
     navigate(`question-edit/${id}`);
+  }
+
+  function handleBtnApproveClick() {
+    const questionToApprove = { ...question, isRevised: true };
+    dispatch(updateQuestion(questionToApprove));
   }
 
   return (
@@ -35,8 +43,13 @@ export const Question = () => {
         <div className="question-header">
           <h4>{question.question}</h4>
           <div className="question-header-btn-container">
-            {isAdmin && <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} size={24} />}
-            <BtnReportQuestion />
+            {isAdmin && (
+              <>
+                <BtnApproveQuestion handleBtnApproveClick={handleBtnApproveClick} />
+                <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} size={24} />
+              </>
+            )}
+            {!isQuestionRevised && <BtnReportQuestion />}
           </div>
         </div>
         <OptionList question={question} />

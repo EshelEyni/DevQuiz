@@ -21,9 +21,7 @@ const getQuestionById = asyncErrorCatcher(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: {
-      data: question,
-    },
+    data: question,
   });
 });
 
@@ -33,9 +31,7 @@ const addQuestion = asyncErrorCatcher(async (req, res, next) => {
 
   res.status(201).json({
     status: "success",
-    data: {
-      data: question,
-    },
+    data: question,
   });
 });
 
@@ -45,9 +41,7 @@ const updateQuestion = asyncErrorCatcher(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: {
-      data: question,
-    },
+    data: question,
   });
 });
 
@@ -68,9 +62,7 @@ const archiveQuestion = asyncErrorCatcher(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: {
-      data: question,
-    },
+    data: question,
   });
 });
 

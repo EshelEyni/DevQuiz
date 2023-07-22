@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { RootState } from "../../../store/store";
 import { useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import "./AppHeader.scss";
 
 export const AppHeader = () => {
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
+  const { isTimerOn } = useSelector((state: RootState) => state.quizModule);
   const isQuestionEditLinkShown =
     loggedinUser && loggedinUser?.roles.some(role => role === "admin" || role === "editor");
 
@@ -19,13 +21,15 @@ export const AppHeader = () => {
 
   const location = useLocation();
   const isHomepage = location.pathname === "/";
+
+  useEffect(() => {}, [isTimerOn]);
   return (
     <Header className="app-header">
       {isHomepage ? (
         <div className="inputs-container">
           <LanguageDropdown />
           <LevelDropdown />
-          <SecsPerQuestionInput />
+          {!isTimerOn && <SecsPerQuestionInput />}
         </div>
       ) : (
         <div className="btn-navigation-container">

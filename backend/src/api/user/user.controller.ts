@@ -19,9 +19,7 @@ const getUserById = asyncErrorCatcher(async (req: Request, res: Response) => {
   const user = await userServices.getById(userId);
   res.status(200).json({
     status: "success",
-    data: {
-      data: user,
-    },
+    data: user,
   });
 });
 
@@ -30,9 +28,7 @@ const addUser = asyncErrorCatcher(async (req: Request, res: Response) => {
   const user = await userServices.add(userToAdd);
   res.status(201).json({
     status: "success",
-    data: {
-      data: user,
-    },
+    data: user,
   });
 });
 
@@ -41,9 +37,7 @@ const updateUser = asyncErrorCatcher(async (req: Request, res: Response) => {
   const user = await userServices.update(userToUpdate);
   res.status(200).json({
     status: "success",
-    data: {
-      data: user,
-    },
+    data: user,
   });
 });
 

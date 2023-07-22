@@ -53,6 +53,7 @@ async function getById(questionId: string): Promise<Question | null> {
   const session = ravenStore.openSession();
   const id = setIdToCollectionName(COLLECTION_NAME, questionId);
   const question = await session.load<Question>(id);
+  console.log(question);
   if (question == null) throw new AppError("Question not found", 404);
   question.id = trimCollectionNameFromId(question.id);
   return question;
@@ -74,6 +75,7 @@ async function update(question: Question): Promise<Question> {
   const doc = await session.load<Question>(id);
   if (doc == null) throw new AppError("Question not found", 404);
   Object.assign(doc, question);
+  doc.isRevised = true;
   await session.saveChanges();
   const updatedQuestion = {
     ...doc,
@@ -178,8 +180,9 @@ async function _getQuestionsForUser(
     .whereEquals("userId", userId)
     .all();
 
-  userCorrectAnswersIds.forEach(answer => {
-    query.whereNotEquals("id", answer);
+  userCorrectAnswersIds.forEach(id => {
+    const idWithCollectionName = setIdToCollectionName(COLLECTION_NAME, id as unknown as string);
+    query.whereNotEquals("id()", idWithCollectionName);
   });
   return await query.all();
 }

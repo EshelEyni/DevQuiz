@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { asyncErrorCatcher } from "../../services/error.service";
 import { ravenStore } from "../../server";
-import { systemSettings } from "../../../../shared/types/system";
+import { RavenDbDocument, systemSettings } from "../../../../shared/types/system";
 
 const getSystemSettings = asyncErrorCatcher(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -38,19 +38,15 @@ const saveSiteEntry = asyncErrorCatcher(async (req: Request, res: Response, next
   const userAgent = req.headers["user-agent"] ? req.headers["user-agent"] : "unknown";
   const timestamp = new Date();
 
-  const entry: UserEntry = {
-    ip,
-    userAgent,
-    timestamp,
-  };
-
+  const doc = { ip, userAgent, timestamp } as unknown as UserEntry & RavenDbDocument;
+  doc["@metadata"] = { "@collection": "UserEntries" };
   const session = ravenStore.openSession();
-  await session.store<UserEntry>(entry, "UserEntries/");
+  await session.store<UserEntry>(doc, "UserEntries/");
   await session.saveChanges();
 
   res.status(201).json({
     status: "success",
-    data: entry,
+    data: doc,
   });
 });
 

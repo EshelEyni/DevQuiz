@@ -8,10 +8,6 @@ function getLoggedinUser(): User | null {
   return storageService.get("loggedinUser");
 }
 
-function getDefaultUserImgUrl(): string {
-  return "https://res.cloudinary.com/dng9sfzqt/image/upload/v1681677382/user-chirper_ozii7u.png";
-}
-
 async function query(): Promise<User[]> {
   try {
     const respose = await httpService.get(`user`);
@@ -75,7 +71,6 @@ export default {
   getById,
   getByUsername,
   getLoggedinUser,
-  getDefaultUserImgUrl,
   update,
   remove,
   recordUserCorrectAnswer,

@@ -1,7 +1,8 @@
 import { Question } from "../../../../shared/types/question";
 import { actionTypes } from "../actions/quiz.actions";
 const {
-  SET_QUESTIONS,
+  SET_QUIZ_QUESTIONS,
+  SET_QUIZ_QUESTION,
   SET_NEXT_QUESTION_IDX,
   SET_ANSWER_IDX,
   SET_POINTS,
@@ -37,6 +38,7 @@ export function quizReducer(
   action: {
     type: string;
     questions: Question[];
+    updatedQuestion: Question;
     answerIdx: number | null;
     points: number;
     highScore: number;
@@ -44,7 +46,7 @@ export function quizReducer(
   }
 ): QuizState {
   switch (action.type) {
-    case SET_QUESTIONS:
+    case SET_QUIZ_QUESTIONS:
       return {
         ...state,
         questions: action.questions,
@@ -53,6 +55,13 @@ export function quizReducer(
         answerIdx: null,
         points: 0,
         maxPossiblePoints: action.questions.reduce((acc, curr) => acc + curr.points, 0),
+      };
+    case SET_QUIZ_QUESTION:
+      return {
+        ...state,
+        questions: state.questions.map(question =>
+          question.id === action.updatedQuestion.id ? action.updatedQuestion : question
+        ),
       };
     case SET_NEXT_QUESTION_IDX:
       return {

@@ -33,6 +33,10 @@ export const Timer = () => {
 
   useEffect(() => {
     dispatch(setIsTimerOn(true));
+
+    return () => {
+      dispatch(setIsTimerOn(false));
+    };
   }, []);
 
   useEffect(() => {

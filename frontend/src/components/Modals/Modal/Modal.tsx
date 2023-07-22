@@ -4,6 +4,7 @@ import { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
 import { RootState } from "../../../store/store";
 import "./Modal.scss";
+import { MainScreen } from "../../Gen/MainScreen";
 
 type ModalProps = {
   children: React.ReactNode;
@@ -19,7 +20,7 @@ export const Modal = ({ children, onClickMainScreenFn, type }: ModalProps) => {
   }
   return (
     <>
-      <div className="main-screen dark" onClick={handleMainScreenClick}></div>
+      <MainScreen onClickFn={handleMainScreenClick} darkMode={true} />
       <div className={`modal ${type}`}>{children}</div>
     </>
   );

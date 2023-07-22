@@ -9,6 +9,7 @@ export interface Question {
   level: string;
   points: number;
   isArchived: boolean;
+  isRevised?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

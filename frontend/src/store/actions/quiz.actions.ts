@@ -7,7 +7,8 @@ import { actionTypes as systemActionTypes } from "./system.actions";
 const { SET_STATUS } = systemActionTypes;
 
 export const actionTypes = {
-  SET_QUESTIONS: "SET_QUESTIONS",
+  SET_QUIZ_QUESTIONS: "SET_QUESTIONS",
+  SET_QUIZ_QUESTION: "SET_QUIZ_QUESTION",
   SET_ANSWER_IDX: "SET_ANSWER_IDX",
   SET_POINTS: "SET_POINTS",
   SET_HIGH_SCORE: "SET_HIGH_SCORE",
@@ -17,7 +18,7 @@ export const actionTypes = {
 };
 
 const {
-  SET_QUESTIONS,
+  SET_QUIZ_QUESTIONS,
   SET_ANSWER_IDX,
   SET_POINTS,
   SET_HIGH_SCORE,
@@ -35,7 +36,7 @@ export function startNewQuiz({
   return async dispatch => {
     try {
       const questions = await questionService.query({ language, level, page, limit });
-      dispatch({ type: SET_QUESTIONS, questions });
+      dispatch({ type: SET_QUIZ_QUESTIONS, questions });
       dispatch({ type: SET_STATUS, status: "ready" });
     } catch (err) {
       console.log("QuizActions: err in getQuestions", err);

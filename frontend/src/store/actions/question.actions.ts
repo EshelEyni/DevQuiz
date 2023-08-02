@@ -126,12 +126,12 @@ export function updateQuestion(
 }
 
 export function archiveQuestion(
-  questionId: string
+  question: Question
 ): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
   return async dispatch => {
     try {
-      await questionService.archive(questionId);
-      dispatch({ type: REMOVE_QUESTION, questionId });
+      await questionService.archive(question);
+      dispatch({ type: REMOVE_QUESTION, question });
     } catch (err) {
       console.log("QuizActions: err in removeQuestion", err);
     }

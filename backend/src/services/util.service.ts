@@ -28,7 +28,7 @@ async function sendEmail(options: { email: string; subject: string; message: str
   });
 
   const mailOptions = {
-    from: "Fullstack Wiz <Fullstack Wiz.com>",
+    from: "DevQuiz <DevQuiz.com>",
     to: options.email,
     subject: options.subject,
     text: options.message,

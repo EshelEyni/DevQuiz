@@ -14,7 +14,7 @@ export const QuizHeader = () => {
   return (
     <Header className="quiz-header">
       <img src={img} alt="logo" />
-      <h1>The Fullstack Quiz</h1>
+      <h1>DevQuiz</h1>
     </Header>
   );
 };

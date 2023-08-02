@@ -65,9 +65,9 @@ async function update(question: Question): Promise<Question> {
   }
 }
 
-async function archive(questionId: string): Promise<Question> {
+async function archive(question: Question): Promise<Question> {
   try {
-    const archivedQuestion = await httpService.put(`question/${questionId}/archive`);
+    const archivedQuestion = await httpService.put("question/archive", question);
     return handleServerResponse<Question>(archivedQuestion);
   } catch (err) {
     console.log("Question service: err in archive", err);

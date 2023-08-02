@@ -29,7 +29,6 @@ export function questionReducer(
     type: string;
     questions: Question[];
     question: Question;
-    questionId: string;
     updatedQuestion: Question;
     filterBy: QuestionFilterBy;
     isLoading: boolean;
@@ -56,7 +55,7 @@ export function questionReducer(
     case REMOVE_QUESTION:
       return {
         ...state,
-        questions: state.questions.filter(question => question.id !== action.questionId),
+        questions: state.questions.filter(question => question.id !== action.question.id),
       };
     default:
       return state;

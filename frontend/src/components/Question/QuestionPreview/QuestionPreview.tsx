@@ -14,10 +14,8 @@ type QuestionPreviewProps = {
   bcgColor: string;
 };
 
-export const QuestionPreview: FC<QuestionPreviewProps> = ({
-  question: { id, question: questionText, options, correctOption, level, language },
-  bcgColor,
-}) => {
+export const QuestionPreview: FC<QuestionPreviewProps> = ({ question, bcgColor }) => {
+  const { id, question: questionText, options, level, language, correctOption } = question;
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   function handleBtnEditClick() {
@@ -27,7 +25,7 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
   function handleBtnArchiveClick() {
     const isConfirmed = window.confirm("Are you sure you want to archive this question?");
     if (!isConfirmed) return;
-    dispatch(archiveQuestion(id));
+    dispatch(archiveQuestion(question));
   }
   return (
     <li className="question-preview" style={{ backgroundColor: bcgColor }}>

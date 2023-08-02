@@ -1,0 +1,20 @@
+Jest
+
+1. what is sut?
+2. what is AAA?
+3. question about done callback?
+4. test properties: only, skip, todo, concurrent.
+5. test aliases: it, test, xit, fit
+5. watch mode
+6. coverage and istanbul
+7. TDD
+8. test doubles: Dummy, Fake, Stubs, Spies, mocks.
+9. the differences between spies and mocks.
+10. test styles: London, Chicago (Detroit).
+11. 
+
+
+REACT:
+1. index element.
+2. state management - when to use what
+3. 

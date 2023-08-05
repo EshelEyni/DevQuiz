@@ -40,7 +40,7 @@ export const Homepage = () => {
     return () => {
       dispatch(startNewQuiz({ language, level, page }));
     };
-  }, [language, level]);
+  }, [language, level, page]);
 
   return (
     <>

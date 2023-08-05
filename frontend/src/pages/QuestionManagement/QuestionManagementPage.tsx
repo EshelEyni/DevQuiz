@@ -29,6 +29,7 @@ export const QuestionManagementPage = () => {
         page: 1,
         limit: 1000,
         isEditPage: true,
+        isMarkedToBeRevised: true,
       })
     );
   }, []);

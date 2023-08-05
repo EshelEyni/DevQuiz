@@ -14,15 +14,16 @@ import { BtnNext } from "../../Btns/BtnNext/BtnNext";
 import "./Question.scss";
 import { BtnApproveQuestion } from "../../Btns/BtnApproveQuestion/BtnApproveQuestion";
 import { updateQuestion } from "../../../store/actions/question.actions";
+import { BtnMarkQuesitonToEdit } from "../../Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
 
 export const Question = () => {
   const dispatch: AppDispatch = useDispatch();
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
   const { questions, questionIdx, answerIdx } = useSelector((state: RootState) => state.quizModule);
   const question: TypeOfQuestion = questions[questionIdx];
-
   const isAdmin = loggedinUser?.roles.includes("admin");
-  const isQuestionRevised = question?.isRevised;
+  const isQuestionRevised = question.isMarkedToBeRevised ?? false;
+
   const navigate = useNavigate();
 
   function handleBtnEditClick() {
@@ -36,6 +37,11 @@ export const Question = () => {
     dispatch(updateQuestion(questionToApprove));
   }
 
+  function handleBtnMarkToEditClick() {
+    const questionToMarkToEdit = { ...question, isMarkedToBeRevised: !isQuestionRevised };
+    dispatch(updateQuestion(questionToMarkToEdit));
+  }
+
   return (
     <section>
       <ProgressBar />
@@ -45,11 +51,15 @@ export const Question = () => {
           <div className="question-header-btn-container">
             {isAdmin && (
               <>
+                <BtnMarkQuesitonToEdit
+                  isMarkedToBeRevised={isQuestionRevised}
+                  handleBtnMarkToEditClick={handleBtnMarkToEditClick}
+                />
                 <BtnApproveQuestion handleBtnApproveClick={handleBtnApproveClick} />
                 <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} size={24} />
               </>
             )}
-            {!isQuestionRevised && <BtnReportQuestion />}
+            {/* {!isQuestionRevised && <BtnReportQuestion />} */}
           </div>
         </div>
         <OptionList question={question} />

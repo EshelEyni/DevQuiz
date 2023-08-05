@@ -20,9 +20,17 @@ const COLLECTION_NAME = "Questions";
 async function query(queryString: QueryString): Promise<Question[]> {
   const store = asyncLocalStorage.getStore() as alStoreType;
   const loggedinUserId = store?.loggedinUserId;
-  const { language, level, isEditPage, searchTerm } = queryString;
+  const { language, level, isEditPage, searchTerm, isMarkedToBeRevised } = queryString;
+  console.log("queryString", queryString);
 
   let questions: Question[] = [];
+
+  // TODO: switch to switch case using switch (true).........
+  if (isMarkedToBeRevised) {
+    questions = await _getQuestionsMarkedToEdit();
+    for (const question of questions) question.id = trimCollectionNameFromId(question.id);
+    return questions;
+  }
 
   if (!loggedinUserId) {
     questions = await _getRandomQuestions(
@@ -200,6 +208,14 @@ async function _getQuestionsForEditPage(
   if (language) query.whereEquals("language", language);
   if (level) query.whereEquals("level", level);
   if (searchTerm) query.search("question", searchTerm);
+  return await query.all();
+}
+
+async function _getQuestionsMarkedToEdit() {
+  const session = ravenStore.openSession();
+  const query = session
+    .query<Question>({ collection: COLLECTION_NAME })
+    .whereEquals("isMarkedToBeRevised", true);
   return await query.all();
 }
 

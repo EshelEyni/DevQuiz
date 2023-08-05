@@ -12,5 +12,6 @@ export type questionReqProps = {
   limit?: number;
   searchTerm?: string;
   isEditPage?: boolean;
+  isMarkedToBeRevised?: boolean;
 };
 export type AppStatus = "loading" | "ready" | "error" | "active" | "finished";

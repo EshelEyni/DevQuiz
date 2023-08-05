@@ -48,6 +48,7 @@ export function getQuestions({
   limit = 25,
   searchTerm,
   isEditPage,
+  isMarkedToBeRevised,
 }: questionReqProps): ThunkAction<Promise<void>, RootState, undefined, AnyAction> {
   return async dispatch => {
     try {
@@ -59,6 +60,7 @@ export function getQuestions({
         limit,
         searchTerm,
         isEditPage,
+        isMarkedToBeRevised
       });
       dispatch({ type: SET_QUESTIONS, questions });
       dispatch({ type: SET_IS_LOADING, isLoading: false });

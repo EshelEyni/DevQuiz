@@ -2,12 +2,13 @@ import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Question as TypeOfQuestion } from "../../../../../shared/types/question";
-import { archiveQuestion } from "../../../store/actions/question.actions";
+import { archiveQuestion, updateQuestion } from "../../../store/actions/question.actions";
 import { AppDispatch } from "../../../store/types";
 import { caplitalizeFirstLetter } from "../../../services/utils.service";
 import { BtnQuestionEdit } from "../../Btns/BtnQuestionEdit/BtnQuestionEdit";
 import { BtnEntityArchive } from "../../Btns/BtnEntityArchive/BtnEntityArchive";
 import "./QuestionPreview.scss";
+import { BtnMarkQuesitonToEdit } from "../../Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
@@ -16,6 +17,8 @@ type QuestionPreviewProps = {
 
 export const QuestionPreview: FC<QuestionPreviewProps> = ({ question, bcgColor }) => {
   const { id, question: questionText, options, level, language, correctOption } = question;
+  const isQuestionRevised = question.isMarkedToBeRevised ?? false;
+
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   function handleBtnEditClick() {
@@ -27,6 +30,12 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({ question, bcgColor }
     if (!isConfirmed) return;
     dispatch(archiveQuestion(question));
   }
+
+  function handleBtnMarkToEditClick() {
+    const questionToMarkToEdit = { ...question, isMarkedToBeRevised: !isQuestionRevised };
+    dispatch(updateQuestion(questionToMarkToEdit));
+  }
+
   return (
     <li className="question-preview" style={{ backgroundColor: bcgColor }}>
       <div>
@@ -56,6 +65,12 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({ question, bcgColor }
           </div>
         </div>
         <div className="question-preview-btn-container">
+          <BtnMarkQuesitonToEdit
+            isMarkedToBeRevised={isQuestionRevised}
+            handleBtnMarkToEditClick={handleBtnMarkToEditClick}
+            color= "#000"
+            size={18}
+          />
           <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
           <BtnEntityArchive entity="question" handleBtnArchiveClick={handleBtnArchiveClick} />
         </div>

@@ -1,5 +1,12 @@
+@import "../../../styles/setup/variables.scss";
+@import "../../../styles/setup/mixins.scss";
+
 .management-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(150px, 1fr));
   gap: 10px;
+
+  @include for-wide-layout {
+    grid-template-columns: repeat(5, minmax(150px, 1fr));
+  }
 }

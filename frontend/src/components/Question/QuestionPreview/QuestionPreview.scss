@@ -18,6 +18,11 @@
     .question-id {
       font-size: 1.6rem;
       font-weight: 600;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
     }
   }
 
@@ -63,6 +68,6 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 }

@@ -38,7 +38,7 @@ export const BtnMarkQuesitonToEdit: FC<BtnMarkQuesitonToEditProps> = ({
           />
         )}
       </button>
-      <Tooltip id={btnId} style={{ fontSize: "12px" }} />
+      <Tooltip id={btnId} style={{ fontSize: "16px" }} />
     </>
   );
 };

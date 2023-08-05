@@ -23,9 +23,9 @@ export const BtnEntityArchive = ({
         data-tooltip-place="top"
         onClick={handleBtnArchiveClick}
       >
-        <BiArchive size={18} color={color} />
+        <BiArchive size={22} color={color} />
       </button>
-      <Tooltip id={btnId} style={{ fontSize: "12px" }} />
+      <Tooltip id={btnId} style={{ fontSize: "16px" }} />
     </>
   );
 };

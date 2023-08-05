@@ -1,28 +1,17 @@
-// .management-page {
-//   &.question {
-//     width: 100%;
+.question-data-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-//     .question-list-container {
-//       margin: 0 auto;
-//       width: 90%;
-//       .question-counter {
-//         font-size: 2.5rem;
-//         font-weight: 600;
-//         margin-bottom: 0.5rem;
-//       }
+  .percentage-of-approved-questions {
+    display: flex;
+    align-items: first baseline;
+    gap: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 600;
 
-//       .msg-container {
-//         display: flex;
-//         align-items: center;
-//         justify-content: center;
-//         margin: 20px;
-
-//         .msg-no-question-found {
-//           color: var(--color-dark);
-//           font-weight: 600;
-//           text-align: center;
-//         }
-//       }
-//     }
-//   }
-// }
+    em {
+        font-size: 2.4rem;
+    }
+  }
+}

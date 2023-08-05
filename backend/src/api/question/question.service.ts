@@ -81,7 +81,6 @@ async function update(question: Question): Promise<Question> {
   const doc = await session.load<Question>(id);
   if (doc == null) throw new AppError("Question not found", 404);
   Object.assign(doc, question);
-  doc.isRevised = true;
   await session.saveChanges();
   const updatedQuestion = {
     ...doc,

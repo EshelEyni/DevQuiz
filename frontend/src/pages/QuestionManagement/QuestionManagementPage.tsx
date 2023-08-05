@@ -20,6 +20,10 @@ export const QuestionManagementPage = () => {
   const { questions, isLoading } = useSelector((state: RootState) => state.questionModule);
   const { isContactOpen } = useSelector((state: RootState) => state.modalModule);
   const noQuestionsFound = !isLoading && questions.length === 0;
+  const approvedQuestions = questions.filter(question => question.isRevised);
+  const percentageOfApprovedQuestions = Math.round(
+    (approvedQuestions.length / questions.length) * 100
+  );
 
   useEffect(() => {
     dispatch(
@@ -45,7 +49,19 @@ export const QuestionManagementPage = () => {
             <NoResMsg title="question" />
           ) : (
             <>
-              <ManagementEntityCounter title="Questions" count={questions.length} />
+              <div className="question-data-details">
+                <div>
+                  <ManagementEntityCounter title="Questions" count={questions.length} />
+                  <ManagementEntityCounter
+                    title="Approved Questions"
+                    count={approvedQuestions.length}
+                  />
+                </div>
+                <p className="percentage-of-approved-questions">
+                  <em>{percentageOfApprovedQuestions}%</em>
+                  of the questions have been approved.
+                </p>
+              </div>
               <ManagementEntityList entities={questions} />
             </>
           )}

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import express from "express";
 import helmet from "helmet";
 import ExpressMongoSanitize from "express-mongo-sanitize";
-import requestSanitizer from "./middlewares/html-sanitizer.middleware";
+// import requestSanitizer from "./middlewares/html-sanitizer.middleware";
 import hpp from "hpp";
 import path from "path";
 import cookieParser from "cookie-parser";
@@ -29,7 +29,7 @@ app.use(
 
 app.use(requestLimiter);
 app.use(ExpressMongoSanitize());
-app.use(requestSanitizer);
+// app.use(requestSanitizer);
 app.use(
   hpp({
     whitelist: [], // add whitelisted query params here

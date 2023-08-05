@@ -61,6 +61,7 @@ async function add(question: Question): Promise<Question> {
 
 async function update(question: Question): Promise<Question> {
   try {
+    console.log("question in update", question);
     const updatedQuestion = await httpService.put(`question`, question);
     return handleServerResponse<Question>(updatedQuestion);
   } catch (err) {

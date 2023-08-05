@@ -21,7 +21,6 @@ async function query(queryString: QueryString): Promise<Question[]> {
   const store = asyncLocalStorage.getStore() as alStoreType;
   const loggedinUserId = store?.loggedinUserId;
   const { language, level, isEditPage, searchTerm, isMarkedToBeRevised } = queryString;
-  console.log("queryString", queryString);
 
   let questions: Question[] = [];
 
@@ -61,7 +60,6 @@ async function getById(questionId: string): Promise<Question | null> {
   const session = ravenStore.openSession();
   const id = setIdToCollectionName(COLLECTION_NAME, questionId);
   const question = await session.load<Question>(id);
-  console.log(question);
   if (question == null) throw new AppError("Question not found", 404);
   question.id = trimCollectionNameFromId(question.id);
   return question;

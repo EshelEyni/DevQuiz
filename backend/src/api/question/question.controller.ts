@@ -37,8 +37,8 @@ const addQuestion = asyncErrorCatcher(async (req, res, next) => {
 
 const updateQuestion = asyncErrorCatcher(async (req, res, next) => {
   const questionToUpdate = req.body;
+  console.log("questionToUpdate", questionToUpdate.options);
   const question = await questionService.update(questionToUpdate);
-
   res.status(200).json({
     status: "success",
     data: question,

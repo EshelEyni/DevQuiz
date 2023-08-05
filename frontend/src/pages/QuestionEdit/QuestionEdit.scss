@@ -27,6 +27,9 @@
       font-size: 1.75em;
       width: 100%;
     }
+    textarea {
+      font-family: var(--font-primary);
+    }
 
     input,
     textarea {

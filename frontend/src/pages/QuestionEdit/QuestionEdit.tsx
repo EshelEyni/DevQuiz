@@ -11,7 +11,6 @@ import { Loader } from "../../components/Loaders/Loader/Loader";
 import { QuestionEditForm } from "../../components/Form/QuestionEditForm/QuestionEditForm";
 import { MainScreen } from "../../components/Gen/MainScreen";
 import { QuestionEditHeader } from "../../components/Question/QuestionEditHeader/QuestionEditHeader";
-import { copyToClipboard } from "../../services/utils.service";
 
 export const QuestionEdit = () => {
   const params = useParams();
@@ -62,20 +61,6 @@ export const QuestionEdit = () => {
     dispatch(setIsTimerOn(true));
   }
 
-  function onCopyQuestion() {
-    const stringifiedQuestion = Object.entries(question!).reduce((acc, [key, value]) => {
-      if (key === "options") {
-        const options = (value as string[]).map(
-          (option, index) => `Option ${index + 1}: ${option}`
-        );
-        return acc + options.join("\n") + "\n";
-      }
-      return acc + `${key}: ${value}\n`;
-    }, "");
-
-    copyToClipboard(stringifiedQuestion);
-  }
-
   useEffect(() => {
     const { id } = params;
     if (id) fetchQuestion(id);
@@ -85,16 +70,18 @@ export const QuestionEdit = () => {
     <>
       <MainScreen onClickFn={onGoBack} darkMode={true} />
       <div className="question-edit">
-        <QuestionEditHeader handleBtnCopyQuestionClick={onCopyQuestion} />
         {isLoading ? (
           <Loader />
         ) : (
-          <QuestionEditForm
-            question={question!}
-            handleChange={handleChange}
-            handleChangeTextArea={handleChangeTextArea}
-            handleSubmit={handleSubmit}
-          />
+          <>
+            <QuestionEditHeader question={question!} />
+            <QuestionEditForm
+              question={question!}
+              handleChange={handleChange}
+              handleChangeTextArea={handleChangeTextArea}
+              handleSubmit={handleSubmit}
+            />
+          </>
         )}
       </div>
     </>

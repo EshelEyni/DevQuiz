@@ -9,6 +9,8 @@ import { BtnQuestionEdit } from "../../Btns/BtnQuestionEdit/BtnQuestionEdit";
 import { BtnEntityArchive } from "../../Btns/BtnEntityArchive/BtnEntityArchive";
 import "./QuestionPreview.scss";
 import { BtnMarkQuesitonToEdit } from "../../Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
+import { BtnApproveQuestion } from "../../Btns/BtnApproveQuestion/BtnApproveQuestion";
+import { GiCheckMark } from "react-icons/gi";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
@@ -36,10 +38,19 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({ question, bcgColor }
     dispatch(updateQuestion(questionToMarkToEdit));
   }
 
+  function handleBtnApproveClick() {
+    const questionToApprove = { ...question, isRevised: true };
+    console.log(questionToApprove);
+    dispatch(updateQuestion(questionToApprove));
+  }
+
   return (
     <li className="question-preview" style={{ backgroundColor: bcgColor }}>
       <div>
-        <p className="question-id">Id: {id}</p>
+        <header>
+          <p className="question-id">Id: {id}</p>
+          {question.isRevised && <GiCheckMark size={24} color="#1d9bf0" />}
+        </header>
         <div className="question-preview-question">{questionText}</div>
         <div className="question-preview-options">
           {options.map((option, index) => (
@@ -68,11 +79,16 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({ question, bcgColor }
           <BtnMarkQuesitonToEdit
             isMarkedToBeRevised={isQuestionRevised}
             handleBtnMarkToEditClick={handleBtnMarkToEditClick}
-            color= "#000"
+            color="#000"
             size={18}
           />
           <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
           <BtnEntityArchive entity="question" handleBtnArchiveClick={handleBtnArchiveClick} />
+          <BtnApproveQuestion
+            handleBtnApproveClick={handleBtnApproveClick}
+            color="#000"
+            size={18}
+          />
         </div>
       </div>
     </li>

@@ -8,12 +8,17 @@
   overflow: auto;
   padding: 2rem;
 
-  .question-id {
-    font-size: 1.6rem;
-    font-weight: 600;
-    width: 100%;
-    text-align: center;
+  header {
     margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+
+    .question-id {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
   }
 
   .question-preview-question {

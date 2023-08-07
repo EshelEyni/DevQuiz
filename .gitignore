@@ -86,3 +86,6 @@ dist
 # Config files with sensitive information
 /backend/data
 /backend/.env
+
+# text files
+/question-to-add

@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { LanguageInfo } from "../../../../../shared/types/system";
 import { Header } from "../../Gen/Header";
-import "./QuizHeader.scss";
 
 export const QuizHeader = () => {
   const { language } = useSelector((state: RootState) => state.systemModule);
@@ -12,8 +11,8 @@ export const QuizHeader = () => {
   const { img } = currLanguage;
 
   return (
-    <Header className="quiz-header">
-      <img src={img} alt="logo" />
+    <Header className="mb-16 mt-8 flex w-[62rem] items-center justify-between">
+      <img src={img} alt="logo" className="h-56 w-56" />
       <h1>DevQuiz</h1>
     </Header>
   );

@@ -9,9 +9,9 @@ import { BtnContact } from "../../Btns/BtContact/BtnContact";
 import { BtnAuth } from "../../Btns/BtnAuth/BtnAuth";
 import { BtnLink } from "../../Btns/BtnLink/BtnLink";
 import { Header } from "../../Gen/Header";
-import "./AppHeader.scss";
 import { setSecondsPerQuestion } from "../../../store/actions/system.actions";
 import { AppDispatch } from "../../../store/types";
+import { VerticalLine } from "../VerticalLine";
 
 export const AppHeader = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -33,9 +33,9 @@ export const AppHeader = () => {
 
   useEffect(() => {}, [isTimerOn]);
   return (
-    <Header className="app-header">
+    <Header className="flex w-full items-center justify-between bg-indigo-900 px-8 py-6">
       {isHomepage ? (
-        <div className="inputs-container">
+        <div className="flex w-3/5 items-start justify-between">
           <LanguageDropdown />
           <LevelDropdown />
           {!isTimerOn && (
@@ -48,23 +48,23 @@ export const AppHeader = () => {
           )}
         </div>
       ) : (
-        <div className="btn-navigation-container">
+        <div className="flex items-center gap-2">
           <BtnLink path="/" title="Homepage" />
-          <div className="vertical" />
+          <VerticalLine height="12" />
           {isQuestionEditLinkShown && (
             <BtnLink path="/question-management" title="question editor" />
           )}
-          <div className="vertical" />
+          <VerticalLine height="12" />
           {isUserAdmin && <BtnLink path="/user-management" title="user mamagement" />}
-          <div className="vertical" />
+          <VerticalLine height="12" />
           {isUserAdmin && <BtnLink path="/contact-management" title="contact mamagement" />}
         </div>
       )}
-      <div className="btns-container">
+      <div className="flex items-center gap-2">
         <BtnLink path="/about" title="About" />
-        <div className="vertical" />
+        <VerticalLine height="12" />
         <BtnContact />
-        <div className="vertical" />
+        <VerticalLine height="12" />
         <BtnAuth />
       </div>
     </Header>

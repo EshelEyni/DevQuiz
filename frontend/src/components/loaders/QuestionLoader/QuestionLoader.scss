@@ -1,12 +1,12 @@
 @import "./QuestionLoaderService.scss";
 
-.loader-container {
+.question-loader-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 250px;
 
-  .container {
+  .question-loader-inner-container {
     position: relative;
     height: 120px;
     display: flex;

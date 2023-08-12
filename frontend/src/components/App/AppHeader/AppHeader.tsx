@@ -33,7 +33,7 @@ export const AppHeader = () => {
 
   useEffect(() => {}, [isTimerOn]);
   return (
-    <Header className="flex w-full items-center justify-between bg-indigo-900 px-8 py-6">
+    <Header className="flex w-full items-center justify-between bg-indigo-800 px-8 py-6">
       {isHomepage ? (
         <div className="flex w-3/5 items-start justify-between">
           <LanguageDropdown />

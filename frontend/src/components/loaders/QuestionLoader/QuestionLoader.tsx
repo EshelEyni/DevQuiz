@@ -4,8 +4,8 @@ import { brightColors } from "../../../services/utils.service";
 
 export const QuestionLoader = () => {
   return (
-    <div className="loader-container">
-      <div className="container">
+    <div className="question-loader-container">
+      <div className="question-loader-inner-container">
         <span className="maginifying-glass-handle"></span>
         <div className="center">
           <div className="wrap">

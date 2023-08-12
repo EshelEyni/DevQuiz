@@ -7,9 +7,9 @@ import { LevelDropdown } from "../../Dropdown/LevelDropdown/LevelDropdown";
 import { QuestionSearchInput } from "../QuestionSearchInput/QuestionSearchInput";
 import { getDuplicatedQuestions, getQuestions } from "../../../store/actions/question.actions";
 import { BtnQuestionSearch } from "../../Btns/BtnQuestionSearch/BtnQuestionSearch";
-import { BtnIncludeAllLevel } from "../../Btns/BtnIncludeAllLevels/BtnIncludeAllLevel";
-import { BtnGetDuplicates } from "../../Btns/BtnGetDuplicates/BtnGetDuplicates";
-import "./QuestionSearchBar.scss";
+import { BtnWithLabel } from "../../Btns/BtnWithLabel/BtnWithLabel";
+import { CheckBox } from "../../App/CheckBox/CheckBox";
+import { HiDocumentDuplicate } from "react-icons/hi";
 
 export const QuestionSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -25,8 +25,12 @@ export const QuestionSearchBar = () => {
         page: 1,
         searchTerm: searchTerm,
         isEditPage: true,
-      })
+      }),
     );
+  }
+
+  function handleBtnIncludeAllLevelClick() {
+    setIncludeAllLevel(!includeAllLevel);
   }
 
   function handleBtnGetDuplicatesClick() {
@@ -35,16 +39,17 @@ export const QuestionSearchBar = () => {
   }
 
   return (
-    <div className="question-search-bar">
-      <div className="question-search-bar-input-container">
+    <div className="flex h-32 w-full items-center justify-between border-b border-indigo-300 bg-indigo-800 px-20">
+      <div className="flex items-center justify-center gap-3">
         <LanguageDropdown isAdminPage={true} />
         <LevelDropdown isAdminPage={true} />
         <QuestionSearchInput />
-        <BtnIncludeAllLevel
-          includeAllLevel={includeAllLevel}
-          setIncludeAllLevel={setIncludeAllLevel}
-        />
-        <BtnGetDuplicates handleBtnGetDuplicatesClick={handleBtnGetDuplicatesClick} />
+        <BtnWithLabel label="Include all levels" onClickFunc={handleBtnIncludeAllLevelClick}>
+          <CheckBox checked={includeAllLevel} />
+        </BtnWithLabel>
+        <BtnWithLabel label="Get Duplicates" onClickFunc={handleBtnGetDuplicatesClick}>
+          <HiDocumentDuplicate size={38} color="white" />
+        </BtnWithLabel>
       </div>
 
       <BtnQuestionSearch handleBtnSearchClick={handleBtnSearchClick} />

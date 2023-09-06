@@ -6,9 +6,6 @@ import { Outlet } from "react-router-dom";
 import { QuestionSearchBar } from "../../components/Input/QuestionSearchBar/QuestionSearchBar";
 import { getQuestions } from "../../store/actions/question.actions";
 import { useEffect } from "react";
-import { ContactModal } from "../../components/Modals/ContactModal/ContactModal";
-import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
-import { Modal } from "../../components/Modals/Modal/Modal";
 import "./QuestionManagementPage.scss";
 import { QuestionLoader } from "../../components/Loaders/QuestionLoader/QuestionLoader";
 import { NoResMsg } from "../../components/Msg/NoResMsg/NoResMsg";
@@ -17,12 +14,13 @@ import { ManagementEntityCounter } from "../../components/Management/ManagementE
 
 export const QuestionManagementPage = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { questions, isLoading } = useSelector((state: RootState) => state.questionModule);
-  const { isContactOpen } = useSelector((state: RootState) => state.modalModule);
+  const { questions, isLoading } = useSelector(
+    (state: RootState) => state.questionModule,
+  );
   const noQuestionsFound = !isLoading && questions.length === 0;
   const approvedQuestions = questions.filter(question => question.isRevised);
   const percentageOfApprovedQuestions = Math.round(
-    (approvedQuestions.length / questions.length) * 100
+    (approvedQuestions.length / questions.length) * 100,
   );
 
   useEffect(() => {
@@ -34,7 +32,7 @@ export const QuestionManagementPage = () => {
         limit: 1000,
         isEditPage: true,
         isMarkedToBeRevised: true,
-      })
+      }),
     );
   }, []);
 
@@ -51,7 +49,10 @@ export const QuestionManagementPage = () => {
             <>
               <div className="question-data-details">
                 <div>
-                  <ManagementEntityCounter title="Questions" count={questions.length} />
+                  <ManagementEntityCounter
+                    title="Questions"
+                    count={questions.length}
+                  />
                   <ManagementEntityCounter
                     title="Approved Questions"
                     count={approvedQuestions.length}
@@ -68,11 +69,6 @@ export const QuestionManagementPage = () => {
         </ManagementEntityListContainer>
       )}
       <Outlet />
-      {isContactOpen && (
-        <Modal onClickMainScreenFn={toggleIsContactModalOpen}>
-          <ContactModal />
-        </Modal>
-      )}
     </main>
   );
 };

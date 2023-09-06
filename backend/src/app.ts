@@ -14,7 +14,6 @@ import userRoutes from "./api/user/user.routes";
 import authRoutes from "./api/auth/auth.routes";
 import questionRoutes from "./api/question/question.routes";
 import systemRoutes from "./api/system/system.routes";
-import contactRoutes from "./api/contact/contact.routes";
 import { requestLimiter } from "./services/rate-limiter.service";
 
 const app = express();
@@ -62,7 +61,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/system", systemRoutes);
-app.use("/api/contact", contactRoutes);
 
 app.get("/**", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));

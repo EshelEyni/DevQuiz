@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { LanguageDropdown } from "../../Dropdown/LanguageDropdown/LanguageDropdown";
 import { LevelDropdown } from "../../Dropdown/LevelDropdown/LevelDropdown";
 import { InputNumber } from "../../Input/InputNumber/InputNumber";
-import { BtnContact } from "../../Btns/BtContact/BtnContact";
 import { BtnAuth } from "../../Btns/BtnAuth/BtnAuth";
 import { BtnLink } from "../../Btns/BtnLink/BtnLink";
 import { Header } from "../../Gen/Header";
@@ -17,11 +16,15 @@ export const AppHeader = () => {
   const dispatch: AppDispatch = useDispatch();
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
   const { isTimerOn } = useSelector((state: RootState) => state.quizModule);
-  const { secondsPerQuestion } = useSelector((state: RootState) => state.systemModule);
+  const { secondsPerQuestion } = useSelector(
+    (state: RootState) => state.systemModule,
+  );
   const isQuestionEditLinkShown =
-    loggedinUser && loggedinUser?.roles.some(role => role === "admin" || role === "editor");
+    loggedinUser &&
+    loggedinUser?.roles.some(role => role === "admin" || role === "editor");
 
-  const isUserAdmin = loggedinUser && loggedinUser?.roles.some(role => role === "admin");
+  const isUserAdmin =
+    loggedinUser && loggedinUser?.roles.some(role => role === "admin");
 
   const location = useLocation();
   const isHomepage = location.pathname === "/";
@@ -55,15 +58,17 @@ export const AppHeader = () => {
             <BtnLink path="/question-management" title="question editor" />
           )}
           <VerticalLine height="12" />
-          {isUserAdmin && <BtnLink path="/user-management" title="user mamagement" />}
+          {isUserAdmin && (
+            <BtnLink path="/user-management" title="user mamagement" />
+          )}
           <VerticalLine height="12" />
-          {isUserAdmin && <BtnLink path="/contact-management" title="contact mamagement" />}
+          {isUserAdmin && (
+            <BtnLink path="/contact-management" title="contact mamagement" />
+          )}
         </div>
       )}
       <div className="flex items-center gap-2">
         <BtnLink path="/about" title="About" />
-        <VerticalLine height="12" />
-        <BtnContact />
         <VerticalLine height="12" />
         <BtnAuth />
       </div>

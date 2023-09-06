@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.select-container {
+  @apply flex h-20 w-full items-center justify-between;
+}
+
+.select-wrapper {
+  @apply relative w-11/12;
+}
+
+.select-wrapper::after {
+  content: "\25BC";
+  @apply absolute right-5 top-1/2 -translate-y-1/2 transform text-2xl font-medium;
+  pointer-events: none;
+}
+
+.select {
+  @apply block h-20 w-full min-w-[150px] cursor-pointer rounded-full border-2 border-indigo-800 
+            bg-indigo-700 px-8 py-4 text-3xl leading-5 outline-none transition-all duration-300;
+  appearance: none;
+}
+
+option {
+  @apply px-8 text-4xl leading-10 hover:bg-red-900;
+  appearance: none;
+}

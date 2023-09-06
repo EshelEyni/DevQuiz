@@ -4,9 +4,6 @@ import { AppDispatch } from "../../store/types";
 import { getUsers } from "../../store/actions/user.actions";
 import { RootState } from "../../store/store";
 import { Loader } from "../../components/Loaders/Loader/Loader";
-import { Modal } from "../../components/Modals/Modal/Modal";
-import { ContactModal } from "../../components/Modals/ContactModal/ContactModal";
-import { toggleIsContactModalOpen } from "../../store/actions/modal.actions";
 import { NoResMsg } from "../../components/Msg/NoResMsg/NoResMsg";
 import { ManagementEntityListContainer } from "../../components/Management/ManagementEntityListContainer/ManagementEntityListContainer";
 import { ManagementEntityCounter } from "../../components/Management/ManagementEntityCounter/ManagementEntityCounter";
@@ -14,8 +11,10 @@ import { ManagementEntityList } from "../../components/Management/ManagementEnti
 
 export const UserManagementPage = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { users, isLoading } = useSelector((state: RootState) => state.userModule);
-  const { isContactOpen } = useSelector((state: RootState) => state.modalModule);
+  const { users, isLoading } = useSelector(
+    (state: RootState) => state.userModule,
+  );
+
   const noUsersFound = !isLoading && users.length === 0;
 
   useEffect(() => {
@@ -37,11 +36,6 @@ export const UserManagementPage = () => {
             </>
           )}
         </ManagementEntityListContainer>
-      )}
-      {isContactOpen && (
-        <Modal onClickMainScreenFn={toggleIsContactModalOpen}>
-          <ContactModal />
-        </Modal>
       )}
     </main>
   );

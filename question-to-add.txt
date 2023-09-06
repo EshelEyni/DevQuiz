@@ -11,12 +11,23 @@ Jest
 8. test doubles: Dummy, Fake, Stubs, Spies, mocks.
 9. the differences between spies and mocks.
 10. test styles: London, Chicago (Detroit).
-11. 
+11. what is stub
 
 
 REACT:
 1. index element.
-2. state management - when to use what
+2. state management - when to use what - redux,contex,state
 3. why when you pass children into a cmp, and change the state 
 of the cmp the children are not rerendering
 4. what is thunk?
+5. compound pattern
+6. render pattern.
+
+JAVASCRIPT:
+1. Generator Function
+
+TYPESCRIPT:
+1. TUPLE Type
+2. differences between:  any, unknown, and never.
+3. complier options.
+4.

@@ -5,7 +5,6 @@ import { setIsTimerOn } from "../../../store/actions/quiz.actions";
 import { RootState } from "../../../store/store";
 import { Question as TypeOfQuestion } from "../../../../../shared/types/question";
 import { OptionList } from "../../Option/OptionList/OptionList";
-import { BtnReportQuestion } from "../../Btns/BtnReportQuestion/BtnReportQuestion";
 import { BtnQuestionEdit } from "../../Btns/BtnQuestionEdit/BtnQuestionEdit";
 import { Footer } from "../../Gen/Footer";
 import { ProgressBar } from "../../Quiz/ProgressBar/ProgressBar";
@@ -19,7 +18,9 @@ import { BtnMarkQuesitonToEdit } from "../../Btns/BtnMarkQuesitonToEdit/BtnMarkQ
 export const Question = () => {
   const dispatch: AppDispatch = useDispatch();
   const { loggedinUser } = useSelector((state: RootState) => state.authModule);
-  const { questions, questionIdx, answerIdx } = useSelector((state: RootState) => state.quizModule);
+  const { questions, questionIdx, answerIdx } = useSelector(
+    (state: RootState) => state.quizModule,
+  );
   const question: TypeOfQuestion = questions[questionIdx];
   const isAdmin = loggedinUser?.roles.includes("admin");
   const isQuestionRevised = question.isMarkedToBeRevised ?? false;
@@ -38,7 +39,10 @@ export const Question = () => {
   }
 
   function handleBtnMarkToEditClick() {
-    const questionToMarkToEdit = { ...question, isMarkedToBeRevised: !isQuestionRevised };
+    const questionToMarkToEdit = {
+      ...question,
+      isMarkedToBeRevised: !isQuestionRevised,
+    };
     dispatch(updateQuestion(questionToMarkToEdit));
   }
 
@@ -55,11 +59,15 @@ export const Question = () => {
                   isMarkedToBeRevised={isQuestionRevised}
                   handleBtnMarkToEditClick={handleBtnMarkToEditClick}
                 />
-                <BtnApproveQuestion handleBtnApproveClick={handleBtnApproveClick} />
-                <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} size={24} />
+                <BtnApproveQuestion
+                  handleBtnApproveClick={handleBtnApproveClick}
+                />
+                <BtnQuestionEdit
+                  handleBtnEditClick={handleBtnEditClick}
+                  size={24}
+                />
               </>
             )}
-            {/* {!isQuestionRevised && <BtnReportQuestion />} */}
           </div>
         </div>
         <OptionList question={question} />

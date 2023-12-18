@@ -1,3 +1,5 @@
+go through udemy courses and search for questions.
+
 Jest
 
 1. what is sut?
@@ -30,4 +32,24 @@ TYPESCRIPT:
 1. TUPLE Type
 2. differences between:  any, unknown, and never.
 3. complier options.
-4.
+4. when use enum when literal type
+
+MongoDB:
+1. types of indexes
+2.
+
+HTML and CSS:
+1. put question on all html tags
+2. difference between display types: block, iniline, iniline-block....
+3. difference between positions: static, absolute....
+4. the flex property. understand basis, grow and shrink well
+5. 
+
+
+PWA 
+1. what is service worker?
+2. 
+
+sccs
+1. what is 7-1 arhitechture of sass file in proj?
+2. 

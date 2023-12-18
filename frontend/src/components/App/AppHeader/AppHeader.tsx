@@ -10,7 +10,6 @@ import { BtnLink } from "../../Btns/BtnLink/BtnLink";
 import { Header } from "../../Gen/Header";
 import { setSecondsPerQuestion } from "../../../store/actions/system.actions";
 import { AppDispatch } from "../../../store/types";
-import { VerticalLine } from "../VerticalLine";
 
 export const AppHeader = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -53,23 +52,16 @@ export const AppHeader = () => {
       ) : (
         <div className="flex items-center gap-2">
           <BtnLink path="/" title="Homepage" />
-          <VerticalLine height="12" />
           {isQuestionEditLinkShown && (
             <BtnLink path="/question-management" title="question editor" />
           )}
-          <VerticalLine height="12" />
           {isUserAdmin && (
             <BtnLink path="/user-management" title="user mamagement" />
-          )}
-          <VerticalLine height="12" />
-          {isUserAdmin && (
-            <BtnLink path="/contact-management" title="contact mamagement" />
           )}
         </div>
       )}
       <div className="flex items-center gap-2">
         <BtnLink path="/about" title="About" />
-        <VerticalLine height="12" />
         <BtnAuth />
       </div>
     </Header>

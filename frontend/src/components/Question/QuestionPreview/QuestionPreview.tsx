@@ -2,9 +2,11 @@ import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Question as TypeOfQuestion } from "../../../../../shared/types/question";
-import { archiveQuestion, updateQuestion } from "../../../store/actions/question.actions";
 import { AppDispatch } from "../../../store/types";
-import { caplitalizeFirstLetter, copyToClipboard } from "../../../services/utils.service";
+import {
+  caplitalizeFirstLetter,
+  copyToClipboard,
+} from "../../../services/utils.service";
 import { BtnQuestionEdit } from "../../Btns/BtnQuestionEdit/BtnQuestionEdit";
 import { BtnEntityArchive } from "../../Btns/BtnEntityArchive/BtnEntityArchive";
 import "./QuestionPreview.scss";
@@ -12,14 +14,28 @@ import { BtnApproveQuestion } from "../../Btns/BtnApproveQuestion/BtnApproveQues
 import { GiCheckMark } from "react-icons/gi";
 import { BtnCopyQuestion } from "../../Btns/BtnCopyQuestion/BtnCopyQuestion";
 import { BtnMarkQuesitonToEdit } from "../../Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
+import {
+  removeQuestion,
+  updateQuestion,
+} from "../../../store/slices/questionSlice";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
   bcgColor: string;
 };
 
-export const QuestionPreview: FC<QuestionPreviewProps> = ({ question, bcgColor }) => {
-  const { id, question: questionText, options, level, language, correctOption } = question;
+export const QuestionPreview: FC<QuestionPreviewProps> = ({
+  question,
+  bcgColor,
+}) => {
+  const {
+    id,
+    question: questionText,
+    options,
+    level,
+    language,
+    correctOption,
+  } = question;
   const isQuestionRevised = question.isMarkedToBeRevised ?? false;
 
   const dispatch: AppDispatch = useDispatch();
@@ -29,20 +45,27 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({ question, bcgColor }
   }
 
   function handleBtnArchiveClick() {
-    const isConfirmed = window.confirm("Are you sure you want to archive this question?");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to archive this question?",
+    );
     if (!isConfirmed) return;
-    dispatch(archiveQuestion(question));
+    dispatch(removeQuestion(question));
   }
 
   function handleBtnApproveClick() {
-    const isConfirmed = window.confirm("Are you sure you want to approve this question?");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to approve this question?",
+    );
     if (!isConfirmed) return;
     const questionToApprove = { ...question, isRevised: true };
     dispatch(updateQuestion(questionToApprove));
   }
 
   function handleBtnMarkToEditClick() {
-    const questionToMarkToEdit = { ...question, isMarkedToBeRevised: !isQuestionRevised };
+    const questionToMarkToEdit = {
+      ...question,
+      isMarkedToBeRevised: !isQuestionRevised,
+    };
     dispatch(updateQuestion(questionToMarkToEdit));
   }
 
@@ -84,7 +107,10 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({ question, bcgColor }
           </div>
         </div>
         <div className="question-preview-btn-container">
-          <BtnEntityArchive entity="question" handleBtnArchiveClick={handleBtnArchiveClick} />
+          <BtnEntityArchive
+            entity="question"
+            handleBtnArchiveClick={handleBtnArchiveClick}
+          />
           <BtnMarkQuesitonToEdit
             isMarkedToBeRevised={isQuestionRevised}
             handleBtnMarkToEditClick={handleBtnMarkToEditClick}

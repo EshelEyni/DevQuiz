@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/types";
 import { Loader } from "../../components/Loaders/Loader/Loader";
 import { Error } from "../../components/Msg/Error/Error";
@@ -9,13 +8,13 @@ import { FinishScreen } from "../../components/Screens/FinishScreen/FinishScreen
 import { QuizHeader } from "../../components/Quiz/QuizHeader/QuizHeader";
 import { Main } from "../../components/Gen/Main";
 import { useEffect } from "react";
-import { startNewQuiz } from "../../store/actions/quiz.actions";
-import { ModalContainer } from "../../components/Modals/ModalContainer/ModalContainer";
 import { Outlet } from "react-router-dom";
+import { useQuiz } from "../../hooks/useQuiz";
+import { startNewQuiz } from "../../store/slices/quizSlice";
 
 export const Homepage = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { status, language, level, page } = useSelector((state: RootState) => state.systemModule);
+  const { status, language, level, page } = useQuiz();
 
   function renderSwitch(status: string) {
     switch (status) {
@@ -40,14 +39,13 @@ export const Homepage = () => {
     return () => {
       dispatch(startNewQuiz({ language, level, page }));
     };
-  }, [language, level, page]);
+  }, [language, level, page, dispatch]);
 
   return (
     <>
       <QuizHeader />
       <Main>{renderSwitch(status)}</Main>
       <Outlet />
-      <ModalContainer />
     </>
   );
 };

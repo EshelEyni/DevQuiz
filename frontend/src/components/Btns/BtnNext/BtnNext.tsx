@@ -1,12 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/types";
-import { RootState } from "../../../store/store";
 import { useKey } from "react-use";
+import {
+  setHighScore,
+  setNextQuestionIdx,
+  setStatus,
+} from "../../../store/slices/quizSlice";
+import { useQuiz } from "../../../hooks/useQuiz";
 
 export const BtnNext = () => {
-  const { questionIdx, numQuestions, points, highScore } = useSelector(
-    (state: RootState) => state.quizModule
-  );
+  const { questionIdx, numQuestions, points, highScore } = useQuiz();
   const dispatch: AppDispatch = useDispatch();
   const isValidQuestionIdx = questionIdx >= 0 && questionIdx < numQuestions - 1;
   const isLastQuestionIdx = questionIdx === numQuestions - 1;
@@ -14,13 +17,13 @@ export const BtnNext = () => {
   useKey("Enter", handleEnterClick);
 
   function handleNextClick() {
-    dispatch({ type: "SET_NEXT_QUESTION_IDX" });
+    dispatch(setNextQuestionIdx());
   }
 
   function handleFinishClick() {
-    dispatch({ type: "SET_STATUS", status: "finished" });
+    dispatch(setStatus("finished"));
     const isHighScore = points > highScore;
-    if (isHighScore) dispatch({ type: "SET_HIGH_SCORE", highScore: points });
+    if (isHighScore) dispatch(setHighScore(points));
   }
 
   function handleEnterClick() {

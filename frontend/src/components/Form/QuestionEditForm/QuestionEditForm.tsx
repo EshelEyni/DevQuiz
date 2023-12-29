@@ -1,13 +1,13 @@
 import React from "react";
 import { Question as TypeOfQuestion } from "../../../../../shared/types/question";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
-import { systemSettings } from "../../../../../shared/types/system";
 import { caplitalizeFirstLetter } from "../../../services/utils.service";
+import { systemSettings } from "../../../config";
 
 type QuestionEditFormProps = {
   question: TypeOfQuestion;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
   handleChangeTextArea: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (event: React.ChangeEvent<HTMLFormElement>) => void;
 };
@@ -18,14 +18,18 @@ export const QuestionEditForm = ({
   handleChangeTextArea,
   handleSubmit,
 }: QuestionEditFormProps) => {
-  const { systemSettings } = useSelector((state: RootState) => state.systemModule);
-  const { programmingLanguages, difficultyLevels } = systemSettings as systemSettings;
+  const { programmingLanguages, difficultyLevels } = systemSettings;
 
   return (
     <form onSubmit={handleSubmit}>
       <label>
         Language:
-        <select name="language" value={question.language} onChange={handleChange} required>
+        <select
+          name="language"
+          value={question.language}
+          onChange={handleChange}
+          required
+        >
           {Object.keys(programmingLanguages).map((lang: string) => (
             <option key={lang} value={lang}>
               {lang}
@@ -69,7 +73,12 @@ export const QuestionEditForm = ({
       </label>
       <label>
         Level:
-        <select name="level" value={question.level} onChange={handleChange} required>
+        <select
+          name="level"
+          value={question.level}
+          onChange={handleChange}
+          required
+        >
           {difficultyLevels.map((level: string) => (
             <option key={level} value={level}>
               {caplitalizeFirstLetter(level)}

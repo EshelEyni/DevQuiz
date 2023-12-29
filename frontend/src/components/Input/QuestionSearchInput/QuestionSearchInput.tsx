@@ -1,12 +1,12 @@
 import React from "react";
-import { RootState } from "../../../store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/types";
-import { setFilter } from "../../../store/actions/question.actions";
 import "./QuestionSearchInput.scss";
+import { useQuestion } from "../../../hooks/useQuestion";
+import { setFilter } from "../../../store/slices/questionSlice";
 
 export const QuestionSearchInput = () => {
-  const { filterBy } = useSelector((state: RootState) => state.questionModule);
+  const { filterBy } = useQuestion();
   const { searchTerm } = filterBy;
   const dispatch: AppDispatch = useDispatch();
 

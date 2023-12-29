@@ -4,19 +4,15 @@ import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { AppDispatch } from "./store/types";
-import { autoLogin } from "./store/actions/auth.actions";
-import { getSystemSettings } from "./store/actions/system.actions";
 import { AppFooter } from "./components/App/AppFooter/AppFooter";
-import systemService from "./services/system.service";
+import { loginWithToken } from "./store/slices/authSlice";
 
 export const App = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    systemService.saveSiteEntry();
-    dispatch(getSystemSettings());
-    dispatch(autoLogin());
-  }, []);
+    dispatch(loginWithToken());
+  }, [dispatch]);
 
   return (
     <div className="app">
@@ -25,7 +21,11 @@ export const App = () => {
         {routes.map((route, index) => (
           <Route key={index} path={route.path} element={<route.component />}>
             {route.nestedRoutes?.map((nestedRoute, index) => (
-              <Route key={index} path={nestedRoute.path} element={<nestedRoute.component />} />
+              <Route
+                key={index}
+                path={nestedRoute.path}
+                element={<nestedRoute.component />}
+              />
             ))}
           </Route>
         ))}

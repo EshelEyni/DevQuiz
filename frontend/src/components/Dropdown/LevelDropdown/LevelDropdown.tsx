@@ -1,14 +1,12 @@
 import { ChangeEvent } from "react";
 import { AppDispatch } from "../../../store/types";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
-import {
-  DifficultyLevels as TypeOfDifficultyLevels,
-  systemSettings,
-} from "../../../../../shared/types/system";
-import { setLevel } from "../../../store/actions/system.actions";
+import { useDispatch } from "react-redux";
+import { DifficultyLevels as TypeOfDifficultyLevels } from "../../../../../shared/types/system";
 import { caplitalizeFirstLetter } from "../../../services/utils.service";
-import { setFilter } from "../../../store/actions/question.actions";
+import { systemSettings } from "../../../config";
+import { useQuestion } from "../../../hooks/useQuestion";
+import { setFilter } from "../../../store/slices/questionSlice";
+import { setLevel } from "../../../store/slices/quizSlice";
 
 type LevelDropdownProps = {
   isAdminPage?: boolean;
@@ -16,9 +14,9 @@ type LevelDropdownProps = {
 
 export const LevelDropdown = ({ isAdminPage = false }: LevelDropdownProps) => {
   const dispatch: AppDispatch = useDispatch();
-  const { systemSettings } = useSelector((state: RootState) => state.systemModule);
-  const { difficultyLevels } = systemSettings as systemSettings;
-  const { filterBy } = useSelector((state: RootState) => state.questionModule);
+
+  const { difficultyLevels } = systemSettings;
+  const { filterBy } = useQuestion();
 
   function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     const level = e.target.value as TypeOfDifficultyLevels;

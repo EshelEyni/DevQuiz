@@ -1,5 +1,7 @@
 import { User } from "./user";
 
+export type AnyFunction = (...args: any[]) => any;
+
 export interface JsendResponse {
   status: string;
   requested_at?: string;

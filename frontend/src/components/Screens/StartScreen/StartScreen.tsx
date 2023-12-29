@@ -1,18 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/types";
-import { RootState } from "../../../store/store";
 import { useKey } from "react-use";
 import "./StartScreen.scss";
+import { useQuiz } from "../../../hooks/useQuiz";
+import { setStatus } from "../../../store/slices/quizSlice";
 
 export const StartScreen = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { language } = useSelector((state: RootState) => state.systemModule);
-  const { numQuestions } = useSelector((state: RootState) => state.quizModule);
+  const { language, numQuestions } = useQuiz();
 
   useKey("Enter", handleStartQuiz);
 
   function handleStartQuiz() {
-    dispatch({ type: "SET_STATUS", status: "active" });
+    dispatch(setStatus("active"));
   }
 
   return (

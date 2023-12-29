@@ -1,5 +1,9 @@
-import { JsendResponse } from "../../../shared/types/system";
-type AnyFunction = (...args: any[]) => any;
+import { AnyFunction, JsendResponse } from "../../../shared/types/system";
+import { QueryState } from "../types/app.types";
+
+const QUERY_TIMEOUT = 3000;
+
+const defaultQueryState: QueryState = { state: "idle", error: null };
 
 function formatDateToRelativeTime(currDate: Date): string {
   const timestamp = new Date(currDate).getTime();
@@ -71,7 +75,8 @@ function formatNumToK(count: number): string {
 
 function makeId(length = 12): string {
   let txt = "";
-  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) {
     txt += possible.charAt(Math.floor(Math.random() * possible.length));
   }
@@ -80,9 +85,10 @@ function makeId(length = 12): string {
 
 function debounce(
   func: AnyFunction,
-  delay: number
+  delay: number,
 ): { debouncedFunc: AnyFunction; cancel: () => void } {
   let timeoutId: ReturnType<typeof setTimeout>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const debouncedFunc = function (this: any, ...args: any[]) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func.apply(this, args), delay);
@@ -127,7 +133,10 @@ function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
 }
 
-function changeThemeColors(themeColors: { themeColor: string; accentColor: string }) {
+function changeThemeColors(themeColors: {
+  themeColor: string;
+  accentColor: string;
+}) {
   const { themeColor, accentColor } = themeColors;
   const root = document.documentElement;
   root.style.setProperty("--color-theme", themeColor);
@@ -168,6 +177,8 @@ function getRandomBrightColor(i: number) {
 }
 
 export {
+  QUERY_TIMEOUT,
+  defaultQueryState,
   formatDateToRelativeTime,
   formatNumToK,
   makeId,

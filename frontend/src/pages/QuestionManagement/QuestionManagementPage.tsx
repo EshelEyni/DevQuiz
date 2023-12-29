@@ -1,22 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
 import { ManagementEntityList } from "../../components/Management/ManagementEntityList/ManagementEntityList";
 import { AppDispatch } from "../../store/types";
 import { Outlet } from "react-router-dom";
 import { QuestionSearchBar } from "../../components/Input/QuestionSearchBar/QuestionSearchBar";
-import { getQuestions } from "../../store/actions/question.actions";
 import { useEffect } from "react";
 import "./QuestionManagementPage.scss";
 import { QuestionLoader } from "../../components/Loaders/QuestionLoader/QuestionLoader";
 import { NoResMsg } from "../../components/Msg/NoResMsg/NoResMsg";
 import { ManagementEntityListContainer } from "../../components/Management/ManagementEntityListContainer/ManagementEntityListContainer";
 import { ManagementEntityCounter } from "../../components/Management/ManagementEntityCounter/ManagementEntityCounter";
+import { useQuestion } from "../../hooks/useQuestion";
+import { getQuestions } from "../../store/slices/questionSlice";
 
 export const QuestionManagementPage = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { questions, isLoading } = useSelector(
-    (state: RootState) => state.questionModule,
-  );
+  const { questions, getQuestionsState } = useQuestion();
+  const isLoading = getQuestionsState.state === "loading";
   const noQuestionsFound = !isLoading && questions.length === 0;
   const approvedQuestions = questions.filter(question => question.isRevised);
   const percentageOfApprovedQuestions = Math.round(
@@ -34,7 +33,7 @@ export const QuestionManagementPage = () => {
         isMarkedToBeRevised: true,
       }),
     );
-  }, []);
+  }, [dispatch]);
 
   return (
     <main className="management-page question">

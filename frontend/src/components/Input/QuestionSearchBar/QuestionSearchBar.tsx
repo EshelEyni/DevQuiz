@@ -1,19 +1,23 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/types";
-import { RootState } from "../../../store/store";
 import { useState } from "react";
 import { LanguageDropdown } from "../../Dropdown/LanguageDropdown/LanguageDropdown";
 import { LevelDropdown } from "../../Dropdown/LevelDropdown/LevelDropdown";
 import { QuestionSearchInput } from "../QuestionSearchInput/QuestionSearchInput";
-import { getDuplicatedQuestions, getQuestions } from "../../../store/actions/question.actions";
 import { BtnQuestionSearch } from "../../Btns/BtnQuestionSearch/BtnQuestionSearch";
 import { BtnWithLabel } from "../../Btns/BtnWithLabel/BtnWithLabel";
 import { CheckBox } from "../../App/CheckBox/CheckBox";
 import { HiDocumentDuplicate } from "react-icons/hi";
+import { useQuestion } from "../../../hooks/useQuestion";
+import {
+  getDuplicatedQuestions,
+  getQuestions,
+} from "../../../store/slices/questionSlice";
+import { useKey } from "react-use";
 
 export const QuestionSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { filterBy } = useSelector((state: RootState) => state.questionModule);
+  const { filterBy } = useQuestion();
   const [includeAllLevel, setIncludeAllLevel] = useState(false);
 
   function handleBtnSearchClick() {
@@ -37,6 +41,7 @@ export const QuestionSearchBar = () => {
     const { language } = filterBy;
     dispatch(getDuplicatedQuestions({ language: language }));
   }
+  useKey("Enter", handleBtnSearchClick);
 
   return (
     <div className="flex h-32 w-full items-center justify-between border-b border-indigo-300 bg-indigo-800 px-20">
@@ -44,10 +49,16 @@ export const QuestionSearchBar = () => {
         <LanguageDropdown isAdminPage={true} />
         <LevelDropdown isAdminPage={true} />
         <QuestionSearchInput />
-        <BtnWithLabel label="Include all levels" onClickFunc={handleBtnIncludeAllLevelClick}>
+        <BtnWithLabel
+          label="Include all levels"
+          onClickFunc={handleBtnIncludeAllLevelClick}
+        >
           <CheckBox checked={includeAllLevel} />
         </BtnWithLabel>
-        <BtnWithLabel label="Get Duplicates" onClickFunc={handleBtnGetDuplicatesClick}>
+        <BtnWithLabel
+          label="Get Duplicates"
+          onClickFunc={handleBtnGetDuplicatesClick}
+        >
           <HiDocumentDuplicate size={38} color="white" />
         </BtnWithLabel>
       </div>

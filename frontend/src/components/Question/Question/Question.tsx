@@ -1,8 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../store/types";
-import { setIsTimerOn } from "../../../store/actions/quiz.actions";
-import { RootState } from "../../../store/store";
 import { Question as TypeOfQuestion } from "../../../../../shared/types/question";
 import { OptionList } from "../../Option/OptionList/OptionList";
 import { BtnQuestionEdit } from "../../Btns/BtnQuestionEdit/BtnQuestionEdit";
@@ -12,17 +10,18 @@ import { Timer } from "../../Quiz/Timer/Timer";
 import { BtnNext } from "../../Btns/BtnNext/BtnNext";
 import "./Question.scss";
 import { BtnApproveQuestion } from "../../Btns/BtnApproveQuestion/BtnApproveQuestion";
-import { updateQuestion } from "../../../store/actions/question.actions";
 import { BtnMarkQuesitonToEdit } from "../../Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
+import { useAuth } from "../../../hooks/useAuth";
+import { useQuiz } from "../../../hooks/useQuiz";
+import { setIsTimerOn } from "../../../store/slices/quizSlice";
+import { updateQuestion } from "../../../store/slices/questionSlice";
 
 export const Question = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { loggedinUser } = useSelector((state: RootState) => state.authModule);
-  const { questions, questionIdx, answerIdx } = useSelector(
-    (state: RootState) => state.quizModule,
-  );
+  const { loggedInUser } = useAuth();
+  const { questions, questionIdx, answerIdx } = useQuiz();
   const question: TypeOfQuestion = questions[questionIdx];
-  const isAdmin = loggedinUser?.roles.includes("admin");
+  const isAdmin = loggedInUser?.roles.includes("admin");
   const isQuestionRevised = question.isMarkedToBeRevised ?? false;
 
   const navigate = useNavigate();

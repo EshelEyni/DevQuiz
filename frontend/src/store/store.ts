@@ -1,28 +1,14 @@
-import { legacy_createStore as createStore, applyMiddleware, combineReducers } from "redux";
-import thunk, { ThunkMiddleware } from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { configureStore } from "@reduxjs/toolkit";
+import authSlice from "./slices/authSlice";
+import questionSlice from "./slices/questionSlice";
+import quizSlice from "./slices/quizSlice";
+import userSlice from "./slices/userSlice";
 
-import { authReducer } from "./reducers/auth.reducer";
-import { systemReducer } from "./reducers/system.reducer";
-import { quizReducer } from "./reducers/quiz.reducer";
-import { userReducer } from "./reducers/user.reducer";
-import { modalReducer } from "./reducers/modal.reducer";
-import { questionReducer } from "./reducers/question.reducer";
-import { contactMsgReducer } from "./reducers/contact-msg.reducer";
-
-const rootReducer = combineReducers({
-  authModule: authReducer,
-  userModule: userReducer,
-  systemModule: systemReducer,
-  modalModule: modalReducer,
-  quizModule: quizReducer,
-  questionModule: questionReducer,
-  contactMsgModule: contactMsgReducer,
+export const store = configureStore({
+  reducer: {
+    auth: authSlice,
+    question: questionSlice,
+    quiz: quizSlice,
+    user: userSlice,
+  },
 });
-
-export const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk as ThunkMiddleware))
-);
-
-export type RootState = ReturnType<typeof store.getState>;

@@ -1,6 +1,5 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 import "./OptionDisplay.scss";
+import { useQuiz } from "../../../hooks/useQuiz";
 
 type OptionDisplayProps = {
   option: string;
@@ -17,7 +16,7 @@ export const OptionDisplay = ({
   handleOptionClick,
   isFocused,
 }: OptionDisplayProps) => {
-  const { answerIdx } = useSelector((state: RootState) => state.quizModule);
+  const { answerIdx } = useQuiz();
   const isAnswered = answerIdx !== null;
   const isOptionAnswer = answerIdx === optionIdx;
   const isOptionCorrect = correctOption === optionIdx;

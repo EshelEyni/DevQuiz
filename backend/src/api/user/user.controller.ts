@@ -54,8 +54,7 @@ const addUserCorrectAnswer = asyncErrorCatcher(async (req: Request, res: Respons
   const { id, language, level } = req.body;
   const { loggedinUserId } = req;
   if (!loggedinUserId) throw new AppError("User not logged in", 401);
-  const isSaved = await userServices.addUserCorrectAnswer(loggedinUserId, id, language, level);
-  if (!isSaved) throw new AppError("Answer already added", 400);
+  await userServices.addUserCorrectAnswer(loggedinUserId, id, language, level);
 
   res.status(200).json({
     status: "success",

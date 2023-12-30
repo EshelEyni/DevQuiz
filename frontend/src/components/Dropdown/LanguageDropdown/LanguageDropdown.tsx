@@ -5,6 +5,8 @@ import { systemSettings } from "../../../config";
 import { useQuestion } from "../../../hooks/useQuestion";
 import { setFilter } from "../../../store/slices/questionSlice";
 import { resetQuizState, setLanguage } from "../../../store/slices/quizSlice";
+import { Select } from "../../App/Select/Select";
+import { useQuiz } from "../../../hooks/useQuiz";
 
 type LanguageDropdownProps = {
   isAdminPage?: boolean;
@@ -16,28 +18,27 @@ export const LanguageDropdown = ({
   const dispatch: AppDispatch = useDispatch();
 
   const { programmingLanguages } = systemSettings;
+  const { language } = useQuiz();
   const { filterBy } = useQuestion();
 
-  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const language = e.target.value as ProgrammingLanguage;
-    if (isAdminPage) dispatch(setFilter({ ...filterBy, language }));
-    else {
-      dispatch(setLanguage(language));
-      dispatch(resetQuizState());
-    }
+  function handleChange(language: ProgrammingLanguage) {
+    if (isAdminPage) return dispatch(setFilter({ ...filterBy, language }));
+    dispatch(setLanguage(language));
+    dispatch(resetQuizState());
   }
 
   return (
-    <div className="select-container">
-      <div className="select-wrapper">
-        <select className="select" onChange={handleChange}>
-          {Object.keys(programmingLanguages).map((lang: string) => (
-            <option key={lang} value={lang}>
-              {lang}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
+    <Select onChange={handleChange} listHeight={300}>
+      <Select.SelectTrigger>
+        <button>{isAdminPage ? filterBy.language : language}</button>
+      </Select.SelectTrigger>
+      <Select.SelectList>
+        {Object.keys(programmingLanguages).map((lang: string) => (
+          <Select.SelectItem key={lang} value={lang}>
+            <span>{lang}</span>
+          </Select.SelectItem>
+        ))}
+      </Select.SelectList>
+    </Select>
   );
 };

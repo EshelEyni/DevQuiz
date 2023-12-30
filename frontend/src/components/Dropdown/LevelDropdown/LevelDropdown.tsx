@@ -1,4 +1,3 @@
-import { ChangeEvent } from "react";
 import { AppDispatch } from "../../../store/types";
 import { useDispatch } from "react-redux";
 import { DifficultyLevels as TypeOfDifficultyLevels } from "../../../../../shared/types/system";
@@ -7,6 +6,8 @@ import { systemSettings } from "../../../config";
 import { useQuestion } from "../../../hooks/useQuestion";
 import { setFilter } from "../../../store/slices/questionSlice";
 import { setLevel } from "../../../store/slices/quizSlice";
+import { Select } from "../../App/Select/Select";
+import { useQuiz } from "../../../hooks/useQuiz";
 
 type LevelDropdownProps = {
   isAdminPage?: boolean;
@@ -16,24 +17,27 @@ export const LevelDropdown = ({ isAdminPage = false }: LevelDropdownProps) => {
   const dispatch: AppDispatch = useDispatch();
 
   const { difficultyLevels } = systemSettings;
+  const { level } = useQuiz();
   const { filterBy } = useQuestion();
 
-  function handleChange(e: ChangeEvent<HTMLSelectElement>) {
-    const level = e.target.value as TypeOfDifficultyLevels;
-    if (isAdminPage) dispatch(setFilter({ ...filterBy, level }));
-    else dispatch(setLevel(level));
+  function handleChange(level: TypeOfDifficultyLevels) {
+    if (isAdminPage) return dispatch(setFilter({ ...filterBy, level }));
+    dispatch(setLevel(level));
   }
   return (
-    <div className="select-container">
-      <div className="select-wrapper">
-        <select className="select" onChange={handleChange}>
-          {difficultyLevels.map((level: TypeOfDifficultyLevels) => (
-            <option key={level} value={level}>
-              {caplitalizeFirstLetter(level)}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
+    <Select onChange={handleChange} listHeight={300}>
+      <Select.SelectTrigger>
+        <button>
+          {isAdminPage ? filterBy.level : caplitalizeFirstLetter(level)}
+        </button>
+      </Select.SelectTrigger>
+      <Select.SelectList>
+        {difficultyLevels.map((level: TypeOfDifficultyLevels) => (
+          <Select.SelectItem key={level} value={level}>
+            <span>{caplitalizeFirstLetter(level)}</span>
+          </Select.SelectItem>
+        ))}
+      </Select.SelectList>
+    </Select>
   );
 };

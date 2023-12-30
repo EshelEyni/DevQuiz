@@ -29,9 +29,15 @@ async function query({
   }
 }
 
-async function getDuplicatedQuestions({ language }: { language: string }): Promise<Question[]> {
+async function getDuplicatedQuestions({
+  language,
+}: {
+  language: string;
+}): Promise<Question[]> {
   try {
-    const response = await httpService.get(`question/duplicates?language=${language}`);
+    const response = await httpService.get(
+      `question/duplicates?language=${language}`,
+    );
     return handleServerResponse<Question[]>(response);
   } catch (err) {
     console.log("Question service: err in getDuplicatedQuestions", err);
@@ -61,7 +67,6 @@ async function add(question: Question): Promise<Question> {
 
 async function update(question: Question): Promise<Question> {
   try {
-    console.log("question in update", question);
     const updatedQuestion = await httpService.put(`question`, question);
     return handleServerResponse<Question>(updatedQuestion);
   } catch (err) {
@@ -72,7 +77,10 @@ async function update(question: Question): Promise<Question> {
 
 async function archive(question: Question): Promise<Question> {
   try {
-    const archivedQuestion = await httpService.put("question/archive", question);
+    const archivedQuestion = await httpService.put(
+      "question/archive",
+      question,
+    );
     return handleServerResponse<Question>(archivedQuestion);
   } catch (err) {
     console.log("Question service: err in archive", err);

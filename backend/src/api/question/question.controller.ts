@@ -4,13 +4,12 @@ import questionService from "./question.service";
 
 const getQuestions = asyncErrorCatcher(async (req, res, next) => {
   const queryString = req.query as QueryString;
-  const question = await questionService.query(queryString);
-
+  const questions = await questionService.query(queryString);
   res.status(200).json({
     status: "success",
     requestedAt: new Date().toISOString(),
-    results: question.length,
-    data: question,
+    results: questions.length,
+    data: questions,
   });
 });
 
@@ -37,7 +36,6 @@ const addQuestion = asyncErrorCatcher(async (req, res, next) => {
 
 const updateQuestion = asyncErrorCatcher(async (req, res, next) => {
   const questionToUpdate = req.body;
-  console.log("questionToUpdate", questionToUpdate.options);
   const question = await questionService.update(questionToUpdate);
   res.status(200).json({
     status: "success",

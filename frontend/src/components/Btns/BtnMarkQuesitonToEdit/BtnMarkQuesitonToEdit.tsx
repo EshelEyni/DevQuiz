@@ -28,7 +28,11 @@ export const BtnMarkQuesitonToEdit: FC<BtnMarkQuesitonToEditProps> = ({
         data-tooltip-place="top"
       >
         {isMarkedToBeRevised ? (
-          <MdEditOff className="btn-mark-question-to-edit__icon" size={size} color={color} />
+          <MdEditOff
+            className="btn-mark-question-to-edit__icon"
+            size={size}
+            color={color}
+          />
         ) : (
           <MdModeEditOutline
             className="btn-mark-question-to-edit__icon"

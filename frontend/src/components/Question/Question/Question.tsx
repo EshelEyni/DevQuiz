@@ -18,13 +18,13 @@ import { updateQuestion } from "../../../store/slices/questionSlice";
 
 export const Question = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { loggedInUser } = useAuth();
   const { questions, questionIdx, answerIdx } = useQuiz();
+
   const question: TypeOfQuestion = questions[questionIdx];
   const isAdmin = loggedInUser?.roles.includes("admin");
   const isQuestionRevised = question.isMarkedToBeRevised ?? false;
-
-  const navigate = useNavigate();
 
   function handleBtnEditClick() {
     dispatch(setIsTimerOn(false));

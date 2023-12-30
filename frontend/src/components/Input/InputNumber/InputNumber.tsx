@@ -8,7 +8,12 @@ type InputNumberProps = {
   name: string;
 };
 
-export const InputNumber: FC<InputNumberProps> = ({ handleChange, value, max, name }) => {
+export const InputNumber: FC<InputNumberProps> = ({
+  handleChange,
+  value,
+  max,
+  name,
+}) => {
   return (
     <div className="input-container">
       <div className="input-wrapper">

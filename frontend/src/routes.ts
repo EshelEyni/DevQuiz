@@ -4,6 +4,8 @@ import { QuestionManagementPage } from "./pages/QuestionManagement/QuestionManag
 import { Homepage } from "./pages/Home/Homepage";
 import { ProfileDetails } from "./pages/ProfileDetails/ProfileDetails";
 import { UserManagementPage } from "./pages/UserManagement/UserManagementPage";
+import { QuizSetting } from "./pages/QuizSetting/QuizSetting";
+import { AuthPage } from "./pages/Auth/AuthPage";
 
 interface Route {
   path: string;
@@ -13,12 +15,20 @@ interface Route {
 
 const routes: Route[] = [
   {
-    path: "",
+    path: "/home",
     component: Homepage,
     nestedRoutes: [
       {
         path: "question-edit/:id?",
         component: QuestionEdit,
+      },
+      {
+        path: "auth",
+        component: AuthPage,
+      },
+      {
+        path: "settings",
+        component: QuizSetting,
       },
     ],
   },

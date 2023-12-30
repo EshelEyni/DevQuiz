@@ -1,7 +1,6 @@
 .input-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
   height: 50px;
 }
 
@@ -17,14 +16,6 @@
   label {
     font-size: 12px;
   }
-}
-
-.input-wrapper::after {
-  content: "";
-  position: absolute;
-  right: 1.2rem;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 .input-number {

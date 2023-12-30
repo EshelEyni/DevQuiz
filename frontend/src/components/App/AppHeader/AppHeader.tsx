@@ -1,20 +1,16 @@
-import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { LanguageDropdown } from "../../Dropdown/LanguageDropdown/LanguageDropdown";
-import { LevelDropdown } from "../../Dropdown/LevelDropdown/LevelDropdown";
-import { InputNumber } from "../../Input/InputNumber/InputNumber";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BtnAuth } from "../../Btns/BtnAuth/BtnAuth";
 import { BtnLink } from "../../Btns/BtnLink/BtnLink";
 import { Header } from "../../Gen/Header";
-import { AppDispatch } from "../../../store/types";
 import { useAuth } from "../../../hooks/useAuth";
+import { IoIosSettings } from "react-icons/io";
 import { useQuiz } from "../../../hooks/useQuiz";
-import { setSecondsPerQuestion } from "../../../store/slices/quizSlice";
 
 export const AppHeader = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { loggedInUser } = useAuth();
-  const { secondsPerQuestion, isTimerOn } = useQuiz();
+  const { status } = useQuiz();
   const isQuestionEditLinkShown =
     loggedInUser &&
     loggedInUser?.roles.some(role => role === "admin" || role === "editor");
@@ -22,32 +18,29 @@ export const AppHeader = () => {
   const isUserAdmin =
     loggedInUser && loggedInUser?.roles.some(role => role === "admin");
 
-  const location = useLocation();
-  const isHomepage = location.pathname === "/";
+  const isHomepage = location.pathname.includes("/home");
+  const isSettingShown = status === "ready" && isHomepage;
+  console.log("isSettingShown", isSettingShown);
 
-  function handleChangeSecsPerQuestion(e: React.ChangeEvent<HTMLInputElement>) {
-    const secondsPerQuestion = e.target.value;
-    dispatch(setSecondsPerQuestion(Number(secondsPerQuestion)));
+  function handleSettingsClick() {
+    navigate("/home/settings");
   }
 
   return (
     <Header className="flex w-full items-center justify-between bg-indigo-800 px-8 py-6">
-      {isHomepage ? (
-        <div className="flex w-3/5 items-start justify-between">
-          <LanguageDropdown />
-          <LevelDropdown />
-          {!isTimerOn && (
-            <InputNumber
-              handleChange={handleChangeSecsPerQuestion}
-              value={secondsPerQuestion}
-              max={90}
-              name="secondsPerQuestion"
-            />
-          )}
-        </div>
-      ) : (
+      {isHomepage && (
+        <IoIosSettings
+          className={
+            "cursor-pointer text-7xl text-white" +
+            (!isSettingShown ? " invisible" : "")
+          }
+          onClick={handleSettingsClick}
+        />
+      )}
+
+      {!isHomepage && (
         <div className="flex items-center gap-2">
-          <BtnLink path="/" title="Homepage" />
+          <BtnLink path="/home" title="Homepage" />
           {isQuestionEditLinkShown && (
             <BtnLink path="/question-management" title="question editor" />
           )}

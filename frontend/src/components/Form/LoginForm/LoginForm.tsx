@@ -1,5 +1,5 @@
 import { FormEvent } from "react";
-import { UserCredentials } from "../../types/auth.types";
+import { UserCredentials } from "../../../types/auth.types";
 
 type LoginFormProps = {
   userCredentials: UserCredentials;
@@ -34,7 +34,7 @@ export const LoginForm = ({
       />
       <button type="submit">Login</button>
       <p>
-        Don't have an account? <span onClick={onToggleForm}>Sign up</span>
+        {"Don't have an account?"} <span onClick={onToggleForm}>Sign up</span>
       </p>
     </form>
   );

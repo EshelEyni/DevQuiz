@@ -1,6 +1,14 @@
-import { FC, useState, createContext, useContext, cloneElement, useRef } from "react";
+import {
+  FC,
+  useState,
+  createContext,
+  useContext,
+  cloneElement,
+  useRef,
+} from "react";
 import { AnyFunction } from "../../../../../shared/types/system";
 import { useOutsideClick } from "../../../hooks/useOutsideClick";
+import { makeId } from "../../../services/utils.service";
 
 type SelectProps = {
   children: React.ReactNode;
@@ -15,6 +23,7 @@ type SelectContextType = {
   listHeight: number;
   position: Position | null;
   setPosition: React.Dispatch<React.SetStateAction<Position | null>>;
+  selectTriggerId: string;
 };
 
 type SelectTriggerProps = {
@@ -32,8 +41,8 @@ type SelectItemProps = {
 };
 
 type Position = {
-  top?: number;
-  bottom?: number;
+  top?: string;
+  bottom?: string;
   left?: string;
 };
 
@@ -49,14 +58,14 @@ function useSelect() {
 
 function calculatePositionByRef<T extends HTMLElement>(
   ref: React.RefObject<T>,
-  modalHeight: number
+  modalHeight: number,
 ) {
   const rect = ref.current?.getBoundingClientRect();
   if (!rect) return null;
   const windowHeight = window.innerHeight;
   const isElementAbove = windowHeight - rect.top < modalHeight;
-  const bottomPosition = { top: 0 };
-  const topPosition = { bottom: 0 };
+  const bottomPosition = { top: "100%" };
+  const topPosition = { bottom: "0" };
   const position = {
     position: "absolute",
     ...(isElementAbove ? topPosition : bottomPosition),
@@ -74,7 +83,7 @@ export const Select: FC<SelectProps> & {
 } = ({ children, onChange, listHeight }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState<Position | null>(null);
-
+  const selectTriggerId = makeId();
   const value: SelectContextType = {
     isOpen,
     setIsOpen,
@@ -82,6 +91,7 @@ export const Select: FC<SelectProps> & {
     listHeight,
     position,
     setPosition,
+    selectTriggerId,
   };
 
   return (
@@ -92,7 +102,8 @@ export const Select: FC<SelectProps> & {
 };
 
 const SelectTrigger: FC<SelectTriggerProps> = ({ children }) => {
-  const { isOpen, setIsOpen, listHeight, setPosition } = useSelect();
+  const { isOpen, setIsOpen, listHeight, setPosition, selectTriggerId } =
+    useSelect();
   const ref = useRef<HTMLButtonElement>(null);
 
   function handleTriggerClick() {
@@ -107,7 +118,7 @@ const SelectTrigger: FC<SelectTriggerProps> = ({ children }) => {
   }
 
   return cloneElement(children as React.ReactElement, {
-    id: "select-trigger",
+    id: selectTriggerId,
     className: "select-trigger",
     onClick: handleTriggerClick,
     ref,
@@ -115,8 +126,10 @@ const SelectTrigger: FC<SelectTriggerProps> = ({ children }) => {
 };
 
 const SelectList: FC<SelectListProps> = ({ children }) => {
-  const { isOpen, setIsOpen, position } = useSelect();
-  const { outsideClickRef } = useOutsideClick<HTMLUListElement>(close, true, ["select-trigger"]);
+  const { isOpen, setIsOpen, position, selectTriggerId } = useSelect();
+  const { outsideClickRef } = useOutsideClick<HTMLUListElement>(close, true, [
+    selectTriggerId,
+  ]);
 
   function close() {
     setIsOpen(false);

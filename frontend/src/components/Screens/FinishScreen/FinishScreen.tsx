@@ -24,7 +24,7 @@ export const FinishScreen = () => {
   else emoji = "😞";
 
   function handleNewQuizClick() {
-    dispatch(startNewQuiz({ language, level, page }));
+    dispatch(startNewQuiz({ language, level, page: page + 1 }));
   }
 
   function handleRestartClick() {

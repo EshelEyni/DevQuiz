@@ -5,6 +5,7 @@ import { AppThunk, QueryState } from "../../types/app.types";
 import { questionReqProps } from "../types";
 import questionService from "../../services/question.service";
 import { QUERY_TIMEOUT, defaultQueryState } from "../../services/utils.service";
+import { setQuizQuestion } from "./quizSlice";
 
 type QuestionState = {
   filterBy: QuestionFilterBy;
@@ -109,6 +110,7 @@ export function getQuestions({
         isEditPage,
         isMarkedToBeRevised,
       });
+
       dispatch(setQuestions(questions));
       dispatch(setGetQuestionsState({ state: "succeeded", error: null }));
     } catch (err) {
@@ -172,7 +174,8 @@ export function updateQuestion(question: Question): AppThunk {
     try {
       dispatch(setUpdateQuestionState({ state: "loading", error: null }));
       const updatedQuestion = await questionService.update(question);
-      dispatch(updateQuestion(updatedQuestion));
+      dispatch(updateQuestionInState(updatedQuestion));
+      dispatch(setQuizQuestion(updatedQuestion));
       dispatch(setUpdateQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in updateQuestion", err);

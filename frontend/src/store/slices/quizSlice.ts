@@ -99,6 +99,7 @@ const quizSlice = createSlice({
       state.isTimerOn = action.payload;
     },
     resetQuizState(state) {
+      state.status = "active";
       state.questionIdx = 0;
       state.answerIdx = null;
       state.points = 0;
@@ -133,6 +134,7 @@ export function startNewQuiz({
 }: questionReqProps): AppThunk {
   return async dispatch => {
     try {
+      dispatch(setStatus("loading"));
       dispatch(setQuizQueryState({ state: "loading", error: null }));
       const questions = await questionService.query({
         language,

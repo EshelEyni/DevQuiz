@@ -1,13 +1,13 @@
 import { useState, FormEvent } from "react";
-import { LoginForm } from "../../Form/LoginForm/LoginForm";
-import { SignupForm } from "../../Form/SignupForm/SignupForm";
-import { login, signup } from "../../../store/actions/auth.actions";
-import { UserCredentials } from "../../../types/auth.types";
+import { LoginForm } from "../../components/Form/LoginForm/LoginForm";
+import { SignupForm } from "../../components/Form/SignupForm/SignupForm";
+import { UserCredentials } from "../../types/auth.types";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/types";
-import { toggleIsLoginSignupModalOpen } from "../../../store/actions/modal.actions";
-import { Loader } from "../../Loaders/Loader/Loader";
-import "./LoginSignupModal.scss";
+import { AppDispatch } from "../../store/types";
+import { Loader } from "../../components/Loaders/Loader/Loader";
+import "./AuthPage.scss";
+import { login, signup } from "../../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   username: "",
@@ -16,12 +16,14 @@ const initialState = {
   passwordConfirm: "",
 };
 
-export const LoginSignupModal = () => {
+export const AuthPage = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoginForm, setIsLoginForm] = useState(true);
 
-  const [userCredentials, setUserCredentials] = useState<UserCredentials>(initialState);
+  const [userCredentials, setUserCredentials] =
+    useState<UserCredentials>(initialState);
 
   function handleChange(event: FormEvent<HTMLInputElement>) {
     const { name, value } = event.currentTarget;
@@ -35,14 +37,14 @@ export const LoginSignupModal = () => {
       const { username, password } = userCredentials;
       dispatch(login(username, password));
     } else dispatch(signup(userCredentials));
-    dispatch(toggleIsLoginSignupModalOpen());
+    navigate("/home");
   }
 
   function onToggleForm() {
     setIsLoginForm(s => !s);
   }
   return (
-    <div className="modal-login-signup">
+    <div className="modal modal-login-signup">
       {isLoading ? (
         <Loader />
       ) : isLoginForm ? (

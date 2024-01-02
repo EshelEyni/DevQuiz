@@ -5,75 +5,111 @@ import { IoIosSettings, IoIosLogIn, IoIosHome } from "react-icons/io";
 import { useQuiz } from "../../../hooks/useQuiz";
 import { BsPatchQuestionFill } from "react-icons/bs";
 import { FaUsersCog, FaUserCircle, FaBookOpen } from "react-icons/fa";
+import { cloneElement } from "react";
+
+type NavLinks = {
+  name: string;
+  icon: JSX.Element;
+  link: string;
+  condition: boolean;
+};
 
 export const AppHeader = () => {
   const location = useLocation();
   const { loggedInUser } = useAuth();
   const { status } = useQuiz();
+
+  const isHomepage = location.pathname.includes("/home");
   const isQuestionEditLinkShown =
+    !isHomepage &&
     loggedInUser &&
     loggedInUser?.roles.some(role => role === "admin" || role === "editor");
 
   const isUserAdmin =
-    loggedInUser && loggedInUser?.roles.some(role => role === "admin");
+    !isHomepage &&
+    loggedInUser &&
+    loggedInUser?.roles.some(role => role === "admin");
 
-  const isHomepage = location.pathname.includes("/home");
   const isSettingShown = status === "ready" && isHomepage;
-  const linkClass =
-    "text-4xl xl:text-5xl uppercase text-indigo-50 hidden lg:block font-medium  hover:text-sky-600 transition duration-300 ease-in-out";
   const iconClass =
-    "cursor-pointer text-7xl text-white lg:hidden  hover:text-sky-600 transition duration-300 ease-in-out";
+    "cursor-pointer text-7xl text-white transition  duration-300 ease-in-out hover:text-sky-600 lg:hidden";
+
+  const leftNavLinks: NavLinks[] = [
+    {
+      name: "settings",
+      icon: <IoIosSettings />,
+      link: "/home/settings",
+      condition: isSettingShown,
+    },
+    {
+      name: "Homepage",
+      icon: <IoIosHome />,
+      link: "/home",
+      condition: !isHomepage,
+    },
+    {
+      name: "question editor",
+      icon: <BsPatchQuestionFill />,
+      link: "/question-management",
+      condition: !!isQuestionEditLinkShown,
+    },
+    {
+      name: "user mamagement",
+      icon: <FaUsersCog />,
+      link: "/user-management",
+      condition: !!isUserAdmin,
+    },
+  ];
+
+  const rightNavLinks: NavLinks[] = [
+    {
+      name: "About",
+      icon: <FaBookOpen />,
+      link: "/about",
+      condition: true,
+    },
+    {
+      name: "Login",
+      icon: <IoIosLogIn />,
+      link: "/home/auth",
+      condition: !loggedInUser,
+    },
+    {
+      name: loggedInUser?.username || "Profile",
+      icon: <FaUserCircle />,
+      link: `/profile/${loggedInUser?.id}`,
+      condition: !!loggedInUser,
+    },
+  ];
 
   return (
     <Header className="flex w-full items-center justify-between bg-indigo-800 px-8 py-8">
       <nav className="flex items-center gap-8">
-        {isHomepage && (
-          <Link
-            to="/home/settings"
-            className={!isSettingShown ? " invisible" : ""}
-          >
-            <IoIosSettings className={iconClass} />
-            <span className={linkClass}>settings</span>
-          </Link>
-        )}
-
-        {!isHomepage && (
-          <>
-            <Link to="/home">
-              <IoIosHome className={iconClass} />
-              <span className={linkClass}>Homepage</span>
-            </Link>
-            {isQuestionEditLinkShown && (
-              <Link to="/question-management">
-                <BsPatchQuestionFill className={iconClass} />
-                <span className={linkClass}>question editor</span>
+        {leftNavLinks.map(
+          ({ name, icon, link, condition }) =>
+            condition && (
+              <Link key={name} to={link}>
+                {cloneElement(icon, { className: iconClass })}
+                <span className="hidden text-4xl font-medium uppercase text-indigo-50 transition duration-300  ease-in-out hover:text-sky-600 lg:block xl:text-5xl">
+                  {name}
+                </span>
               </Link>
-            )}
-            {isUserAdmin && (
-              <Link to="/user-management">
-                <FaUsersCog className={iconClass} />
-                <span className={linkClass}>user mamagement</span>
-              </Link>
-            )}
-          </>
+            ),
         )}
       </nav>
 
       <nav className="flex items-center gap-8">
-        <Link to="/about">
-          <FaBookOpen className={iconClass} />
-          <span className={linkClass}>About</span>
-        </Link>
-        <Link to={loggedInUser ? `/profile/${loggedInUser.id}` : "/home/auth"}>
-          {loggedInUser ? (
-            <FaUserCircle className={iconClass} />
-          ) : (
-            <IoIosLogIn className={iconClass} />
-          )}
-          <span className={linkClass}>
-            {loggedInUser ? loggedInUser.username : "Login"}
-          </span>
-        </Link>
+        {rightNavLinks.map(
+          ({ name, icon, link, condition }) =>
+            condition && (
+              <Link key={name} to={link}>
+                {cloneElement(icon, { className: iconClass })}
+                <span className="hidden text-4xl font-medium uppercase text-indigo-50 transition duration-300  ease-in-out hover:text-sky-600 lg:block xl:text-5xl">
+                  {name}
+                </span>
+              </Link>
+            ),
+        )}
       </nav>
     </Header>
   );

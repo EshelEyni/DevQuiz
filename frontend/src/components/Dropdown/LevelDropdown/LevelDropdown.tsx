@@ -1,4 +1,3 @@
-import { AppDispatch } from "../../../store/types";
 import { useDispatch } from "react-redux";
 import { DifficultyLevels as TypeOfDifficultyLevels } from "../../../../../shared/types/system";
 import { caplitalizeFirstLetter } from "../../../services/utils.service";
@@ -8,6 +7,7 @@ import { setFilter } from "../../../store/slices/questionSlice";
 import { setLevel } from "../../../store/slices/quizSlice";
 import { Select } from "../../App/Select/Select";
 import { useQuiz } from "../../../hooks/useQuiz";
+import { AppDispatch } from "../../../types/app.types";
 
 type LevelDropdownProps = {
   isAdminPage?: boolean;

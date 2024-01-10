@@ -35,7 +35,7 @@ const initialState: QuizState = {
   page: 1,
   questions: [],
   quizQueryState: defaultQueryState,
-  numQuestions: 0,
+  numQuestions: 25,
   questionIdx: 0,
   answerIdx: null,
   points: 0,
@@ -82,6 +82,10 @@ const quizSlice = createSlice({
         question.id === action.payload.id ? action.payload : question,
       );
     },
+    setNumQuestions(state, action: PayloadAction<number>) {
+      console.log("setNumQuestions", action.payload);
+      state.numQuestions = action.payload;
+    },
     setNextQuestionIdx(state) {
       state.questionIdx++;
       state.answerIdx = null;
@@ -117,6 +121,7 @@ export const {
   setQuizQueryState,
   setQuizQuestion,
   setNextQuestionIdx,
+  setNumQuestions,
   setAnswerIdx,
   setPoints,
   setHighScore,
@@ -144,6 +149,9 @@ export function startNewQuiz({
       });
       dispatch(setQuizQuestions(questions));
       dispatch(setQuizQueryState({ state: "succeeded", error: null }));
+      dispatch(setNumQuestions(questions.length));
+      dispatch(setLanguage(language));
+      dispatch(setLevel(level));
       dispatch(setStatus("ready"));
     } catch (err) {
       console.log("QuizActions: err in startNewQuiz", err);

@@ -27,14 +27,6 @@
   justify-content: center;
 }
 
-.gap-0 {
-  gap: 0;
-}
-
-.gap-10 {
-  gap: 10px;
-}
-
 // Aspect ratios
 
 .ratio-16-9 {
@@ -52,4 +44,3 @@
 .ratio-poster {
   @include aspect-ratio(100, 150);
 }
-

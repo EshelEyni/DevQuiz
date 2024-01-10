@@ -1,13 +1,11 @@
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
-import { RootState } from "./store";
-import { ProgrammingLanguage, DifficultyLevels } from "../../../shared/types/system";
-
-export type AppDispatch = ThunkDispatch<RootState, undefined, AnyAction>;
+import {
+  ProgrammingLanguage,
+  DifficultyLevels,
+} from "../../../shared/types/system";
 
 export type questionReqProps = {
-  language?: ProgrammingLanguage;
-  level?: DifficultyLevels;
+  language: ProgrammingLanguage;
+  level: DifficultyLevels;
   page?: number;
   limit?: number;
   searchTerm?: string;

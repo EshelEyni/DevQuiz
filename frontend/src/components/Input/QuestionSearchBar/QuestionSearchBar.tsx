@@ -44,7 +44,7 @@ export const QuestionSearchBar = () => {
   useKey("Enter", handleBtnSearchClick);
 
   return (
-    <div className="flex h-32 w-full items-center justify-between border-b border-indigo-300 bg-indigo-800 px-20">
+    <div className="flex h-32 w-full items-center justify-between border-b border-gray-300 bg-gray-800 px-20">
       <div className="flex items-center justify-center gap-3">
         <LanguageDropdown isAdminPage={true} />
         <LevelDropdown isAdminPage={true} />

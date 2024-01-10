@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/types";
 import { Loader } from "../../components/Loaders/Loader/Loader";
 import { Error } from "../../components/Msg/Error/Error";
 import { StartScreen } from "../../components/Screens/StartScreen/StartScreen";
@@ -11,6 +10,7 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useQuiz } from "../../hooks/useQuiz";
 import { startNewQuiz } from "../../store/slices/quizSlice";
+import { AppDispatch } from "../../types/app.types";
 
 export const Homepage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -35,11 +35,8 @@ export const Homepage = () => {
 
   useEffect(() => {
     dispatch(startNewQuiz({ language, level, page }));
-
-    return () => {
-      dispatch(startNewQuiz({ language, level, page }));
-    };
-  }, [language, level, page, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

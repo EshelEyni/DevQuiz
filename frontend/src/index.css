@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 .select-trigger {
-  @apply h-20 w-64 min-w-[100px] cursor-pointer rounded-xl  border-2 border-indigo-800 
-            bg-indigo-700 text-3xl leading-5 outline-none transition-all duration-300;
+  @apply h-20 w-full min-w-[100px]  cursor-pointer rounded-xl  border-2 border-gray-800 
+            bg-gray-700 text-3xl leading-5 outline-none transition-all duration-300;
 }
 
 .select-list {
-  @apply  w-64 min-w-[100px] cursor-pointer  border-2 border-indigo-800 
-            bg-indigo-700  text-3xl leading-5 outline-none transition-all duration-300;
+  @apply w-full min-w-[100px] cursor-pointer  border-2 border-gray-800 
+            bg-gray-700  text-3xl leading-5 outline-none transition-all duration-300 z-[1500] mt-1;
 }
 
 .select-list__item {
-  @apply flex h-20 w-64 min-w-[100px]  cursor-pointer items-center justify-center border-b-2 border-indigo-800 bg-indigo-700 text-3xl
-  text-indigo-100           
-  hover:border-indigo-900 hover:bg-indigo-800 hover:text-indigo-100;
+  @apply flex h-20 w-full min-w-[100px]  cursor-pointer items-center justify-center border-b-2 border-gray-800 bg-gray-700 text-3xl
+  text-gray-100           
+  hover:border-gray-900 hover:bg-gray-800 hover:text-gray-100;
 }

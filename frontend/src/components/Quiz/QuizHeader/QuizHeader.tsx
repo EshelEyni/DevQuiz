@@ -12,7 +12,7 @@ export const QuizHeader = () => {
   const { img } = currLanguage;
 
   return (
-    <Header className="mb-16 mt-8 flex w-[62rem] items-center justify-between">
+    <Header className="mb-16 mt-8 flex items-center justify-between">
       <img src={img} alt="logo" className="quiz-header--img h-56 w-56" />
       <h1>DevQuiz</h1>
     </Header>

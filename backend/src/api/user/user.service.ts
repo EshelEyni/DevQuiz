@@ -94,7 +94,7 @@ async function getDefaultUser(user: BasicUser): Promise<TypeOfUser> {
     createdAt: Date.now(),
     quizSettings: {
       language: "HTML",
-      level: "easy",
+      level: "beginner",
       numQuestions: 25,
       secondsPerQuestion: 30,
     },

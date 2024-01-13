@@ -1,4 +1,3 @@
-import nodemailer from "nodemailer";
 import { ravenStore } from "../server";
 import { IDocumentQuery } from "ravendb";
 require("dotenv").config();
@@ -11,31 +10,6 @@ export interface QueryString {
   fields?: string;
   searchTerm?: string;
   searchField?: string;
-}
-
-async function sendEmail(options: { email: string; subject: string; message: string }) {
-  const { EMAIL_USERNAME, EMAIL_PASSWORD, EMAIL_HOST, EMAIL_PORT } = process.env;
-  if (!EMAIL_USERNAME || !EMAIL_PASSWORD || !EMAIL_HOST || !EMAIL_PORT)
-    throw new Error("Email config not found");
-
-  const transporter = nodemailer.createTransport({
-    host: EMAIL_HOST,
-    port: Number(EMAIL_PORT),
-    auth: {
-      user: EMAIL_USERNAME,
-      pass: EMAIL_PASSWORD,
-    },
-  });
-
-  const mailOptions = {
-    from: "DevQuiz <DevQuiz.com>",
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-    // html:
-  };
-
-  await transporter.sendMail(mailOptions);
 }
 
 async function queryRavenDB(queryString: QueryString, collection: string): Promise<object[]> {
@@ -70,4 +44,4 @@ function trimCollectionNameFromId(id: string): string {
   return id.split("/")[1];
 }
 
-export { sendEmail, queryRavenDB, setIdToCollectionName, trimCollectionNameFromId };
+export { queryRavenDB, setIdToCollectionName, trimCollectionNameFromId };

@@ -5,6 +5,7 @@ import tokenService from "../../services/token.service";
 import { ravenStore } from "../../server";
 import userService from "../user/user.service";
 import { trimCollectionNameFromId } from "../../services/util.service";
+import { sendEmail } from "../../services/email.service";
 
 async function login(username: string, password: string): Promise<{ user: User; token: string }> {
   const session = ravenStore.openSession();
@@ -15,7 +16,7 @@ async function login(username: string, password: string): Promise<{ user: User; 
 
   if (!user) throw new AppError("User not found", 404);
   user.id = trimCollectionNameFromId(user.id);
-  const isCorrectPassword = await _checkPassword(password, user.password!);
+  const isCorrectPassword = await _checkPassword(password, user.password);
   if (!isCorrectPassword) throw new AppError("Incorrect username or password", 400);
   const token = tokenService.signToken(user.id);
   return {
@@ -41,6 +42,11 @@ async function autoLogin(loginToken: string): Promise<{ user: User; newToken: st
 async function signup(user: User): Promise<{ savedUser: User; token: string }> {
   const savedUser = await userService.add(user);
   const token = tokenService.signToken(savedUser.id);
+  sendEmail({
+    email: user.email,
+    subject: "Welcome to DevQuiz!",
+    message: `Welcome to DevQuiz, ${user.username}!`,
+  });
   return {
     savedUser: savedUser as unknown as User,
     token,

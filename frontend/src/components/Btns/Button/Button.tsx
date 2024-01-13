@@ -4,9 +4,15 @@ type ButtonProps = {
   children: React.ReactNode;
   className?: string;
   onClickFn?: () => void;
+  type?: "button" | "submit" | "reset";
 };
 
-export const Button: FC<ButtonProps> = ({ children, className, onClickFn }) => {
+export const Button: FC<ButtonProps> = ({
+  children,
+  className,
+  onClickFn,
+  type = "button",
+}) => {
   return (
     <button
       onClick={onClickFn}
@@ -15,6 +21,7 @@ export const Button: FC<ButtonProps> = ({ children, className, onClickFn }) => {
         " " +
         className
       }
+      type={type}
     >
       {children}
     </button>

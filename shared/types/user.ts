@@ -1,3 +1,5 @@
+import { DifficultyLevels, ProgrammingLanguage } from "./system";
+
 export interface BasicUser {
   username: string;
   password: string;
@@ -9,6 +11,12 @@ export interface User extends BasicUser {
   id: string;
   roles: UserRoles[];
   createdAt: number;
+  quizSettings: {
+    language: ProgrammingLanguage;
+    level: DifficultyLevels;
+    numQuestions: number;
+    secondsPerQuestion: number;
+  };
 }
 
 export type UserRoles = "user" | "admin" | "editor";

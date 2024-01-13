@@ -92,6 +92,12 @@ async function getDefaultUser(user: BasicUser): Promise<TypeOfUser> {
     passwordConfirm: await _getHashedPassword(user.passwordConfirm),
     roles: ["user"],
     createdAt: Date.now(),
+    quizSettings: {
+      language: "HTML",
+      level: "easy",
+      numQuestions: 25,
+      secondsPerQuestion: 30,
+    },
   };
 }
 

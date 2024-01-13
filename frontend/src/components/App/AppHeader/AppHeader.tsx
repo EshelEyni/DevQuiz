@@ -71,7 +71,7 @@ export const AppHeader = () => {
     {
       name: "Login",
       icon: <IoIosLogIn />,
-      link: "/home/auth",
+      link: `${location.pathname}/auth`,
       condition: !loggedInUser,
     },
     {

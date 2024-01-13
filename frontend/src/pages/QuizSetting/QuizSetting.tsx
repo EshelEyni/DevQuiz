@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainScreen } from "../../components/Gen/MainScreen";
 import { Button } from "../../components/Btns/Button/Button";
@@ -8,14 +8,14 @@ import { InputNumber } from "../../components/Input/InputNumber/InputNumber";
 import { systemSettings } from "../../config";
 import { ProgrammingLanguage } from "../../../../shared/types/system";
 import { AppDispatch } from "../../types/app.types";
-import {
-  setSecondsPerQuestion,
-  startNewQuiz,
-} from "../../store/slices/quizSlice";
+import { startNewQuiz } from "../../store/slices/quizSlice";
 import { InputContainer } from "./InputContainer";
 import classnames from "classnames";
+import { useAuth } from "../../hooks/useAuth";
+import { updateLoggedInUser } from "../../store/slices/authSlice";
 
-export const QuizSetting: FC = () => {
+export const QuizSetting = () => {
+  const { loggedInUser } = useAuth();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { programmingLanguages, difficultyLevels } = systemSettings;
@@ -65,9 +65,12 @@ export const QuizSetting: FC = () => {
         language,
         level,
         limit: numQuestions,
+        secondsPerQuestion,
       }),
     );
-    dispatch(setSecondsPerQuestion(secondsPerQuestion));
+    const quizSettings = { language, level, secondsPerQuestion, numQuestions };
+    if (loggedInUser)
+      dispatch(updateLoggedInUser({ ...loggedInUser, quizSettings }));
     navigate("/home");
   }
 
@@ -77,7 +80,7 @@ export const QuizSetting: FC = () => {
 
       <main
         className="fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[1200px] -translate-x-1/2 -translate-y-1/2 flex-col items-center
-    overflow-scroll bg-gray-50 pt-5 lg:h-[90vh] lg:w-[50vw] lg:rounded-xl"
+    overflow-scroll bg-gray-50 px-3 pt-5 lg:h-[90vh] lg:w-[50vw] lg:rounded-xl"
       >
         <h1 className="mb-10 text-5xl font-medium text-gray-700">
           Quiz Setting
@@ -88,9 +91,8 @@ export const QuizSetting: FC = () => {
               {Object.keys(programmingLanguages).map((lang: string) => (
                 <Button
                   key={lang}
-                  className={classnames("w-fit rounded-2xl px-5 py-3 text-xl", {
+                  className={classnames("w-fit rounded-2xl px-5 py-4 text-xl", {
                     "bg-sky-600 text-gray-50": formtState.language === lang,
-                    "bg-gray-200 text-gray-600": formtState.language !== lang,
                   })}
                   onClickFn={() =>
                     handleLangChange(lang as ProgrammingLanguage)
@@ -109,7 +111,6 @@ export const QuizSetting: FC = () => {
                   key={level}
                   className={classnames("w-fit rounded-2xl px-5 py-3 text-xl", {
                     "bg-sky-600 text-gray-50": formtState.level === level,
-                    "bg-gray-200 text-gray-600": formtState.level !== level,
                   })}
                   onClickFn={() => setFormState({ ...formtState, level })}
                 >
@@ -135,7 +136,7 @@ export const QuizSetting: FC = () => {
               handleChange={handleChangeNumInput}
               updateNumber={updateNum}
               value={formtState.numQuestions}
-              max={90}
+              max={100}
               name="numQuestions"
               className="self-center"
             />

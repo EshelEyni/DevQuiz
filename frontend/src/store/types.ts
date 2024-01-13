@@ -11,5 +11,6 @@ export type questionReqProps = {
   searchTerm?: string;
   isEditPage?: boolean;
   isMarkedToBeRevised?: boolean;
+  secondsPerQuestion?: number;
 };
 export type AppStatus = "loading" | "ready" | "error" | "active" | "finished";

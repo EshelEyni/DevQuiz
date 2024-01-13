@@ -3,10 +3,10 @@ import { routes } from "./routes";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { AppDispatch } from "./store/types";
 import { AppFooter } from "./components/App/AppFooter/AppFooter";
 import { loginWithToken } from "./store/slices/authSlice";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import { AppDispatch } from "./types/app.types";
 
 export const App = () => {
   const dispatch: AppDispatch = useDispatch();

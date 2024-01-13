@@ -20,7 +20,7 @@ const COLLECTION_NAME = "Questions";
 async function query(queryString: QueryString): Promise<Question[]> {
   const store = asyncLocalStorage.getStore() as alStoreType;
   const loggedinUserId = store?.loggedinUserId;
-  const { language, level, isEditPage, searchTerm, isMarkedToBeRevised } = queryString;
+  const { language, level, isEditPage, searchTerm, isMarkedToBeRevised, limit } = queryString;
 
   let questions: Question[] = [];
 
@@ -34,7 +34,8 @@ async function query(queryString: QueryString): Promise<Question[]> {
   if (!loggedinUserId) {
     questions = await _getRandomQuestions(
       language as ProgrammingLanguage,
-      level as DifficultyLevels
+      level as DifficultyLevels,
+      Number(limit) as number
     );
   }
 
@@ -48,7 +49,8 @@ async function query(queryString: QueryString): Promise<Question[]> {
     questions = await _getQuestionsForUser(
       loggedinUserId as string,
       language as ProgrammingLanguage,
-      level as DifficultyLevels
+      level as DifficultyLevels,
+      Number(limit) as number
     );
   }
 
@@ -147,14 +149,15 @@ async function getDuplicates(question: Question): Promise<Question[]> {
 
 async function _getRandomQuestions(
   language: ProgrammingLanguage,
-  level: DifficultyLevels
+  level: DifficultyLevels,
+  limit = 25
 ): Promise<Question[]> {
   const session = ravenStore.openSession();
   const query = session
     .query<Question>({ collection: COLLECTION_NAME })
     .whereEquals("isArchived", false)
     .randomOrdering()
-    .take(25)
+    .take(limit)
     .skip(0);
 
   if (language) query.whereEquals("language", language);
@@ -165,12 +168,13 @@ async function _getRandomQuestions(
 async function _getQuestionsForUser(
   userId: string,
   language: ProgrammingLanguage,
-  level: DifficultyLevels
+  level: DifficultyLevels,
+  limit = 25
 ): Promise<Question[]> {
   const session = ravenStore.openSession();
   const query = session
     .query<Question>({ collection: COLLECTION_NAME })
-    .take(25)
+    .take(limit)
     .skip(0)
     .orderByScore();
 

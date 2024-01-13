@@ -5,6 +5,8 @@ import authService from "../../services/auth.service";
 import userApiService from "../../services/user.service";
 import { AppThunk, QueryState, UserOrNull } from "../../types/app.types";
 import { defaultQueryState, QUERY_TIMEOUT } from "../../services/utils.service";
+import { startNewQuiz } from "./quizSlice";
+import { ThunkDispatch } from "redux-thunk";
 
 type AuthState = {
   loggedInUser: UserOrNull;
@@ -64,6 +66,8 @@ export function login(username: string, password: string): AppThunk {
       dispatch(setQueryState({ state: "loading", error: null }));
       const user = await authService.login(username, password);
       dispatch(setLoggedInUser(user));
+
+      setQuizSettingByUser({ user, dispatch });
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in login", err);
@@ -83,6 +87,9 @@ export function loginWithToken(): AppThunk {
       dispatch(setQueryState({ state: "loading", error: null }));
       const user = await authService.loginWithToken();
       dispatch(setLoggedInUser(user));
+
+      if (user) setQuizSettingByUser({ user, dispatch });
+
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in loginWithToken", err);
@@ -132,4 +139,24 @@ export function updateLoggedInUser(user: User): AppThunk {
       }, QUERY_TIMEOUT);
     }
   };
+}
+
+function setQuizSettingByUser({
+  user,
+  dispatch,
+}: {
+  user: User;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dispatch: ThunkDispatch<unknown, unknown, any>;
+}): void {
+  const { language, level, numQuestions, secondsPerQuestion } =
+    user.quizSettings;
+  dispatch(
+    startNewQuiz({
+      language,
+      level,
+      limit: numQuestions,
+      secondsPerQuestion,
+    }),
+  );
 }

@@ -136,6 +136,7 @@ export function startNewQuiz({
   level,
   page,
   limit = 25,
+  secondsPerQuestion = 30,
 }: questionReqProps): AppThunk {
   return async dispatch => {
     try {
@@ -152,6 +153,9 @@ export function startNewQuiz({
       dispatch(setNumQuestions(questions.length));
       dispatch(setLanguage(language));
       dispatch(setLevel(level));
+      if (page) dispatch(setPage(page));
+      if (secondsPerQuestion)
+        dispatch(setSecondsPerQuestion(secondsPerQuestion));
       dispatch(setStatus("ready"));
     } catch (err) {
       console.log("QuizActions: err in startNewQuiz", err);

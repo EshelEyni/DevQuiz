@@ -1,13 +1,17 @@
+import { FC } from "react";
 import "./Loader.scss";
 
 type LoaderProps = {
   title?: string;
+  className?: string;
 };
 
-export const Loader = ({ title }: LoaderProps) => {
+export const Loader: FC<LoaderProps> = ({ title, className }: LoaderProps) => {
   return (
-    <div className="loader-container">
-      <div className="loader"></div>
+    <div
+      className={`flex items-center justify-center text-gray-500 ${className}`}
+    >
+      <div className="loader" />
       {title && <p>{title}</p>}
     </div>
   );

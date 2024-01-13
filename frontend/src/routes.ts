@@ -53,6 +53,12 @@ const routes: Route[] = [
   {
     path: "/about",
     component: About,
+    nestedRoutes: [
+      {
+        path: "auth",
+        component: AuthPage,
+      },
+    ],
   },
 ];
 

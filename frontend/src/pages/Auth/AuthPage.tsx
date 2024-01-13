@@ -3,11 +3,13 @@ import { LoginForm } from "../../components/Form/LoginForm/LoginForm";
 import { SignupForm } from "../../components/Form/SignupForm/SignupForm";
 import { UserCredentials } from "../../types/auth.types";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/types";
 import { Loader } from "../../components/Loaders/Loader/Loader";
-import "./AuthPage.scss";
 import { login, signup } from "../../store/slices/authSlice";
-import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../types/app.types";
+import { MainScreen } from "../../components/Gen/MainScreen";
+import { useGoToParentPage } from "../../hooks/useGoToParentPage";
+import classnames from "classnames";
+import { useAuth } from "../../hooks/useAuth";
 
 const initialState = {
   username: "",
@@ -18,8 +20,9 @@ const initialState = {
 
 export const AuthPage = () => {
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const goToParentPage = useGoToParentPage();
+  const { queryState } = useAuth();
+  const isLoading = queryState.state === "loading";
   const [isLoginForm, setIsLoginForm] = useState(true);
 
   const [userCredentials, setUserCredentials] =
@@ -32,36 +35,44 @@ export const AuthPage = () => {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsLoading(true);
     if (isLoginForm) {
       const { username, password } = userCredentials;
       dispatch(login(username, password));
     } else dispatch(signup(userCredentials));
-    navigate("/home");
+    goToParentPage();
   }
 
   function onToggleForm() {
     setIsLoginForm(s => !s);
   }
+
   return (
-    <div className="modal modal-login-signup">
-      {isLoading ? (
-        <Loader />
-      ) : isLoginForm ? (
-        <LoginForm
-          onToggleForm={onToggleForm}
-          userCredentials={userCredentials}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-        />
-      ) : (
-        <SignupForm
-          onToggleForm={onToggleForm}
-          userCredentials={userCredentials}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-        />
-      )}
-    </div>
+    <>
+      <MainScreen onClickFn={goToParentPage} darkMode={true} />
+
+      <main
+        className={classnames(
+          "fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[1200px] -translate-x-1/2 -translate-y-1/2 flex-col items-center overflow-scroll bg-gray-50 px-3 pt-5 lg:h-[60vh] lg:w-[50vw] lg:rounded-xl",
+          { "justify-center": isLoading },
+        )}
+      >
+        {isLoading && <Loader />}
+        {!isLoading && isLoginForm ? (
+          <LoginForm
+            onToggleForm={onToggleForm}
+            userCredentials={userCredentials}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+        ) : (
+          <SignupForm
+            onToggleForm={onToggleForm}
+            userCredentials={userCredentials}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+        )}
+      </main>
+    </>
   );
 };

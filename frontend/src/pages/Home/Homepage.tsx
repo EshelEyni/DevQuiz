@@ -14,7 +14,7 @@ import { AppDispatch } from "../../types/app.types";
 
 export const Homepage = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { status, language, level, page } = useQuiz();
+  const { status, language, level, page, questions } = useQuiz();
 
   function renderSwitch(status: string) {
     switch (status) {
@@ -34,6 +34,7 @@ export const Homepage = () => {
   }
 
   useEffect(() => {
+    if (questions.length > 0) return;
     dispatch(startNewQuiz({ language, level, page }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

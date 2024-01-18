@@ -6,3 +6,7 @@
     transform: rotateY(360deg);
   }
 }
+
+.horizontal-rotate {
+  animation: horizontalRotate 10s linear infinite;
+}

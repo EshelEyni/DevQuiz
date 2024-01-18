@@ -1,12 +1,11 @@
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/types";
 import { useState } from "react";
 import { LanguageDropdown } from "../../Dropdown/LanguageDropdown/LanguageDropdown";
 import { LevelDropdown } from "../../Dropdown/LevelDropdown/LevelDropdown";
 import { QuestionSearchInput } from "../QuestionSearchInput/QuestionSearchInput";
 import { BtnQuestionSearch } from "../../Btns/BtnQuestionSearch/BtnQuestionSearch";
 import { BtnWithLabel } from "../../Btns/BtnWithLabel/BtnWithLabel";
-import { CheckBox } from "../../App/CheckBox/CheckBox";
+import { CheckBox } from "../../App/CheckBox";
 import { HiDocumentDuplicate } from "react-icons/hi";
 import { useQuestion } from "../../../hooks/useQuestion";
 import {
@@ -14,6 +13,7 @@ import {
   getQuestions,
 } from "../../../store/slices/questionSlice";
 import { useKey } from "react-use";
+import { AppDispatch } from "../../../types/app.types";
 
 export const QuestionSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();

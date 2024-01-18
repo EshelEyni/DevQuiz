@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
 import { Loader } from "../../components/Loaders/Loader/Loader";
 import { Error } from "../../components/Msg/Error/Error";
-import { StartScreen } from "../../components/Screens/StartScreen/StartScreen";
+import { StartScreen } from "../../components/Screens/StartScreen";
 import { Question } from "../../components/Question/Question/Question";
 import { FinishScreen } from "../../components/Screens/FinishScreen/FinishScreen";
-import { QuizHeader } from "../../components/Quiz/QuizHeader/QuizHeader";
+import { QuizHeader } from "../../components/Quiz/QuizHeader";
 import { Main } from "../../components/Gen/Main";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";

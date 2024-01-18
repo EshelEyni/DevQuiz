@@ -5,7 +5,7 @@ import {
 
 export type questionReqProps = {
   language: ProgrammingLanguage;
-  level: DifficultyLevels;
+  level?: DifficultyLevels;
   page?: number;
   limit?: number;
   searchTerm?: string;

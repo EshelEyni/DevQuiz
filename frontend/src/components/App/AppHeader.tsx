@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-import { Header } from "../../Gen/Header";
-import { useAuth } from "../../../hooks/useAuth";
+import { Header } from "../Gen/Header";
+import { useAuth } from "../../hooks/useAuth";
 import { IoIosSettings, IoIosLogIn, IoIosHome } from "react-icons/io";
-import { useQuiz } from "../../../hooks/useQuiz";
+import { useQuiz } from "../../hooks/useQuiz";
 import { BsPatchQuestionFill } from "react-icons/bs";
 import { FaUsersCog, FaUserCircle, FaBookOpen } from "react-icons/fa";
 import { cloneElement } from "react";

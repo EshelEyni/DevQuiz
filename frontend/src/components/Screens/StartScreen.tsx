@@ -1,9 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useKey } from "react-use";
-import "./StartScreen.scss";
-import { useQuiz } from "../../../hooks/useQuiz";
-import { setStatus } from "../../../store/slices/quizSlice";
-import { AppDispatch } from "../../../types/app.types";
+import { useQuiz } from "../../hooks/useQuiz";
+import { setStatus } from "../../store/slices/quizSlice";
+import { AppDispatch } from "../../types/app.types";
 
 export const StartScreen = () => {
   const dispatch: AppDispatch = useDispatch();

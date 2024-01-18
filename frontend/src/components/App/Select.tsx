@@ -6,9 +6,9 @@ import {
   cloneElement,
   useRef,
 } from "react";
-import { AnyFunction } from "../../../../../shared/types/system";
-import { useOutsideClick } from "../../../hooks/useOutsideClick";
-import { makeId } from "../../../services/utils.service";
+import { AnyFunction } from "../../../../shared/types/system";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
+import { makeId } from "../../services/utils.service";
 
 type SelectProps = {
   children: React.ReactNode;

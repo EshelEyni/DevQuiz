@@ -1,4 +1,4 @@
-import { Footer } from "../../Gen/Footer";
+import { Footer } from "../Gen/Footer";
 
 export const AppFooter = () => {
   return (

@@ -6,7 +6,11 @@ type CheckBoxProps = {
   color?: string;
 };
 
-export const CheckBox = ({ checked, size = 40, color = "white" }: CheckBoxProps) => {
+export const CheckBox = ({
+  checked,
+  size = 40,
+  color = "white",
+}: CheckBoxProps) => {
   return (
     <div>
       {checked ? (

@@ -5,7 +5,7 @@ import { systemSettings } from "../../../config";
 import { useQuestion } from "../../../hooks/useQuestion";
 import { setFilter } from "../../../store/slices/questionSlice";
 import { setLevel } from "../../../store/slices/quizSlice";
-import { Select } from "../../App/Select/Select";
+import { Select } from "../../App/Select";
 import { useQuiz } from "../../../hooks/useQuiz";
 import { AppDispatch } from "../../../types/app.types";
 

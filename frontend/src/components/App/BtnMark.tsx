@@ -18,8 +18,16 @@ export const BtnMark = ({
   onClickFn,
   icons,
 }: BtnMarkProps) => {
-  const checkedIcon = cloneElement(icons.checked as ReactElement, { size, color });
-  const uncheckedIcon = cloneElement(icons.unchecked as ReactElement, { size, color });
+  const checkedIcon = cloneElement(icons.checked as ReactElement, {
+    size,
+    color,
+  });
+  const uncheckedIcon = cloneElement(icons.unchecked as ReactElement, {
+    size,
+    color,
+  });
 
-  return <button onClick={onClickFn}>{checked ? checkedIcon : uncheckedIcon}</button>;
+  return (
+    <button onClick={onClickFn}>{checked ? checkedIcon : uncheckedIcon}</button>
+  );
 };

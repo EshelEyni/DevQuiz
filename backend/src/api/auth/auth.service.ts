@@ -1,4 +1,4 @@
-import { User } from "../../../../shared/types/user";
+import { BasicUser, User } from "../../../../shared/types/user";
 import { AppError } from "../../services/error.service";
 import bcrypt from "bcryptjs";
 import tokenService from "../../services/token.service";
@@ -39,7 +39,7 @@ async function autoLogin(loginToken: string): Promise<{ user: User; newToken: st
   };
 }
 
-async function signup(user: User): Promise<{ savedUser: User; token: string }> {
+async function signup(user: BasicUser): Promise<{ savedUser: User; token: string }> {
   const savedUser = await userService.add(user);
   const token = tokenService.signToken(savedUser.id);
   sendEmail({

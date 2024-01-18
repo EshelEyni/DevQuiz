@@ -20,7 +20,7 @@ export const ProfileDetails = () => {
 
   function handleLogoutClick() {
     dispatch(logout());
-    navigate("/login");
+    navigate("/home");
   }
 
   return (

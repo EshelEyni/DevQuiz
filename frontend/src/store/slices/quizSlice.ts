@@ -4,7 +4,11 @@ import { Question } from "../../../../shared/types/question";
 import { AppStatus, questionReqProps } from "../types";
 import { AppThunk, QueryState } from "../../types/app.types";
 import questionService from "../../services/question.service";
-import { QUERY_TIMEOUT, defaultQueryState } from "../../services/utils.service";
+import {
+  QUERY_TIMEOUT,
+  defaultQueryState,
+  getErrorMessage,
+} from "../../services/utils.service";
 import {
   DifficultyLevels,
   ProgrammingLanguage,
@@ -159,7 +163,7 @@ export function startNewQuiz({
       dispatch(setStatus("ready"));
     } catch (err) {
       console.log("QuizActions: err in startNewQuiz", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setQuizQueryState({ state: "failed", error }));
     } finally {
       setTimeout(() => {

@@ -55,23 +55,20 @@ async function sendEmail(options: { email: string; subject: string; message: str
 async function sendProdMail(options: { email: string; subject: string; message: string }) {
   const accessToken = await oauth2Client.getAccessToken();
   if (!accessToken.token) throw new AppError("Could not get access token", 500);
-
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    service: "gmail",
     auth: {
       type: "OAuth2",
-      user: "your-email@gmail.com",
-      clientId: "YOUR_CLIENT_ID",
-      clientSecret: "YOUR_CLIENT_SECRET",
-      refreshToken: "YOUR_REFRESH_TOKEN",
+      user: "esheleyni@gmail.com",
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      refreshToken: GOOGLE_REFRESH_TOKEN,
       accessToken: accessToken.token,
     },
   });
 
   const mailOptions = {
-    from: "your-email@gmail.com",
+    from: "esheleyni@gmail.com",
     to: options.email,
     subject: options.subject,
     text: options.message,
@@ -87,7 +84,7 @@ async function sendProdMail(options: { email: string; subject: string; message: 
 }
 
 sendProdMail({
-  email: "asdasd",
+  email: "esheleyni@gmail.com",
   subject: "asdasd",
   message: "asdasd",
 });

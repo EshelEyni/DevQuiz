@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User } from "../../../../shared/types/user";
+import { BasicUser, User } from "../../../../shared/types/user";
 import authService from "./auth.service";
 import { AppError, asyncErrorCatcher } from "../../services/error.service";
 
@@ -24,7 +24,7 @@ const autoLogin = asyncErrorCatcher(async (req: Request, res: Response) => {
 });
 
 const signup = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const user = req.body as unknown as User;
+  const user = req.body as unknown as BasicUser;
   const { savedUser, token } = await authService.signup(user);
 
   _sendUserTokenSuccessResponse(res, token, savedUser, 201);

@@ -4,7 +4,11 @@ import { Question, QuestionFilterBy } from "../../../../shared/types/question";
 import { AppThunk, QueryState } from "../../types/app.types";
 import { questionReqProps } from "../types";
 import questionService from "../../services/question.service";
-import { QUERY_TIMEOUT, defaultQueryState } from "../../services/utils.service";
+import {
+  QUERY_TIMEOUT,
+  defaultQueryState,
+  getErrorMessage,
+} from "../../services/utils.service";
 import { setQuizQuestion } from "./quizSlice";
 
 type QuestionState = {
@@ -115,7 +119,7 @@ export function getQuestions({
       dispatch(setGetQuestionsState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in getQuestions", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setGetQuestionsState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -140,7 +144,7 @@ export function getDuplicatedQuestions({
       dispatch(setGetQuestionsState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in getDuplicatedQuestions", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setGetQuestionsState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -159,7 +163,7 @@ export function getQuestion(questionId: string): AppThunk {
       dispatch(setGetQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in getQuestion", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setGetQuestionState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -179,7 +183,7 @@ export function updateQuestion(question: Question): AppThunk {
       dispatch(setUpdateQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in updateQuestion", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setUpdateQuestionState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -198,7 +202,7 @@ export function addQuestion(question: Question): AppThunk {
       dispatch(setAddQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in addQuestion", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setAddQuestionState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -217,7 +221,7 @@ export function removeQuestion(question: Question): AppThunk {
       dispatch(setRemoveQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in removeQuestion", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setRemoveQuestionState({ state: "failed", error }));
     } finally {
       setTimeout(() => {

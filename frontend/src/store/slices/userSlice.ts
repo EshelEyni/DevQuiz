@@ -2,7 +2,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../../../shared/types/user";
 import { AppThunk, QueryState } from "../../types/app.types";
-import { QUERY_TIMEOUT, defaultQueryState } from "../../services/utils.service";
+import {
+  QUERY_TIMEOUT,
+  defaultQueryState,
+  getErrorMessage,
+} from "../../services/utils.service";
 import userService from "../../services/user.service";
 
 type UserState = {
@@ -81,7 +85,7 @@ export function getUsers(): AppThunk {
       dispatch(setGetUsersState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in getUsers", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setGetUsersState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -100,7 +104,7 @@ export function getUser(userId: string): AppThunk {
       dispatch(setGetUserState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in getUser", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setGetUserState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -119,7 +123,7 @@ export function updateUser(user: User): AppThunk {
       dispatch(setUpdateUserState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in updateUser", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setUpdateUserState({ state: "failed", error }));
     } finally {
       setTimeout(() => {

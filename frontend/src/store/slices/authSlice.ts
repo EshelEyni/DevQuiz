@@ -4,7 +4,11 @@ import { BasicUser, User } from "../../../../shared/types/user";
 import authService from "../../services/auth.service";
 import userApiService from "../../services/user.service";
 import { AppThunk, QueryState, UserOrNull } from "../../types/app.types";
-import { defaultQueryState, QUERY_TIMEOUT } from "../../services/utils.service";
+import {
+  defaultQueryState,
+  getErrorMessage,
+  QUERY_TIMEOUT,
+} from "../../services/utils.service";
 import { startNewQuiz } from "./quizSlice";
 import { ThunkDispatch } from "redux-thunk";
 
@@ -49,8 +53,8 @@ export function signup(userCredentials: BasicUser): AppThunk {
       dispatch(setLoggedInUser(user));
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log(err);
-      const error = (err as unknown as Error).message;
+      console.log("err in signup", err);
+      const error = getErrorMessage(err);
       dispatch(setQueryState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -71,7 +75,7 @@ export function login(username: string, password: string): AppThunk {
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in login", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setQueryState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -93,7 +97,7 @@ export function loginWithToken(): AppThunk {
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in loginWithToken", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setQueryState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -112,7 +116,8 @@ export function logout(): AppThunk {
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in logout", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
+
       dispatch(setQueryState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
@@ -131,7 +136,7 @@ export function updateLoggedInUser(user: User): AppThunk {
       dispatch(setUpdateQueryState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in updateLoggedInUser", err);
-      const error = (err as unknown as Error).message;
+      const error = getErrorMessage(err);
       dispatch(setUpdateQueryState({ state: "failed", error }));
     } finally {
       setTimeout(() => {

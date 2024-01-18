@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { UserCredentials } from "../../types/auth.types";
 import { useDispatch } from "react-redux";
 import { Loader } from "../../components/Loaders/Loader/Loader";
@@ -10,6 +10,7 @@ import classnames from "classnames";
 import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../../components/Btns/Button/Button";
 import { useForm } from "react-hook-form";
+import { IoClose } from "react-icons/io5";
 
 const defaultValues: UserCredentials = {
   username: "",
@@ -30,6 +31,8 @@ export const AuthPage = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    clearErrors,
+    reset,
   } = useForm<UserCredentials>({ defaultValues });
 
   const password = useRef({});
@@ -40,15 +43,25 @@ export const AuthPage = () => {
       const { username, password } = data;
       dispatch(login(username, password));
     } else dispatch(signup(data));
-    goToParentPage();
   }
 
   function onToggleForm() {
+    clearErrors();
     setIsLoginForm(s => !s);
   }
 
   const inputClassName =
     "w-full rounded border text-gray-950 border-gray-300 p-2 text-sm focus:border-blue-500 focus:outline-none";
+
+  useEffect(() => {
+    if (queryState.state !== "succeeded") return;
+    goToParentPage();
+
+    return () => {
+      reset();
+      clearErrors();
+    };
+  }, [reset, clearErrors, queryState.state, goToParentPage]);
 
   return (
     <>
@@ -56,14 +69,20 @@ export const AuthPage = () => {
 
       <main
         className={classnames(
-          "lg: fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[1200px] -translate-x-1/2 -translate-y-1/2 flex-col items-center overflow-scroll bg-gray-50 px-3 pt-5 lg:h-fit lg:w-fit lg:rounded-xl",
+          "h- fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[1200px] -translate-x-1/2 -translate-y-1/2 flex-col items-center overflow-scroll bg-gray-50 px-3 pt-5 md:h-1/2 md:w-1/2 md:rounded-xl",
           { "justify-center": isLoading },
         )}
       >
         {isLoading && <Loader />}
         {!isLoading && (
           <>
-            <h1 className="mt-10 text-center text-4xl font-bold text-gray-700 lg:mt-0">
+            <Button
+              className="flex h-10 w-10 items-center justify-center self-end rounded-full text-center hover:bg-gray-200 hover:text-gray-700 md:!hidden"
+              onClickFn={goToParentPage}
+            >
+              <IoClose className="text-3xl" />
+            </Button>
+            <h1 className="mt-10 text-center text-4xl font-bold text-gray-700 md:mt-0">
               {isLoginForm ? "Login" : "Sign up"}
             </h1>
             <form
@@ -135,6 +154,9 @@ export const AuthPage = () => {
                 </span>
               </p>
             </form>
+            {queryState.state === "failed" && (
+              <p className="text-red-500">{queryState.error}</p>
+            )}
           </>
         )}
       </main>

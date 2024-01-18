@@ -176,6 +176,11 @@ function getRandomBrightColor(i: number) {
   return brightColors[i % brightColors.length];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getErrorMessage(error: any) {
+  return error.response.data.message;
+}
+
 export {
   QUERY_TIMEOUT,
   defaultQueryState,
@@ -191,4 +196,5 @@ export {
   changeThemeColors,
   caplitalizeFirstLetter,
   getRandomBrightColor,
+  getErrorMessage,
 };

@@ -2,7 +2,6 @@ import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Question as TypeOfQuestion } from "../../../../../shared/types/question";
-import { AppDispatch } from "../../../store/types";
 import {
   caplitalizeFirstLetter,
   copyToClipboard,
@@ -18,6 +17,7 @@ import {
   removeQuestion,
   updateQuestion,
 } from "../../../store/slices/questionSlice";
+import { AppDispatch } from "../../../types/app.types";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;

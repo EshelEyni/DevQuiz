@@ -24,6 +24,10 @@ html {
   @include scrollbar-hidden;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 h1,
 h2,
 h3,
@@ -64,7 +68,6 @@ a {
 }
 
 button {
-  border: none;
   background: none;
   cursor: pointer;
   padding: 0;
@@ -101,36 +104,5 @@ input[type="number"] {
 
   &.dark {
     background-color: rgba(0, 0, 0, 0.65);
-  }
-}
-
-.check-icon {
-  width: rem(20px);
-  height: rem(20px);
-  color: var(--color-primary);
-  fill: var(--color-primary);
-}
-
-.tippy {
-  position: absolute;
-  width: 0;
-  height: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 200;
-  &.up {
-    border-left: rem(10px) solid transparent;
-    border-right: rem(10px) solid transparent;
-    border-bottom: rem(10px) solid white;
-
-    top: rem(-10px);
-  }
-
-  &.down {
-    border-left: rem(10px) solid transparent;
-    border-right: rem(10px) solid transparent;
-    border-top: rem(10px) solid white;
-
-    bottom: rem(-10px);
   }
 }

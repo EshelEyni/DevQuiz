@@ -32,7 +32,7 @@ export const AppHeader = () => {
 
   const isSettingShown = status === "ready" && isHomepage;
   const iconClass =
-    "cursor-pointer text-4xl text-white transition  duration-300 ease-in-out hover:text-sky-600 md:hidden";
+    "cursor-pointer text-5xl text-white transition  duration-300 ease-in-out hover:text-sky-600 md:hidden";
 
   const leftNavLinks: NavLinks[] = [
     {
@@ -83,8 +83,8 @@ export const AppHeader = () => {
   ];
 
   return (
-    <Header className="flex w-full items-center justify-between bg-gray-800 px-3 py-2 md:px-4 md:py-3">
-      <nav className="flex items-center gap-3">
+    <Header className="flex w-full items-center justify-between bg-gray-800 px-3 py-4 md:px-4 md:py-3">
+      <nav className="flex items-center gap-5 md:gap-3">
         {leftNavLinks.map(
           ({ name, icon, link, condition }) =>
             condition && (
@@ -98,7 +98,7 @@ export const AppHeader = () => {
         )}
       </nav>
 
-      <nav className="flex items-center gap-3">
+      <nav className="flex items-center gap-5 md:gap-3">
         {rightNavLinks.map(
           ({ name, icon, link, condition }) =>
             condition && (

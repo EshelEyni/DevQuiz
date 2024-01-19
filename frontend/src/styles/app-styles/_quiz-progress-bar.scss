@@ -1,0 +1,10 @@
+.quiz-progress-bar {
+  &::-webkit-progress-bar {
+    background-color: var(--color-medium);
+    border-radius: 100px;
+  }
+  &::-webkit-progress-value {
+    background-color: var(--color-theme);
+    border-radius: 100px;
+  }
+}

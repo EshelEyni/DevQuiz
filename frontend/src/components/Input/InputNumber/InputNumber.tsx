@@ -27,12 +27,12 @@ export const InputNumber: FC<InputNumberProps> = ({
       }
     >
       <FaChevronLeft
-        className="cursor-pointer text-xl font-medium text-gray-50"
+        className="cursor-pointer text-3xl font-medium text-gray-50 md:text-2xl"
         onClick={() => updateNumber(-1)}
       />
       <input
         type="number"
-        className="max-h-content w-8 bg-transparent pb-1 text-center text-2xl font-medium text-gray-50"
+        className="max-h-content w-12 bg-transparent pb-0 text-center text-4xl font-medium text-gray-50 md:pb-1"
         name={name}
         min={0}
         max={max}
@@ -40,7 +40,7 @@ export const InputNumber: FC<InputNumberProps> = ({
         onChange={handleChange}
       />
       <FaChevronRight
-        className="cursor-pointer text-xl font-medium text-gray-50"
+        className="cursor-pointer text-3xl font-medium text-gray-50 md:text-2xl"
         onClick={() => updateNumber(1)}
       />
     </div>

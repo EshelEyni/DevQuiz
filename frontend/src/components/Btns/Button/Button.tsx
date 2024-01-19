@@ -5,6 +5,7 @@ type ButtonProps = {
   className?: string;
   onClickFn?: () => void;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 };
 
 export const Button: FC<ButtonProps> = ({
@@ -12,16 +13,14 @@ export const Button: FC<ButtonProps> = ({
   className,
   onClickFn,
   type = "button",
+  disabled = false,
 }) => {
   return (
     <button
       onClick={onClickFn}
-      className={
-        "rounded-full bg-gray-700 text-3xl font-medium uppercase text-gray-100 transition-all hover:scale-105" +
-        " " +
-        className
-      }
+      className={className}
       type={type}
+      disabled={disabled}
     >
       {children}
     </button>

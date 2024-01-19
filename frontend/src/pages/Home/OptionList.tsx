@@ -1,12 +1,11 @@
 import { useDispatch } from "react-redux";
 import { useState, useEffect, useCallback } from "react";
-import { AppDispatch } from "../../../store/types";
-import { Question } from "../../../../../shared/types/question";
-import { OptionDisplay } from "../OptionDisplay/OptionDisplay";
-import "./OptionList.scss";
-import userService from "../../../services/user.service";
-import { useAuth } from "../../../hooks/useAuth";
-import { setAnswerIdx, setPoints } from "../../../store/slices/quizSlice";
+import { Question } from "../../../../shared/types/question";
+import { OptionDisplay } from "../../components/Option/OptionDisplay/OptionDisplay";
+import userService from "../../services/user.service";
+import { useAuth } from "../../hooks/useAuth";
+import { setAnswerIdx, setPoints } from "../../store/slices/quizSlice";
+import { AppDispatch } from "../../types/app.types";
 
 type OptionListProps = {
   question: Question;
@@ -131,7 +130,7 @@ export const OptionList = ({ question }: OptionListProps) => {
   }, [question]);
 
   return (
-    <div className="options">
+    <div className="mb-4 flex flex-col gap-4">
       {question.options.map((option, idx) => (
         <OptionDisplay
           key={idx}

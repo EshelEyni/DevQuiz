@@ -16,23 +16,25 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-gray-700 text-gray-50">
+    <div className="app flex min-h-screen flex-col items-center overflow-y-scroll bg-gray-700 text-gray-50">
       <AppHeader />
-      <Routes>
-        <Route index element={<Navigate replace to="/home" />} />
-        {routes.map((route, index) => (
-          <Route key={index} path={route.path} element={<route.component />}>
-            {route.nestedRoutes?.map((nestedRoute, index) => (
-              <Route
-                key={index}
-                path={nestedRoute.path}
-                element={<nestedRoute.component />}
-              />
-            ))}
-          </Route>
-        ))}
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+      <div className="flex-1">
+        <Routes>
+          <Route index element={<Navigate replace to="/home" />} />
+          {routes.map((route, index) => (
+            <Route key={index} path={route.path} element={<route.component />}>
+              {route.nestedRoutes?.map((nestedRoute, index) => (
+                <Route
+                  key={index}
+                  path={nestedRoute.path}
+                  element={<nestedRoute.component />}
+                />
+              ))}
+            </Route>
+          ))}
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </div>
       <AppFooter />
     </div>
   );

@@ -87,7 +87,6 @@ const quizSlice = createSlice({
       );
     },
     setNumQuestions(state, action: PayloadAction<number>) {
-      console.log("setNumQuestions", action.payload);
       state.numQuestions = action.payload;
     },
     setNextQuestionIdx(state) {
@@ -107,7 +106,7 @@ const quizSlice = createSlice({
       state.isTimerOn = action.payload;
     },
     resetQuizState(state) {
-      state.status = "active";
+      state.status = "ready";
       state.questionIdx = 0;
       state.answerIdx = null;
       state.points = 0;
@@ -156,7 +155,7 @@ export function startNewQuiz({
       dispatch(setQuizQueryState({ state: "succeeded", error: null }));
       dispatch(setNumQuestions(questions.length));
       dispatch(setLanguage(language));
-      dispatch(setLevel(level));
+      if (level) dispatch(setLevel(level));
       if (page) dispatch(setPage(page));
       if (secondsPerQuestion)
         dispatch(setSecondsPerQuestion(secondsPerQuestion));

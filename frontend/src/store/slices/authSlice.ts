@@ -97,8 +97,6 @@ export function loginWithToken(): AppThunk {
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
       console.log("err in loginWithToken", err);
-      const error = getErrorMessage(err);
-      dispatch(setQueryState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
         dispatch(setQueryState(defaultQueryState));

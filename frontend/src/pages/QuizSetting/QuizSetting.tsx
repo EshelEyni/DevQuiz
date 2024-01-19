@@ -85,15 +85,18 @@ export const QuizSetting = () => {
         <h1 className="mb-10 text-5xl font-medium text-gray-700">
           Quiz Setting
         </h1>
-        <div className="flex flex-col gap-6 px-3">
+        <div className="flex flex-1 flex-col gap-6 px-3">
           <InputContainer title="Technology">
             <div className="flex w-full flex-wrap gap-2">
               {Object.keys(programmingLanguages).map((lang: string) => (
                 <Button
                   key={lang}
-                  className={classnames("w-fit rounded-2xl px-5 py-4 text-xl", {
-                    "bg-sky-600 text-gray-50": formtState.language === lang,
-                  })}
+                  className={classnames(
+                    "w-fit rounded-2xl bg-gray-700 px-5 py-4 text-2xl font-medium md:text-xl",
+                    {
+                      "bg-sky-600 text-gray-50": formtState.language === lang,
+                    },
+                  )}
                   onClickFn={() =>
                     handleLangChange(lang as ProgrammingLanguage)
                   }
@@ -109,9 +112,12 @@ export const QuizSetting = () => {
               {difficultyLevels.map(level => (
                 <Button
                   key={level}
-                  className={classnames("w-fit rounded-2xl px-5 py-3 text-xl", {
-                    "bg-sky-600 text-gray-50": formtState.level === level,
-                  })}
+                  className={classnames(
+                    "w-fit rounded-2xl bg-gray-700 px-5 py-3 text-2xl font-medium capitalize md:text-xl",
+                    {
+                      "bg-sky-600 text-gray-50": formtState.level === level,
+                    },
+                  )}
                   onClickFn={() => setFormState({ ...formtState, level })}
                 >
                   <span>{level}</span>
@@ -142,17 +148,17 @@ export const QuizSetting = () => {
             />
           </InputContainer>
         </div>
-        <div className="mt-6 flex items-center gap-3">
+        <div className="mb-16 flex items-center gap-3">
           <Button
             onClickFn={onGoBack}
-            className="d-flex items-center justify-center px-6 py-3 text-xl "
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-8 py-6 text-4xl font-medium uppercase md:px-6 md:py-3 md:text-xl"
           >
             <span>close</span>
           </Button>
 
           <Button
             onClickFn={handleSaveClick}
-            className="d-flex items-center justify-center px-6 py-3 text-xl "
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-8 py-6 text-4xl font-medium uppercase md:px-6 md:py-3 md:text-xl"
           >
             <span>save</span>
           </Button>

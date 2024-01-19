@@ -16,9 +16,9 @@ const login = asyncErrorCatcher(async (req: Request, res: Response) => {
 });
 
 const autoLogin = asyncErrorCatcher(async (req: Request, res: Response) => {
-  const { loginToken } = req.cookies;
-  if (!loginToken) throw new AppError("User not logged in", 401);
-  const { user, newToken } = await authService.autoLogin(loginToken);
+  const { dev_quiz_jwt } = req.cookies;
+  if (!dev_quiz_jwt) throw new AppError("User not logged in", 401);
+  const { user, newToken } = await authService.autoLogin(dev_quiz_jwt);
 
   _sendUserTokenSuccessResponse(res, newToken, user, 200);
 });
@@ -31,7 +31,7 @@ const signup = asyncErrorCatcher(async (req: Request, res: Response) => {
 });
 
 const logout = asyncErrorCatcher(async (req: Request, res: Response) => {
-  res.clearCookie("loginToken");
+  res.clearCookie("dev_quiz_jwt");
   res.send({
     status: "success",
     data: {
@@ -46,10 +46,12 @@ const _sendUserTokenSuccessResponse = (
   user: User,
   status: number
 ) => {
-  res.cookie("loginToken", token, {
+  res.cookie("dev_quiz_jwt", token, {
     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
+    secure: true,
+    sameSite: "none",
   });
 
   res.status(status).json({

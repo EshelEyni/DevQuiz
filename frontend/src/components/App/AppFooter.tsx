@@ -3,7 +3,7 @@ import { Footer } from "../Gen/Footer";
 export const AppFooter = () => {
   return (
     <Footer>
-      <div className="fixed bottom-0 left-0 flex h-16 w-full items-center justify-between bg-gray-800 px-3 text-2xl text-gray-300">
+      <div className="mt-4 flex h-20 w-screen items-center justify-between bg-gray-800 px-3 text-3xl text-gray-300 md:h-16 md:text-2xl">
         <p>
           Created By
           <a

@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/types";
-import { useQuiz } from "../../../hooks/useQuiz";
-import { setIsTimerOn, setStatus } from "../../../store/slices/quizSlice";
-import "./Timer.scss";
+import { useQuiz } from "../../hooks/useQuiz";
+import { setIsTimerOn, setStatus } from "../../store/slices/quizSlice";
+import { AppDispatch } from "../../types/app.types";
 
 export const Timer = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -33,7 +32,7 @@ export const Timer = () => {
       intervalId.current = setInterval(() => {
         setSecondsRemaining(prev => {
           if (prev === 0) {
-            dispatch(setStatus("finished"));
+            // dispatch(setStatus("finished"));
             return prev;
           }
           return prev - 1;
@@ -50,10 +49,12 @@ export const Timer = () => {
   }, [isTimerOn, dispatch]);
 
   return (
-    <div className="timer">
-      {minutes < 10 && "0"}
-      {minutes}:{seconds < 10 && "0"}
-      {seconds}
+    <div className="col-start-1 row-start-1 flex h-20 items-center justify-center justify-self-start rounded-[100px] border-2 border-gray-500 px-8 text-3xl text-gray-200">
+      <span>
+        {minutes < 10 && "0"}
+        {minutes}:{seconds < 10 && "0"}
+        {seconds}
+      </span>
     </div>
   );
 };

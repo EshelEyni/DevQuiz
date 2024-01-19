@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/types";
 import { useKey } from "react-use";
-import { useQuiz } from "../../../hooks/useQuiz";
-import "./FinishScreen.scss";
-import { resetQuizState, startNewQuiz } from "../../../store/slices/quizSlice";
+import { useQuiz } from "../../hooks/useQuiz";
+import { resetQuizState, startNewQuiz } from "../../store/slices/quizSlice";
+import { AppDispatch } from "../../types/app.types";
+import { Button } from "../../components/Btns/Button/Button";
+import classnames from "classnames";
 
 type typeOfButton = "newQuiz" | "restart" | "none";
 
@@ -61,30 +62,41 @@ export const FinishScreen = () => {
   }, [focusedBtn]);
 
   return (
-    <section className="finish-screen">
-      <p className="result">
-        <span className="emoji">{emoji}</span>
+    <section className="flex flex-col items-center gap-12">
+      <p
+        className="rounded-full px-6 py-8 text-center text-4xl font-medium"
+        style={{
+          background: "var(--color-theme)",
+        }}
+      >
+        <span className="mr-[4px] text-4xl">{emoji}</span>
         You scored <strong>{points}</strong> out of{" "}
-        <strong>{maxPossiblePoints}</strong> points. ({Math.ceil(percentage)})
+        <strong>{maxPossiblePoints}</strong> points. ({Math.ceil(percentage)}%)
       </p>
-      <p className="highscore">(Highscore: {highScore} points)</p>
-      <div className="finish-screen-btn-container">
-        <button
-          className={
-            "btn btn-ui" + (focusedBtn === "newQuiz" ? " btn-focus" : "")
-          }
-          onClick={handleNewQuizClick}
+      <p className="text-center text-3xl">(Highscore: {highScore} points)</p>
+      <div className="flex items-center justify-center gap-5">
+        <Button
+          className={classnames(
+            "cursor-pointer rounded-full bg-gray-500 px-10 py-7 text-3xl transition-all duration-300",
+            {
+              "bg-gray-800": focusedBtn === "newQuiz",
+            },
+          )}
+          onClickFn={handleNewQuizClick}
         >
           Start New Quiz
-        </button>
-        <button
-          className={
-            "btn btn-ui" + (focusedBtn === "restart" ? " btn-focus" : "")
-          }
-          onClick={handleRestartClick}
+        </Button>
+        <Button
+          className={classnames(
+            "cursor-pointer rounded-full bg-gray-500 px-10 py-7 text-3xl transition-all duration-300",
+            {
+              "bg-gray-800": focusedBtn === "restart",
+            },
+          )}
+          onClickFn={handleRestartClick}
         >
           Restart
-        </button>
+        </Button>
       </div>
     </section>
   );

@@ -11,6 +11,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../../components/Btns/Button/Button";
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
+import { ErrMsg } from "./ErrMsg";
 
 const defaultValues: UserCredentials = {
   username: "",
@@ -18,6 +19,11 @@ const defaultValues: UserCredentials = {
   password: "",
   passwordConfirm: "",
 };
+
+if (process.env.NODE_ENV === "development") {
+  defaultValues.username = "TESTPASS22";
+  defaultValues.password = "TESTPASS22";
+}
 
 export const AuthPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -51,7 +57,7 @@ export const AuthPage = () => {
   }
 
   const inputClassName =
-    "w-full rounded border text-gray-950 border-gray-300 p-2 text-sm focus:border-blue-500 focus:outline-none";
+    "w-full rounded border text-gray-950 border-gray-300 px-2 text-2xl focus:border-blue-500 focus:outline-none h-16 md:h-12";
 
   useEffect(() => {
     if (queryState.state !== "succeeded") return;
@@ -82,21 +88,19 @@ export const AuthPage = () => {
             >
               <IoClose className="text-3xl" />
             </Button>
-            <h1 className="mt-10 text-center text-4xl font-bold text-gray-700 md:mt-0">
+            <h1 className="mb-6 mt-10 text-center text-6xl font-bold text-gray-700 md:mt-0 md:text-5xl">
               {isLoginForm ? "Login" : "Sign up"}
             </h1>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="flex w-full max-w-md flex-col items-center justify-center gap-4 rounded-lg p-6"
+              className="flex w-full max-w-xl flex-col items-center justify-center gap-4 rounded-lg p-3 sm:max-w-2xl md:max-w-md"
             >
               <input
                 {...register("username", { required: "Username is required" })}
                 placeholder="Username"
                 className={inputClassName}
               />
-              {errors.username && (
-                <p className="text-red-500">{errors.username.message}</p>
-              )}
+              {errors.username && <ErrMsg msg={errors.username.message} />}
               {!isLoginForm && (
                 <>
                   <input
@@ -108,7 +112,13 @@ export const AuthPage = () => {
                     className={inputClassName}
                   />
                   {errors.email && (
-                    <p className="text-red-500">Email is not valid</p>
+                    <ErrMsg
+                      msg={
+                        errors.email.type === "required"
+                          ? "Email is required"
+                          : "Email is invalid"
+                      }
+                    />
                   )}
                 </>
               )}
@@ -132,17 +142,18 @@ export const AuthPage = () => {
                     className={inputClassName}
                   />
                   {errors.passwordConfirm && (
-                    <p className="text-red-500">
-                      {errors.passwordConfirm.message}
-                    </p>
+                    <ErrMsg msg={errors.passwordConfirm.message} />
                   )}
                 </>
               )}
 
-              <Button type="submit" className="px-4 py-2 text-lg">
+              <Button
+                type="submit"
+                className="mt-2 px-8 py-6 text-4xl md:px-4 md:py-2 md:text-xl"
+              >
                 {isLoginForm ? "Login" : "Sign up"}
               </Button>
-              <p className="text-lg text-gray-700">
+              <p className="mt-6 text-3xl text-gray-700 md:text-lg">
                 {isLoginForm
                   ? "Don't have an account? "
                   : "Already have an account? "}
@@ -154,9 +165,7 @@ export const AuthPage = () => {
                 </span>
               </p>
             </form>
-            {queryState.state === "failed" && (
-              <p className="text-red-500">{queryState.error}</p>
-            )}
+            {queryState.state === "failed" && <ErrMsg msg={queryState.error} />}
           </>
         )}
       </main>

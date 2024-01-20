@@ -28,16 +28,19 @@ type SelectContextType = {
 
 type SelectTriggerProps = {
   children: React.ReactNode;
+  className?: string;
 };
 
 type SelectListProps = {
   children: React.ReactNode;
+  className?: string;
 };
 
 type SelectItemProps = {
   children: React.ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
+  className?: string;
 };
 
 type Position = {
@@ -96,12 +99,12 @@ export const Select: FC<SelectProps> & {
 
   return (
     <SelectContext.Provider value={value}>
-      <div style={{ position: "relative" }}>{children}</div>
+      <div className="relative">{children}</div>
     </SelectContext.Provider>
   );
 };
 
-const SelectTrigger: FC<SelectTriggerProps> = ({ children }) => {
+const SelectTrigger: FC<SelectTriggerProps> = ({ children, className }) => {
   const { isOpen, setIsOpen, listHeight, setPosition, selectTriggerId } =
     useSelect();
   const ref = useRef<HTMLButtonElement>(null);
@@ -119,13 +122,13 @@ const SelectTrigger: FC<SelectTriggerProps> = ({ children }) => {
 
   return cloneElement(children as React.ReactElement, {
     id: selectTriggerId,
-    className: "select-trigger",
+    className,
     onClick: handleTriggerClick,
     ref,
   });
 };
 
-const SelectList: FC<SelectListProps> = ({ children }) => {
+const SelectList: FC<SelectListProps> = ({ children, className }) => {
   const { isOpen, setIsOpen, position, selectTriggerId } = useSelect();
   const { outsideClickRef } = useOutsideClick<HTMLUListElement>(close, true, [
     selectTriggerId,
@@ -137,13 +140,13 @@ const SelectList: FC<SelectListProps> = ({ children }) => {
 
   if (!isOpen) return null;
   return (
-    <ul style={{ ...position }} className="select-list" ref={outsideClickRef}>
+    <ul style={{ ...position }} className={className} ref={outsideClickRef}>
       {children}
     </ul>
   );
 };
 
-const SelectItem: FC<SelectItemProps> = ({ value, children }) => {
+const SelectItem: FC<SelectItemProps> = ({ value, children, className }) => {
   const { onChange, setIsOpen } = useSelect();
 
   function handleItemClick() {
@@ -152,7 +155,7 @@ const SelectItem: FC<SelectItemProps> = ({ value, children }) => {
   }
 
   return (
-    <li className="select-list__item" onClick={handleItemClick}>
+    <li className={className} onClick={handleItemClick}>
       {children}
     </li>
   );

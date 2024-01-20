@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useState, useEffect, useCallback } from "react";
 import { Question } from "../../../../shared/types/question";
-import { OptionDisplay } from "../../components/Option/OptionDisplay/OptionDisplay";
+import { OptionDisplay } from "./OptionDisplay";
 import userService from "../../services/user.service";
 import { useAuth } from "../../hooks/useAuth";
 import { setAnswerIdx, setPoints } from "../../store/slices/quizSlice";

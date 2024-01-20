@@ -25,7 +25,11 @@ export const BtnApproveQuestion = ({
       >
         <AiOutlineFileDone size={size} color={color} />
       </button>
-      <Tooltip id={btnId} style={{ fontSize: "16px" }} />
+      <Tooltip
+        id={btnId}
+        style={{ fontSize: "16px" }}
+        className="hidden md:block"
+      />
     </>
   );
 };

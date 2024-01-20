@@ -1,23 +1,22 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Question as TypeOfQuestion } from "../../../../../shared/types/question";
+import { Question as TypeOfQuestion } from "../../../../shared/types/question";
 import {
   caplitalizeFirstLetter,
   copyToClipboard,
-} from "../../../services/utils.service";
-import { BtnQuestionEdit } from "../../Btns/BtnQuestionEdit/BtnQuestionEdit";
-import { BtnEntityArchive } from "../../Btns/BtnEntityArchive/BtnEntityArchive";
-import "./QuestionPreview.scss";
-import { BtnApproveQuestion } from "../../Btns/BtnApproveQuestion/BtnApproveQuestion";
+} from "../../services/utils.service";
+import { BtnQuestionEdit } from "../../components/Btns/BtnQuestionEdit/BtnQuestionEdit";
+import { BtnEntityArchive } from "../../components/Btns/BtnEntityArchive/BtnEntityArchive";
+import { BtnApproveQuestion } from "../../components/Btns/BtnApproveQuestion/BtnApproveQuestion";
 import { GiCheckMark } from "react-icons/gi";
-import { BtnCopyQuestion } from "../../Btns/BtnCopyQuestion/BtnCopyQuestion";
-import { BtnMarkQuesitonToEdit } from "../../Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
+import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion/BtnCopyQuestion";
+import { BtnMarkQuesitonToEdit } from "../../components/Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
 import {
   removeQuestion,
   updateQuestion,
-} from "../../../store/slices/questionSlice";
-import { AppDispatch } from "../../../types/app.types";
+} from "../../store/slices/questionSlice";
+import { AppDispatch } from "../../types/app.types";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
@@ -74,39 +73,45 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
   }
 
   return (
-    <li className="question-preview" style={{ backgroundColor: bcgColor }}>
+    <li
+      className="white-box-shadow flex flex-col justify-between gap-2 overflow-auto rounded-lg p-8"
+      style={{ backgroundColor: bcgColor }}
+    >
       <div>
-        <header>
-          <p className="question-id" onClick={copyQuestionIdToClipboard}>
+        <header className="mb-2 flex items-center justify-between gap-2">
+          <p
+            className="cursor-pointer text-3xl font-semibold hover:underline"
+            onClick={copyQuestionIdToClipboard}
+          >
             Id: {id}
           </p>
           {question.isRevised && <GiCheckMark size={24} color="#1d9bf0" />}
         </header>
-        <div className="question-preview-question">{questionText}</div>
-        <div className="question-preview-options">
+        <div className="mb-2 text-[2.6rem] font-semibold">{questionText}</div>
+        <div className="ml-4 flex flex-col gap-2 text-3xl">
           {options.map((option, index) => (
-            <div key={index} className="question-preview-option">
-              {`${index + 1}. ${option}`}
-            </div>
+            <div key={index}>{`${index + 1}. ${option}`}</div>
           ))}
         </div>
       </div>
       <div>
-        <div className="question-preview-details">
-          <div className="question-preview-details-item">
+        <div className="flex justify-between text-3xl font-semibold">
+          <div>
             <p>Level: </p>
             <span>{caplitalizeFirstLetter(level)}</span>
           </div>
-          <div className="question-preview-details-item">
+          <div>
             <p>Language: </p>
             <span>{language}</span>
           </div>
-          <div className="question-preview-details-item">
+          <div className="group flex flex-col items-center gap-1">
             <p>Correct Option:</p>
-            <span className="correct-option-num">{correctOption + 1}</span>
+            <span className="opacity-0 group-hover:opacity-100">
+              {correctOption + 1}
+            </span>
           </div>
         </div>
-        <div className="question-preview-btn-container">
+        <div className="flex items-center justify-end gap-4">
           <BtnEntityArchive
             entity="question"
             handleBtnArchiveClick={handleBtnArchiveClick}

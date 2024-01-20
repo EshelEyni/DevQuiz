@@ -44,7 +44,7 @@ const questionSlice = createSlice({
       state.questions = action.payload;
     },
     setGetQuestionsState(state, action: PayloadAction<QueryState>) {
-      state.getQuestionState = action.payload;
+      state.getQuestionsState = action.payload;
     },
     setQuestion(state, action: PayloadAction<Question>) {
       state.question = action.payload;

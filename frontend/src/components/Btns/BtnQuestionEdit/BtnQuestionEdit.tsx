@@ -8,7 +8,10 @@ type BtnQuestionEditProps = {
   size?: number;
 };
 
-export const BtnQuestionEdit = ({ handleBtnEditClick, size = 18 }: BtnQuestionEditProps) => {
+export const BtnQuestionEdit = ({
+  handleBtnEditClick,
+  size = 18,
+}: BtnQuestionEditProps) => {
   const btnId = useRef(makeId()).current;
   return (
     <>
@@ -21,7 +24,11 @@ export const BtnQuestionEdit = ({ handleBtnEditClick, size = 18 }: BtnQuestionEd
       >
         <BiEdit size={size} />
       </button>
-      <Tooltip id={btnId} style={{ fontSize: "16px" }} />
+      <Tooltip
+        id={btnId}
+        style={{ fontSize: "16px" }}
+        className="hidden md:block"
+      />
     </>
   );
 };

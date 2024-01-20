@@ -20,13 +20,14 @@ export const AppHeader = () => {
   const { status } = useQuiz();
 
   const isHomepage = location.pathname.includes("/home");
+  const isProfilePage = location.pathname.includes("/profile");
   const isQuestionEditLinkShown =
-    !isHomepage &&
+    isProfilePage &&
     loggedInUser &&
     loggedInUser?.roles.some(role => role === "admin" || role === "editor");
 
   const isUserAdmin =
-    !isHomepage &&
+    isProfilePage &&
     loggedInUser &&
     loggedInUser?.roles.some(role => role === "admin");
 

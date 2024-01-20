@@ -1,6 +1,5 @@
-import "./OptionDisplay.scss";
-import { useQuiz } from "../../../hooks/useQuiz";
-import { Button } from "../../Btns/Button/Button";
+import { useQuiz } from "../../hooks/useQuiz";
+import { Button } from "../../components/Btns/Button/Button";
 import classnames from "classnames";
 
 type OptionDisplayProps = {

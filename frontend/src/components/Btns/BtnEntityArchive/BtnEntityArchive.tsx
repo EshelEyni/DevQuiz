@@ -25,7 +25,11 @@ export const BtnEntityArchive = ({
       >
         <BiArchive size={22} color={color} />
       </button>
-      <Tooltip id={btnId} style={{ fontSize: "16px" }} />
+      <Tooltip
+        id={btnId}
+        style={{ fontSize: "16px" }}
+        className="hidden md:block"
+      />
     </>
   );
 };

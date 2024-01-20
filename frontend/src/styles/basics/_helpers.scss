@@ -44,3 +44,7 @@
 .ratio-poster {
   @include aspect-ratio(100, 150);
 }
+
+.white-box-shadow {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}

@@ -18,16 +18,20 @@ export const BtnCopyQuestion = ({
   const btnId = useRef(makeId()).current;
 
   function onCopyQuestion() {
-    const stringifiedQuestion = Object.entries(question!).reduce((acc, [key, value]) => {
-      if (key === "question") return acc + `${key}: ${value}\n`;
-      if (key === "options") {
-        const options = (value as string[]).map(
-          (option, index) => `Option ${index + 1}: ${option}`
-        );
-        return acc + options.join("\n") + "\n";
-      }
-      return acc;
-    }, "");
+    if (!question) return;
+    const stringifiedQuestion = Object.entries(question).reduce(
+      (acc, [key, value]) => {
+        if (key === "question") return acc + `${key}: ${value}\n`;
+        if (key === "options") {
+          const options = (value as string[]).map(
+            (option, index) => `Option ${index + 1}: ${option}`,
+          );
+          return acc + options.join("\n") + "\n";
+        }
+        return acc;
+      },
+      "",
+    );
 
     copyToClipboard(stringifiedQuestion);
   }
@@ -42,7 +46,11 @@ export const BtnCopyQuestion = ({
       >
         <FaRegCopy size={size} color={color} />
       </button>
-      <Tooltip id={btnId} style={{ fontSize: "16px" }} />
+      <Tooltip
+        id={btnId}
+        style={{ fontSize: "16px" }}
+        className="hidden md:block"
+      />
     </>
   );
 };

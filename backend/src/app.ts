@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === "production") {
       "http://localhost:8080",
       "http://127.0.0.1:5173",
       "http://localhost:5173",
-      "https://0568-2a06-c701-482b-fd00-1532-9c15-6a72-f650.ngrok-free.app",
+      "https://8807-2a06-c701-482b-fd00-1532-9c15-6a72-f650.ngrok-free.app",
     ],
     credentials: true,
   };

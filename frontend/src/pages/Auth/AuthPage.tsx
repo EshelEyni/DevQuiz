@@ -149,7 +149,7 @@ export const AuthPage = () => {
 
               <Button
                 type="submit"
-                className="mt-2 px-8 py-6 text-4xl md:px-4 md:py-2 md:text-xl"
+                className="mt-2 rounded-full bg-gray-700 px-8 py-6 text-4xl font-medium leading-none text-white transition-all duration-300 hover:scale-105 md:px-4 md:py-2 md:text-xl"
               >
                 {isLoginForm ? "Login" : "Sign up"}
               </Button>

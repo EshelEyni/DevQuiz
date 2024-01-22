@@ -97,3 +97,21 @@ export interface RavenDbDocument {
     "@collection": string;
   };
 }
+
+export type answersCount = {
+  userId: string;
+  language: ProgrammingLanguage;
+  level: DifficultyLevels;
+  count: number;
+};
+
+export type questionsCount = {
+  language: ProgrammingLanguage;
+  level: DifficultyLevels;
+  count: number;
+};
+
+export type UserStats = {
+  answersCount: answersCount[];
+  questionsCount: questionsCount[];
+};

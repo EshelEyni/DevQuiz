@@ -6,7 +6,12 @@ import {
 } from "../../services/util.service";
 import { ravenStore } from "../../server";
 import { BasicUser, User as TypeOfUser, UserCorrectAnswer } from "../../../../shared/types/user";
-import { RavenDbDocument } from "../../../../shared/types/system";
+import {
+  RavenDbDocument,
+  UserStats,
+  answersCount,
+  questionsCount,
+} from "../../../../shared/types/system";
 import bcrypt from "bcryptjs";
 import { IDocumentSession } from "ravendb";
 import { AppError } from "../../services/error.service";
@@ -84,6 +89,29 @@ async function addUserCorrectAnswer(
   return true;
 }
 
+async function getUserStats(userId: string): Promise<UserStats> {
+  const session = ravenStore.openSession();
+  const answersCount = (await session
+    .query({ collection: "UserCorrectAnswers" })
+    .groupBy("userId", "language", "level")
+    .selectKey("userId")
+    .selectKey("language")
+    .selectKey("level")
+    .selectCount()
+    .whereEquals("userId", userId)
+    .all()) as answersCount[];
+
+  const questionsCount = (await session
+    .query({ collection: "Questions" })
+    .groupBy("language", "level")
+    .selectKey("language")
+    .selectKey("level")
+    .selectCount()
+    .all()) as questionsCount[];
+
+  return { answersCount, questionsCount };
+}
+
 async function getDefaultUser(user: BasicUser): Promise<TypeOfUser> {
   return {
     id: "",
@@ -131,4 +159,5 @@ export default {
   update,
   remove,
   addUserCorrectAnswer,
+  getUserStats,
 };

@@ -62,4 +62,24 @@ const addUserCorrectAnswer = asyncErrorCatcher(async (req: Request, res: Respons
   });
 });
 
-export { getUsers, getUserById, addUser, updateUser, removeUser, addUserCorrectAnswer };
+const getUserStats = asyncErrorCatcher(async (req: Request, res: Response) => {
+  const { loggedinUserId } = req;
+  if (!loggedinUserId) throw new AppError("User not logged in", 401);
+  const userStats = await userServices.getUserStats(loggedinUserId);
+
+  res.status(200).json({
+    status: "success",
+    requestedAt: new Date().toISOString(),
+    data: userStats,
+  });
+});
+
+export {
+  getUsers,
+  getUserById,
+  addUser,
+  updateUser,
+  removeUser,
+  addUserCorrectAnswer,
+  getUserStats,
+};

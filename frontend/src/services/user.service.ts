@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { Question } from "../../../shared/types/question";
+import { UserStats } from "../../../shared/types/system";
 import { User } from "../../../shared/types/user";
 import { httpService } from "./http.service";
 import { storageService } from "./storage.service";
@@ -69,6 +70,16 @@ async function recordUserCorrectAnswer(question: Question): Promise<void> {
   }
 }
 
+async function getUserStats(): Promise<UserStats[]> {
+  try {
+    const respose = await httpService.get(`${BASE_URL}/user-stats`);
+    return handleServerResponse<UserStats[]>(respose);
+  } catch (err) {
+    console.log("User service: err in getUserStats", err);
+    throw err;
+  }
+}
+
 export default {
   query,
   getById,
@@ -77,4 +88,5 @@ export default {
   update,
   remove,
   recordUserCorrectAnswer,
+  getUserStats,
 };

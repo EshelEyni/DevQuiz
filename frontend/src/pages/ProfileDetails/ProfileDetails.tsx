@@ -8,16 +8,21 @@ import { AppDispatch } from "../../types/app.types";
 import { logout } from "../../store/slices/authSlice";
 import { Loader } from "../../components/Loaders/Loader/Loader";
 import { Header } from "../../components/Gen/Header";
-import { UserStats } from "../../../../shared/types/system";
+import {
+  ProgrammingLanguage,
+  QuestionAnswerCount,
+  UserStats,
+} from "../../../../shared/types/system";
 import userService from "../../services/user.service";
+import { StatsDisplay } from "./StatsDisplay";
 
 export const ProfileDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { user } = useUsers();
-  const [userStats, setUserStats] = useState<UserStats[]>([]);
-  console.log(userStats);
+  const [userStats, setUserStats] = useState<UserStats | null>(null);
+
   const { id } = params;
   const isCurrUser = user && user.id === id;
 
@@ -32,9 +37,9 @@ export const ProfileDetails = () => {
   }, [id, dispatch]);
 
   useEffect(() => {
-    if (!isCurrUser) return;
+    if (!isCurrUser || !!userStats) return;
     fetchUserStats();
-  }, [isCurrUser]);
+  }, [isCurrUser, userStats]);
 
   function handleLogoutClick() {
     dispatch(logout());
@@ -61,7 +66,23 @@ export const ProfileDetails = () => {
               </Button>
             </div>
           </Header>
-          <pre>{JSON.stringify(user, null, 2)}</pre>
+          {userStats && (
+            <div>
+              {Object.entries(userStats.answersCount).map(([key, value]) => (
+                <div key={key}>
+                  <StatsDisplay
+                    answerLanguage={key as ProgrammingLanguage}
+                    answerCount={value as QuestionAnswerCount}
+                    questionCount={
+                      userStats.questionsCount[
+                        key as ProgrammingLanguage
+                      ] as QuestionAnswerCount
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </main>

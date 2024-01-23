@@ -7,10 +7,11 @@ import {
 import { ravenStore } from "../../server";
 import { BasicUser, User as TypeOfUser, UserCorrectAnswer } from "../../../../shared/types/user";
 import {
+  QuestionAnswerCount,
   RavenDbDocument,
   UserStats,
-  answersCount,
-  questionsCount,
+  answersData,
+  questionsData,
 } from "../../../../shared/types/system";
 import bcrypt from "bcryptjs";
 import { IDocumentSession } from "ravendb";
@@ -51,6 +52,7 @@ async function update(user: TypeOfUser) {
   const id = setIdToCollectionName(COLLECTION_NAME, user.id);
   const doc = await session.load<TypeOfUser>(id);
   if (!doc) throw new AppError("User not found", 404);
+  user.roles = ["user"];
   Object.assign(doc, user);
   await _validateUser(session, doc);
   await session.saveChanges();
@@ -91,7 +93,7 @@ async function addUserCorrectAnswer(
 
 async function getUserStats(userId: string): Promise<UserStats> {
   const session = ravenStore.openSession();
-  const answersCount = (await session
+  const answersData = (await session
     .query({ collection: "UserCorrectAnswers" })
     .groupBy("userId", "language", "level")
     .selectKey("userId")
@@ -99,15 +101,33 @@ async function getUserStats(userId: string): Promise<UserStats> {
     .selectKey("level")
     .selectCount()
     .whereEquals("userId", userId)
-    .all()) as answersCount[];
+    .all()) as answersData[];
 
-  const questionsCount = (await session
+  const answersCount = answersData.reduce((acc, curr) => {
+    const { language, level, count } = curr;
+    acc[language] = acc[language] || {};
+    acc[language]["all"] = acc[language]["all"] || 0;
+    acc[language]["all"] += count;
+    acc[language][level] = count;
+    return acc;
+  }, {} as QuestionAnswerCount);
+
+  const questionsData = (await session
     .query({ collection: "Questions" })
     .groupBy("language", "level")
     .selectKey("language")
     .selectKey("level")
     .selectCount()
-    .all()) as questionsCount[];
+    .all()) as questionsData[];
+
+  const questionsCount = questionsData.reduce((acc, curr) => {
+    const { language, level, count } = curr;
+    acc[language] = acc[language] || {};
+    acc[language]["all"] = acc[language]["all"] || 0;
+    acc[language]["all"] += count;
+    acc[language][level] = count;
+    return acc;
+  }, {} as QuestionAnswerCount);
 
   return { answersCount, questionsCount };
 }

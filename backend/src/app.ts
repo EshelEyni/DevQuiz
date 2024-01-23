@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import express from "express";
 import helmet from "helmet";
 import ExpressMongoSanitize from "express-mongo-sanitize";
-// import requestSanitizer from "./middlewares/html-sanitizer.middleware";
+import requestSanitizer from "./middlewares/html-sanitizer.middleware";
 import hpp from "hpp";
 import path from "path";
 import cookieParser from "cookie-parser";
@@ -25,9 +25,10 @@ app.use(
   })
 );
 
+app.all("*", setupAsyncLocalStorage);
 app.use(requestLimiter);
 app.use(ExpressMongoSanitize());
-// app.use(requestSanitizer);
+app.use(requestSanitizer);
 app.use(
   hpp({
     whitelist: [], // add whitelisted query params here
@@ -51,7 +52,6 @@ if (process.env.NODE_ENV === "production") {
   app.use(cors(corsOptions));
 }
 
-app.all("*", setupAsyncLocalStorage);
 app.use((req: Request, res: Response, next: NextFunction) => {
   const isDevEnv = process.env.NODE_ENV !== "production";
   if (isDevEnv) requestLogger(req, res, next);

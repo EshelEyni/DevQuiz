@@ -8,7 +8,7 @@ function getTokenFromRequest(req: Request) {
   let tokenFromHeaders;
   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
     tokenFromHeaders = req.headers.authorization.split(" ")[1];
-  const token = cookies.dev_quiz_jwt || tokenFromHeaders;
+  const token = cookies.dev_quiz_jwt || tokenFromHeaders || null;
   return token;
 }
 

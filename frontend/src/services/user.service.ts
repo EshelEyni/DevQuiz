@@ -70,10 +70,10 @@ async function recordUserCorrectAnswer(question: Question): Promise<void> {
   }
 }
 
-async function getUserStats(): Promise<UserStats[]> {
+async function getUserStats(): Promise<UserStats> {
   try {
     const respose = await httpService.get(`${BASE_URL}/user-stats`);
-    return handleServerResponse<UserStats[]>(respose);
+    return handleServerResponse<UserStats>(respose);
   } catch (err) {
     console.log("User service: err in getUserStats", err);
     throw err;

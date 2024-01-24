@@ -1,5 +1,4 @@
-
-import "./Error.scss"
+import "./Error.scss";
 
 export const Error = () => {
   return (

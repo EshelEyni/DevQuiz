@@ -1,11 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useUsers } from "../../hooks/useUser";
-import { getUser } from "../../store/slices/userSlice";
 import { Button } from "../../components/Btns/Button/Button";
-import { AppDispatch } from "../../types/app.types";
-import { logout } from "../../store/slices/authSlice";
+import { AppDispatch, QueryState } from "../../types/app.types";
+import { logout, updateLoggedInUser } from "../../store/slices/authSlice";
 import { Loader } from "../../components/Loaders/Loader/Loader";
 import { Header } from "../../components/Gen/Header";
 import {
@@ -15,26 +13,50 @@ import {
 } from "../../../../shared/types/system";
 import userService from "../../services/user.service";
 import { StatsDisplay } from "./StatsDisplay";
+import {
+  defaultQueryState,
+  getErrorMessage,
+} from "../../services/utils.service";
+import { ErrMsg } from "../../components/Msg/ErrMsg";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../../hooks/useAuth";
+
+type UserDetails = {
+  username: string;
+  email: string;
+};
 
 export const ProfileDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { user } = useUsers();
+  const { loggedInUser } = useAuth();
   const [userStats, setUserStats] = useState<UserStats | null>(null);
-
+  const [isEditShown, setIsEditShown] = useState(false);
+  const [userStatsQueryState, setUserStatsQueryState] =
+    useState<QueryState>(defaultQueryState);
+  const isStatsShown =
+    userStatsQueryState.state === "succeeded" && userStats && !isEditShown;
   const { id } = params;
-  const isCurrUser = user && user.id === id;
+  const isCurrUser = loggedInUser && loggedInUser.id === id;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserDetails>({});
 
   async function fetchUserStats() {
-    const userStats = await userService.getUserStats();
-    setUserStats(userStats);
+    try {
+      setUserStatsQueryState(p => ({ ...p, state: "loading" }));
+      const userStats = await userService.getUserStats();
+      setUserStats(userStats);
+      setUserStatsQueryState(p => ({ ...p, state: "succeeded" }));
+    } catch (err) {
+      const error = getErrorMessage(err);
+      setUserStatsQueryState(p => ({ ...p, state: "failed", error }));
+    }
   }
-
-  useEffect(() => {
-    if (!id) return;
-    dispatch(getUser(id));
-  }, [id, dispatch]);
 
   useEffect(() => {
     if (!isCurrUser || !!userStats) return;
@@ -46,42 +68,91 @@ export const ProfileDetails = () => {
     navigate("/home");
   }
 
+  function handleEditStatsClick() {
+    setIsEditShown(p => !p);
+  }
+
+  function onSubmit(data: { username: string; email: string }) {
+    if (!loggedInUser) return;
+    dispatch(updateLoggedInUser({ ...loggedInUser, ...data }));
+    setIsEditShown(false);
+  }
+
   return (
-    <main className="flex min-h-[250px] w-screen flex-col items-center justify-center overflow-hidden">
-      {!isCurrUser && <Loader />}
+    <main className="flex min-h-[250px] w-screen flex-col items-center overflow-hidden">
+      {!isCurrUser && <Loader className="mt-52" />}
 
       {isCurrUser && (
-        <div className="mt-10 flex flex-col items-center">
-          <Header className="flex w-full flex-col items-center gap-4">
+        <div className="mt-10 flex w-full flex-col items-center gap-6 md:w-3/5">
+          <Header className="flex w-full flex-col gap-4">
             <h1 className="text-4xl font-semibold tracking-wider">
-              {user.username}
+              {loggedInUser.username}
             </h1>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 self-start">
               <Button
                 onClickFn={handleLogoutClick}
                 className="text-md transform rounded-full bg-gray-800 p-3 font-semibold uppercase transition-all duration-300 ease-in-out hover:scale-105"
               >
                 logout
               </Button>
+              <Button
+                onClickFn={handleEditStatsClick}
+                className="text-md transform rounded-full bg-gray-800 p-3 font-semibold uppercase transition-all duration-300 ease-in-out hover:scale-105"
+              >
+                {isEditShown ? "stats" : "edit"}
+              </Button>
             </div>
           </Header>
-          {userStats && (
-            <div>
+          {isEditShown && (
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="mt-10 flex flex-col items-center gap-4 rounded-xl bg-gray-600 p-6"
+            >
+              <input
+                {...register("username", { required: "Username is required" })}
+                placeholder="Username"
+                className="text-md w-64 transform rounded-full bg-gray-800 p-3 font-semibold uppercase transition-all duration-300 ease-in-out hover:scale-105"
+                defaultValue={loggedInUser.username || ""}
+              />
+              {errors.username && <ErrMsg msg={errors.username.message} />}
+              <input
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /\S+@\S+\.\S+/,
+                    message: "Entered value does not match email format",
+                  },
+                })}
+                placeholder="Email"
+                className="text-md w-64 transform rounded-full bg-gray-800 p-3 font-semibold uppercase transition-all duration-300 ease-in-out hover:scale-105"
+                defaultValue={loggedInUser.email || ""}
+              />
+              {errors.email && <ErrMsg msg={errors.email.message} />}
+              <Button
+                type="submit"
+                className="text-md mt-5 w-20 transform rounded-full bg-gray-800 p-3 font-semibold uppercase transition-all duration-300 ease-in-out hover:scale-105"
+              >
+                Save
+              </Button>
+            </form>
+          )}
+
+          {isStatsShown && (
+            <ul className="flex flex-wrap gap-4 self-start">
               {Object.entries(userStats.answersCount).map(([key, value]) => (
-                <div key={key}>
-                  <StatsDisplay
-                    answerLanguage={key as ProgrammingLanguage}
-                    answerCount={value as QuestionAnswerCount}
-                    questionCount={
-                      userStats.questionsCount[
-                        key as ProgrammingLanguage
-                      ] as QuestionAnswerCount
-                    }
-                  />
-                </div>
+                <StatsDisplay
+                  answerLanguage={key as ProgrammingLanguage}
+                  answerCount={value as QuestionAnswerCount}
+                  questionCount={
+                    userStats.questionsCount[
+                      key as ProgrammingLanguage
+                    ] as QuestionAnswerCount
+                  }
+                  key={key}
+                />
               ))}
-            </div>
+            </ul>
           )}
         </div>
       )}

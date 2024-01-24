@@ -111,7 +111,9 @@ export type questionsData = {
   count: number;
 };
 
-export type QuestionAnswerCount = Record<DifficultyLevels | "all", number>;
+export type StatsDisplayLevel = "total" | DifficultyLevels;
+
+export type QuestionAnswerCount = Record<StatsDisplayLevel, number>;
 
 export type QuestionAnswerCounts = Record<
   ProgrammingLanguage,

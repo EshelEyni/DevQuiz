@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { BasicUser, User } from "../../../../shared/types/user";
 import authService from "./auth.service";
 import { AppError, asyncErrorCatcher } from "../../services/error.service";
+import userService from "../user/user.service";
 
 const login = asyncErrorCatcher(async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -61,4 +62,17 @@ const _sendUserTokenSuccessResponse = (
   });
 };
 
-export { login, autoLogin, signup, logout };
+const updateUser = asyncErrorCatcher(async (req: Request, res: Response) => {
+  const { loggedinUserId } = req;
+  if (!loggedinUserId) throw new AppError("User not logged in", 401);
+  const userToUpdate = req.body;
+  if (userToUpdate.id !== loggedinUserId)
+    throw new AppError("User can only update his own profile", 401);
+  const user = await userService.update(userToUpdate);
+  res.status(200).json({
+    status: "success",
+    data: user,
+  });
+});
+
+export { login, autoLogin, signup, logout, updateUser };

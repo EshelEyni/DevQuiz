@@ -2,6 +2,9 @@ import { User } from "../../../shared/types/user";
 import { UserCredentials } from "../types/auth.types";
 import { JsendResponse } from "../types/system.interface";
 import { httpService } from "./http.service";
+import { handleServerResponse } from "./utils.service";
+
+const BASE_URL = "auth";
 
 async function loginWithToken(): Promise<User | null> {
   const response = (await httpService.post(
@@ -34,4 +37,8 @@ async function logout(): Promise<void> {
   return response;
 }
 
-export default { login, signup, logout, loginWithToken };
+async function update(user: User): Promise<User> {
+  const respose = await httpService.put(`${BASE_URL}/update`, user);
+  return handleServerResponse<User>(respose);
+}
+export default { login, signup, logout, loginWithToken, update };

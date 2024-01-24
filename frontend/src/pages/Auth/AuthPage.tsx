@@ -11,7 +11,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../../components/Btns/Button/Button";
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
-import { ErrMsg } from "./ErrMsg";
+import { ErrMsg } from "../../components/Msg/ErrMsg";
 
 const defaultValues: UserCredentials = {
   username: "",

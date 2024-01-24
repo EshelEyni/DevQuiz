@@ -17,10 +17,10 @@ router.post("/correct-answer", addUserCorrectAnswer);
 router.get("/user-stats", getUserStats);
 
 router.use(requireAdmin);
-router.post("/", addUser);
-router.get("/", getUsers);
 router.get("/:id", getUserById);
 router.put("/", updateUser);
+router.post("/", addUser);
+router.get("/", getUsers);
 router.delete("/:id", removeUser);
 
 export default router;

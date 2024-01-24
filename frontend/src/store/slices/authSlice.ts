@@ -2,7 +2,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BasicUser, User } from "../../../../shared/types/user";
 import authService from "../../services/auth.service";
-import userApiService from "../../services/user.service";
 import { AppThunk, QueryState, UserOrNull } from "../../types/app.types";
 import {
   defaultQueryState,
@@ -129,7 +128,7 @@ export function updateLoggedInUser(user: User): AppThunk {
   return async dispatch => {
     try {
       dispatch(setUpdateQueryState({ state: "loading", error: null }));
-      const updatedUser = await userApiService.update(user);
+      const updatedUser = await authService.update(user);
       dispatch(setLoggedInUser(updatedUser));
       dispatch(setUpdateQueryState({ state: "succeeded", error: null }));
     } catch (err) {

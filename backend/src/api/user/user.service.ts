@@ -7,7 +7,7 @@ import {
 import { ravenStore } from "../../server";
 import { BasicUser, User as TypeOfUser, UserCorrectAnswer } from "../../../../shared/types/user";
 import {
-  QuestionAnswerCount,
+  QuestionAnswerCounts,
   RavenDbDocument,
   UserStats,
   answersData,
@@ -52,7 +52,8 @@ async function update(user: TypeOfUser) {
   const id = setIdToCollectionName(COLLECTION_NAME, user.id);
   const doc = await session.load<TypeOfUser>(id);
   if (!doc) throw new AppError("User not found", 404);
-  user.roles = ["user"];
+  // Prevent user from adding admin role
+  user.roles = ["admin", "user"];
   Object.assign(doc, user);
   await _validateUser(session, doc);
   await session.saveChanges();
@@ -106,11 +107,11 @@ async function getUserStats(userId: string): Promise<UserStats> {
   const answersCount = answersData.reduce((acc, curr) => {
     const { language, level, count } = curr;
     acc[language] = acc[language] || {};
-    acc[language]["all"] = acc[language]["all"] || 0;
-    acc[language]["all"] += count;
+    acc[language]["total"] = acc[language]["total"] || 0;
+    acc[language]["total"] += count;
     acc[language][level] = count;
     return acc;
-  }, {} as QuestionAnswerCount);
+  }, {} as QuestionAnswerCounts);
 
   const questionsData = (await session
     .query({ collection: "Questions" })
@@ -123,11 +124,11 @@ async function getUserStats(userId: string): Promise<UserStats> {
   const questionsCount = questionsData.reduce((acc, curr) => {
     const { language, level, count } = curr;
     acc[language] = acc[language] || {};
-    acc[language]["all"] = acc[language]["all"] || 0;
-    acc[language]["all"] += count;
+    acc[language]["total"] = acc[language]["total"] || 0;
+    acc[language]["total"] += count;
     acc[language][level] = count;
     return acc;
-  }, {} as QuestionAnswerCount);
+  }, {} as QuestionAnswerCounts);
 
   return { answersCount, questionsCount };
 }

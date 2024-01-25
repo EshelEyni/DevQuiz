@@ -14,7 +14,7 @@ import {
   questionsData,
 } from "../../../../shared/types/system";
 import bcrypt from "bcryptjs";
-import { IDocumentSession } from "ravendb";
+import { DeleteByQueryOperation, IDocumentSession, IndexQuery } from "ravendb";
 import { AppError } from "../../services/error.service";
 
 const COLLECTION_NAME = "Users";
@@ -90,6 +90,25 @@ async function addUserCorrectAnswer(
   await session.store(doc);
   await session.saveChanges();
   return true;
+}
+
+async function removeUserCorrectAnswers({
+  loggedinUserId,
+  language,
+  level,
+}: {
+  loggedinUserId: string;
+  language?: string;
+  level?: string;
+}) {
+  const session = ravenStore.openSession();
+  const indexQuery = new IndexQuery();
+  indexQuery.query = `from 'UserCorrectAnswers' where userId = '${loggedinUserId}'`;
+  if (language) indexQuery.query += ` and language = '${language}'`;
+  if (level) indexQuery.query += ` and level = '${level}'`;
+  const operation = new DeleteByQueryOperation(indexQuery);
+  await session.advanced.documentStore.operations.send(operation);
+  await session.saveChanges();
 }
 
 async function getUserStats(userId: string): Promise<UserStats> {
@@ -181,4 +200,5 @@ export default {
   remove,
   addUserCorrectAnswer,
   getUserStats,
+  removeUserCorrectAnswers,
 };

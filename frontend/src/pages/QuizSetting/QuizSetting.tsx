@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainScreen } from "../../components/Gen/MainScreen";
-import { Button } from "../../components/Btns/Button/Button";
+import { Button } from "../../components/Btns/Button";
 import { useQuiz } from "../../hooks/useQuiz";
 import { useDispatch } from "react-redux";
 import { InputNumber } from "../../components/Input/InputNumber/InputNumber";

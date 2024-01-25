@@ -3,7 +3,7 @@ import { useKey } from "react-use";
 import { useQuiz } from "../../hooks/useQuiz";
 import { setStatus } from "../../store/slices/quizSlice";
 import { AppDispatch } from "../../types/app.types";
-import { Button } from "../../components/Btns/Button/Button";
+import { Button } from "../../components/Btns/Button";
 
 export const StartScreen = () => {
   const dispatch: AppDispatch = useDispatch();

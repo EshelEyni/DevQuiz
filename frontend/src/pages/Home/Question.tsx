@@ -6,7 +6,7 @@ import { BtnQuestionEdit } from "../../components/Btns/BtnQuestionEdit/BtnQuesti
 import { Footer } from "../../components/Gen/Footer";
 import { ProgressBar } from "./ProgressBar";
 import { Timer } from "./Timer";
-import { BtnApproveQuestion } from "../../components/Btns/BtnApproveQuestion/BtnApproveQuestion";
+import { BtnApproveQuestion } from "../../components/Btns/BtnApproveQuestion";
 import { BtnMarkQuesitonToEdit } from "../../components/Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
 import { useAuth } from "../../hooks/useAuth";
 import { useQuiz } from "../../hooks/useQuiz";
@@ -20,7 +20,7 @@ import {
 import { updateQuestion } from "../../store/slices/questionSlice";
 import { AppDispatch } from "../../types/app.types";
 import { useKey } from "react-use";
-import { Button } from "../../components/Btns/Button/Button";
+import { Button } from "../../components/Btns/Button";
 
 export const Question = () => {
   const dispatch: AppDispatch = useDispatch();

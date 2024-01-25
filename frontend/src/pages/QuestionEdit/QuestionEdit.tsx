@@ -13,7 +13,7 @@ import { Header } from "../../components/Gen/Header";
 import { systemSettings } from "../../config";
 import classnames from "classnames";
 import { Select } from "../../components/App/Select";
-import { Button } from "../../components/Btns/Button/Button";
+import { Button } from "../../components/Btns/Button";
 
 export const QuestionEdit = () => {
   const params = useParams();
@@ -107,7 +107,7 @@ export const QuestionEdit = () => {
               <h3 className="self-start text-4xl font-medium md:text-3xl">
                 Language:
               </h3>
-              <Select onChange={handleChangeLangSelect} listHeight={300}>
+              <Select onChange={handleChangeLangSelect}>
                 <Select.SelectTrigger
                   className="h-14 w-52 cursor-pointer rounded-xl border-2 border-gray-800 
             bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300"
@@ -115,7 +115,7 @@ export const QuestionEdit = () => {
                   <button type="button">{question.language}</button>
                 </Select.SelectTrigger>
                 <Select.SelectList
-                  className="z-[1500] mt-1 w-full  min-w-[100px] cursor-pointer 
+                  className="z-[1500] mt-1 w-52  min-w-[100px] cursor-pointer 
             border-2  border-gray-800 bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300"
                 >
                   {Object.keys(programmingLanguages).map((lang: string) => (
@@ -175,7 +175,7 @@ export const QuestionEdit = () => {
                 Level:
               </h3>
 
-              <Select onChange={handleChangeDifficultySelect} listHeight={300}>
+              <Select onChange={handleChangeDifficultySelect}>
                 <Select.SelectTrigger
                   className="h-14 w-52 cursor-pointer rounded-xl border-2 border-gray-800 
             bg-gray-700 text-2xl capitalize leading-5 outline-none transition-all duration-300"

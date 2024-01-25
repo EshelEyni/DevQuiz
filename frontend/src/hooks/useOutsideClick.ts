@@ -9,7 +9,7 @@ type OutsideClickRef<T extends HTMLElement> = {
 export function useOutsideClick<T extends HTMLElement>(
   handler: OutsideClickHandler,
   listenCapturing = true,
-  execludedElementIds = [] as string[]
+  execludedElementIds = [] as string[],
 ): OutsideClickRef<T> {
   const ref = useRef<T | null>(null);
 
@@ -23,7 +23,8 @@ export function useOutsideClick<T extends HTMLElement>(
 
     document.addEventListener("click", handleClick, listenCapturing);
 
-    return () => document.removeEventListener("click", handleClick, listenCapturing);
+    return () =>
+      document.removeEventListener("click", handleClick, listenCapturing);
   }, [handler, listenCapturing, execludedElementIds]);
 
   return { outsideClickRef: ref };

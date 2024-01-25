@@ -8,7 +8,7 @@ import { MainScreen } from "../../components/Gen/MainScreen";
 import { useGoToParentPage } from "../../hooks/useGoToParentPage";
 import classnames from "classnames";
 import { useAuth } from "../../hooks/useAuth";
-import { Button } from "../../components/Btns/Button/Button";
+import { Button } from "../../components/Btns/Button";
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
 import { ErrMsg } from "../../components/Msg/ErrMsg";

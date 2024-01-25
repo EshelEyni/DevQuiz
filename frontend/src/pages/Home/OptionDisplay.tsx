@@ -1,5 +1,5 @@
 import { useQuiz } from "../../hooks/useQuiz";
-import { Button } from "../../components/Btns/Button/Button";
+import { Button } from "../../components/Btns/Button";
 import classnames from "classnames";
 
 type OptionDisplayProps = {

@@ -1,8 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button } from "../../components/Btns/Button/Button";
-import { AppDispatch, QueryState } from "../../types/app.types";
+import { Button } from "../../components/Btns/Button";
+import {
+  AppDispatch,
+  LanguageAndLevel,
+  QueryState,
+} from "../../types/app.types";
 import { logout, updateLoggedInUser } from "../../store/slices/authSlice";
 import { Loader } from "../../components/Loaders/Loader/Loader";
 import { Header } from "../../components/Gen/Header";
@@ -20,6 +24,7 @@ import {
 import { ErrMsg } from "../../components/Msg/ErrMsg";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
+import classnames from "classnames";
 
 type UserDetails = {
   username: string;
@@ -37,6 +42,7 @@ export const ProfileDetails = () => {
     useState<QueryState>(defaultQueryState);
   const isStatsShown =
     userStatsQueryState.state === "succeeded" && userStats && !isEditShown;
+  const isStatsLoading = userStatsQueryState.state === "loading";
   const { id } = params;
   const isCurrUser = loggedInUser && loggedInUser.id === id;
 
@@ -70,6 +76,22 @@ export const ProfileDetails = () => {
 
   function handleEditStatsClick() {
     setIsEditShown(p => !p);
+  }
+
+  async function onRestart({ language, level }: LanguageAndLevel) {
+    try {
+      setUserStatsQueryState(p => ({ ...p, state: "loading" }));
+      await userService.removeUserCorrectAnswers({
+        language: language,
+        level,
+      });
+      const userStats = await userService.getUserStats();
+      setUserStats(userStats);
+      setUserStatsQueryState(p => ({ ...p, state: "succeeded" }));
+    } catch (err) {
+      const error = getErrorMessage(err);
+      setUserStatsQueryState(p => ({ ...p, state: "failed", error }));
+    }
   }
 
   function onSubmit(data: { username: string; email: string }) {
@@ -138,22 +160,30 @@ export const ProfileDetails = () => {
             </form>
           )}
 
-          {isStatsShown && (
-            <ul className="flex flex-wrap gap-4 self-start">
-              {Object.entries(userStats.answersCount).map(([key, value]) => (
-                <StatsDisplay
-                  answerLanguage={key as ProgrammingLanguage}
-                  answerCount={value as QuestionAnswerCount}
-                  questionCount={
-                    userStats.questionsCount[
-                      key as ProgrammingLanguage
-                    ] as QuestionAnswerCount
-                  }
-                  key={key}
-                />
-              ))}
-            </ul>
-          )}
+          <ul
+            className={classnames("flex w-full flex-wrap gap-4 self-start", {
+              "justify-center": isStatsLoading,
+            })}
+          >
+            {isStatsLoading && <Loader className="mt-10 self-center" />}
+            {isStatsShown && (
+              <>
+                {Object.entries(userStats.answersCount).map(([key, value]) => (
+                  <StatsDisplay
+                    answerLanguage={key as ProgrammingLanguage}
+                    answerCount={value as QuestionAnswerCount}
+                    questionCount={
+                      userStats.questionsCount[
+                        key as ProgrammingLanguage
+                      ] as QuestionAnswerCount
+                    }
+                    onRestart={onRestart}
+                    key={key}
+                  />
+                ))}
+              </>
+            )}
+          </ul>
         </div>
       )}
     </main>

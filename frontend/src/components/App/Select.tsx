@@ -9,10 +9,11 @@ import {
 import { AnyFunction } from "../../../../shared/types/system";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { makeId } from "../../services/utils.service";
+import { createPortal } from "react-dom";
+import { UseWheelListener } from "../../hooks/UseWheelListener";
 
 type SelectProps = {
   children: React.ReactNode;
-  listHeight: number;
   onChange: AnyFunction;
 };
 
@@ -20,7 +21,6 @@ type SelectContextType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onChange: AnyFunction;
-  listHeight: number;
   position: Position | null;
   setPosition: React.Dispatch<React.SetStateAction<Position | null>>;
   selectTriggerId: string;
@@ -61,19 +61,27 @@ function useSelect() {
 
 function calculatePositionByRef<T extends HTMLElement>(
   ref: React.RefObject<T>,
-  modalHeight: number,
 ) {
   const rect = ref.current?.getBoundingClientRect();
   if (!rect) return null;
-  const windowHeight = window.innerHeight;
-  const isElementAbove = windowHeight - rect.top < modalHeight;
-  const bottomPosition = { top: "100%" };
-  const topPosition = { bottom: "0" };
+  const windowHeight = window.outerWidth;
+  const elementHeight = rect.height;
+  const elementWidth = rect.width;
+  const isElementAbove = windowHeight - rect.top < elementHeight;
+
+  const verticalPosition = isElementAbove
+    ? { bottom: `${windowHeight - rect.top}px` }
+    : { top: `${rect.bottom}px` };
+
+  const horizontalMidpoint = rect.left + rect.width / 2;
+  const horizontalPosition = {
+    left: `${horizontalMidpoint}px`,
+    transform: `translateX(-${elementWidth / 2}px)`,
+  };
+
   const position = {
-    position: "absolute",
-    ...(isElementAbove ? topPosition : bottomPosition),
-    left: "50%",
-    transform: "translateX(-50%)",
+    ...verticalPosition,
+    ...horizontalPosition,
   };
 
   return position;
@@ -83,7 +91,7 @@ export const Select: FC<SelectProps> & {
   SelectTrigger: FC<SelectTriggerProps>;
   SelectList: FC<SelectListProps>;
   SelectItem: FC<SelectItemProps>;
-} = ({ children, onChange, listHeight }) => {
+} = ({ children, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState<Position | null>(null);
   const selectTriggerId = makeId();
@@ -91,7 +99,6 @@ export const Select: FC<SelectProps> & {
     isOpen,
     setIsOpen,
     onChange,
-    listHeight,
     position,
     setPosition,
     selectTriggerId,
@@ -105,8 +112,7 @@ export const Select: FC<SelectProps> & {
 };
 
 const SelectTrigger: FC<SelectTriggerProps> = ({ children, className }) => {
-  const { isOpen, setIsOpen, listHeight, setPosition, selectTriggerId } =
-    useSelect();
+  const { isOpen, setIsOpen, setPosition, selectTriggerId } = useSelect();
   const ref = useRef<HTMLButtonElement>(null);
 
   function handleTriggerClick() {
@@ -115,7 +121,7 @@ const SelectTrigger: FC<SelectTriggerProps> = ({ children, className }) => {
   }
 
   function calcPosition() {
-    const position = calculatePositionByRef(ref, listHeight);
+    const position = calculatePositionByRef(ref);
     if (!position) return;
     setPosition(position);
   }
@@ -134,15 +140,23 @@ const SelectList: FC<SelectListProps> = ({ children, className }) => {
     selectTriggerId,
   ]);
 
+  UseWheelListener(close);
+
   function close() {
     setIsOpen(false);
   }
 
   if (!isOpen) return null;
-  return (
-    <ul style={{ ...position }} className={className} ref={outsideClickRef}>
+  return createPortal(
+    <ul
+      style={{ ...position }}
+      className={"fixed " + className}
+      ref={outsideClickRef}
+    >
       {children}
-    </ul>
+    </ul>,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    document.getElementById("root")!,
   );
 };
 

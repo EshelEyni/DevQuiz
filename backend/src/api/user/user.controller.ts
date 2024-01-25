@@ -62,6 +62,22 @@ const addUserCorrectAnswer = asyncErrorCatcher(async (req: Request, res: Respons
   });
 });
 
+const removeUserCorrectAnswers = asyncErrorCatcher(async (req: Request, res: Response) => {
+  const { loggedinUserId } = req;
+  if (!loggedinUserId) throw new AppError("User not logged in", 401);
+  const { language, level } = req.query as QueryString;
+  await userServices.removeUserCorrectAnswers({
+    loggedinUserId,
+    language,
+    level,
+  });
+
+  res.status(200).json({
+    status: "success",
+    requestedAt: new Date().toISOString(),
+  });
+});
+
 const getUserStats = asyncErrorCatcher(async (req: Request, res: Response) => {
   const { loggedinUserId } = req;
   if (!loggedinUserId) throw new AppError("User not logged in", 401);
@@ -81,5 +97,6 @@ export {
   updateUser,
   removeUser,
   addUserCorrectAnswer,
+  removeUserCorrectAnswers,
   getUserStats,
 };

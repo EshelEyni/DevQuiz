@@ -14,7 +14,7 @@ import { Select } from "../../components/App/Select";
 import { systemSettings } from "../../config";
 import { ProgrammingLanguage } from "../../../../shared/types/system";
 import { DifficultyLevels as TypeOfDifficultyLevels } from "../../../../shared/types/system";
-import { Button } from "../../components/Btns/Button/Button";
+import { Button } from "../../components/Btns/Button";
 
 export const QuestionSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -63,7 +63,7 @@ export const QuestionSearchBar = () => {
   return (
     <div className="min-h-32 flex w-full flex-col items-center justify-between border-b border-gray-300 bg-gray-800 px-4 py-4 md:flex-row md:px-20">
       <div className="flex flex-wrap items-center gap-3 md:justify-center">
-        <Select onChange={handleChangeLangSelect} listHeight={300}>
+        <Select onChange={handleChangeLangSelect}>
           <Select.SelectTrigger
             className="h-14 w-52 cursor-pointer rounded-xl 
             bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300"
@@ -86,7 +86,7 @@ export const QuestionSearchBar = () => {
             ))}
           </Select.SelectList>
         </Select>
-        <Select onChange={handleChangeDifficultySelect} listHeight={300}>
+        <Select onChange={handleChangeDifficultySelect}>
           <Select.SelectTrigger
             className="h-14 w-52 cursor-pointer rounded-xl 
             bg-gray-700 text-2xl capitalize leading-5 outline-none transition-all duration-300"

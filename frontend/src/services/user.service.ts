@@ -2,6 +2,7 @@
 import { Question } from "../../../shared/types/question";
 import { UserStats } from "../../../shared/types/system";
 import { User } from "../../../shared/types/user";
+import { LanguageAndLevel } from "../types/app.types";
 import { httpService } from "./http.service";
 import { storageService } from "./storage.service";
 import { handleServerResponse } from "./utils.service";
@@ -70,6 +71,20 @@ async function recordUserCorrectAnswer(question: Question): Promise<void> {
   }
 }
 
+async function removeUserCorrectAnswers({
+  level,
+  language,
+}: LanguageAndLevel): Promise<void> {
+  try {
+    let query = `${BASE_URL}/correct-answer?language=${language}`;
+    if (level) query += `&level=${level}`;
+    await httpService.delete(query);
+  } catch (err) {
+    console.log("User service: err in removeUserCorrectAnswer", err);
+    throw err;
+  }
+}
+
 async function getUserStats(): Promise<UserStats> {
   try {
     const respose = await httpService.get(`${BASE_URL}/user-stats`);
@@ -88,5 +103,6 @@ export default {
   update,
   remove,
   recordUserCorrectAnswer,
+  removeUserCorrectAnswers,
   getUserStats,
 };

@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
-import { makeId } from "../../../services/utils.service";
+import { makeId } from "../../services/utils.service";
 import { Tooltip } from "react-tooltip";
 
 type BtnApproveQuestionProps = {

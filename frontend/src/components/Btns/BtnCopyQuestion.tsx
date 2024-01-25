@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { FaRegCopy } from "react-icons/fa";
-import { Question } from "../../../../../shared/types/question";
-import { copyToClipboard, makeId } from "../../../services/utils.service";
+import { Question } from "../../../../shared/types/question";
+import { copyToClipboard, makeId } from "../../services/utils.service";
 import { Tooltip } from "react-tooltip";
 
 type BtnCopyQuestionProps = {

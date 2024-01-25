@@ -1,6 +1,6 @@
 import { FC, useRef } from "react";
 import { MdModeEditOutline, MdEditOff } from "react-icons/md";
-import { makeId } from "../../../services/utils.service";
+import { makeId } from "../../services/utils.service";
 import { Tooltip } from "react-tooltip";
 
 type BtnMarkQuesitonToEditProps = {

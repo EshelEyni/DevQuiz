@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { Loader } from "../../components/Loaders/Loader/Loader";
-import { Error } from "../../components/Msg/Error/Error";
 import { StartScreen } from "./StartScreen";
 import { Question } from "./Question";
 import { FinishScreen } from "./FinishScreen";
@@ -11,6 +10,7 @@ import { Outlet } from "react-router-dom";
 import { useQuiz } from "../../hooks/useQuiz";
 import { startNewQuiz } from "../../store/slices/quizSlice";
 import { AppDispatch } from "../../types/app.types";
+import { ErrMsg } from "../../components/Msg/ErrMsg";
 
 export const Homepage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -21,7 +21,13 @@ export const Homepage = () => {
       case "loading":
         return <Loader title={"Loading questions..."} />;
       case "error":
-        return <Error />;
+        return (
+          <ErrMsg
+            msg={
+              "There was an error fetching questions. Please try again later."
+            }
+          />
+        );
       case "ready":
         return <StartScreen />;
       case "active":

@@ -8,7 +8,7 @@ import { MainScreen } from "../../components/Gen/MainScreen";
 import { updateQuestion } from "../../store/slices/questionSlice";
 import { setIsTimerOn } from "../../store/slices/quizSlice";
 import { AppDispatch } from "../../types/app.types";
-import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion/BtnCopyQuestion";
+import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion";
 import { Header } from "../../components/Gen/Header";
 import { systemSettings } from "../../config";
 import classnames from "classnames";

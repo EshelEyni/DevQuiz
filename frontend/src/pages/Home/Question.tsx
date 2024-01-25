@@ -2,12 +2,12 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Question as TypeOfQuestion } from "../../../../shared/types/question";
 import { OptionList } from "./OptionList";
-import { BtnQuestionEdit } from "../../components/Btns/BtnQuestionEdit/BtnQuestionEdit";
+import { BtnQuestionEdit } from "../../components/Btns/BtnQuestionEdit";
 import { Footer } from "../../components/Gen/Footer";
 import { ProgressBar } from "./ProgressBar";
 import { Timer } from "./Timer";
 import { BtnApproveQuestion } from "../../components/Btns/BtnApproveQuestion";
-import { BtnMarkQuesitonToEdit } from "../../components/Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
+import { BtnMarkQuesitonToEdit } from "../../components/Btns/BtnMarkQuesitonToEdit";
 import { useAuth } from "../../hooks/useAuth";
 import { useQuiz } from "../../hooks/useQuiz";
 import {

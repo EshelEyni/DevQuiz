@@ -6,12 +6,12 @@ import {
   caplitalizeFirstLetter,
   copyToClipboard,
 } from "../../services/utils.service";
-import { BtnQuestionEdit } from "../../components/Btns/BtnQuestionEdit/BtnQuestionEdit";
-import { BtnEntityArchive } from "../../components/Btns/BtnEntityArchive/BtnEntityArchive";
+import { BtnQuestionEdit } from "../../components/Btns/BtnQuestionEdit";
+import { BtnEntityArchive } from "../../components/Btns/BtnEntityArchive";
 import { BtnApproveQuestion } from "../../components/Btns/BtnApproveQuestion";
 import { GiCheckMark } from "react-icons/gi";
-import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion/BtnCopyQuestion";
-import { BtnMarkQuesitonToEdit } from "../../components/Btns/BtnMarkQuesitonToEdit/BtnMarkQuesitonToEdit";
+import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion";
+import { BtnMarkQuesitonToEdit } from "../../components/Btns/BtnMarkQuesitonToEdit";
 import {
   removeQuestion,
   updateQuestion,

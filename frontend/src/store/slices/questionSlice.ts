@@ -118,7 +118,6 @@ export function getQuestions({
       dispatch(setQuestions(questions));
       dispatch(setGetQuestionsState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in getQuestions", err);
       const error = getErrorMessage(err);
       dispatch(setGetQuestionsState({ state: "failed", error }));
     } finally {
@@ -143,7 +142,6 @@ export function getDuplicatedQuestions({
       dispatch(setQuestions(questions));
       dispatch(setGetQuestionsState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in getDuplicatedQuestions", err);
       const error = getErrorMessage(err);
       dispatch(setGetQuestionsState({ state: "failed", error }));
     } finally {
@@ -162,7 +160,6 @@ export function getQuestion(questionId: string): AppThunk {
       dispatch(setQuestion(question));
       dispatch(setGetQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in getQuestion", err);
       const error = getErrorMessage(err);
       dispatch(setGetQuestionState({ state: "failed", error }));
     } finally {
@@ -182,7 +179,6 @@ export function updateQuestion(question: Question): AppThunk {
       dispatch(setQuizQuestion(updatedQuestion));
       dispatch(setUpdateQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in updateQuestion", err);
       const error = getErrorMessage(err);
       dispatch(setUpdateQuestionState({ state: "failed", error }));
     } finally {
@@ -201,7 +197,6 @@ export function addQuestion(question: Question): AppThunk {
       dispatch(addQuestion(addedQuestion));
       dispatch(setAddQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in addQuestion", err);
       const error = getErrorMessage(err);
       dispatch(setAddQuestionState({ state: "failed", error }));
     } finally {
@@ -220,7 +215,6 @@ export function removeQuestion(question: Question): AppThunk {
       dispatch(removeQuestion(question));
       dispatch(setRemoveQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in removeQuestion", err);
       const error = getErrorMessage(err);
       dispatch(setRemoveQuestionState({ state: "failed", error }));
     } finally {

@@ -84,7 +84,6 @@ export function getUsers(): AppThunk {
       dispatch(setUsers(users));
       dispatch(setGetUsersState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in getUsers", err);
       const error = getErrorMessage(err);
       dispatch(setGetUsersState({ state: "failed", error }));
     } finally {
@@ -103,7 +102,6 @@ export function getUser(userId: string): AppThunk {
       dispatch(setUser(user));
       dispatch(setGetUserState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in getUser", err);
       const error = getErrorMessage(err);
       dispatch(setGetUserState({ state: "failed", error }));
     } finally {
@@ -122,7 +120,6 @@ export function updateUser(user: User): AppThunk {
       dispatch(updateUserInState(updatedUser));
       dispatch(setUpdateUserState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in updateUser", err);
       const error = getErrorMessage(err);
       dispatch(setUpdateUserState({ state: "failed", error }));
     } finally {

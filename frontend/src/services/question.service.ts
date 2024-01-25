@@ -23,9 +23,9 @@ async function query({
   try {
     const response = await httpService.get(query);
     return handleServerResponse<Question[]>(response);
-  } catch (err) {
-    console.log("Question service: err in query", err);
-    throw err;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 
@@ -39,9 +39,9 @@ async function getDuplicatedQuestions({
       `question/duplicates?language=${language}`,
     );
     return handleServerResponse<Question[]>(response);
-  } catch (err) {
-    console.log("Question service: err in getDuplicatedQuestions", err);
-    throw err;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 
@@ -49,9 +49,9 @@ async function getById(questionId: string): Promise<Question> {
   try {
     const question = await httpService.get(`question/${questionId}`);
     return handleServerResponse<Question>(question);
-  } catch (err) {
-    console.log("Question service: err in getById", err);
-    throw err;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 
@@ -59,9 +59,9 @@ async function add(question: Question): Promise<Question> {
   try {
     const addedQuestion = await httpService.post(`question`, question);
     return handleServerResponse<Question>(addedQuestion);
-  } catch (err) {
-    console.log("Question service: err in add", err);
-    throw err;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 
@@ -69,9 +69,9 @@ async function update(question: Question): Promise<Question> {
   try {
     const updatedQuestion = await httpService.put(`question`, question);
     return handleServerResponse<Question>(updatedQuestion);
-  } catch (err) {
-    console.log("Question service: err in update", err);
-    throw err;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 
@@ -82,9 +82,9 @@ async function archive(question: Question): Promise<Question> {
       question,
     );
     return handleServerResponse<Question>(archivedQuestion);
-  } catch (err) {
-    console.log("Question service: err in archive", err);
-    throw err;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 

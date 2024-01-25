@@ -1,6 +1,6 @@
 import { BiArchive } from "react-icons/bi";
 import { Tooltip } from "react-tooltip";
-import { makeId } from "../../../services/utils.service";
+import { makeId } from "../../services/utils.service";
 import { useRef } from "react";
 
 type BtnQuestionArchiveProps = {

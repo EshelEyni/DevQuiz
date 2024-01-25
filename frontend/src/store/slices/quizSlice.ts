@@ -161,7 +161,6 @@ export function startNewQuiz({
         dispatch(setSecondsPerQuestion(secondsPerQuestion));
       dispatch(setStatus("ready"));
     } catch (err) {
-      console.log("QuizActions: err in startNewQuiz", err);
       const error = getErrorMessage(err);
       dispatch(setQuizQueryState({ state: "failed", error }));
     } finally {

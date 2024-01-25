@@ -52,7 +52,6 @@ export function signup(userCredentials: BasicUser): AppThunk {
       dispatch(setLoggedInUser(user));
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in signup", err);
       const error = getErrorMessage(err);
       dispatch(setQueryState({ state: "failed", error }));
     } finally {
@@ -73,7 +72,6 @@ export function login(username: string, password: string): AppThunk {
       setQuizSettingByUser({ user, dispatch });
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
-      console.log("err in login", err);
       const error = getErrorMessage(err);
       dispatch(setQueryState({ state: "failed", error }));
     } finally {
@@ -92,10 +90,7 @@ export function loginWithToken(): AppThunk {
       dispatch(setLoggedInUser(user));
 
       if (user) setQuizSettingByUser({ user, dispatch });
-
       dispatch(setQueryState({ state: "succeeded", error: null }));
-    } catch (err) {
-      console.log("err in loginWithToken", err);
     } finally {
       setTimeout(() => {
         dispatch(setQueryState(defaultQueryState));

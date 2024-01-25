@@ -4,7 +4,7 @@ import { MainScreen } from "../../components/Gen/MainScreen";
 import { Button } from "../../components/Btns/Button";
 import { useQuiz } from "../../hooks/useQuiz";
 import { useDispatch } from "react-redux";
-import { InputNumber } from "../../components/Input/InputNumber/InputNumber";
+import { InputNumber } from "../../components/Input/InputNumber";
 import { systemSettings } from "../../config";
 import { ProgrammingLanguage } from "../../../../shared/types/system";
 import { AppDispatch } from "../../types/app.types";

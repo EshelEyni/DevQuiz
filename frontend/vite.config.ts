@@ -1,7 +1,7 @@
+import { VitePWA } from "vite-plugin-pwa";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
-import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,50 +17,50 @@ export default defineConfig({
         "favicon.ico",
         "robots.txt",
         "apple-touch-icon.png",
-        "assets/sounds/*.mp3",
         "assets/images/*.png",
         "assets/fonts/**/*.ttf",
       ],
       manifest: {
-        name: "Kceli",
-        short_name: "Kceli",
+        name: "DevQuiz",
+        short_name: "DevQuiz",
         start_url: "/",
         scope: ".",
         display: "standalone",
         background_color: "#fff",
-        theme_color: "#005FB3",
+        theme_color: "#4b5563",
         description:
-          "Kceli is a web app that helps you to watch your nutrition and health",
+          "DevQuiz is a quiz app for developers to test their knowledge on various topics in the web development.",
         dir: "ltr",
         orientation: "any",
         icons: [
           {
-            src: "/assets/images/pwa-48x48.png",
+            src: "/assets/images/icon-48x48.png",
             sizes: "48x48",
             type: "image/png",
           },
           {
-            src: "/assets/images/pwa-72x72.png",
+            src: "/assets/images/icon-72x72.png",
             sizes: "72x72",
             type: "image/png",
           },
           {
-            src: "/assets/images/pwa-96x96.png",
+            src: "/assets/images/icon-96x96.png",
             sizes: "96x96",
             type: "image/png",
           },
           {
-            src: "/assets/images/pwa-144x144.png",
+            src: "/assets/images/icon-144x144.png",
             sizes: "144x144",
             type: "image/png",
           },
           {
-            src: "/assets/images/pwa-192x192.png",
+            src: "/assets/images/icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
+            purpose: "any maskable",
           },
           {
-            src: "/assets/images/pwa-512x512.png",
+            src: "/assets/images/icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
           },

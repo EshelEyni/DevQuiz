@@ -15,6 +15,8 @@ import authRoutes from "./api/auth/auth.routes";
 import questionRoutes from "./api/question/question.routes";
 import { requestLimiter } from "./services/rate-limiter.service";
 
+const isProdEnv = process.env.NODE_ENV === "production";
+
 const app = express();
 
 app.use(helmet());
@@ -36,8 +38,8 @@ app.use(
 );
 
 // cors
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.resolve(__dirname, "public")));
+if (isProdEnv) {
+  app.use(express.static(path.join(path.resolve(), "build", "public")));
 } else {
   const corsOptions = {
     origin: [
@@ -45,24 +47,24 @@ if (process.env.NODE_ENV === "production") {
       "http://localhost:8080",
       "http://127.0.0.1:5173",
       "http://localhost:5173",
-      "https://8807-2a06-c701-482b-fd00-1532-9c15-6a72-f650.ngrok-free.app",
     ],
     credentials: true,
   };
   app.use(cors(corsOptions));
 }
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const isDevEnv = process.env.NODE_ENV !== "production";
-  if (isDevEnv) requestLogger(req, res, next);
-});
+if (!isProdEnv) {
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    requestLogger(req, res, next);
+  });
+}
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/question", questionRoutes);
 
 app.get("/**", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(path.resolve(), "build", "public", "index.html"));
 });
 
 app.all("*", (req: Request, res: Response, next: NextFunction) => {

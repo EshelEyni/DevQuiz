@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { IoIosSettings, IoIosLogIn, IoIosHome } from "react-icons/io";
 import { useQuiz } from "../../hooks/useQuiz";
 import { BsPatchQuestionFill } from "react-icons/bs";
-import { FaUsersCog, FaUserCircle, FaBookOpen } from "react-icons/fa";
+import { FaUserCircle, FaBookOpen } from "react-icons/fa";
 import { cloneElement } from "react";
 
 type NavLinks = {
@@ -25,11 +25,6 @@ export const AppHeader = () => {
     isProfilePage &&
     loggedInUser &&
     loggedInUser?.roles.some(role => role === "admin" || role === "editor");
-
-  const isUserAdmin =
-    isProfilePage &&
-    loggedInUser &&
-    loggedInUser?.roles.some(role => role === "admin");
 
   const isSettingShown = status === "ready" && isHomepage;
   const iconClass =
@@ -53,12 +48,6 @@ export const AppHeader = () => {
       icon: <BsPatchQuestionFill />,
       link: "/question-management",
       condition: !!isQuestionEditLinkShown,
-    },
-    {
-      name: "user mamagement",
-      icon: <FaUsersCog />,
-      link: "/user-management",
-      condition: !!isUserAdmin,
     },
   ];
 

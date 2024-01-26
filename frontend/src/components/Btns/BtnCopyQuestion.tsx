@@ -3,6 +3,7 @@ import { FaRegCopy } from "react-icons/fa";
 import { Question } from "../../../../shared/types/question";
 import { copyToClipboard, makeId } from "../../services/utils.service";
 import { Tooltip } from "react-tooltip";
+import toast from "react-hot-toast";
 
 type BtnCopyQuestionProps = {
   question: Question;
@@ -34,6 +35,14 @@ export const BtnCopyQuestion = ({
     );
 
     copyToClipboard(stringifiedQuestion);
+    toast.success("Question copied to clipboard", {
+      style: {
+        background: "#333",
+        color: "#fff",
+        fontSize: "13px",
+        fontWeight: "600",
+      },
+    });
   }
 
   return (

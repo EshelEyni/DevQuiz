@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Question, QuestionFilterBy } from "../../../../shared/types/question";
+import { Question } from "../../../../shared/types/question";
 import { AppThunk, QueryState } from "../../types/app.types";
 import { questionReqProps } from "../types";
 import questionService from "../../services/question.service";
@@ -12,7 +12,6 @@ import {
 import { setQuizQuestion } from "./quizSlice";
 
 type QuestionState = {
-  filterBy: QuestionFilterBy;
   questions: Question[];
   getQuestionsState: QueryState;
   question: Question | null;
@@ -27,7 +26,6 @@ const initialState: QuestionState = {
   getQuestionsState: defaultQueryState,
   question: null,
   getQuestionState: defaultQueryState,
-  filterBy: { level: "beginner", language: "HTML", searchTerm: "" },
   addQuestionState: defaultQueryState,
   updateQuestionState: defaultQueryState,
   removeQuestionState: defaultQueryState,
@@ -37,9 +35,6 @@ const questionSlice = createSlice({
   name: "question",
   initialState,
   reducers: {
-    setFilter(state, action: PayloadAction<QuestionFilterBy>) {
-      state.filterBy = action.payload;
-    },
     setQuestions(state, action: PayloadAction<Question[]>) {
       state.questions = action.payload;
     },
@@ -78,7 +73,6 @@ const questionSlice = createSlice({
 });
 
 export const {
-  setFilter,
   setQuestions,
   setGetQuestionsState,
   setQuestion,
@@ -99,8 +93,8 @@ export function getQuestions({
   page,
   limit = 25,
   searchTerm,
-  isEditPage,
   isMarkedToBeRevised,
+  isRevised,
 }: questionReqProps): AppThunk {
   return async dispatch => {
     try {
@@ -111,8 +105,8 @@ export function getQuestions({
         page,
         limit,
         searchTerm,
-        isEditPage,
         isMarkedToBeRevised,
+        isRevised,
       });
 
       dispatch(setQuestions(questions));

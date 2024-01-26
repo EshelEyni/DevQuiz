@@ -9,8 +9,8 @@ export type questionReqProps = {
   page?: number;
   limit?: number;
   searchTerm?: string;
-  isEditPage?: boolean;
   isMarkedToBeRevised?: boolean;
+  isRevised?: boolean;
   secondsPerQuestion?: number;
 };
 export type AppStatus = "loading" | "ready" | "error" | "active" | "finished";

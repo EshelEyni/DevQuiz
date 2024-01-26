@@ -9,17 +9,20 @@ async function query({
   page,
   limit = 25,
   searchTerm,
-  isEditPage,
   isMarkedToBeRevised,
+  isRevised,
 }: questionReqProps): Promise<Question[]> {
   const levelQuery = `${level ? `&level=${level}` : ""}`;
   const limitQuery = `${limit ? `&limit=${limit}` : ""}`;
   const searchTermQuery = `${searchTerm ? `&searchTerm=${searchTerm}` : ""}`;
-  const isEditPageQuery = `${isEditPage ? `&isEditPage=${isEditPage}` : ""}`;
   const isMarkedToBeRevisedQuery = `${
     isMarkedToBeRevised ? `&isMarkedToBeRevised=${isMarkedToBeRevised}` : ""
   }`;
-  const query = `question?language=${language}&page=${page}${levelQuery}${limitQuery}${searchTermQuery}${isEditPageQuery}${isMarkedToBeRevisedQuery}`;
+  const isRevisedQuery = `${isRevised ? `&isRevised=${isRevised}` : ""}`;
+
+  const query = `question?language=${language}&page=${
+    page || 0
+  }${levelQuery}${limitQuery}${searchTermQuery}${isMarkedToBeRevisedQuery}${isRevisedQuery}`;
   try {
     const response = await httpService.get(query);
     return handleServerResponse<Question[]>(response);

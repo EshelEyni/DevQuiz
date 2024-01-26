@@ -7,11 +7,7 @@ import {
 import { asyncLocalStorage } from "../../services/als.service";
 import { alStoreType } from "../../middlewares/setupAls.middleware";
 import { ravenStore } from "../../server";
-import {
-  DifficultyLevels,
-  ProgrammingLanguage,
-  RavenDbDocument,
-} from "../../../../shared/types/system";
+import { RavenDbDocument } from "../../../../shared/types/system";
 import { AppError } from "../../services/error.service";
 import { UserCorrectAnswer } from "../../../../shared/types/user";
 
@@ -20,40 +16,35 @@ const COLLECTION_NAME = "Questions";
 async function query(queryString: QueryString): Promise<Question[]> {
   const store = asyncLocalStorage.getStore() as alStoreType;
   const loggedinUserId = store?.loggedinUserId;
-  const { language, level, isEditPage, searchTerm, isMarkedToBeRevised, limit } = queryString;
+  const { language, level, searchTerm, isMarkedToBeRevised, limit, page, isRevised } = queryString;
+  const session = ravenStore.openSession();
+  const query = session.query<Question>({ collection: COLLECTION_NAME });
+  query.whereEquals("isArchived", false);
+  if (isMarkedToBeRevised) query.whereEquals("isMarkedToBeRevised", true);
+  if (isRevised) query.whereEquals("isRevised", true);
+  if (language) query.whereEquals("language", language);
+  if (level) query.whereEquals("level", level);
+  if (limit) query.take(Number(limit));
+  if (searchTerm) query.search("question", searchTerm);
+  const skip = Number(page) * Number(limit);
+  if (skip) query.skip(skip);
+  if (!loggedinUserId) query.randomOrdering();
+  else {
+    const userCorrectAnswersIds = await session
+      .query<UserCorrectAnswer>({
+        collection: "UserCorrectAnswers",
+      })
+      .selectFields(["questionId"])
+      .whereEquals("userId", loggedinUserId)
+      .all();
 
-  let questions: Question[] = [];
-
-  // TODO: switch to switch case using switch (true).........
-  if (isMarkedToBeRevised) {
-    questions = await _getQuestionsMarkedToEdit();
-    for (const question of questions) question.id = trimCollectionNameFromId(question.id);
-    return questions;
+    userCorrectAnswersIds.forEach(id => {
+      const idWithCollectionName = setIdToCollectionName(COLLECTION_NAME, id as unknown as string);
+      query.whereNotEquals("id()", idWithCollectionName);
+    });
   }
 
-  if (!loggedinUserId) {
-    questions = await _getRandomQuestions(
-      language as ProgrammingLanguage,
-      level as DifficultyLevels,
-      Number(limit) as number
-    );
-  }
-
-  if (isEditPage) {
-    questions = await _getQuestionsForEditPage(
-      language as ProgrammingLanguage,
-      level as DifficultyLevels,
-      searchTerm
-    );
-  } else {
-    questions = await _getQuestionsForUser(
-      loggedinUserId as string,
-      language as ProgrammingLanguage,
-      level as DifficultyLevels,
-      Number(limit) as number
-    );
-  }
-
+  const questions = await query.all();
   for (const question of questions) question.id = trimCollectionNameFromId(question.id);
   return questions;
 }
@@ -110,10 +101,15 @@ async function archive(question: Question): Promise<Question> {
 
 async function findDuplicatedQuestions(queryString: QueryString): Promise<Question[]> {
   const { language, level } = queryString;
-  const allQuestions = await _getQuestionsForEditPage(
-    language as ProgrammingLanguage,
-    level as DifficultyLevels
-  );
+  const session = ravenStore.openSession();
+  const query = session
+    .query<Question>({ collection: COLLECTION_NAME })
+    .whereEquals("isArchived", false);
+
+  if (language) query.whereEquals("language", language);
+  if (level) query.whereEquals("level", level);
+
+  const allQuestions = await query.all();
   const duplicatedQuestions: Question[][] = [];
   for (const question of allQuestions) {
     const similarQuestions = await getDuplicates(question);
@@ -145,79 +141,6 @@ async function getDuplicates(question: Question): Promise<Question[]> {
   const similarQuestions = await query.all();
 
   return similarQuestions;
-}
-
-async function _getRandomQuestions(
-  language: ProgrammingLanguage,
-  level: DifficultyLevels,
-  limit = 25
-): Promise<Question[]> {
-  const session = ravenStore.openSession();
-  const query = session
-    .query<Question>({ collection: COLLECTION_NAME })
-    .whereEquals("isArchived", false)
-    .randomOrdering()
-    .take(limit)
-    .skip(0);
-
-  if (language) query.whereEquals("language", language);
-  if (level) query.whereEquals("level", level);
-  return await query.all();
-}
-
-async function _getQuestionsForUser(
-  userId: string,
-  language: ProgrammingLanguage,
-  level: DifficultyLevels,
-  limit = 25
-): Promise<Question[]> {
-  const session = ravenStore.openSession();
-  const query = session
-    .query<Question>({ collection: COLLECTION_NAME })
-    .take(limit)
-    .skip(0)
-    .orderByScore();
-
-  if (language) query.whereEquals("language", language);
-  if (level) query.whereEquals("level", level);
-
-  const userCorrectAnswersIds = await session
-    .query<UserCorrectAnswer>({
-      collection: "UserCorrectAnswers",
-    })
-    .selectFields(["questionId"])
-    .whereEquals("userId", userId)
-    .all();
-
-  userCorrectAnswersIds.forEach(id => {
-    const idWithCollectionName = setIdToCollectionName(COLLECTION_NAME, id as unknown as string);
-    query.whereNotEquals("id()", idWithCollectionName);
-  });
-  return await query.all();
-}
-
-async function _getQuestionsForEditPage(
-  language: ProgrammingLanguage,
-  level: DifficultyLevels,
-  searchTerm?: string
-): Promise<Question[]> {
-  const session = ravenStore.openSession();
-  const query = session
-    .query<Question>({ collection: COLLECTION_NAME })
-    .whereEquals("isArchived", false);
-
-  if (language) query.whereEquals("language", language);
-  if (level) query.whereEquals("level", level);
-  if (searchTerm) query.search("question", searchTerm);
-  return await query.all();
-}
-
-async function _getQuestionsMarkedToEdit() {
-  const session = ravenStore.openSession();
-  const query = session
-    .query<Question>({ collection: COLLECTION_NAME })
-    .whereEquals("isMarkedToBeRevised", true);
-  return await query.all();
 }
 
 export default {

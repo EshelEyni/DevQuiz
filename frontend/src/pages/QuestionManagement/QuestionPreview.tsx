@@ -17,6 +17,7 @@ import {
   updateQuestion,
 } from "../../store/slices/questionSlice";
 import { AppDispatch } from "../../types/app.types";
+import toast from "react-hot-toast";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
@@ -70,6 +71,14 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
 
   function copyQuestionIdToClipboard() {
     copyToClipboard(`Questions/${id}`);
+    toast.success("Id copied to clipboard", {
+      style: {
+        background: "#333",
+        color: "#fff",
+        fontSize: "13px",
+        fontWeight: "600",
+      },
+    });
   }
 
   return (
@@ -88,14 +97,14 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
           {question.isRevised && <GiCheckMark size={24} color="#1d9bf0" />}
         </header>
         <div className="mb-2 text-[2.6rem] font-semibold">{questionText}</div>
-        <div className="ml-4 flex flex-col gap-2 text-3xl">
+        <div className="ml-4 mt-4 flex flex-col gap-2 text-3xl">
           {options.map((option, index) => (
             <div key={index}>{`${index + 1}. ${option}`}</div>
           ))}
         </div>
       </div>
       <div>
-        <div className="flex justify-between text-3xl font-semibold">
+        <div className="mt-8 flex justify-between text-3xl font-semibold">
           <div>
             <p>Level: </p>
             <span>{caplitalizeFirstLetter(level)}</span>

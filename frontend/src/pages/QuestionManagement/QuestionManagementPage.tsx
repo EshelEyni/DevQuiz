@@ -27,10 +27,7 @@ const QuestionManagementPage = () => {
       getQuestions({
         language: "HTML",
         level: "beginner",
-        page: 1,
-        limit: 1000,
-        isEditPage: true,
-        isMarkedToBeRevised: true,
+        limit: 0,
       }),
     );
   }, [dispatch]);

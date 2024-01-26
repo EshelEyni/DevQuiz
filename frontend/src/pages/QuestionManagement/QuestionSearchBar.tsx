@@ -2,11 +2,9 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { CheckBox } from "../../components/App/CheckBox";
 import { HiDocumentDuplicate } from "react-icons/hi";
-import { useQuestion } from "../../hooks/useQuestion";
 import {
   getDuplicatedQuestions,
   getQuestions,
-  setFilter,
 } from "../../store/slices/questionSlice";
 import { useKey } from "react-use";
 import { AppDispatch } from "../../types/app.types";
@@ -16,124 +14,152 @@ import { ProgrammingLanguage } from "../../../../shared/types/system";
 import { DifficultyLevels as TypeOfDifficultyLevels } from "../../../../shared/types/system";
 import { Button } from "../../components/Btns/Button";
 
+type LevelOrAll = TypeOfDifficultyLevels | "all";
+
 export const QuestionSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
   useKey("Enter", onSearch);
-  const { filterBy } = useQuestion();
   const { programmingLanguages, difficultyLevels } = systemSettings;
-  const [includeAllLevel, setIncludeAllLevel] = useState(false);
+  const [language, setLanguage] = useState<ProgrammingLanguage>("HTML");
+  const [level, setLevel] = useState<LevelOrAll>("beginner");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isApproved, setIsApproved] = useState(false);
+  const [isMarked, setIsMarked] = useState(false);
 
   function handleChangeLangSelect(language: ProgrammingLanguage) {
-    dispatch(setFilter({ ...filterBy, language }));
+    setLanguage(language);
   }
 
-  function handleChangeDifficultySelect(level: TypeOfDifficultyLevels) {
-    dispatch(setFilter({ ...filterBy, level }));
+  function handleChangeDifficultySelect(level: LevelOrAll) {
+    setLevel(level);
   }
 
   function handleInputSearchTermChange(
     event: React.ChangeEvent<HTMLInputElement>,
   ) {
     const searchTerm = event.target.value;
-    dispatch(setFilter({ ...filterBy, searchTerm }));
+    setSearchTerm(searchTerm);
   }
 
   function onSearch() {
-    const { language, level, searchTerm } = filterBy;
     dispatch(
       getQuestions({
-        language: language,
-        level: includeAllLevel ? undefined : level,
+        language,
+        level: level === "all" ? undefined : level,
         page: 1,
-        searchTerm: searchTerm,
-        isEditPage: true,
+        limit: 0,
+        searchTerm,
+        isMarkedToBeRevised: isMarked,
+        isRevised: isApproved,
       }),
     );
   }
 
-  function handleBtnIncludeAllLevelClick() {
-    setIncludeAllLevel(!includeAllLevel);
+  function handleApprovedClick() {
+    setIsMarked(false);
+    setIsApproved(!isApproved);
+  }
+
+  function handleMarkedClick() {
+    setIsApproved(false);
+    setIsMarked(!isMarked);
   }
 
   function handleBtnGetDuplicatesClick() {
-    const { language } = filterBy;
-    dispatch(getDuplicatedQuestions({ language: language }));
+    dispatch(getDuplicatedQuestions({ language }));
   }
 
   return (
     <div className="min-h-32 flex w-full flex-col items-center justify-between border-b border-gray-300 bg-gray-800 px-4 py-4 md:flex-row md:px-20">
-      <div className="flex flex-wrap items-center gap-3 md:justify-center">
-        <Select onChange={handleChangeLangSelect}>
-          <Select.SelectTrigger
-            className="h-14 w-52 cursor-pointer rounded-xl 
+      <div className="flex flex-col gap-1">
+        <div className="flex flex-wrap items-center gap-3">
+          <Select onChange={handleChangeLangSelect}>
+            <Select.SelectTrigger
+              className="h-14 w-52 cursor-pointer rounded-xl 
             bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300"
-          >
-            <button type="button">{filterBy.language}</button>
-          </Select.SelectTrigger>
-          <Select.SelectList
-            className="z-[1500] mt-1 w-full  min-w-[100px] cursor-pointer 
+            >
+              <button type="button">{language}</button>
+            </Select.SelectTrigger>
+            <Select.SelectList
+              className="z-[1500] mt-1 w-52  min-w-[100px] cursor-pointer 
             border-2  border-gray-800 bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300"
-          >
-            {Object.keys(programmingLanguages).map((lang: string) => (
-              <Select.SelectItem
-                key={lang}
-                value={lang}
-                className="flex h-14 w-full min-w-[100px]  cursor-pointer items-center justify-center border-b-2 border-gray-800 bg-gray-700 text-2xl
+            >
+              {Object.keys(programmingLanguages).map((lang: string) => (
+                <Select.SelectItem
+                  key={lang}
+                  value={lang}
+                  className="flex h-14 w-full min-w-[100px]  cursor-pointer items-center justify-center border-b-2 border-gray-800 bg-gray-700 text-2xl
                     text-gray-100 hover:border-gray-900 hover:bg-gray-950 hover:text-gray-100"
-              >
-                <span>{lang}</span>
-              </Select.SelectItem>
-            ))}
-          </Select.SelectList>
-        </Select>
-        <Select onChange={handleChangeDifficultySelect}>
-          <Select.SelectTrigger
-            className="h-14 w-52 cursor-pointer rounded-xl 
+                >
+                  <span>{lang}</span>
+                </Select.SelectItem>
+              ))}
+            </Select.SelectList>
+          </Select>
+          <Select onChange={handleChangeDifficultySelect}>
+            <Select.SelectTrigger
+              className="h-14 w-52 cursor-pointer rounded-xl 
             bg-gray-700 text-2xl capitalize leading-5 outline-none transition-all duration-300"
-          >
-            <button type="button">{filterBy.level}</button>
-          </Select.SelectTrigger>
-          <Select.SelectList
-            className="z-[1500] mt-1 w-full  min-w-[100px] cursor-pointer 
+            >
+              <button type="button">{level}</button>
+            </Select.SelectTrigger>
+            <Select.SelectList
+              className="z-[1500] mt-1 w-52  min-w-[100px] cursor-pointer 
             border-2  border-gray-800 bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300"
-          >
-            {difficultyLevels.map((lang: string) => (
+            >
+              {difficultyLevels.map((lang: string) => (
+                <Select.SelectItem
+                  key={lang}
+                  value={lang}
+                  className="flex h-14 w-full min-w-[100px]  cursor-pointer items-center justify-center border-b-2 border-gray-800 bg-gray-700 text-2xl
+                    text-gray-100 hover:border-gray-900 hover:bg-gray-950 hover:text-gray-100"
+                >
+                  <span className="capitalize">{lang}</span>
+                </Select.SelectItem>
+              ))}
               <Select.SelectItem
-                key={lang}
-                value={lang}
+                value={"all"}
                 className="flex h-14 w-full min-w-[100px]  cursor-pointer items-center justify-center border-b-2 border-gray-800 bg-gray-700 text-2xl
                     text-gray-100 hover:border-gray-900 hover:bg-gray-950 hover:text-gray-100"
               >
-                <span className="capitalize">{lang}</span>
+                <span className="capitalize">all</span>
               </Select.SelectItem>
-            ))}
-          </Select.SelectList>
-        </Select>
+            </Select.SelectList>
+          </Select>
 
-        <input
-          className="h-14 w-96 rounded-xl bg-gray-700 px-3 text-2xl leading-5"
-          type="text"
-          value={filterBy.searchTerm}
-          placeholder="Search for a question"
-          onChange={handleInputSearchTermChange}
-        />
-        <Button
-          onClickFn={handleBtnIncludeAllLevelClick}
-          className="flex flex-col items-center justify-center whitespace-nowrap p-2.5"
-        >
-          <span className="text-2xl font-semibold">
-            {includeAllLevel ? "Exclude all levels" : "Include all levels"}
-          </span>
-          <CheckBox checked={includeAllLevel} />
-        </Button>
+          <input
+            className="h-14 w-96 rounded-xl bg-gray-700 px-3 text-2xl leading-5"
+            type="text"
+            value={searchTerm}
+            placeholder="Search for a question"
+            onChange={handleInputSearchTermChange}
+          />
+        </div>
 
-        <Button
-          onClickFn={handleBtnGetDuplicatesClick}
-          className="flex flex-col items-center justify-center whitespace-nowrap p-2.5"
-        >
-          <span className="text-2xl font-semibold">Get Duplicates</span>
-          <HiDocumentDuplicate size={38} color="white" />
-        </Button>
+        <div className="flex flex-wrap items-center gap-4">
+          <Button
+            onClickFn={handleApprovedClick}
+            className="flex items-center justify-center gap-1 whitespace-nowrap p-2.5"
+          >
+            <span className="text-2xl font-semibold">Approved only</span>
+            <CheckBox checked={isApproved} />
+          </Button>
+          <Button
+            onClickFn={handleMarkedClick}
+            className="flex items-center justify-center gap-1 whitespace-nowrap p-2.5"
+          >
+            <span className="text-2xl font-semibold">Marked only</span>
+            <CheckBox checked={isMarked} />
+          </Button>
+
+          <Button
+            onClickFn={handleBtnGetDuplicatesClick}
+            className="flex items-center justify-center gap-1 whitespace-nowrap px-2.5"
+          >
+            <span className="text-2xl font-semibold">Get Duplicates</span>
+            <HiDocumentDuplicate size={22} color="white" />
+          </Button>
+        </div>
       </div>
 
       <Button

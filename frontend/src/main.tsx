@@ -8,6 +8,7 @@ import "./styles/main.scss";
 import "./index.css";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallBack } from "./components/App/ErrorFallBack";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -18,6 +19,13 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <Provider store={store}>
         <Router>
           <App />
+          <Toaster
+            position="top-center"
+            gutter={12}
+            toastOptions={{
+              error: { duration: 3000 },
+            }}
+          />
         </Router>
       </Provider>
     </ErrorBoundary>

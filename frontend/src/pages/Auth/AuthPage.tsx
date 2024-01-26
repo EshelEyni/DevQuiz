@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === "development") {
   defaultValues.password = "TESTPASS22";
 }
 
-export const AuthPage = () => {
+const AuthPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const goToParentPage = useGoToParentPage();
   const { queryState } = useAuth();
@@ -172,3 +172,5 @@ export const AuthPage = () => {
     </>
   );
 };
+
+export default AuthPage;

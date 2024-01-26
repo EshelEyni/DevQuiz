@@ -1,14 +1,19 @@
-import { QuestionEdit } from "./pages/QuestionEdit/QuestionEdit";
-import { About } from "./pages/About/About";
-import { QuestionManagementPage } from "./pages/QuestionManagement/QuestionManagementPage";
-import { Homepage } from "./pages/Home/Homepage";
-import { ProfileDetails } from "./pages/ProfileDetails/ProfileDetails";
-import { QuizSetting } from "./pages/QuizSetting/QuizSetting";
-import { AuthPage } from "./pages/Auth/AuthPage";
+import { FC, LazyExoticComponent, lazy } from "react";
+const QuestionEdit = lazy(() => import("./pages/QuestionEdit/QuestionEdit"));
+const About = lazy(() => import("./pages/About/About"));
+const QuestionManagementPage = lazy(
+  () => import("./pages/QuestionManagement/QuestionManagementPage"),
+);
+const Homepage = lazy(() => import("./pages/Home/Homepage"));
+const ProfileDetails = lazy(
+  () => import("./pages/ProfileDetails/ProfileDetails"),
+);
+const QuizSetting = lazy(() => import("./pages/QuizSetting/QuizSetting"));
+const AuthPage = lazy(() => import("./pages/Auth/AuthPage"));
 
 interface Route {
   path: string;
-  component: () => JSX.Element;
+  component: LazyExoticComponent<FC>;
   nestedRoutes?: Route[];
 }
 

@@ -15,7 +15,7 @@ import classnames from "classnames";
 import { Select } from "../../components/App/Select";
 import { Button } from "../../components/Btns/Button";
 
-export const QuestionEdit = () => {
+const QuestionEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -234,3 +234,5 @@ export const QuestionEdit = () => {
     </>
   );
 };
+
+export default QuestionEdit;

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-export const About = () => {
+const About = () => {
   return (
     <>
       <div className="flex max-w-[800px] flex-col gap-8 p-4 md:p-8 lg:p-12">
@@ -34,3 +34,5 @@ export const About = () => {
     </>
   );
 };
+
+export default About;

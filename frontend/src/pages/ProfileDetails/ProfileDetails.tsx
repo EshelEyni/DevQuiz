@@ -31,7 +31,7 @@ type UserDetails = {
   email: string;
 };
 
-export const ProfileDetails = () => {
+const ProfileDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -189,3 +189,5 @@ export const ProfileDetails = () => {
     </main>
   );
 };
+
+export default ProfileDetails;

@@ -14,7 +14,7 @@ import classnames from "classnames";
 import { useAuth } from "../../hooks/useAuth";
 import { updateLoggedInUser } from "../../store/slices/authSlice";
 
-export const QuizSetting = () => {
+const QuizSetting = () => {
   const { loggedInUser } = useAuth();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -167,3 +167,5 @@ export const QuizSetting = () => {
     </>
   );
 };
+
+export default QuizSetting;

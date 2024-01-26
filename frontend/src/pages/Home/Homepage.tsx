@@ -12,7 +12,7 @@ import { startNewQuiz } from "../../store/slices/quizSlice";
 import { AppDispatch } from "../../types/app.types";
 import { ErrMsg } from "../../components/Msg/ErrMsg";
 
-export const Homepage = () => {
+const Homepage = () => {
   const dispatch: AppDispatch = useDispatch();
   const { status, language, level, page, questions } = useQuiz();
 
@@ -53,3 +53,5 @@ export const Homepage = () => {
     </div>
   );
 };
+
+export default Homepage;

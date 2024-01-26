@@ -10,7 +10,7 @@ import { getRandomBrightColor } from "../../services/utils.service";
 import { QuestionPreview } from "./QuestionPreview";
 import { useIntersectionPagination } from "../../hooks/useIntersectionPagination";
 
-export const QuestionManagementPage = () => {
+const QuestionManagementPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const { questions, getQuestionsState } = useQuestion();
   const { paginationIdx, intersectionRef } = useIntersectionPagination();
@@ -72,3 +72,5 @@ export const QuestionManagementPage = () => {
     </main>
   );
 };
+
+export default QuestionManagementPage;

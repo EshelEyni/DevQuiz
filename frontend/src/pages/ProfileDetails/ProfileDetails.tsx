@@ -24,7 +24,6 @@ import {
 import { ErrMsg } from "../../components/Msg/ErrMsg";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
-import classnames from "classnames";
 
 type UserDetails = {
   username: string;
@@ -101,11 +100,11 @@ const ProfileDetails = () => {
   }
 
   return (
-    <main className="flex min-h-[250px] w-screen flex-col items-center overflow-hidden">
+    <main className="flex min-h-[250px] w-screen flex-col items-center overflow-hidden p-2">
       {!isCurrUser && <Loader className="mt-52" />}
 
       {isCurrUser && (
-        <div className="mt-10 flex w-full flex-col items-center gap-6 md:w-3/5">
+        <div className="mt-5 flex w-full flex-col items-center gap-6 md:w-3/5">
           <Header className="flex w-full flex-col gap-4">
             <h1 className="text-4xl font-semibold tracking-wider">
               {loggedInUser.username}
@@ -161,9 +160,7 @@ const ProfileDetails = () => {
           )}
 
           <ul
-            className={classnames("flex w-full flex-wrap gap-4 self-start", {
-              "justify-center": isStatsLoading,
-            })}
+            className={"flex w-full flex-wrap justify-center gap-4 self-start"}
           >
             {isStatsLoading && <Loader className="mt-10 self-center" />}
             {isStatsShown && (

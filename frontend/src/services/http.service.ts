@@ -3,7 +3,8 @@ import Axios, { Method } from "axios";
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "/api/"
-    : "http://localhost:3030/api/";
+    : "https://eab7-2a06-c701-4862-2100-69fd-782a-f808-4c3e.ngrok-free.app/api/";
+// : "http://localhost:3030/api/";
 
 const axios = Axios.create({
   withCredentials: true,

@@ -62,7 +62,7 @@ export const FinishScreen = () => {
   }, [focusedBtn]);
 
   return (
-    <section className="flex flex-col items-center gap-12">
+    <section className="flex flex-col items-center gap-12 px-4">
       <p
         className="rounded-full px-6 py-8 text-center text-4xl font-medium"
         style={{

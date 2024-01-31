@@ -1,11 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { Header } from "../Gen/Header";
 import { useAuth } from "../../hooks/useAuth";
-import { IoIosSettings, IoIosLogIn, IoIosHome } from "react-icons/io";
+import { IoIosLogIn, IoIosHome } from "react-icons/io";
 import { useQuiz } from "../../hooks/useQuiz";
 import { BsPatchQuestionFill } from "react-icons/bs";
 import { FaUserCircle, FaBookOpen } from "react-icons/fa";
 import { cloneElement } from "react";
+import { MdSettings } from "react-icons/md";
 
 type NavLinks = {
   name: string;
@@ -20,20 +21,18 @@ export const AppHeader = () => {
   const { status } = useQuiz();
 
   const isHomepage = location.pathname.includes("/home");
-  const isProfilePage = location.pathname.includes("/profile");
   const isQuestionEditLinkShown =
-    isProfilePage &&
     loggedInUser &&
     loggedInUser?.roles.some(role => role === "admin" || role === "editor");
 
   const isSettingShown = status === "ready" && isHomepage;
   const iconClass =
-    "cursor-pointer text-5xl text-white transition  duration-300 ease-in-out hover:text-sky-600 md:hidden";
+    "cursor-pointer md:text-5xl text-white transition duration-300 ease-in-out hover:text-sky-600 md:hidden text-7xl";
 
   const leftNavLinks: NavLinks[] = [
     {
       name: "settings",
-      icon: <IoIosSettings />,
+      icon: <MdSettings />,
       link: "/home/settings",
       condition: isSettingShown,
     },

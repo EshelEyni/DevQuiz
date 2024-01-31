@@ -26,7 +26,7 @@ export default defineConfig({
         start_url: "/",
         scope: ".",
         display: "standalone",
-        background_color: "#fff",
+        background_color: "transparent",
         theme_color: "#4b5563",
         description:
           "DevQuiz is a quiz app for developers to test their knowledge on various topics in the web development.",
@@ -37,6 +37,7 @@ export default defineConfig({
             src: "/assets/images/icon-48x48.png",
             sizes: "48x48",
             type: "image/png",
+            purpose: "any maskable",
           },
           {
             src: "/assets/images/icon-72x72.png",
@@ -57,7 +58,6 @@ export default defineConfig({
             src: "/assets/images/icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
-            purpose: "any maskable",
           },
           {
             src: "/assets/images/icon-512x512.png",

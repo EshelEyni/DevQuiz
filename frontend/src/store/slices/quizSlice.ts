@@ -97,7 +97,7 @@ const quizSlice = createSlice({
       state.answerIdx = action.payload;
     },
     setPoints(state, action: PayloadAction<number>) {
-      state.points = action.payload;
+      state.points = state.points + action.payload;
     },
     setHighScore(state, action: PayloadAction<number>) {
       state.highScore = action.payload;

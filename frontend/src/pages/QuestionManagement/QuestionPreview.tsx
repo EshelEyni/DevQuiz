@@ -9,7 +9,6 @@ import {
 import { BtnQuestionEdit } from "../../components/Btns/BtnQuestionEdit";
 import { BtnEntityArchive } from "../../components/Btns/BtnEntityArchive";
 import { BtnApproveQuestion } from "../../components/Btns/BtnApproveQuestion";
-import { GiCheckMark } from "react-icons/gi";
 import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion";
 import { BtnMarkQuesitonToEdit } from "../../components/Btns/BtnMarkQuesitonToEdit";
 import {
@@ -94,7 +93,6 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
           >
             Id: {id}
           </p>
-          {question.isRevised && <GiCheckMark size={24} color="#1d9bf0" />}
         </header>
         <div className="mb-2 text-5xl font-semibold tracking-wide md:text-4xl">
           {questionText}
@@ -135,6 +133,7 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
           <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
           <BtnCopyQuestion question={question} color="#000" />
           <BtnApproveQuestion
+            isApproved={question.isRevised}
             handleBtnApproveClick={handleBtnApproveClick}
             color="#000"
           />

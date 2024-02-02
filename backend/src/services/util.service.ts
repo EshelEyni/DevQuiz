@@ -36,6 +36,12 @@ async function queryRavenDB(queryString: QueryString, collection: string): Promi
   return await query.all();
 }
 
+function convertQueryParamsToBoolean(value: string | undefined): boolean | undefined {
+  if (value === undefined) return undefined;
+  if (value === "true") return true;
+  if (value === "false") return false;
+}
+
 function setIdToCollectionName(collectionName: string, id: string): string {
   return `${collectionName}/${id}`;
 }
@@ -44,4 +50,9 @@ function trimCollectionNameFromId(id: string): string {
   return id.split("/")[1];
 }
 
-export { queryRavenDB, setIdToCollectionName, trimCollectionNameFromId };
+export {
+  queryRavenDB,
+  setIdToCollectionName,
+  trimCollectionNameFromId,
+  convertQueryParamsToBoolean,
+};

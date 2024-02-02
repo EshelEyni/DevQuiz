@@ -1,6 +1,7 @@
 import { Question } from "../../../../shared/types/question";
 import {
   QueryString,
+  convertQueryParamsToBoolean,
   setIdToCollectionName,
   trimCollectionNameFromId,
 } from "../../services/util.service";
@@ -17,11 +18,15 @@ async function query(queryString: QueryString): Promise<Question[]> {
   const store = asyncLocalStorage.getStore() as alStoreType;
   const loggedinUserId = store?.loggedinUserId;
   const { language, level, searchTerm, isMarkedToBeRevised, limit, page, isRevised } = queryString;
+  const isMarkedToBeRevisedBoolean = convertQueryParamsToBoolean(isMarkedToBeRevised);
+  const isRevisedBoolean = convertQueryParamsToBoolean(isRevised);
   const session = ravenStore.openSession();
   const query = session.query<Question>({ collection: COLLECTION_NAME });
+
   query.whereEquals("isArchived", false);
-  if (isMarkedToBeRevised) query.whereEquals("isMarkedToBeRevised", true);
-  if (isRevised) query.whereEquals("isRevised", true);
+  if (isMarkedToBeRevisedBoolean !== undefined)
+    query.whereEquals("isMarkedToBeRevised", isMarkedToBeRevisedBoolean);
+  if (isRevisedBoolean !== undefined) query.whereEquals("isRevised", isRevisedBoolean);
   if (language) query.whereEquals("language", language);
   if (level) query.whereEquals("level", level);
   if (limit) query.take(Number(limit));

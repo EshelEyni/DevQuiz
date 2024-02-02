@@ -90,7 +90,7 @@ const QuizSetting = () => {
         className="fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[1200px] flex-1 -translate-x-1/2 -translate-y-1/2 flex-col
     items-center overflow-scroll bg-gray-50 px-3 pt-5 lg:h-[90vh] lg:w-[50vw] lg:rounded-xl"
       >
-        <h1 className="mb-10 text-8xl font-medium tracking-wide text-gray-700">
+        <h1 className="mb-10 text-8xl font-medium tracking-wide text-gray-700 md:text-7xl">
           Quiz Setting
         </h1>
         <div className="flex flex-1 flex-col gap-12 px-3">
@@ -159,14 +159,14 @@ const QuizSetting = () => {
         <div className="my-16 flex items-center gap-3">
           <Button
             onClickFn={onGoBack}
-            className="d-flex items-center justify-center rounded-full bg-gray-700 px-12 py-8 text-4xl font-medium uppercase"
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-12 py-8 text-4xl font-medium uppercase md:px-8 md:py-6 md:text-3xl"
           >
             <span>close</span>
           </Button>
 
           <Button
             onClickFn={handleSaveClick}
-            className="d-flex items-center justify-center rounded-full bg-gray-700 px-12 py-8 text-4xl font-medium uppercase"
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-12 py-8 text-4xl font-medium uppercase md:px-8 md:py-6 md:text-3xl"
           >
             <span>save</span>
           </Button>

@@ -206,7 +206,7 @@ export function removeQuestion(question: Question): AppThunk {
     try {
       dispatch(setRemoveQuestionState({ state: "loading", error: null }));
       await questionService.archive(question);
-      dispatch(removeQuestion(question));
+      dispatch(removeQuestionFromState(question));
       dispatch(setRemoveQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
       const error = getErrorMessage(err);

@@ -11,8 +11,15 @@ type typeOfButton = "newQuiz" | "restart" | "none";
 
 export const FinishScreen = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { language, level, page, points, maxPossiblePoints, highScore } =
-    useQuiz();
+  const {
+    language,
+    level,
+    page,
+    points,
+    maxPossiblePoints,
+    highScore,
+    numQuestions,
+  } = useQuiz();
   const percentage = (points / maxPossiblePoints) * 100;
 
   const [focusedBtn, setFocusedBtn] = useState<typeOfButton>("none");
@@ -25,7 +32,14 @@ export const FinishScreen = () => {
   else emoji = "😞";
 
   function handleNewQuizClick() {
-    dispatch(startNewQuiz({ language, level, page: page + 1 }));
+    dispatch(
+      startNewQuiz({
+        language,
+        level,
+        page: page + 1,
+        limit: numQuestions,
+      }),
+    );
   }
 
   function handleRestartClick() {
@@ -77,7 +91,7 @@ export const FinishScreen = () => {
       <div className="flex items-center justify-center gap-5">
         <Button
           className={classnames(
-            "cursor-pointer rounded-full bg-gray-500 px-10 py-7 text-3xl transition-all duration-300",
+            "cursor-pointer rounded-full border-2 border-gray-200 px-10 py-7 text-3xl transition-all duration-300",
             {
               "bg-gray-800": focusedBtn === "newQuiz",
             },
@@ -88,7 +102,7 @@ export const FinishScreen = () => {
         </Button>
         <Button
           className={classnames(
-            "cursor-pointer rounded-full bg-gray-500 px-10 py-7 text-3xl transition-all duration-300",
+            "cursor-pointer rounded-full border-2 border-gray-200 px-10 py-7 text-3xl transition-all duration-300",
             {
               "bg-gray-800": focusedBtn === "restart",
             },

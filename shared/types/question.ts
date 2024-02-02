@@ -10,7 +10,7 @@ export interface Question {
   points: number;
   isArchived: boolean;
   isMarkedToBeRevised?: boolean;
-  isRevised?: boolean;
+  isRevised: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

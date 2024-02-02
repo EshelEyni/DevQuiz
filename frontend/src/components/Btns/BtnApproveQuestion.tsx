@@ -1,14 +1,16 @@
 import { useRef } from "react";
-import { AiOutlineFileDone } from "react-icons/ai";
+import { AiOutlineFileDone, AiOutlineFileText } from "react-icons/ai";
 import { makeId } from "../../services/utils.service";
 import { Tooltip } from "react-tooltip";
 
 type BtnApproveQuestionProps = {
+  isApproved: boolean;
   handleBtnApproveClick: () => void;
   color?: string;
 };
 
 export const BtnApproveQuestion = ({
+  isApproved,
   handleBtnApproveClick,
   color = "#f1f3f5",
 }: BtnApproveQuestionProps) => {
@@ -21,7 +23,11 @@ export const BtnApproveQuestion = ({
         data-tooltip-content="Approve a question"
         data-tooltip-place="top"
       >
-        <AiOutlineFileDone color={color} className="text-5xl md:text-4xl" />
+        {isApproved ? (
+          <AiOutlineFileDone color={color} className="text-5xl md:text-4xl" />
+        ) : (
+          <AiOutlineFileText color={color} className="text-5xl md:text-4xl" />
+        )}
       </button>
       <Tooltip
         id={btnId}

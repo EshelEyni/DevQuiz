@@ -106,7 +106,10 @@ export const Question = () => {
               isMarkedToBeRevised={isQuestionRevised}
               handleBtnMarkToEditClick={handleBtnMarkToEditClick}
             />
-            <BtnApproveQuestion handleBtnApproveClick={handleBtnApproveClick} />
+            <BtnApproveQuestion
+              isApproved={question.isRevised}
+              handleBtnApproveClick={handleBtnApproveClick}
+            />
             <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
           </div>
         )}

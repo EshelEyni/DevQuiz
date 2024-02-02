@@ -21,7 +21,7 @@ export const InputNumber: FC<InputNumberProps> = ({
   return (
     <div
       className={
-        "flex w-max items-center justify-center gap-1 rounded-full bg-gray-700 px-12 py-8 md:px-8 md:py-3" +
+        "flex w-max items-center justify-around gap-1 rounded-full bg-gray-700 px-12 py-8 md:px-6 md:py-3" +
         " " +
         className
       }
@@ -32,7 +32,7 @@ export const InputNumber: FC<InputNumberProps> = ({
       />
       <input
         type="number"
-        className="max-h-content w-24 bg-transparent pb-0 text-center text-5xl font-medium text-gray-50 md:w-20 md:pb-1"
+        className="max-h-content w-24 bg-transparent pb-0 text-center text-5xl font-medium text-gray-50 md:w-16 md:pb-1 md:text-4xl"
         name={name}
         min={0}
         max={max}

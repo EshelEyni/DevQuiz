@@ -47,7 +47,7 @@ if (isProdEnv) {
       "http://localhost:8080",
       "http://127.0.0.1:5173",
       "http://localhost:5173",
-      "https://847c-2a06-c701-4862-2100-69fd-782a-f808-4c3e.ngrok-free.app",
+      "https://f0d6-2a06-c701-4862-2100-2dfd-e2ac-4fa8-7ada.ngrok-free.app",
     ],
     credentials: true,
   };

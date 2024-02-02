@@ -1,0 +1,1 @@
+import{j as e}from"./index-1f2d8112.js";import{c as a}from"./Button-6f10587e.js";const c=({onClickFn:s,darkMode:r=!1})=>e("div",{className:a("fixed left-0 top-0 z-[100] h-screen w-screen cursor-pointer",{"bg-gray-700 bg-opacity-80":r},{"bg-transparent":!r}),onClick:s});export{c as M};

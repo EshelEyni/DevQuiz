@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { HiDocumentDuplicate } from "react-icons/hi";
 import {
   getDuplicatedQuestions,
   getQuestions,
@@ -12,7 +11,7 @@ import { systemSettings } from "../../config";
 import { ProgrammingLanguage } from "../../../../shared/types/system";
 import { DifficultyLevels as TypeOfDifficultyLevels } from "../../../../shared/types/system";
 import { Button } from "../../components/Btns/Button";
-
+import { TfiFiles } from "react-icons/tfi";
 type LevelOrAll = TypeOfDifficultyLevels | "all";
 
 type ApprovedMarkedValues = {
@@ -212,10 +211,10 @@ export const QuestionSearchBar = () => {
 
           <Button
             onClickFn={handleBtnGetDuplicatesClick}
-            className="flex items-center justify-center gap-1 whitespace-nowrap px-2.5"
+            className="flex items-center justify-center gap-3 whitespace-nowrap px-2.5"
           >
             <span className="text-2xl font-semibold">Get Duplicates</span>
-            <HiDocumentDuplicate size={22} color="white" />
+            <TfiFiles size={20} color="white" />
           </Button>
         </div>
       </div>

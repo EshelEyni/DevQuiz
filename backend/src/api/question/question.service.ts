@@ -30,9 +30,9 @@ async function query(queryString: QueryString): Promise<Question[]> {
   if (language) query.whereEquals("language", language);
   if (level) query.whereEquals("level", level);
   if (limit) query.take(Number(limit));
-  if (searchTerm) query.search("question", searchTerm);
   const skip = Number(page) * Number(limit);
   if (skip) query.skip(skip);
+
   if (!loggedinUserId) query.randomOrdering();
   else {
     const userCorrectAnswersIds = await session
@@ -43,11 +43,12 @@ async function query(queryString: QueryString): Promise<Question[]> {
       .whereEquals("userId", loggedinUserId)
       .all();
 
-    userCorrectAnswersIds.forEach(id => {
-      const idWithCollectionName = setIdToCollectionName(COLLECTION_NAME, id as unknown as string);
-      query.whereNotEquals("id()", idWithCollectionName);
-    });
+    const docIdsToFilter = userCorrectAnswersIds.map(id =>
+      setIdToCollectionName(COLLECTION_NAME, id as unknown as string)
+    );
+    query.not().whereIn("id()", docIdsToFilter);
   }
+  if (searchTerm) query.search("question", searchTerm);
 
   const questions = await query.all();
   for (const question of questions) question.id = trimCollectionNameFromId(question.id);
@@ -113,14 +114,29 @@ async function findDuplicatedQuestions(queryString: QueryString): Promise<Questi
 
   if (language) query.whereEquals("language", language);
   if (level) query.whereEquals("level", level);
-
+  query.take(25);
   const allQuestions = await query.all();
-  const duplicatedQuestions: Question[][] = [];
+  let duplicatedQuestions: Question[] = [];
   for (const question of allQuestions) {
-    const similarQuestions = await getDuplicates(question);
-    duplicatedQuestions.push(similarQuestions);
+    const rawSimilarQuestions = await getDuplicates(question);
+    const similarQuestions = rawSimilarQuestions.map(q => ({
+      ...q,
+      id: trimCollectionNameFromId(q.id),
+    }));
+    duplicatedQuestions = [...duplicatedQuestions, ...similarQuestions];
   }
+
   return duplicatedQuestions as unknown as Question[];
+}
+
+async function findQuestionDuplications(questionId: string): Promise<Question[]> {
+  const session = ravenStore.openSession();
+  const id = setIdToCollectionName(COLLECTION_NAME, questionId);
+  const question = await session.load<Question>(id);
+  if (question == null) throw new AppError("Question not found", 404);
+  const duplicatedQuestions = await getDuplicates(question);
+  duplicatedQuestions.forEach(q => (q.id = trimCollectionNameFromId(q.id)));
+  return duplicatedQuestions;
 }
 
 async function getDuplicates(question: Question): Promise<Question[]> {
@@ -130,7 +146,12 @@ async function getDuplicates(question: Question): Promise<Question[]> {
     .whereEquals("isArchived", false)
     .whereNotEquals("id", question.id)
     .whereEquals("language", question.language)
-    .whereEquals("level", question.level)
+    .whereEquals("level", question.level);
+
+  if (question.language) query.whereEquals("language", question.language);
+  if (question.level) query.whereEquals("level", question.level);
+
+  query
     .moreLikeThis(q =>
       q.usingDocument(
         JSON.stringify({
@@ -140,12 +161,9 @@ async function getDuplicates(question: Question): Promise<Question[]> {
     )
     .take(5);
 
-  if (question.language) query.whereEquals("language", question.language);
-  if (question.level) query.whereEquals("level", question.level);
-
   const similarQuestions = await query.all();
 
-  return similarQuestions;
+  return [question, ...similarQuestions] as unknown as Question[];
 }
 
 export default {
@@ -156,4 +174,5 @@ export default {
   remove,
   archive,
   findDuplicatedQuestions,
+  findQuestionDuplications,
 };

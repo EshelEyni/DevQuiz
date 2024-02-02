@@ -19,12 +19,7 @@ export type ThemeColors = {
   accentColor: string;
 };
 
-export type DifficultyLevels =
-  | "beginner"
-  | "intermediate"
-  | "advanced"
-  | "expert"
-  | "master";
+export type DifficultyLevels = "beginner" | "intermediate" | "advanced";
 
 export type ProgrammingLanguage =
   | "HTML"
@@ -33,8 +28,6 @@ export type ProgrammingLanguage =
   | "TypeScript"
   | "Jest"
   | "React"
-  | "Vue"
-  | "Angular"
   | "NodeJS"
   | "ExpressJS"
   | "SQL"

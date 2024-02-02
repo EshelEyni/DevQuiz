@@ -76,6 +76,19 @@ const findDuplicatedQuestions = asyncErrorCatcher(async (req, res, next) => {
   });
 });
 
+const findQuestionDuplications = asyncErrorCatcher(async (req, res, next) => {
+  const questionId = req.params.id;
+  if (!questionId) throw new AppError("No question ID provided", 400);
+  const duplicatedQuestions = await questionService.findQuestionDuplications(questionId);
+
+  res.status(200).json({
+    status: "success",
+    requestedAt: new Date().toISOString(),
+    results: duplicatedQuestions.length,
+    data: duplicatedQuestions,
+  });
+});
+
 export {
   getQuestions,
   getQuestionById,
@@ -84,4 +97,5 @@ export {
   archiveQuestion,
   removeQuestion,
   findDuplicatedQuestions,
+  findQuestionDuplications,
 };

@@ -23,9 +23,11 @@ const ravenAuthOptions = {
   type: "pfx",
 } as IAuthOptions;
 
+const dbName = getDBName();
+
 export const ravenStore = new DocumentStore(
   ["https://a.free.esheleyni.ravendb.cloud"],
-  "Fullstack.Quiz",
+  dbName,
   ravenAuthOptions
 );
 
@@ -48,3 +50,10 @@ process.on("unhandledRejection", (err: Error) => {
     process.exit(1);
   });
 });
+
+function getDBName(): string {
+  const env = process.env.NODE_ENV;
+  if (env === "production") return "prod.dev.quiz";
+  if (env === "test") return "test.dev.quiz";
+  return "dev.dev.quiz";
+}

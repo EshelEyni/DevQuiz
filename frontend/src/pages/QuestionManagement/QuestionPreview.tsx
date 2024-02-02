@@ -1,18 +1,20 @@
 import { FC } from "react";
-import { useDispatch } from "react-redux";
 import { Question as TypeOfQuestion } from "../../../../shared/types/question";
 import {
   caplitalizeFirstLetter,
   copyToClipboard,
 } from "../../services/utils.service";
 import { BtnQuestionEdit } from "../../components/Btns/BtnQuestionEdit";
-import { BtnEntityArchive } from "../../components/Btns/BtnEntityArchive";
+import { BtnArchiveQuestion } from "../../components/Btns/BtnArchiveQuestion";
 import { BtnApproveQuestion } from "../../components/Btns/BtnApproveQuestion";
 import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion";
 import { BtnMarkQuesitonToEdit } from "../../components/Btns/BtnMarkQuesitonToEdit";
-import { removeQuestion } from "../../store/slices/questionSlice";
-import { AppDispatch } from "../../types/app.types";
 import toast from "react-hot-toast";
+import { Button } from "../../components/Btns/Button";
+import { TfiFiles } from "react-icons/tfi";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../types/app.types";
+import { getQuestionDuplications } from "../../store/slices/questionSlice";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
@@ -23,6 +25,8 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
   question,
   bcgColor,
 }) => {
+  const dispatch: AppDispatch = useDispatch();
+
   const {
     id,
     question: questionText,
@@ -31,16 +35,6 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
     language,
     correctOption,
   } = question;
-
-  const dispatch: AppDispatch = useDispatch();
-
-  function handleBtnArchiveClick() {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to archive this question?",
-    );
-    if (!isConfirmed) return;
-    dispatch(removeQuestion(question));
-  }
 
   function copyQuestionIdToClipboard() {
     copyToClipboard(`Questions/${id}`);
@@ -52,6 +46,10 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
         fontWeight: "600",
       },
     });
+  }
+
+  function handleGetQuestionDuplications() {
+    dispatch(getQuestionDuplications(id));
   }
 
   return (
@@ -78,7 +76,7 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
         </div>
       </div>
       <div>
-        <div className="mt-8 flex w-full justify-between gap-6 text-3xl font-semibold">
+        <div className="mb-3 mt-8 flex w-full justify-between gap-6 text-3xl font-semibold">
           <div className="flex-1">
             <p>Level: </p>
             <span>{caplitalizeFirstLetter(level)}</span>
@@ -95,14 +93,17 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
           </div>
         </div>
         <div className="flex items-center justify-end gap-4">
-          <BtnEntityArchive
-            entity="question"
-            handleBtnArchiveClick={handleBtnArchiveClick}
-          />
+          <BtnArchiveQuestion question={question} />
           <BtnMarkQuesitonToEdit question={question} color="#000" />
           <BtnQuestionEdit questionId={question.id} />
           <BtnCopyQuestion question={question} color="#000" />
           <BtnApproveQuestion question={question} color="#000" />
+          <Button
+            onClickFn={handleGetQuestionDuplications}
+            className="flex items-center justify-center gap-3 whitespace-nowrap px-2.5"
+          >
+            <TfiFiles size={20} color="#000" />
+          </Button>
         </div>
       </div>
     </li>

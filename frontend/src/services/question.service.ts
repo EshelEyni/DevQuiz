@@ -40,12 +40,24 @@ async function getDuplicatedQuestions({
   language,
 }: {
   language: string;
-}): Promise<Question[][]> {
+}): Promise<Question[]> {
   try {
     const response = await httpService.get(
-      `question/duplicates?language=${language}`,
+      `question/lang-duplicates?language=${language}`,
     );
-    return handleServerResponse<Question[][]>(response);
+    return handleServerResponse<Question[]>(response);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function getQuestionDuplications(
+  questionId: string,
+): Promise<Question[]> {
+  try {
+    const response = await httpService.get(`question/duplicates/${questionId}`);
+    return handleServerResponse<Question[]>(response);
   } catch (error) {
     console.error(error);
     throw error;
@@ -98,6 +110,7 @@ async function archive(question: Question): Promise<Question> {
 export default {
   query,
   getDuplicatedQuestions,
+  getQuestionDuplications,
   getById,
   add,
   update,

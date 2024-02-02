@@ -10,6 +10,7 @@ import {
   getErrorMessage,
 } from "../../services/utils.service";
 import { setQuizQuestion } from "./quizSlice";
+import toast from "react-hot-toast";
 
 type QuestionState = {
   questions: Question[];
@@ -133,8 +134,7 @@ export function getDuplicatedQuestions({
       const questions = await questionService.getDuplicatedQuestions({
         language,
       });
-      const flatQuestions = questions.flat();
-      dispatch(setQuestions(flatQuestions));
+      dispatch(setQuestions(questions));
       dispatch(setGetQuestionsState({ state: "succeeded", error: null }));
     } catch (err) {
       const error = getErrorMessage(err);
@@ -160,6 +160,25 @@ export function getQuestion(questionId: string): AppThunk {
     } finally {
       setTimeout(() => {
         dispatch(setGetQuestionState(defaultQueryState));
+      }, QUERY_TIMEOUT);
+    }
+  };
+}
+
+export function getQuestionDuplications(questionId: string): AppThunk {
+  return async dispatch => {
+    try {
+      dispatch(setGetQuestionsState({ state: "loading", error: null }));
+      const questions =
+        await questionService.getQuestionDuplications(questionId);
+      dispatch(setQuestions(questions));
+      dispatch(setGetQuestionsState({ state: "succeeded", error: null }));
+    } catch (err) {
+      const error = getErrorMessage(err);
+      dispatch(setGetQuestionsState({ state: "failed", error }));
+    } finally {
+      setTimeout(() => {
+        dispatch(setGetQuestionsState(defaultQueryState));
       }, QUERY_TIMEOUT);
     }
   };
@@ -209,6 +228,14 @@ export function removeQuestion(question: Question): AppThunk {
       await questionService.archive(question);
       dispatch(removeQuestionFromState(question));
       dispatch(setRemoveQuestionState({ state: "succeeded", error: null }));
+      toast.success("Question removed successfully", {
+        style: {
+          background: "#333",
+          color: "#fff",
+          fontSize: "13px",
+          fontWeight: "600",
+        },
+      });
     } catch (err) {
       const error = getErrorMessage(err);
       dispatch(setRemoveQuestionState({ state: "failed", error }));

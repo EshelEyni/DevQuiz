@@ -56,7 +56,7 @@ const QuestionManagementPage = () => {
           <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {questions.slice(0, 40 * paginationIdx).map((q, i) => (
               <QuestionPreview
-                key={q.id}
+                key={`${q.id}-${i + 1}`}
                 question={q}
                 bcgColor={getRandomBrightColor(i)}
               />

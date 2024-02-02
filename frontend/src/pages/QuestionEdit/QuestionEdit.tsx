@@ -98,7 +98,7 @@ const QuestionEdit = () => {
               <h2 className="text-5xl font-bold text-gray-100 md:text-3xl">
                 Question Editor
               </h2>
-              <BtnCopyQuestion question={question} size={20} />
+              <BtnCopyQuestion question={question} />
             </Header>
             <form
               className="mt-4 flex flex-col items-center justify-center gap-2"
@@ -122,7 +122,7 @@ const QuestionEdit = () => {
                     <Select.SelectItem
                       key={lang}
                       value={lang}
-                      className="flex h-14 w-full min-w-[100px]  cursor-pointer items-center justify-center border-b-2 border-gray-800 bg-gray-700 text-2xl
+                      className="flex h-14 w-full min-w-[100px] cursor-pointer items-center justify-center border-b-2 border-gray-800 bg-gray-700 text-2xl
                     text-gray-100 hover:border-gray-900 hover:bg-gray-950 hover:text-gray-100"
                     >
                       <span>{lang}</span>
@@ -182,10 +182,7 @@ const QuestionEdit = () => {
                 >
                   <button type="button">{question.level}</button>
                 </Select.SelectTrigger>
-                <Select.SelectList
-                  className="z-[1500] mt-1 w-full  min-w-[100px] cursor-pointer 
-            border-2  border-gray-800 bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300"
-                >
+                <Select.SelectList className="z-[1500] mt-1 w-52 min-w-[100px] cursor-pointer border-2 border-gray-800 bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300">
                   {difficultyLevels.map((lang: string) => (
                     <Select.SelectItem
                       key={lang}

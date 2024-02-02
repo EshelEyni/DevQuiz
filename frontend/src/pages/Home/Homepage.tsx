@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { Loader } from "../../components/Loaders/Loader/Loader";
 import { StartScreen } from "./StartScreen";
 import { Question } from "./Question";
 import { FinishScreen } from "./FinishScreen";
@@ -11,6 +10,7 @@ import { useQuiz } from "../../hooks/useQuiz";
 import { startNewQuiz } from "../../store/slices/quizSlice";
 import { AppDispatch } from "../../types/app.types";
 import { ErrMsg } from "../../components/Msg/ErrMsg";
+import { QuestionLoader } from "../../components/Loaders/QuestionLoader/QuestionLoader";
 
 const Homepage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -19,7 +19,7 @@ const Homepage = () => {
   function renderSwitch(status: string) {
     switch (status) {
       case "loading":
-        return <Loader title={"Loading questions..."} />;
+        return <QuestionLoader />;
       case "error":
         return (
           <ErrMsg
@@ -46,11 +46,11 @@ const Homepage = () => {
   }, []);
 
   return (
-    <div>
+    <Main className="flex w-full flex-1 flex-col items-center pb-24">
       <QuizHeader />
-      <Main>{renderSwitch(status)}</Main>
+      {renderSwitch(status)}
       <Outlet />
-    </div>
+    </Main>
   );
 };
 

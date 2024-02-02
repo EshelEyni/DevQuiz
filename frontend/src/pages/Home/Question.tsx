@@ -73,7 +73,7 @@ export const Question = () => {
   }
 
   return (
-    <section className="max-w-[575px] px-14">
+    <section className="w-full max-w-[575px] px-14">
       <ProgressBar />
       <div>
         <div className="question-header">
@@ -88,14 +88,14 @@ export const Question = () => {
         {isNextBtnShown && (
           <Button
             onClickFn={onPassQuestion}
-            className="col-start-2 row-start-1 flex h-20 items-center justify-center justify-self-end rounded-full bg-gray-500 px-7 text-3xl normal-case text-gray-200 transition-all hover:scale-105"
+            className="col-start-2 row-start-1 flex h-20 items-center justify-center justify-self-end rounded-full border-2 border-gray-200 px-7 text-3xl normal-case text-gray-200 transition-all hover:scale-105"
           >
             <span>{isLastQuestionIdx ? "Finish" : "Next"}</span>
           </Button>
         )}
         <Button
           onClickFn={handleQuitClick}
-          className="col-start-1 row-start-2 flex h-20 items-center justify-center justify-self-start rounded-full bg-gray-500 px-7 text-3xl normal-case text-gray-200 transition-all hover:scale-105"
+          className="col-start-1 row-start-2 flex h-20 items-center justify-center justify-self-start rounded-full border-2 border-gray-200 px-7 text-3xl normal-case text-gray-200 transition-all hover:scale-105"
         >
           <span>Quit</span>
         </Button>
@@ -105,16 +105,9 @@ export const Question = () => {
             <BtnMarkQuesitonToEdit
               isMarkedToBeRevised={isQuestionRevised}
               handleBtnMarkToEditClick={handleBtnMarkToEditClick}
-              size={26}
             />
-            <BtnApproveQuestion
-              handleBtnApproveClick={handleBtnApproveClick}
-              size={26}
-            />
-            <BtnQuestionEdit
-              handleBtnEditClick={handleBtnEditClick}
-              size={26}
-            />
+            <BtnApproveQuestion handleBtnApproveClick={handleBtnApproveClick} />
+            <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
           </div>
         )}
       </Footer>

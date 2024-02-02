@@ -6,13 +6,11 @@ import { Tooltip } from "react-tooltip";
 type BtnApproveQuestionProps = {
   handleBtnApproveClick: () => void;
   color?: string;
-  size?: number;
 };
 
 export const BtnApproveQuestion = ({
   handleBtnApproveClick,
   color = "#f1f3f5",
-  size = 24,
 }: BtnApproveQuestionProps) => {
   const btnId = useRef(makeId()).current;
   return (
@@ -23,7 +21,7 @@ export const BtnApproveQuestion = ({
         data-tooltip-content="Approve a question"
         data-tooltip-place="top"
       >
-        <AiOutlineFileDone size={size} color={color} />
+        <AiOutlineFileDone color={color} className="text-5xl md:text-4xl" />
       </button>
       <Tooltip
         id={btnId}

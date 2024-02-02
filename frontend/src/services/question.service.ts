@@ -16,9 +16,13 @@ async function query({
   const limitQuery = `${limit ? `&limit=${limit}` : ""}`;
   const searchTermQuery = `${searchTerm ? `&searchTerm=${searchTerm}` : ""}`;
   const isMarkedToBeRevisedQuery = `${
-    isMarkedToBeRevised ? `&isMarkedToBeRevised=${isMarkedToBeRevised}` : ""
+    typeof isMarkedToBeRevised !== undefined
+      ? `&isMarkedToBeRevised=${isMarkedToBeRevised}`
+      : ""
   }`;
-  const isRevisedQuery = `${isRevised ? `&isRevised=${isRevised}` : ""}`;
+  const isRevisedQuery = `${
+    typeof isRevised !== undefined ? `&isRevised=${isRevised}` : ""
+  }`;
 
   const query = `question?language=${language}&page=${
     page || 0

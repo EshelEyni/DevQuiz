@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { CheckBox } from "../../components/App/CheckBox";
 import { HiDocumentDuplicate } from "react-icons/hi";
 import {
   getDuplicatedQuestions,
@@ -16,29 +15,65 @@ import { Button } from "../../components/Btns/Button";
 
 type LevelOrAll = TypeOfDifficultyLevels | "all";
 
+type ApprovedMarkedValues = {
+  name: string;
+  value: boolean | undefined;
+};
+
+type FilterBy = {
+  language: ProgrammingLanguage;
+  level: LevelOrAll;
+  searchTerm: string;
+  Approved: ApprovedMarkedValues;
+  Marked: ApprovedMarkedValues;
+};
+
 export const QuestionSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
   useKey("Enter", onSearch);
   const { programmingLanguages, difficultyLevels } = systemSettings;
-  const [language, setLanguage] = useState<ProgrammingLanguage>("HTML");
-  const [level, setLevel] = useState<LevelOrAll>("beginner");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isApproved, setIsApproved] = useState(false);
-  const [isMarked, setIsMarked] = useState(false);
+  const [filterBy, setFilterBy] = useState<FilterBy>({
+    language: "HTML",
+    level: "beginner",
+    searchTerm: "",
+    Approved: { name: "All", value: undefined },
+    Marked: { name: "All", value: undefined },
+  });
+
+  const { language, level, searchTerm, Approved, Marked } = filterBy;
+  const approvedValues: ApprovedMarkedValues[] = [
+    { name: "Approved only", value: true },
+    { name: "Remove approved", value: false },
+    { name: "All", value: undefined },
+  ];
+
+  const MarkedValues: ApprovedMarkedValues[] = [
+    { name: "Marked only", value: true },
+    { name: "Remove marked", value: false },
+    { name: "All", value: undefined },
+  ];
 
   function handleChangeLangSelect(language: ProgrammingLanguage) {
-    setLanguage(language);
+    setFilterBy({ ...filterBy, language });
   }
 
   function handleChangeDifficultySelect(level: LevelOrAll) {
-    setLevel(level);
+    setFilterBy({ ...filterBy, level });
   }
 
   function handleInputSearchTermChange(
     event: React.ChangeEvent<HTMLInputElement>,
   ) {
     const searchTerm = event.target.value;
-    setSearchTerm(searchTerm);
+    setFilterBy({ ...filterBy, searchTerm });
+  }
+
+  function handleChangeApprovedSelect(approved: ApprovedMarkedValues) {
+    setFilterBy({ ...filterBy, Approved: approved });
+  }
+
+  function handleChangeMarkedSelect(marked: ApprovedMarkedValues) {
+    setFilterBy({ ...filterBy, Marked: marked });
   }
 
   function onSearch() {
@@ -49,20 +84,10 @@ export const QuestionSearchBar = () => {
         page: 1,
         limit: 0,
         searchTerm,
-        isMarkedToBeRevised: isMarked,
-        isRevised: isApproved,
+        isMarkedToBeRevised: Marked.value,
+        isRevised: Approved.value,
       }),
     );
-  }
-
-  function handleApprovedClick() {
-    setIsMarked(false);
-    setIsApproved(!isApproved);
-  }
-
-  function handleMarkedClick() {
-    setIsApproved(false);
-    setIsMarked(!isMarked);
   }
 
   function handleBtnGetDuplicatesClick() {
@@ -71,7 +96,7 @@ export const QuestionSearchBar = () => {
 
   return (
     <div className="min-h-32 flex w-full flex-col items-center justify-between border-b border-gray-300 bg-gray-800 px-4 py-4 md:flex-row md:px-20">
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-3">
           <Select onChange={handleChangeLangSelect}>
             <Select.SelectTrigger
@@ -137,20 +162,53 @@ export const QuestionSearchBar = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <Button
-            onClickFn={handleApprovedClick}
-            className="flex items-center justify-center gap-1 whitespace-nowrap p-2.5"
-          >
-            <span className="text-2xl font-semibold">Approved only</span>
-            <CheckBox checked={isApproved} />
-          </Button>
-          <Button
-            onClickFn={handleMarkedClick}
-            className="flex items-center justify-center gap-1 whitespace-nowrap p-2.5"
-          >
-            <span className="text-2xl font-semibold">Marked only</span>
-            <CheckBox checked={isMarked} />
-          </Button>
+          <Select onChange={handleChangeApprovedSelect}>
+            <Select.SelectTrigger
+              className="h-14 w-56 cursor-pointer rounded-xl 
+            bg-gray-700 text-2xl capitalize leading-5 outline-none transition-all duration-300"
+            >
+              <button type="button">{Approved.name}</button>
+            </Select.SelectTrigger>
+            <Select.SelectList
+              className="z-[1500] mt-1 w-56  min-w-[100px] cursor-pointer 
+            border-2  border-gray-800 bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300"
+            >
+              {approvedValues.map(({ name, value }) => (
+                <Select.SelectItem
+                  key={name}
+                  value={{ name, value }}
+                  className="flex h-14 w-full min-w-[100px]  cursor-pointer items-center justify-center border-b-2 border-gray-800 bg-gray-700 text-2xl
+                    text-gray-100 hover:border-gray-900 hover:bg-gray-950 hover:text-gray-100"
+                >
+                  <span className="capitalize">{name}</span>
+                </Select.SelectItem>
+              ))}
+            </Select.SelectList>
+          </Select>
+
+          <Select onChange={handleChangeMarkedSelect}>
+            <Select.SelectTrigger
+              className="h-14 w-56 cursor-pointer rounded-xl 
+            bg-gray-700 text-2xl capitalize leading-5 outline-none transition-all duration-300"
+            >
+              <button type="button">{Marked.name}</button>
+            </Select.SelectTrigger>
+            <Select.SelectList
+              className="z-[1500] mt-1 w-56  min-w-[100px] cursor-pointer 
+            border-2  border-gray-800 bg-gray-700 text-2xl leading-5 outline-none transition-all duration-300"
+            >
+              {MarkedValues.map(({ name, value }) => (
+                <Select.SelectItem
+                  key={name}
+                  value={{ name, value }}
+                  className="flex h-14 w-full min-w-[100px]  cursor-pointer items-center justify-center border-b-2 border-gray-800 bg-gray-700 text-2xl
+                    text-gray-100 hover:border-gray-900 hover:bg-gray-950 hover:text-gray-100"
+                >
+                  <span className="capitalize">{name}</span>
+                </Select.SelectItem>
+              ))}
+            </Select.SelectList>
+          </Select>
 
           <Button
             onClickFn={handleBtnGetDuplicatesClick}

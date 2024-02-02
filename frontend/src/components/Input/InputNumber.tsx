@@ -21,18 +21,18 @@ export const InputNumber: FC<InputNumberProps> = ({
   return (
     <div
       className={
-        "flex w-max items-center justify-center gap-1 rounded-full bg-gray-700 px-6 py-2" +
+        "flex w-max items-center justify-center gap-1 rounded-full bg-gray-700 px-12 py-8 md:px-8 md:py-3" +
         " " +
         className
       }
     >
       <FaChevronLeft
-        className="cursor-pointer text-3xl font-medium text-gray-50 md:text-2xl"
+        className="cursor-pointer text-5xl font-medium text-gray-50 md:text-4xl"
         onClick={() => updateNumber(-1)}
       />
       <input
         type="number"
-        className="max-h-content w-12 bg-transparent pb-0 text-center text-4xl font-medium text-gray-50 md:pb-1"
+        className="max-h-content w-24 bg-transparent pb-0 text-center text-5xl font-medium text-gray-50 md:w-20 md:pb-1"
         name={name}
         min={0}
         max={max}
@@ -40,7 +40,7 @@ export const InputNumber: FC<InputNumberProps> = ({
         onChange={handleChange}
       />
       <FaChevronRight
-        className="cursor-pointer text-3xl font-medium text-gray-50 md:text-2xl"
+        className="cursor-pointer text-5xl font-medium text-gray-50 md:text-4xl"
         onClick={() => updateNumber(1)}
       />
     </div>

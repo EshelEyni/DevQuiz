@@ -16,7 +16,7 @@ export const StartScreen = () => {
   }
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-3 px-3">
+    <div className="flex flex-1 flex-col items-center gap-3 px-3">
       <h2 className="w-full text-center text-4xl font-bold text-gray-50">{`Welcome to The ${language} Quiz!`}</h2>
       <h3 className="w-full text-center text-xl font-bold text-gray-50 ">{`${numQuestions} question to test your ${language} mastery`}</h3>
 

@@ -44,7 +44,7 @@ const QuestionManagementPage = () => {
       )}
 
       {isQuestionListShown && (
-        <div className="mx-auto mt-4 flex w-11/12 flex-col gap-5 md:mt-2">
+        <div className="mx-auto mt-4 flex w-11/12 flex-col gap-5 pb-24 md:mt-2">
           <div className="flex w-full flex-col flex-wrap justify-between gap-1 md:flex-row">
             <p className="text-3xl font-semibold leading-none">{`Number of Questions: ${questions.length}`}</p>
             <p className="text-3xl font-semibold leading-none">{`Number of Approved Questions: ${approvedQuestions.length}`}</p>
@@ -53,7 +53,7 @@ const QuestionManagementPage = () => {
               of the questions have been approved.
             </p>
           </div>
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {questions.slice(0, 40 * paginationIdx).map((q, i) => (
               <QuestionPreview
                 key={q.id}

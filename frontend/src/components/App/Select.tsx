@@ -64,15 +64,8 @@ function calculatePositionByRef<T extends HTMLElement>(
 ) {
   const rect = ref.current?.getBoundingClientRect();
   if (!rect) return null;
-  const windowHeight = window.outerWidth;
-  const elementHeight = rect.height;
   const elementWidth = rect.width;
-  const isElementAbove = windowHeight - rect.top < elementHeight;
-
-  const verticalPosition = isElementAbove
-    ? { bottom: `${windowHeight - rect.top}px` }
-    : { top: `${rect.bottom}px` };
-
+  const verticalPosition = { top: `${rect.bottom}px` };
   const horizontalMidpoint = rect.left + rect.width / 2;
   const horizontalPosition = {
     left: `${horizontalMidpoint}px`,

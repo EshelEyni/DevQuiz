@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 const About = () => {
   return (
     <>
-      <div className="flex max-w-[800px] flex-col gap-8 p-4 md:p-8 lg:p-12">
+      <main className="flex max-w-[800px] flex-1 flex-col gap-8 p-4 pb-24 md:p-8  lg:p-12">
         <h1 className="mb-6 text-center text-6xl font-bold md:text-4xl lg:text-5xl">
           About
         </h1>
@@ -29,7 +29,7 @@ const About = () => {
           Start your quiz journey now and join a community of learners who are
           as passionate about technology as you are!
         </p>
-      </div>
+      </main>
       <Outlet />
     </>
   );

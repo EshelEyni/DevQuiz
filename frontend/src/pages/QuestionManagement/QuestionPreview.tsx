@@ -96,24 +96,26 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
           </p>
           {question.isRevised && <GiCheckMark size={24} color="#1d9bf0" />}
         </header>
-        <div className="mb-2 text-[2.6rem] font-semibold">{questionText}</div>
-        <div className="ml-4 mt-4 flex flex-col gap-2 text-3xl">
+        <div className="mb-2 text-5xl font-semibold tracking-wide md:text-4xl">
+          {questionText}
+        </div>
+        <div className="ml-4 mt-4 flex flex-col gap-3 text-4xl sm:text-3xl md:text-3xl">
           {options.map((option, index) => (
             <div key={index}>{`${index + 1}. ${option}`}</div>
           ))}
         </div>
       </div>
       <div>
-        <div className="mt-8 flex justify-between text-3xl font-semibold">
-          <div>
+        <div className="mt-8 flex w-full justify-between gap-6 text-3xl font-semibold">
+          <div className="flex-1">
             <p>Level: </p>
             <span>{caplitalizeFirstLetter(level)}</span>
           </div>
-          <div>
+          <div className="flex-1">
             <p>Language: </p>
             <span>{language}</span>
           </div>
-          <div className="group flex flex-col items-center gap-1">
+          <div className="group flex flex-1 flex-col items-center gap-1">
             <p>Correct Option:</p>
             <span className="opacity-0 group-hover:opacity-100">
               {correctOption + 1}
@@ -129,14 +131,12 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
             isMarkedToBeRevised={isQuestionRevised}
             handleBtnMarkToEditClick={handleBtnMarkToEditClick}
             color="#000"
-            size={22}
           />
-          <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} size={22} />
-          <BtnCopyQuestion question={question} color="#000" size={22} />
+          <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
+          <BtnCopyQuestion question={question} color="#000" />
           <BtnApproveQuestion
             handleBtnApproveClick={handleBtnApproveClick}
             color="#000"
-            size={22}
           />
         </div>
       </div>

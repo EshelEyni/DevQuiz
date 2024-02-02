@@ -100,7 +100,7 @@ const ProfileDetails = () => {
   }
 
   return (
-    <main className="flex min-h-[250px] w-screen flex-col items-center overflow-hidden p-2">
+    <main className="flex min-h-[250px] w-screen flex-col items-center overflow-hidden p-2 pb-24">
       {!isCurrUser && <Loader className="mt-52" />}
 
       {isCurrUser && (

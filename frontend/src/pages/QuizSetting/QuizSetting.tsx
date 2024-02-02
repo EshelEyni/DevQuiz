@@ -32,24 +32,32 @@ const QuizSetting = () => {
   }
 
   function handleChangeSecInput(e: React.ChangeEvent<HTMLInputElement>) {
-    const secondsPerQuestion = Number(e.target.value);
+    const val = Number(e.target.value);
+    const secondsPerQuestion = val > 90 ? 90 : val;
     setFormState({ ...formtState, secondsPerQuestion });
   }
 
   function updateSec(n: number) {
-    const newSec = formtState.secondsPerQuestion + n;
-    if (newSec < 0 || newSec > 90) return;
+    const val = formtState.secondsPerQuestion + n;
+    let newSec = 0;
+    if (val < 0) newSec = 0;
+    else if (val > 90) newSec = 90;
+    else newSec = val;
     setFormState({ ...formtState, secondsPerQuestion: newSec });
   }
 
   function handleChangeNumInput(e: React.ChangeEvent<HTMLInputElement>) {
-    const numQuestions = Number(e.target.value);
+    const val = Number(e.target.value);
+    const numQuestions = val > 100 ? 100 : val;
     setFormState({ ...formtState, numQuestions });
   }
 
   function updateNum(n: number) {
-    const newNum = formtState.numQuestions + n;
-    if (newNum < 0 || newNum > 90) return;
+    const val = formtState.numQuestions + n;
+    let newNum = 0;
+    if (val < 0) newNum = 0;
+    else if (val > 100) newNum = 100;
+    else newNum = val;
     setFormState({ ...formtState, numQuestions: newNum });
   }
 
@@ -79,20 +87,20 @@ const QuizSetting = () => {
       <MainScreen onClickFn={onGoBack} darkMode={true} />
 
       <main
-        className="fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[1200px] -translate-x-1/2 -translate-y-1/2 flex-col items-center
-    overflow-scroll bg-gray-50 px-3 pt-5 lg:h-[90vh] lg:w-[50vw] lg:rounded-xl"
+        className="fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[1200px] flex-1 -translate-x-1/2 -translate-y-1/2 flex-col
+    items-center overflow-scroll bg-gray-50 px-3 pt-5 lg:h-[90vh] lg:w-[50vw] lg:rounded-xl"
       >
-        <h1 className="mb-10 text-5xl font-medium text-gray-700">
+        <h1 className="mb-10 text-8xl font-medium tracking-wide text-gray-700">
           Quiz Setting
         </h1>
-        <div className="flex flex-1 flex-col gap-6 px-3">
+        <div className="flex flex-1 flex-col gap-12 px-3">
           <InputContainer title="Technology">
             <div className="flex w-full flex-wrap gap-2">
               {Object.keys(programmingLanguages).map((lang: string) => (
                 <Button
                   key={lang}
                   className={classnames(
-                    "w-fit rounded-2xl bg-gray-700 px-5 py-4 text-2xl font-medium md:text-xl",
+                    "w-fit rounded-2xl bg-gray-700 px-8 py-7 text-4xl font-medium md:px-5 md:py-4 md:text-3xl",
                     {
                       "bg-sky-600 text-gray-50": formtState.language === lang,
                     },
@@ -113,7 +121,7 @@ const QuizSetting = () => {
                 <Button
                   key={level}
                   className={classnames(
-                    "w-fit rounded-2xl bg-gray-700 px-5 py-3 text-2xl font-medium capitalize md:text-xl",
+                    "w-fit rounded-2xl bg-gray-700 px-8 py-7 text-4xl font-medium capitalize md:px-5 md:py-4 md:text-3xl",
                     {
                       "bg-sky-600 text-gray-50": formtState.level === level,
                     },
@@ -148,17 +156,17 @@ const QuizSetting = () => {
             />
           </InputContainer>
         </div>
-        <div className="mb-16 flex items-center gap-3">
+        <div className="my-16 flex items-center gap-3">
           <Button
             onClickFn={onGoBack}
-            className="d-flex items-center justify-center rounded-full bg-gray-700 px-8 py-6 text-4xl font-medium uppercase md:px-6 md:py-3 md:text-xl"
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-12 py-8 text-4xl font-medium uppercase"
           >
             <span>close</span>
           </Button>
 
           <Button
             onClickFn={handleSaveClick}
-            className="d-flex items-center justify-center rounded-full bg-gray-700 px-8 py-6 text-4xl font-medium uppercase md:px-6 md:py-3 md:text-xl"
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-12 py-8 text-4xl font-medium uppercase"
           >
             <span>save</span>
           </Button>

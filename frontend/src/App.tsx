@@ -19,33 +19,27 @@ export const App = () => {
   return (
     <div className="app flex min-h-screen flex-col items-center overflow-y-scroll bg-gray-700 text-gray-50">
       <AppHeader />
-      <div className="flex-1">
-        <Suspense
-          fallback={
-            <Loader className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform" />
-          }
-        >
-          <Routes>
-            <Route index element={<Navigate replace to="/home" />} />
-            {routes.map((route, index) => (
-              <Route
-                key={index}
-                path={route.path}
-                element={<route.component />}
-              >
-                {route.nestedRoutes?.map((nestedRoute, index) => (
-                  <Route
-                    key={index}
-                    path={nestedRoute.path}
-                    element={<nestedRoute.component />}
-                  />
-                ))}
-              </Route>
-            ))}
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </Suspense>
-      </div>
+      <Suspense
+        fallback={
+          <Loader className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform" />
+        }
+      >
+        <Routes>
+          <Route index element={<Navigate replace to="/home" />} />
+          {routes.map((route, index) => (
+            <Route key={index} path={route.path} element={<route.component />}>
+              {route.nestedRoutes?.map((nestedRoute, index) => (
+                <Route
+                  key={index}
+                  path={nestedRoute.path}
+                  element={<nestedRoute.component />}
+                />
+              ))}
+            </Route>
+          ))}
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Suspense>
       <AppFooter />
     </div>
   );

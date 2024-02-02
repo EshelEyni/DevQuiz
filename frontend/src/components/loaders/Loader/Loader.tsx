@@ -9,7 +9,7 @@ type LoaderProps = {
 export const Loader: FC<LoaderProps> = ({ title, className }: LoaderProps) => {
   return (
     <div
-      className={`flex items-center justify-center text-gray-500 ${className}`}
+      className={`flex flex-1 items-center justify-center text-gray-500 ${className}`}
     >
       <div className="loader" />
       {title && <p>{title}</p>}

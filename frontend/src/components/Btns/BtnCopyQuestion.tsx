@@ -8,13 +8,11 @@ import toast from "react-hot-toast";
 type BtnCopyQuestionProps = {
   question: Question;
   color?: string;
-  size?: number;
 };
 
 export const BtnCopyQuestion = ({
   question,
   color = "#f1f3f5",
-  size = 30,
 }: BtnCopyQuestionProps) => {
   const btnId = useRef(makeId()).current;
 
@@ -53,7 +51,7 @@ export const BtnCopyQuestion = ({
         data-tooltip-place="top"
         onClick={onCopyQuestion}
       >
-        <FaRegCopy size={size} color={color} />
+        <FaRegCopy className="text-5xl md:text-4xl" color={color} />
       </button>
       <Tooltip
         id={btnId}

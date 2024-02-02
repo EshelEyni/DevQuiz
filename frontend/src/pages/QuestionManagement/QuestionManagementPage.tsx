@@ -9,8 +9,10 @@ import { AppDispatch } from "../../types/app.types";
 import { getRandomBrightColor } from "../../services/utils.service";
 import { QuestionPreview } from "./QuestionPreview";
 import { useIntersectionPagination } from "../../hooks/useIntersectionPagination";
+import { useQuestionEditToast } from "../../hooks/useQuestionEditToast";
 
 const QuestionManagementPage = () => {
+  useQuestionEditToast();
   const dispatch: AppDispatch = useDispatch();
   const { questions, getQuestionsState } = useQuestion();
   const { paginationIdx, intersectionRef } = useIntersectionPagination();

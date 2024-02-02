@@ -10,7 +10,6 @@ import {
   getErrorMessage,
 } from "../../services/utils.service";
 import { setQuizQuestion } from "./quizSlice";
-import toast from "react-hot-toast";
 
 type QuestionState = {
   questions: Question[];
@@ -20,6 +19,13 @@ type QuestionState = {
   addQuestionState: QueryState;
   updateQuestionState: QueryState;
   removeQuestionState: QueryState;
+  editState: EditState;
+};
+
+type EditState = {
+  approveCount: number;
+  markCount: number;
+  archiveCount: number;
 };
 
 const initialState: QuestionState = {
@@ -30,6 +36,11 @@ const initialState: QuestionState = {
   addQuestionState: defaultQueryState,
   updateQuestionState: defaultQueryState,
   removeQuestionState: defaultQueryState,
+  editState: {
+    approveCount: 0,
+    markCount: 0,
+    archiveCount: 0,
+  },
 };
 
 const questionSlice = createSlice({
@@ -70,6 +81,24 @@ const questionSlice = createSlice({
     setRemoveQuestionState(state, action: PayloadAction<QueryState>) {
       state.removeQuestionState = action.payload;
     },
+    setApproveCount(state, action: PayloadAction<number>) {
+      state.editState = {
+        ...state.editState,
+        approveCount: state.editState.approveCount + action.payload,
+      };
+    },
+    setMarkCount(state, action: PayloadAction<number>) {
+      state.editState = {
+        ...state.editState,
+        markCount: state.editState.markCount + action.payload,
+      };
+    },
+    setArchiveCount(state, action: PayloadAction<number>) {
+      state.editState = {
+        ...state.editState,
+        archiveCount: state.editState.archiveCount + action.payload,
+      };
+    },
   },
 });
 
@@ -84,6 +113,9 @@ export const {
   setAddQuestionState,
   removeQuestionFromState,
   setRemoveQuestionState,
+  setApproveCount,
+  setMarkCount,
+  setArchiveCount,
 } = questionSlice.actions;
 
 export default questionSlice.reducer;
@@ -184,7 +216,10 @@ export function getQuestionDuplications(questionId: string): AppThunk {
   };
 }
 
-export function updateQuestion(question: Question): AppThunk {
+export function updateQuestion(
+  question: Question,
+  type?: "approve" | "mark",
+): AppThunk {
   return async dispatch => {
     try {
       dispatch(setUpdateQuestionState({ state: "loading", error: null }));
@@ -192,6 +227,13 @@ export function updateQuestion(question: Question): AppThunk {
       dispatch(updateQuestionInState(updatedQuestion));
       dispatch(setQuizQuestion(updatedQuestion));
       dispatch(setUpdateQuestionState({ state: "succeeded", error: null }));
+      if (type === "approve") {
+        const val = question.isRevised ? -1 : 1;
+        dispatch(setApproveCount(val));
+      } else if (type === "mark") {
+        const val = question.isMarkedToBeRevised ? -1 : 1;
+        dispatch(setMarkCount(val));
+      }
     } catch (err) {
       const error = getErrorMessage(err);
       dispatch(setUpdateQuestionState({ state: "failed", error }));
@@ -228,14 +270,7 @@ export function removeQuestion(question: Question): AppThunk {
       await questionService.archive(question);
       dispatch(removeQuestionFromState(question));
       dispatch(setRemoveQuestionState({ state: "succeeded", error: null }));
-      toast.success("Question removed successfully", {
-        style: {
-          background: "#333",
-          color: "#fff",
-          fontSize: "13px",
-          fontWeight: "600",
-        },
-      });
+      dispatch(setArchiveCount(1));
     } catch (err) {
       const error = getErrorMessage(err);
       dispatch(setRemoveQuestionState({ state: "failed", error }));

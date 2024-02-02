@@ -1,4 +1,4 @@
-import{r as l,m as u,c as m,F as x,j as n,n as b,k as C,_ as g}from"./index-1f2d8112.js";import{q as j}from"./react-tooltip.min-84a1ff5c.js";const Q=({question:e,color:r="#f1f3f5"})=>{const s=l.useRef(u()).current;function a(){if(!e)return;const p=Object.entries(e).reduce((t,[o,i])=>{if(o==="question")return t+`${o}: ${i}
+import{r as l,m as u,c as m,F as x,j as n,o as b,k as C,_ as g}from"./index-0de7a7da.js";import{q as j}from"./useKey-f3403826.js";const Q=({question:e,color:r="#f1f3f5"})=>{const s=l.useRef(u()).current;function a(){if(!e)return;const p=Object.entries(e).reduce((t,[o,i])=>{if(o==="question")return t+`${o}: ${i}
 `;if(o==="options"){const c=i.map((d,f)=>`Option ${f+1}: ${d}`);return t+c.join(`
 `)+`
 `}return t},"");C(p),g.success("Question copied to clipboard",{style:{background:"#333",color:"#fff",fontSize:"13px",fontWeight:"600"}})}return m(x,{children:[n("button",{"data-tooltip-id":s,"data-tooltip-content":"Copy question to clipboard","data-tooltip-place":"top",onClick:a,children:n(b,{className:"text-5xl md:text-4xl",color:r})}),n(j,{id:s,style:{fontSize:"16px"},className:"hidden md:block"})]})};export{Q as B};

@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useQuestion } from "./useQuestion";
 
 export function useQuestionEditToast() {
-  const [archiveCount, setArchiveCount] = useState(0);
-  const [approveCount, setApproveCount] = useState(0);
-  const [markCount, setMarkCount] = useState(0);
-
+  const { editState } = useQuestion();
+  const { archiveCount, approveCount, markCount } = editState;
   useEffect(() => {
     if (archiveCount + approveCount + markCount === 0) return;
     toast(
@@ -25,6 +24,4 @@ export function useQuestionEditToast() {
       },
     );
   }, [archiveCount, approveCount, markCount]);
-
-  return { setArchiveCount, setApproveCount, setMarkCount };
 }

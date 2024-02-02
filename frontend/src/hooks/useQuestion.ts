@@ -10,6 +10,7 @@ export function useQuestion() {
     addQuestionState,
     updateQuestionState,
     removeQuestionState,
+    editState,
   } = useSelector((state: RootState) => state.question);
 
   return {
@@ -20,5 +21,6 @@ export function useQuestion() {
     addQuestionState,
     updateQuestionState,
     removeQuestionState,
+    editState,
   };
 }

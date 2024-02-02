@@ -21,7 +21,7 @@ export const BtnApproveQuestion = ({
   const { isRevised } = question;
   function handleBtnApproveClick() {
     const updatedQuestion = { ...question, isRevised: !isRevised };
-    dispatch(updateQuestion(updatedQuestion));
+    dispatch(updateQuestion(updatedQuestion, "approve"));
   }
 
   return (

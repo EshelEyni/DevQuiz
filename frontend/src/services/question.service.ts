@@ -40,12 +40,12 @@ async function getDuplicatedQuestions({
   language,
 }: {
   language: string;
-}): Promise<Question[]> {
+}): Promise<Question[][]> {
   try {
     const response = await httpService.get(
       `question/duplicates?language=${language}`,
     );
-    return handleServerResponse<Question[]>(response);
+    return handleServerResponse<Question[][]>(response);
   } catch (error) {
     console.error(error);
     throw error;

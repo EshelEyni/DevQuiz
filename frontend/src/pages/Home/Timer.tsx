@@ -49,7 +49,7 @@ export const Timer = () => {
   }, [isTimerOn, dispatch]);
 
   return (
-    <div className="col-start-1 row-start-1 flex h-20 items-center justify-center justify-self-start rounded-[100px] border-2 border-gray-200 px-8 text-3xl text-gray-200">
+    <div className="col-start-1 row-start-1 flex h-16 items-center justify-center justify-self-start rounded-[100px] border-2 border-gray-200 px-8 text-3xl text-gray-200">
       <span>
         {minutes < 10 && "0"}
         {minutes}:{seconds < 10 && "0"}

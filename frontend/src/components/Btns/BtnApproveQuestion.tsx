@@ -2,19 +2,28 @@ import { useRef } from "react";
 import { AiOutlineFileDone, AiOutlineFileText } from "react-icons/ai";
 import { makeId } from "../../services/utils.service";
 import { Tooltip } from "react-tooltip";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../types/app.types";
+import { Question } from "../../../../shared/types/question";
+import { updateQuestion } from "../../store/slices/questionSlice";
 
 type BtnApproveQuestionProps = {
-  isApproved: boolean;
-  handleBtnApproveClick: () => void;
+  question: Question;
   color?: string;
 };
 
 export const BtnApproveQuestion = ({
-  isApproved,
-  handleBtnApproveClick,
+  question,
   color = "#f1f3f5",
 }: BtnApproveQuestionProps) => {
+  const dispatch: AppDispatch = useDispatch();
   const btnId = useRef(makeId()).current;
+  const { isRevised } = question;
+  function handleBtnApproveClick() {
+    const updatedQuestion = { ...question, isRevised: !isRevised };
+    dispatch(updateQuestion(updatedQuestion));
+  }
+
   return (
     <>
       <button
@@ -23,7 +32,7 @@ export const BtnApproveQuestion = ({
         data-tooltip-content="Approve a question"
         data-tooltip-place="top"
       >
-        {isApproved ? (
+        {isRevised ? (
           <AiOutlineFileDone color={color} className="text-5xl md:text-4xl" />
         ) : (
           <AiOutlineFileText color={color} className="text-5xl md:text-4xl" />

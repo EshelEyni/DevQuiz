@@ -4,15 +4,27 @@ import { useQuiz } from "../../hooks/useQuiz";
 import { setStatus } from "../../store/slices/quizSlice";
 import { AppDispatch } from "../../types/app.types";
 import { Button } from "../../components/Btns/Button";
-
+import { useState } from "react";
+import classnames from "classnames";
 export const StartScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const { language, numQuestions } = useQuiz();
+  const [isFocused, setIsFocused] = useState(false);
 
   useKey("Enter", handleStartQuiz);
+  useKey("ArrowDown", handleArrowDown);
+  useKey("ArrowUp", handleArrowUp);
 
   function handleStartQuiz() {
     dispatch(setStatus("active"));
+  }
+
+  function handleArrowUp() {
+    setIsFocused(false);
+  }
+
+  function handleArrowDown() {
+    setIsFocused(true);
   }
 
   return (
@@ -22,7 +34,12 @@ export const StartScreen = () => {
 
       <Button
         onClickFn={handleStartQuiz}
-        className="mt-10 rounded-full !bg-gray-600 px-8 py-6 text-3xl font-medium uppercase text-gray-100"
+        className={classnames(
+          "mt-10 rounded-full bg-gray-600 px-8 py-6 text-3xl font-medium uppercase text-gray-100 transition-all duration-300",
+          {
+            "scale-110 bg-gray-800 text-gray-200": isFocused,
+          },
+        )}
       >
         {"Let's start"}
       </Button>

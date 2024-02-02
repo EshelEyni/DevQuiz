@@ -40,7 +40,7 @@ const QuizSetting = () => {
   function updateSec(n: number) {
     const val = formtState.secondsPerQuestion + n;
     let newSec = 0;
-    if (val < 0) newSec = 0;
+    if (val < 1) newSec = 1;
     else if (val > 90) newSec = 90;
     else newSec = val;
     setFormState({ ...formtState, secondsPerQuestion: newSec });
@@ -55,7 +55,7 @@ const QuizSetting = () => {
   function updateNum(n: number) {
     const val = formtState.numQuestions + n;
     let newNum = 0;
-    if (val < 0) newNum = 0;
+    if (val < 1) newNum = 1;
     else if (val > 100) newNum = 100;
     else newNum = val;
     setFormState({ ...formtState, numQuestions: newNum });

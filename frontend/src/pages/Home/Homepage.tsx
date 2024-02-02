@@ -11,6 +11,7 @@ import { startNewQuiz } from "../../store/slices/quizSlice";
 import { AppDispatch } from "../../types/app.types";
 import { ErrMsg } from "../../components/Msg/ErrMsg";
 import { QuestionLoader } from "../../components/Loaders/QuestionLoader/QuestionLoader";
+import { QuestionProvider } from "./QuestionContext";
 
 const Homepage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -31,7 +32,11 @@ const Homepage = () => {
       case "ready":
         return <StartScreen />;
       case "active":
-        return <Question />;
+        return (
+          <QuestionProvider>
+            <Question />
+          </QuestionProvider>
+        );
       case "finished":
         return <FinishScreen />;
       default:

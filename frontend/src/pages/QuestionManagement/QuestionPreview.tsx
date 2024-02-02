@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Question as TypeOfQuestion } from "../../../../shared/types/question";
 import {
   caplitalizeFirstLetter,
@@ -11,10 +10,7 @@ import { BtnEntityArchive } from "../../components/Btns/BtnEntityArchive";
 import { BtnApproveQuestion } from "../../components/Btns/BtnApproveQuestion";
 import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion";
 import { BtnMarkQuesitonToEdit } from "../../components/Btns/BtnMarkQuesitonToEdit";
-import {
-  removeQuestion,
-  updateQuestion,
-} from "../../store/slices/questionSlice";
+import { removeQuestion } from "../../store/slices/questionSlice";
 import { AppDispatch } from "../../types/app.types";
 import toast from "react-hot-toast";
 
@@ -35,13 +31,8 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
     language,
     correctOption,
   } = question;
-  const isQuestionRevised = question.isMarkedToBeRevised ?? false;
 
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
-  function handleBtnEditClick() {
-    navigate(`question-edit/${id}`);
-  }
 
   function handleBtnArchiveClick() {
     const isConfirmed = window.confirm(
@@ -49,23 +40,6 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
     );
     if (!isConfirmed) return;
     dispatch(removeQuestion(question));
-  }
-
-  function handleBtnApproveClick() {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to approve this question?",
-    );
-    if (!isConfirmed) return;
-    const questionToApprove = { ...question, isRevised: true };
-    dispatch(updateQuestion(questionToApprove));
-  }
-
-  function handleBtnMarkToEditClick() {
-    const questionToMarkToEdit = {
-      ...question,
-      isMarkedToBeRevised: !isQuestionRevised,
-    };
-    dispatch(updateQuestion(questionToMarkToEdit));
   }
 
   function copyQuestionIdToClipboard() {
@@ -125,18 +99,10 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
             entity="question"
             handleBtnArchiveClick={handleBtnArchiveClick}
           />
-          <BtnMarkQuesitonToEdit
-            isMarkedToBeRevised={isQuestionRevised}
-            handleBtnMarkToEditClick={handleBtnMarkToEditClick}
-            color="#000"
-          />
-          <BtnQuestionEdit handleBtnEditClick={handleBtnEditClick} />
+          <BtnMarkQuesitonToEdit question={question} color="#000" />
+          <BtnQuestionEdit questionId={question.id} />
           <BtnCopyQuestion question={question} color="#000" />
-          <BtnApproveQuestion
-            isApproved={question.isRevised}
-            handleBtnApproveClick={handleBtnApproveClick}
-            color="#000"
-          />
+          <BtnApproveQuestion question={question} color="#000" />
         </div>
       </div>
     </li>

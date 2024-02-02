@@ -2,19 +2,31 @@ import { FC, useRef } from "react";
 import { MdModeEditOutline, MdEditOff } from "react-icons/md";
 import { makeId } from "../../services/utils.service";
 import { Tooltip } from "react-tooltip";
+import { Question } from "../../../../shared/types/question";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../types/app.types";
+import { updateQuestion } from "../../store/slices/questionSlice";
 
 type BtnMarkQuesitonToEditProps = {
-  isMarkedToBeRevised: boolean;
-  handleBtnMarkToEditClick: () => void;
+  question: Question;
   color?: string;
 };
 
 export const BtnMarkQuesitonToEdit: FC<BtnMarkQuesitonToEditProps> = ({
-  isMarkedToBeRevised,
-  handleBtnMarkToEditClick,
+  question,
   color = "#f1f3f5",
 }) => {
+  const dispatch: AppDispatch = useDispatch();
   const btnId = useRef(makeId()).current;
+  const isMarkedToBeRevised = question.isMarkedToBeRevised ?? false;
+
+  function handleBtnMarkToEditClick() {
+    const updatedQuestion = {
+      ...question,
+      isMarkedToBeRevised: !question.isMarkedToBeRevised,
+    };
+    dispatch(updateQuestion(updatedQuestion));
+  }
 
   return (
     <>

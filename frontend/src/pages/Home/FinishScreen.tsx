@@ -91,9 +91,9 @@ export const FinishScreen = () => {
       <div className="flex items-center justify-center gap-5">
         <Button
           className={classnames(
-            "cursor-pointer rounded-full border-2 border-gray-200 px-10 py-7 text-3xl transition-all duration-300",
+            "cursor-pointer rounded-full bg-gray-600 px-10 py-7 text-3xl font-medium text-gray-100 transition-all duration-300",
             {
-              "bg-gray-800": focusedBtn === "newQuiz",
+              "scale-110 bg-gray-800 text-gray-200": focusedBtn === "newQuiz",
             },
           )}
           onClickFn={handleNewQuizClick}
@@ -102,9 +102,9 @@ export const FinishScreen = () => {
         </Button>
         <Button
           className={classnames(
-            "cursor-pointer rounded-full border-2 border-gray-200 px-10 py-7 text-3xl transition-all duration-300",
+            "cursor-pointer rounded-full bg-gray-600 px-10 py-7 text-3xl font-medium text-gray-100 transition-all duration-300",
             {
-              "bg-gray-800": focusedBtn === "restart",
+              "scale-110 bg-gray-800 text-gray-200": focusedBtn === "restart",
             },
           )}
           onClickFn={handleRestartClick}

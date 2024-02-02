@@ -14,6 +14,7 @@ import { systemSettings } from "../../config";
 import classnames from "classnames";
 import { Select } from "../../components/App/Select";
 import { Button } from "../../components/Btns/Button";
+import { useKey } from "react-use";
 
 const QuestionEdit = () => {
   const params = useParams();
@@ -21,6 +22,8 @@ const QuestionEdit = () => {
   const dispatch: AppDispatch = useDispatch();
   const [question, setQuestion] = useState<Question | null>(null);
   const { programmingLanguages, difficultyLevels } = systemSettings;
+
+  useKey("Escape", onGoBack);
 
   async function fetchQuestion(id: string) {
     const question = await questionService.getById(id);

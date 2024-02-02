@@ -133,7 +133,8 @@ export function getDuplicatedQuestions({
       const questions = await questionService.getDuplicatedQuestions({
         language,
       });
-      dispatch(setQuestions(questions));
+      const flatQuestions = questions.flat();
+      dispatch(setQuestions(flatQuestions));
       dispatch(setGetQuestionsState({ state: "succeeded", error: null }));
     } catch (err) {
       const error = getErrorMessage(err);

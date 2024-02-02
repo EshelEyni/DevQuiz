@@ -2,15 +2,26 @@ import { BiEdit } from "react-icons/bi";
 import { Tooltip } from "react-tooltip";
 import { makeId } from "../../services/utils.service";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../types/app.types";
+import { setIsTimerOn } from "../../store/slices/quizSlice";
+import { useQuiz } from "../../hooks/useQuiz";
 
 type BtnQuestionEditProps = {
-  handleBtnEditClick: () => void;
+  questionId: string;
 };
 
-export const BtnQuestionEdit = ({
-  handleBtnEditClick,
-}: BtnQuestionEditProps) => {
+export const BtnQuestionEdit = ({ questionId }: BtnQuestionEditProps) => {
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  const { isTimerOn } = useQuiz();
   const btnId = useRef(makeId()).current;
+
+  function handleBtnEditClick() {
+    if (isTimerOn) dispatch(setIsTimerOn(false));
+    navigate(`question-edit/${questionId}`);
+  }
   return (
     <>
       <button

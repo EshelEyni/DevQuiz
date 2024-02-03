@@ -94,10 +94,10 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
         </div>
         <div className="flex items-center justify-end gap-4">
           <BtnArchiveQuestion question={question} />
-          <BtnMarkQuesitonToEdit question={question} color="#000" />
+          <BtnMarkQuesitonToEdit question={question} />
           <BtnQuestionEdit questionId={question.id} />
-          <BtnCopyQuestion question={question} color="#000" />
-          <BtnApproveQuestion question={question} color="#000" />
+          <BtnCopyQuestion question={question} />
+          <BtnApproveQuestion question={question} />
           <Button
             onClickFn={handleGetQuestionDuplications}
             className="flex items-center justify-center gap-3 whitespace-nowrap px-2.5"

@@ -10,6 +10,7 @@ import classnames from "classnames";
 import { BtnToggleTimer } from "../../components/Btns/BtnToggleTimer";
 import { useQuestion as useQuestionContext } from "./QuestionContext";
 import { useQuiz } from "../../hooks/useQuiz";
+import { BtnArchiveQuestion } from "../../components/Btns/BtnArchiveQuestion";
 
 export const Question = () => {
   const { loggedInUser } = useAuth();
@@ -72,7 +73,7 @@ export const Question = () => {
           <Button
             onClickFn={onPassQuestion}
             className={classnames(
-              "col-start-2 row-start-1 flex h-14 items-center justify-center justify-self-end rounded-full bg-gray-600 px-7 text-2xl font-medium leading-none text-gray-100 transition-all duration-300 hover:scale-110",
+              "col-start-2 row-start-1 flex h-20 items-center justify-center justify-self-end rounded-full bg-gray-600 px-7 text-4xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl",
               {
                 "scale-110 bg-gray-800 text-gray-200": focusedBtn === "next",
               },
@@ -84,7 +85,7 @@ export const Question = () => {
         <Button
           onClickFn={handleQuitClick}
           className={classnames(
-            "col-start-1 row-start-2 flex h-14 items-center justify-center justify-self-start rounded-full bg-gray-600 px-7 text-2xl font-medium leading-none text-gray-100 transition-all duration-300 hover:scale-110",
+            "col-start-1 row-start-2 flex h-20 items-center justify-center justify-self-start rounded-full bg-gray-600 px-7 text-4xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl",
             {
               "scale-110 bg-gray-800 text-gray-200": focusedBtn === "quit",
             },
@@ -99,6 +100,7 @@ export const Question = () => {
             <BtnMarkQuesitonToEdit question={question} />
             <BtnApproveQuestion question={question} />
             <BtnQuestionEdit questionId={question.id} />
+            <BtnArchiveQuestion question={question} />
           </div>
         )}
       </Footer>

@@ -28,7 +28,7 @@ export const BtnArchiveQuestion = ({ question }: BtnArchiveQuestionProps) => {
           data-tooltip-content="Archive question"
           data-tooltip-place="top"
         >
-          <BiArchive className="text-5xl text-black md:text-4xl" />
+          <BiArchive className="text-5xl md:text-4xl" />
         </button>
       </Modal.OpenBtn>
       <Tooltip

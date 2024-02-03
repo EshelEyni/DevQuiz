@@ -9,12 +9,10 @@ import { updateQuestion } from "../../store/slices/questionSlice";
 
 type BtnMarkQuesitonToEditProps = {
   question: Question;
-  color?: string;
 };
 
 export const BtnMarkQuesitonToEdit: FC<BtnMarkQuesitonToEditProps> = ({
   question,
-  color = "#f1f3f5",
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const btnId = useRef(makeId()).current;
@@ -37,9 +35,9 @@ export const BtnMarkQuesitonToEdit: FC<BtnMarkQuesitonToEditProps> = ({
         data-tooltip-place="top"
       >
         {isMarkedToBeRevised ? (
-          <MdEditOff className="text-5xl md:text-4xl" color={color} />
+          <MdEditOff className="text-5xl md:text-4xl" />
         ) : (
-          <MdModeEditOutline className="text-5xl md:text-4xl" color={color} />
+          <MdModeEditOutline className="text-5xl md:text-4xl" />
         )}
       </button>
       <Tooltip

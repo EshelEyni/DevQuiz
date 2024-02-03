@@ -9,13 +9,9 @@ import { updateQuestion } from "../../store/slices/questionSlice";
 
 type BtnApproveQuestionProps = {
   question: Question;
-  color?: string;
 };
 
-export const BtnApproveQuestion = ({
-  question,
-  color = "#f1f3f5",
-}: BtnApproveQuestionProps) => {
+export const BtnApproveQuestion = ({ question }: BtnApproveQuestionProps) => {
   const dispatch: AppDispatch = useDispatch();
   const btnId = useRef(makeId()).current;
   const { isRevised } = question;
@@ -33,9 +29,9 @@ export const BtnApproveQuestion = ({
         data-tooltip-place="top"
       >
         {isRevised ? (
-          <AiOutlineFileDone color={color} className="text-5xl md:text-4xl" />
+          <AiOutlineFileDone className="text-5xl md:text-4xl" />
         ) : (
-          <AiOutlineFileText color={color} className="text-5xl md:text-4xl" />
+          <AiOutlineFileText className="text-5xl md:text-4xl" />
         )}
       </button>
       <Tooltip

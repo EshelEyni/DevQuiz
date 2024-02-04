@@ -159,9 +159,7 @@ const ProfileDetails = () => {
             </form>
           )}
 
-          <ul
-            className={"flex w-full flex-wrap justify-center gap-4 self-start"}
-          >
+          <ul className="flex w-full flex-wrap gap-4 self-start">
             {isStatsLoading && <Loader className="mt-10 self-center" />}
             {isStatsShown && (
               <>

@@ -20,7 +20,6 @@ const autoLogin = asyncErrorCatcher(async (req: Request, res: Response) => {
   const { dev_quiz_jwt } = req.cookies;
   if (!dev_quiz_jwt) throw new AppError("User not logged in", 401);
   const { user, newToken } = await authService.autoLogin(dev_quiz_jwt);
-
   _sendUserTokenSuccessResponse(res, newToken, user, 200);
 });
 

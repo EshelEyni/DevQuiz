@@ -7,7 +7,7 @@ export const AppFooter = () => {
         <p>
           Created By
           <a
-            href="https://esheleyni.netlify.app/home"
+            href="https://www.esheleyni.com/home"
             target="_blank"
             rel="noreferrer"
             className="mx-1 font-semibold text-white hover:underline"

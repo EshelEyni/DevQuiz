@@ -60,7 +60,7 @@ export const StatsDisplay: FC<StatsDisplayProps> = ({
   }
 
   return (
-    <div className="flex min-h-[26rem] w-72 flex-col items-center overflow-hidden rounded-md bg-gray-600 pt-4">
+    <div className="flex min-h-[26rem] w-64 flex-col items-center overflow-hidden rounded-md bg-gray-600 pt-4 sm:w-72">
       <CircularProgressBar percentage={percentage} themeColor={themeColor} />
       <h3 className="my-auto text-4xl font-medium md:text-3xl">
         {answerCount[level]}/{questionCount[level]}

@@ -5,8 +5,9 @@ import { useQuestion } from "./useQuestion";
 export function useQuestionEditToast() {
   const { editState } = useQuestion();
   const { archiveCount, approveCount, markCount } = editState;
+
   useEffect(() => {
-    if (archiveCount + approveCount + markCount === 0) return;
+    if (archiveCount + approveCount + markCount <= 0) return;
     toast(
       <div className="flex flex-col gap-2 bg-[#333] text-xl capitalize">
         {approveCount > 0 && <p>{approveCount} questions approved</p>}

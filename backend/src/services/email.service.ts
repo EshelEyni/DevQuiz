@@ -83,10 +83,4 @@ async function sendProdMail(options: { email: string; subject: string; message: 
   });
 }
 
-sendProdMail({
-  email: "esheleyni@gmail.com",
-  subject: "asdasd",
-  message: "asdasd",
-});
-
-export { sendEmail };
+export { sendEmail, sendProdMail };

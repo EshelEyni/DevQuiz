@@ -31,7 +31,11 @@ export const BtnMarkQuesitonToEdit: FC<BtnMarkQuesitonToEditProps> = ({
       <button
         onClick={handleBtnMarkToEditClick}
         data-tooltip-id={btnId}
-        data-tooltip-content="Mark to edit"
+        data-tooltip-content={
+          isMarkedToBeRevised
+            ? "Unmark question to be revised"
+            : "Mark question to be revised"
+        }
         data-tooltip-place="top"
       >
         {isMarkedToBeRevised ? (

@@ -60,7 +60,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   useKey("ArrowUp", handleArrowUp, {}, [answerIdx, focusedBtn]);
   useKey("ArrowDown", handleArrowDown, {}, [answerIdx, focusedBtn]);
 
-  useKey("e", handleBtnEditClick);
+  useKey("e", handleBtnEditClick, {}, [question.id, isAdmin]);
   useKey("a", handleBtnApproveClick, {}, [isAdmin, question.isRevised]);
   useKey("m", handleBtnMarkToEditClick, {}, [
     isAdmin,
@@ -148,7 +148,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   function handleBtnApproveClick() {
     if (!isAdmin) return;
     const questionToApprove = { ...question, isRevised: !question.isRevised };
-    dispatch(updateQuestion(questionToApprove));
+    dispatch(updateQuestion(questionToApprove, "approve"));
   }
 
   function handleBtnMarkToEditClick() {
@@ -158,7 +158,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
       ...question,
       isMarkedToBeRevised: !isQuestionRevised,
     };
-    dispatch(updateQuestion(updatedQuestion));
+    dispatch(updateQuestion(updatedQuestion, "mark"));
   }
 
   useEffect(() => {

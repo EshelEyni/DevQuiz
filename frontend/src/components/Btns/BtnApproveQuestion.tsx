@@ -25,7 +25,9 @@ export const BtnApproveQuestion = ({ question }: BtnApproveQuestionProps) => {
       <button
         onClick={handleBtnApproveClick}
         data-tooltip-id={btnId}
-        data-tooltip-content="Approve a question"
+        data-tooltip-content={
+          isRevised ? "Approve a question" : "Remove approval"
+        }
         data-tooltip-place="top"
       >
         {isRevised ? (

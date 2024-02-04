@@ -228,10 +228,11 @@ export function updateQuestion(
       dispatch(setQuizQuestion(updatedQuestion));
       dispatch(setUpdateQuestionState({ state: "succeeded", error: null }));
       if (type === "approve") {
-        const val = question.isRevised ? -1 : 1;
+        const val = question.isRevised ? 1 : -1;
         dispatch(setApproveCount(val));
-      } else if (type === "mark") {
-        const val = question.isMarkedToBeRevised ? -1 : 1;
+      }
+      if (type === "mark") {
+        const val = question.isMarkedToBeRevised ? 1 : -1;
         dispatch(setMarkCount(val));
       }
     } catch (err) {

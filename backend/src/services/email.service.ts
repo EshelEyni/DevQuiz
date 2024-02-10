@@ -3,6 +3,21 @@ import nodemailer from "nodemailer";
 import { google } from "googleapis";
 import { AppError } from "./error.service";
 
+type EmailParams = {
+  email: string;
+  subject: string;
+  message: string;
+  html?: string;
+};
+
+type MailOptions = {
+  from: string;
+  to: string;
+  subject: string;
+  text: string;
+  html?: string;
+};
+
 const {
   EMAIL_USERNAME,
   EMAIL_PASSWORD,
@@ -18,14 +33,20 @@ const { OAuth2 } = google.auth;
 const oauth2Client = new OAuth2(
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  "https://developers.google.com/oauthplayground" // Redirect URL
+  "https://developers.google.com/oauthplayground"
 );
 
 oauth2Client.setCredentials({
   refresh_token: GOOGLE_REFRESH_TOKEN,
 });
 
-async function sendEmail(options: { email: string; subject: string; message: string }) {
+async function sendEmail(options: EmailParams) {
+  const isProdEnv = process.env.NODE_ENV === "production";
+  if (isProdEnv) await sendProdMail(options);
+  else await sendDevMail(options);
+}
+
+async function sendDevMail(options: EmailParams) {
   const requiredEmailConfig = ["EMAIL_USERNAME", "EMAIL_PASSWORD", "EMAIL_HOST", "EMAIL_PORT"];
   requiredEmailConfig.forEach(config => {
     if (!process.env[config])
@@ -41,18 +62,18 @@ async function sendEmail(options: { email: string; subject: string; message: str
     },
   });
 
-  const mailOptions = {
+  const mailOptions: MailOptions = {
     from: "DevQuiz <DevQuiz.com>",
     to: options.email,
     subject: options.subject,
     text: options.message,
-    // html:
   };
+  if (options.html) mailOptions.html = options.html;
 
   await transporter.sendMail(mailOptions);
 }
 
-async function sendProdMail(options: { email: string; subject: string; message: string }) {
+async function sendProdMail(options: EmailParams) {
   const accessToken = await oauth2Client.getAccessToken();
   if (!accessToken.token) throw new AppError("Could not get access token", 500);
   const transporter = nodemailer.createTransport({
@@ -67,19 +88,20 @@ async function sendProdMail(options: { email: string; subject: string; message: 
     },
   });
 
-  const mailOptions = {
-    from: "esheleyni@gmail.com",
+  const mailOptions: MailOptions = {
+    from: "elinidevquiz@gmail.com",
     to: options.email,
     subject: options.subject,
     text: options.message,
   };
 
+  if (options.html) mailOptions.html = options.html;
+
   transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log("error", error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
+    // eslint-disable-next-line no-console
+    if (error) console.log("error", error);
+    // eslint-disable-next-line no-console
+    else console.log("Email sent: " + info.response);
   });
 }
 

@@ -1,6 +1,7 @@
 import { Request } from "express";
 import { AppError } from "./error.service";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 require("dotenv").config();
 
 function getTokenFromRequest(req: Request) {
@@ -42,4 +43,10 @@ async function verifyToken(token: string): Promise<{ id: string; timeStamp: numb
   }
 }
 
-export default { getTokenFromRequest, signToken, verifyToken };
+function createPasswordResetToken() {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+  return hashedToken;
+}
+
+export default { getTokenFromRequest, signToken, verifyToken, createPasswordResetToken };

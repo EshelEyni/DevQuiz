@@ -36,6 +36,15 @@ async function getById(userId: string) {
   return user;
 }
 
+async function getByUserName(username: string) {
+  const session = ravenStore.openSession();
+  const user = await session
+    .query({ collection: COLLECTION_NAME })
+    .whereEquals("username", username)
+    .firstOrNull();
+  return user as TypeOfUser;
+}
+
 async function add(userToAdd: BasicUser): Promise<TypeOfUser> {
   const session = ravenStore.openSession();
   await _validateUser(session, userToAdd as TypeOfUser);
@@ -53,7 +62,7 @@ async function update(user: TypeOfUser) {
   const doc = await session.load<TypeOfUser>(id);
   if (!doc) throw new AppError("User not found", 404);
   // Prevent user from adding admin role
-  user.roles = ["admin", "user"];
+  user.roles = user.roles.filter(role => role !== "admin");
   Object.assign(doc, user);
   await _validateUser(session, doc);
   await session.saveChanges();
@@ -156,8 +165,8 @@ async function getDefaultUser(user: BasicUser): Promise<TypeOfUser> {
   return {
     id: "",
     ...user,
-    password: await _getHashedPassword(user.password),
-    passwordConfirm: await _getHashedPassword(user.passwordConfirm),
+    password: await getHashedPassword(user.password),
+    passwordConfirm: await getHashedPassword(user.passwordConfirm),
     roles: ["user"],
     createdAt: Date.now(),
     quizSettings: {
@@ -169,7 +178,7 @@ async function getDefaultUser(user: BasicUser): Promise<TypeOfUser> {
   };
 }
 
-async function _getHashedPassword(password: string) {
+async function getHashedPassword(password: string) {
   const salt = await bcrypt.genSalt(12);
   const hashedPassword = await bcrypt.hash(password, salt);
   return hashedPassword;
@@ -195,10 +204,12 @@ async function _validateUser(session: IDocumentSession, user: TypeOfUser) {
 export default {
   query,
   getById,
+  getByUserName,
   add,
   update,
   remove,
   addUserCorrectAnswer,
   getUserStats,
   removeUserCorrectAnswers,
+  getHashedPassword,
 };

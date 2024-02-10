@@ -4,6 +4,8 @@ export interface BasicUser {
   username: string;
   password: string;
   passwordConfirm: string;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date | number | string;
   email: string;
 }
 

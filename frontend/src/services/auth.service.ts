@@ -66,4 +66,47 @@ async function update(user: User): Promise<User> {
     throw error;
   }
 }
-export default { login, signup, logout, loginWithToken, update };
+
+async function sendResetPasswordEmail(username: string): Promise<void> {
+  try {
+    const response = await httpService.post(
+      `${BASE_URL}/send-reset-password/${username}`,
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function changePassword({
+  resetToken,
+  password,
+  passwordConfirm,
+}: {
+  resetToken: string;
+  password: string;
+  passwordConfirm: string;
+}): Promise<void> {
+  try {
+    const response = await httpService.post(`${BASE_URL}/change-password`, {
+      resetToken,
+      password,
+      passwordConfirm,
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export default {
+  login,
+  signup,
+  logout,
+  loginWithToken,
+  update,
+  sendResetPasswordEmail,
+  changePassword,
+};

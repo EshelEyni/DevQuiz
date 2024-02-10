@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { UserCredentials } from "../../types/auth.types";
 import { useDispatch } from "react-redux";
 import { Loader } from "../../components/Loaders/Loader/Loader";
-import { login, signup } from "../../store/slices/authSlice";
+import { changePassword, login, signup } from "../../store/slices/authSlice";
 import { AppDispatch } from "../../types/app.types";
 import { MainScreen } from "../../components/Gen/MainScreen";
 import { useGoToParentPage } from "../../hooks/useGoToParentPage";
@@ -12,6 +12,11 @@ import { Button } from "../../components/Btns/Button";
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
 import { ErrMsg } from "../../components/Msg/ErrMsg";
+import { useSearchParams } from "react-router-dom";
+import authService from "../../services/auth.service";
+import toast from "react-hot-toast";
+
+type FormType = "login" | "signup" | "resetPassword";
 
 const defaultValues: UserCredentials = {
   username: "",
@@ -30,7 +35,10 @@ const AuthPage = () => {
   const goToParentPage = useGoToParentPage();
   const { queryState } = useAuth();
   const isLoading = queryState.state === "loading";
-  const [isLoginForm, setIsLoginForm] = useState(true);
+  const [searchParams] = useSearchParams();
+  const resetToken = searchParams.get("resetToken");
+  const [formType, setFormType] = useState<FormType>("login");
+  const [isWrongPassword, setIsWrongPassword] = useState(false);
 
   const {
     register,
@@ -45,15 +53,58 @@ const AuthPage = () => {
   password.current = watch("password", "");
 
   function onSubmit(data: UserCredentials) {
-    if (isLoginForm) {
-      const { username, password } = data;
-      dispatch(login(username, password));
-    } else dispatch(signup(data));
+    switch (formType) {
+      case "login": {
+        const { username, password } = data;
+        dispatch(login(username, password));
+        break;
+      }
+      case "signup": {
+        dispatch(signup(data));
+        break;
+      }
+      case "resetPassword": {
+        const { password, passwordConfirm } = data;
+        if (resetToken)
+          return dispatch(
+            changePassword({ resetToken, password, passwordConfirm }),
+          );
+        console.error("No reset token found");
+        toast.error("No reset token found in the URL");
+        break;
+      }
+    }
+  }
+
+  function getFormText() {
+    switch (formType) {
+      case "login":
+        return "Login";
+      case "signup":
+        return "Sign up";
+      case "resetPassword":
+        return "Reset Password";
+      default:
+        return "Login";
+    }
   }
 
   function onToggleForm() {
     clearErrors();
-    setIsLoginForm(s => !s);
+    if (formType === "login") return setFormType("signup");
+    if (formType === "signup") return setFormType("login");
+  }
+
+  async function handleSendResetPasswordEmail() {
+    try {
+      const username = watch("username");
+      await authService.sendResetPasswordEmail(username);
+      setIsWrongPassword(false);
+      toast.success("An email has been sent to you with instructions");
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred. Please try again later");
+    }
   }
 
   const inputClassName =
@@ -69,13 +120,22 @@ const AuthPage = () => {
     };
   }, [reset, clearErrors, queryState.state, goToParentPage]);
 
+  useEffect(() => {
+    if (resetToken) setFormType("resetPassword");
+  }, [resetToken]);
+
+  useEffect(() => {
+    if (queryState.error === "Incorrect username or password")
+      setIsWrongPassword(true);
+  }, [queryState.error]);
+
   return (
     <>
       <MainScreen onClickFn={goToParentPage} darkMode={true} />
 
       <main
         className={classnames(
-          "h- fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[1200px] -translate-x-1/2 -translate-y-1/2 flex-col items-center overflow-scroll bg-gray-50 px-3 pt-5 md:h-1/2 md:w-1/2 md:rounded-xl",
+          "h- fixed left-1/2 top-1/2 z-[1000] flex h-full max-h-[400px] min-h-min w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 flex-col items-center overflow-scroll bg-gray-50 px-3 pt-5 md:h-1/2 md:w-1/2 md:rounded-xl",
           { "justify-center": isLoading },
         )}
       >
@@ -89,19 +149,26 @@ const AuthPage = () => {
               <IoClose className="text-3xl" />
             </Button>
             <h1 className="mb-6 mt-10 text-center text-6xl font-bold text-gray-700 md:mt-0 md:text-5xl">
-              {isLoginForm ? "Login" : "Sign up"}
+              {getFormText()}
             </h1>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="flex w-full max-w-xl flex-col items-center justify-center gap-4 rounded-lg p-3 sm:max-w-2xl md:max-w-md"
+              className="flex w-full max-w-xl flex-col items-center justify-center gap-4 rounded-lg p-3 sm:max-w-2xl md:max-w-lg"
             >
-              <input
-                {...register("username", { required: "Username is required" })}
-                placeholder="Username"
-                className={inputClassName}
-              />
-              {errors.username && <ErrMsg msg={errors.username.message} />}
-              {!isLoginForm && (
+              {formType !== "resetPassword" && (
+                <>
+                  <input
+                    {...register("username", {
+                      required: "Username is required",
+                    })}
+                    placeholder="Username"
+                    className={inputClassName}
+                  />
+                  {errors.username && <ErrMsg msg={errors.username.message} />}
+                </>
+              )}
+
+              {formType === "signup" && (
                 <>
                   <input
                     {...register("email", {
@@ -129,7 +196,7 @@ const AuthPage = () => {
                 className={inputClassName}
               />
 
-              {!isLoginForm && (
+              {formType !== "login" && (
                 <>
                   <input
                     {...register("passwordConfirm", {
@@ -147,23 +214,42 @@ const AuthPage = () => {
                 </>
               )}
 
+              {isWrongPassword && (
+                <Button
+                  className="flex items-center gap-1"
+                  onClickFn={handleSendResetPasswordEmail}
+                >
+                  <span className="text-2xl text-gray-800">
+                    Forgot your password?
+                  </span>
+                  <span className="text-2xl text-blue-500 hover:underline">
+                    Click here to reset it
+                  </span>
+                </Button>
+              )}
+
               <Button
                 type="submit"
-                className="mt-2 rounded-full bg-gray-700 px-8 py-6 text-4xl font-medium leading-none text-white transition-all duration-300 hover:scale-105 md:px-4 md:py-2 md:text-xl"
+                className="mt-2 rounded-full bg-gray-700 px-8 py-6 text-4xl font-medium leading-none text-white transition-all duration-300 hover:scale-105 md:px-5 md:py-3 md:text-2xl"
               >
-                {isLoginForm ? "Login" : "Sign up"}
+                {getFormText()}
               </Button>
-              <p className="mt-6 text-3xl text-gray-700 md:text-lg">
-                {isLoginForm
-                  ? "Don't have an account? "
-                  : "Already have an account? "}
-                <span
-                  onClick={onToggleForm}
-                  className="cursor-pointer text-blue-500 hover:underline"
-                >
-                  {isLoginForm ? "Sign up" : "Log in"}
-                </span>
-              </p>
+              {formType !== "resetPassword" && (
+                <p className="mt-6 flex items-center gap-1 text-3xl text-gray-700 md:text-2xl">
+                  {formType === "login" && (
+                    <span>Don&apos;t have an account?</span>
+                  )}
+                  {formType === "signup" && (
+                    <span>Already have an account?</span>
+                  )}
+                  <span
+                    onClick={onToggleForm}
+                    className="cursor-pointer text-blue-500 hover:underline"
+                  >
+                    {formType === "login" ? "Sign up" : "Log in"}
+                  </span>
+                </p>
+              )}
             </form>
             {queryState.state === "failed" && <ErrMsg msg={queryState.error} />}
           </>

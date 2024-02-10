@@ -3,11 +3,15 @@ import { Request, Response, NextFunction } from "express";
 import userService from "../api/user/user.service";
 
 const getIsAdminUser = async (req: Request) => {
-  const { loggedinUserId } = req;
-  if (!loggedinUserId) return false;
-  const user = await userService.getById(loggedinUserId);
-  if (!user) return false;
-  return user.roles.includes("admin");
+  try {
+    const { loggedinUserId } = req;
+    if (!loggedinUserId) return false;
+    const user = await userService.getById(loggedinUserId);
+    if (!user) return false;
+    return user.roles.includes("admin");
+  } catch (error) {
+    return false;
+  }
 };
 
 const requestSanitizer = async (req: Request, res: Response, next: NextFunction) => {

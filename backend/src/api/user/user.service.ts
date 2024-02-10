@@ -31,7 +31,7 @@ async function getById(userId: string) {
   const session = ravenStore.openSession();
   const id = setIdToCollectionName(COLLECTION_NAME, userId);
   const user = await session.load<TypeOfUser>(id);
-  if (!user) throw new Error("User not found");
+  if (!user) throw new AppError("User not found", 404);
   user.id = trimCollectionNameFromId(user.id);
   return user;
 }
@@ -62,7 +62,7 @@ async function update(user: TypeOfUser) {
   const doc = await session.load<TypeOfUser>(id);
   if (!doc) throw new AppError("User not found", 404);
   // Prevent user from adding admin role
-  user.roles = user.roles.filter(role => role !== "admin");
+  user.roles = doc.roles;
   Object.assign(doc, user);
   await _validateUser(session, doc);
   await session.saveChanges();

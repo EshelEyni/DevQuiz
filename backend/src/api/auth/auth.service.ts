@@ -12,7 +12,6 @@ async function login(username: string, password: string): Promise<{ user: User; 
     .query<User>({ collection: "Users" })
     .whereEquals("username", username)
     .firstOrNull();
-
   if (!user) throw new AppError("User not found", 404);
   user.id = trimCollectionNameFromId(user.id);
   const isCorrectPassword = await _checkPassword(password, user.password);
@@ -60,11 +59,11 @@ async function updateUserWithResetToken(userId: string) {
   return user as User;
 }
 
-async function resetPassword(
+async function changePassword(
   resetToken: string,
   newPassword: string,
   newPasswordConfirm: string
-): Promise<{ user: User; token: string }> {
+): Promise<boolean> {
   const session = ravenStore.openSession();
   const user = await session
     .query<User>({ collection: "Users" })
@@ -83,10 +82,7 @@ async function resetPassword(
 
   await session.saveChanges();
 
-  return {
-    user: user as User,
-    token: tokenService.signToken(user.id),
-  };
+  return true;
 }
 
 async function _checkPassword(candidatePassword: string, userPassword: string) {
@@ -98,5 +94,5 @@ export default {
   autoLogin,
   signup,
   updateUserWithResetToken,
-  resetPassword,
+  changePassword,
 };

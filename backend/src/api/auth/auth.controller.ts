@@ -7,13 +7,8 @@ import { sendEmail } from "../../services/email.service";
 
 const login = asyncErrorCatcher(async (req: Request, res: Response) => {
   const { username, password } = req.body;
-
-  if (!username || !password) {
-    throw new AppError("Username and password are required", 400);
-  }
-
+  if (!username || !password) throw new AppError("Username and password are required", 400);
   const { user, token } = await authService.login(username, password);
-
   _sendUserTokenSuccessResponse(res, token, user, 200);
 });
 
@@ -149,12 +144,18 @@ const sendResetPassword = asyncErrorCatcher(async (req: Request, res: Response) 
   });
 });
 
-const resetPassword = asyncErrorCatcher(async (req: Request, res: Response) => {
+const changePassword = asyncErrorCatcher(async (req: Request, res: Response) => {
   const { password, passwordConfirm, resetToken } = req.body;
   if (!resetToken || !password) throw new AppError("Token and password are required", 400);
   if (password !== passwordConfirm) throw new AppError("Passwords do not match", 400);
-  const { user, token } = await authService.resetPassword(resetToken, password, passwordConfirm);
-  _sendUserTokenSuccessResponse(res, token, user, 200);
+  const isSuccess = await authService.changePassword(resetToken, password, passwordConfirm);
+  if (!isSuccess) throw new AppError("Password reset failed", 400);
+  res.status(200).json({
+    status: "success",
+    data: {
+      msg: "Password reset successfully",
+    },
+  });
 });
 
 const _sendUserTokenSuccessResponse = (
@@ -191,4 +192,4 @@ const updateUser = asyncErrorCatcher(async (req: Request, res: Response) => {
   });
 });
 
-export { login, autoLogin, signup, logout, updateUser, sendResetPassword, resetPassword };
+export { login, autoLogin, signup, logout, updateUser, sendResetPassword, changePassword };

@@ -6,7 +6,7 @@ import {
   logout,
   updateUser,
   sendResetPassword,
-  resetPassword,
+  changePassword,
 } from "./auth.controller";
 import { authRequestLimiter } from "../../services/rate-limiter.service";
 
@@ -20,6 +20,6 @@ router.post("/signup", signup);
 router.post("/logout", logout);
 router.put("/update", updateUser);
 router.post("/send-reset-password/:username", sendResetPassword);
-router.post("/reset-password", resetPassword);
+router.post("/change-password", changePassword);
 
 export default router;

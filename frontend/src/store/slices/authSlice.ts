@@ -10,6 +10,7 @@ import {
 } from "../../services/utils.service";
 import { startNewQuiz } from "./quizSlice";
 import { ThunkDispatch } from "redux-thunk";
+import toast from "react-hot-toast";
 
 type AuthState = {
   loggedInUser: UserOrNull;
@@ -91,6 +92,36 @@ export function loginWithToken(): AppThunk {
 
       if (user) setQuizSettingByUser({ user, dispatch });
       dispatch(setQueryState({ state: "succeeded", error: null }));
+    } finally {
+      setTimeout(() => {
+        dispatch(setQueryState(defaultQueryState));
+      }, QUERY_TIMEOUT);
+    }
+  };
+}
+
+export function changePassword({
+  resetToken,
+  password,
+  passwordConfirm,
+}: {
+  resetToken: string;
+  password: string;
+  passwordConfirm: string;
+}): AppThunk {
+  return async dispatch => {
+    try {
+      dispatch(setQueryState({ state: "loading", error: null }));
+      await authService.changePassword({
+        resetToken,
+        password,
+        passwordConfirm,
+      });
+      dispatch(setQueryState({ state: "succeeded", error: null }));
+      toast.success("Password changed successfully");
+    } catch (err) {
+      const error = getErrorMessage(err);
+      dispatch(setQueryState({ state: "failed", error }));
     } finally {
       setTimeout(() => {
         dispatch(setQueryState(defaultQueryState));

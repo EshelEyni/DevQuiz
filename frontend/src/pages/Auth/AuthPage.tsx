@@ -135,7 +135,7 @@ const AuthPage = () => {
 
       <main
         className={classnames(
-          "h- fixed left-1/2 top-1/2 z-[1000] flex h-full max-h-[400px] min-h-min w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 flex-col items-center overflow-scroll bg-gray-50 px-3 pt-5 md:h-1/2 md:w-1/2 md:rounded-xl",
+          "h- fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 flex-col items-center overflow-scroll bg-gray-50 px-3 pt-5 md:h-1/2 md:max-h-[400px] md:w-1/2 md:rounded-xl",
           { "justify-center": isLoading },
         )}
       >

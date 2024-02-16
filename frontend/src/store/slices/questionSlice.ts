@@ -230,10 +230,12 @@ export function updateQuestion(
       if (type === "approve") {
         const val = question.isRevised ? 1 : -1;
         dispatch(setApproveCount(val));
+        dispatch(removeQuestionFromState(question));
       }
       if (type === "mark") {
         const val = question.isMarkedToBeRevised ? 1 : -1;
         dispatch(setMarkCount(val));
+        dispatch(removeQuestionFromState(question));
       }
     } catch (err) {
       const error = getErrorMessage(err);

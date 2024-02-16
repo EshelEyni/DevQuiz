@@ -150,6 +150,7 @@ export function startNewQuiz({
         level,
         page,
         limit,
+        isRevised: true,
       });
       dispatch(setQuizQuestions(questions));
       dispatch(setQuizQueryState({ state: "succeeded", error: null }));

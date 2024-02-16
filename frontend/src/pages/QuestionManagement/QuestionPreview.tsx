@@ -1,5 +1,8 @@
-import { FC } from "react";
-import { Question as TypeOfQuestion } from "../../../../shared/types/question";
+import { FC, useState } from "react";
+import {
+  QuestionStatus,
+  Question as TypeOfQuestion,
+} from "../../../../shared/types/question";
 import {
   caplitalizeFirstLetter,
   copyToClipboard,
@@ -15,6 +18,7 @@ import { TfiFiles } from "react-icons/tfi";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../types/app.types";
 import { getQuestionDuplications } from "../../store/slices/questionSlice";
+import classnames from "classnames";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
@@ -26,7 +30,7 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
   bcgColor,
 }) => {
   const dispatch: AppDispatch = useDispatch();
-
+  const [status, setStatus] = useState<QuestionStatus>("");
   const {
     id,
     question: questionText,
@@ -52,11 +56,25 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
     dispatch(getQuestionDuplications(id));
   }
 
+  function handleStatusClick() {
+    setStatus("");
+  }
+
   return (
     <li
-      className="white-box-shadow flex flex-col justify-between gap-2 overflow-auto rounded-lg p-8"
+      className="white-box-shadow relative flex flex-col justify-between gap-2 overflow-auto rounded-lg p-8"
       style={{ backgroundColor: bcgColor }}
     >
+      {status && (
+        <div
+          className="absolute right-0 top-0 flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-black bg-opacity-60 p-2"
+          onClick={handleStatusClick}
+        >
+          <p className="text-5xl font-semibold capitalize text-gray-100 shadow-xl">
+            {status}
+          </p>
+        </div>
+      )}
       <div>
         <header className="mb-2 flex items-center justify-between gap-2">
           <p
@@ -93,11 +111,20 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
           </div>
         </div>
         <div className="flex items-center justify-end gap-4">
-          <BtnArchiveQuestion question={question} />
-          <BtnMarkQuesitonToEdit question={question} />
+          <BtnArchiveQuestion
+            question={question}
+            setQuestionStatus={setStatus}
+          />
+          <BtnMarkQuesitonToEdit
+            question={question}
+            setQuestionStatus={setStatus}
+          />
           <BtnQuestionEdit questionId={question.id} />
           <BtnCopyQuestion question={question} />
-          <BtnApproveQuestion question={question} />
+          <BtnApproveQuestion
+            question={question}
+            setQuestionStatus={setStatus}
+          />
           <Button
             onClickFn={handleGetQuestionDuplications}
             className="flex items-center justify-center gap-3 whitespace-nowrap px-2.5"

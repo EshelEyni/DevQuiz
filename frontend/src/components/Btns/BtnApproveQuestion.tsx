@@ -4,20 +4,26 @@ import { makeId } from "../../services/utils.service";
 import { Tooltip } from "react-tooltip";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../types/app.types";
-import { Question } from "../../../../shared/types/question";
+import { Question, QuestionStatus } from "../../../../shared/types/question";
 import { updateQuestion } from "../../store/slices/questionSlice";
 
 type BtnApproveQuestionProps = {
   question: Question;
+  setQuestionStatus?: React.Dispatch<React.SetStateAction<QuestionStatus>>;
 };
 
-export const BtnApproveQuestion = ({ question }: BtnApproveQuestionProps) => {
+export const BtnApproveQuestion = ({
+  question,
+  setQuestionStatus,
+}: BtnApproveQuestionProps) => {
   const dispatch: AppDispatch = useDispatch();
   const btnId = useRef(makeId()).current;
   const { isRevised } = question;
+
   function handleBtnApproveClick() {
     const updatedQuestion = { ...question, isRevised: !isRevised };
     dispatch(updateQuestion(updatedQuestion, "approve"));
+    if (updatedQuestion.isRevised) setQuestionStatus?.("approved");
   }
 
   return (

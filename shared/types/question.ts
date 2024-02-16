@@ -20,3 +20,5 @@ export type QuestionFilterBy = {
   level: DifficultyLevels;
   searchTerm: string;
 };
+
+export type QuestionStatus = "approved" | "archived" | "marked" | "";

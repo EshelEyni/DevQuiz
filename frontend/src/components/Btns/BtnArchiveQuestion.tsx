@@ -3,21 +3,26 @@ import { Tooltip } from "react-tooltip";
 import { makeId } from "../../services/utils.service";
 import { useRef } from "react";
 import { Modal } from "../App/Modal";
-import { Question } from "../../../../shared/types/question";
+import { Question, QuestionStatus } from "../../../../shared/types/question";
 import { AppDispatch } from "../../types/app.types";
 import { useDispatch } from "react-redux";
 import { removeQuestion } from "../../store/slices/questionSlice";
 
 type BtnArchiveQuestionProps = {
   question: Question;
+  setQuestionStatus?: React.Dispatch<React.SetStateAction<QuestionStatus>>;
 };
 
-export const BtnArchiveQuestion = ({ question }: BtnArchiveQuestionProps) => {
+export const BtnArchiveQuestion = ({
+  question,
+  setQuestionStatus,
+}: BtnArchiveQuestionProps) => {
   const dispatch: AppDispatch = useDispatch();
   const btnId = useRef(makeId()).current;
 
   function handleBtnArchiveClick() {
     dispatch(removeQuestion(question));
+    if (setQuestionStatus) setQuestionStatus("archived");
   }
 
   return (

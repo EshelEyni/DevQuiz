@@ -64,7 +64,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   useKey("a", handleBtnApproveClick, {}, [isAdmin, question.isRevised]);
   useKey("m", handleBtnMarkToEditClick, {}, [
     isAdmin,
-    question?.isMarkedToBeRevised,
+    question.isMarkedToBeRevised,
   ]);
   useKey("t", onToggleTimer, {}, [isTimerOn]);
 
@@ -153,10 +153,9 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
 
   function handleBtnMarkToEditClick() {
     if (!isAdmin) return;
-    const isQuestionRevised = question.isMarkedToBeRevised ?? false;
     const updatedQuestion = {
       ...question,
-      isMarkedToBeRevised: !isQuestionRevised,
+      isMarkedToBeRevised: !question.isMarkedToBeRevised,
     };
     dispatch(updateQuestion(updatedQuestion, "mark"));
   }

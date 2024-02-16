@@ -16,7 +16,7 @@ export const BtnMarkQuesitonToEdit: FC<BtnMarkQuesitonToEditProps> = ({
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const btnId = useRef(makeId()).current;
-  const isMarkedToBeRevised = question.isMarkedToBeRevised ?? false;
+  const { isMarkedToBeRevised } = question;
 
   function handleBtnMarkToEditClick() {
     const updatedQuestion = {
@@ -33,8 +33,8 @@ export const BtnMarkQuesitonToEdit: FC<BtnMarkQuesitonToEditProps> = ({
         data-tooltip-id={btnId}
         data-tooltip-content={
           isMarkedToBeRevised
-            ? "Unmark question to be revised"
-            : "Mark question to be revised"
+            ? "Mark question to be revised"
+            : "Unmark question to be revised"
         }
         data-tooltip-place="top"
       >

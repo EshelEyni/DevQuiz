@@ -29,7 +29,6 @@ export type ProgrammingLanguage =
   | "Jest"
   | "React"
   | "NodeJS"
-  | "ExpressJS"
   | "SQL"
   | "MongoDB";
 

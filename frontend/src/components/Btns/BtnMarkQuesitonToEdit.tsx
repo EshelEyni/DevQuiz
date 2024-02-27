@@ -26,7 +26,6 @@ export const BtnMarkQuesitonToEdit: FC<BtnMarkQuesitonToEditProps> = ({
       isMarkedToBeRevised: !question.isMarkedToBeRevised,
     };
 
-    
     dispatch(updateQuestion(updatedQuestion, "mark"));
     if (updatedQuestion.isMarkedToBeRevised) setQuestionStatus?.("marked");
   }

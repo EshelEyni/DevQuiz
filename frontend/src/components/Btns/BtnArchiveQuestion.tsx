@@ -1,4 +1,4 @@
-import { BiArchive } from "react-icons/bi";
+import { BiArchiveIn, BiArchiveOut } from "react-icons/bi";
 import { Tooltip } from "react-tooltip";
 import { makeId } from "../../services/utils.service";
 import { useRef } from "react";
@@ -6,23 +6,52 @@ import { Modal } from "../App/Modal";
 import { Question, QuestionStatus } from "../../../../shared/types/question";
 import { AppDispatch } from "../../types/app.types";
 import { useDispatch } from "react-redux";
-import { removeQuestion } from "../../store/slices/questionSlice";
+import {
+  removeQuestion,
+  updateQuestion,
+} from "../../store/slices/questionSlice";
+import { Button } from "./Button";
 
 type BtnArchiveQuestionProps = {
   question: Question;
   setQuestionStatus?: React.Dispatch<React.SetStateAction<QuestionStatus>>;
+  isToggled?: boolean;
 };
 
 export const BtnArchiveQuestion = ({
   question,
   setQuestionStatus,
+  isToggled,
 }: BtnArchiveQuestionProps) => {
   const dispatch: AppDispatch = useDispatch();
   const btnId = useRef(makeId()).current;
 
+  function handleToggleIsArchived() {
+    const updatedQuestion = {
+      ...question,
+      isArchived: !question.isArchived,
+    };
+
+    dispatch(updateQuestion(updatedQuestion, "archive"));
+    if (setQuestionStatus && updatedQuestion.isArchived)
+      setQuestionStatus("archived");
+  }
+
   function handleBtnArchiveClick() {
     dispatch(removeQuestion(question));
     if (setQuestionStatus) setQuestionStatus("archived");
+  }
+
+  if (isToggled) {
+    return (
+      <Button onClickFn={handleToggleIsArchived}>
+        {question.isArchived ? (
+          <BiArchiveOut className="text-5xl md:text-4xl" />
+        ) : (
+          <BiArchiveIn className="text-5xl md:text-4xl" />
+        )}
+      </Button>
+    );
   }
 
   return (
@@ -33,7 +62,7 @@ export const BtnArchiveQuestion = ({
           data-tooltip-content="Archive question"
           data-tooltip-place="top"
         >
-          <BiArchive className="text-5xl md:text-4xl" />
+          <BiArchiveIn className="text-5xl md:text-4xl" />
         </button>
       </Modal.OpenBtn>
       <Tooltip

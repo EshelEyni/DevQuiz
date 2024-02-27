@@ -82,21 +82,24 @@ const questionSlice = createSlice({
       state.removeQuestionState = action.payload;
     },
     setApproveCount(state, action: PayloadAction<number>) {
+      const newVal = state.editState.approveCount + action.payload;
       state.editState = {
         ...state.editState,
-        approveCount: state.editState.approveCount + action.payload,
+        approveCount: newVal > 0 ? newVal : 0,
       };
     },
     setMarkCount(state, action: PayloadAction<number>) {
+      const newVal = state.editState.markCount + action.payload;
       state.editState = {
         ...state.editState,
-        markCount: state.editState.markCount + action.payload,
+        markCount: newVal > 0 ? newVal : 0,
       };
     },
     setArchiveCount(state, action: PayloadAction<number>) {
+      const newVal = state.editState.archiveCount + action.payload;
       state.editState = {
         ...state.editState,
-        archiveCount: state.editState.archiveCount + action.payload,
+        archiveCount: newVal > 0 ? newVal : 0,
       };
     },
   },
@@ -218,7 +221,7 @@ export function getQuestionDuplications(questionId: string): AppThunk {
 
 export function updateQuestion(
   question: Question,
-  type?: "approve" | "mark",
+  type?: "approve" | "mark" | "archive",
 ): AppThunk {
   return async dispatch => {
     try {
@@ -227,13 +230,23 @@ export function updateQuestion(
       dispatch(updateQuestionInState(updatedQuestion));
       dispatch(setQuizQuestion(updatedQuestion));
       dispatch(setUpdateQuestionState({ state: "succeeded", error: null }));
-      if (type === "approve") {
-        const val = question.isRevised ? 1 : -1;
-        dispatch(setApproveCount(val));
-      }
-      if (type === "mark") {
-        const val = question.isMarkedToBeRevised ? 1 : -1;
-        dispatch(setMarkCount(val));
+
+      switch (type) {
+        case "approve": {
+          const val = question.isRevised ? 1 : -1;
+          dispatch(setApproveCount(val));
+          break;
+        }
+        case "mark": {
+          const val = question.isMarkedToBeRevised ? 1 : -1;
+          dispatch(setMarkCount(val));
+          break;
+        }
+        case "archive": {
+          const val = question.isArchived ? 1 : -1;
+          dispatch(setArchiveCount(val));
+          break;
+        }
       }
     } catch (err) {
       const error = getErrorMessage(err);

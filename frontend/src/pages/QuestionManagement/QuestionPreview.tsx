@@ -18,7 +18,6 @@ import { TfiFiles } from "react-icons/tfi";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../types/app.types";
 import { getQuestionDuplications } from "../../store/slices/questionSlice";
-import classnames from "classnames";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
@@ -114,6 +113,7 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
           <BtnArchiveQuestion
             question={question}
             setQuestionStatus={setStatus}
+            isToggled={true}
           />
           <BtnMarkQuesitonToEdit
             question={question}

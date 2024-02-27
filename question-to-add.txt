@@ -40,19 +40,11 @@ MongoDB:
 
 HTML and CSS:
 1. put question on all html tags
-2. difference between display types: block, iniline, iniline-block....
+2
 3. difference between positions: static, absolute....
 4. the flex property. understand basis, grow and shrink well
 5. 
 
-
-PWA 
-1. what is service worker?
-2. 
-
-sccs
-1. what is 7-1 arhitechture of sass file in proj?
-2. 
 
 
 git 

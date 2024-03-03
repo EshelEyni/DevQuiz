@@ -145,11 +145,7 @@ async function getDuplicates(question: Question): Promise<Question[]> {
     .query<Question>({ indexName: "Questions/Search" })
     .whereEquals("isArchived", false)
     .whereNotEquals("id", question.id)
-    .whereEquals("language", question.language)
-    .whereEquals("level", question.level);
-
-  if (question.language) query.whereEquals("language", question.language);
-  if (question.level) query.whereEquals("level", question.level);
+    .whereEquals("language", question.language);
 
   query
     .moreLikeThis(q =>

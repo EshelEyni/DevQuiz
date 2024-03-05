@@ -141,16 +141,19 @@ export function startNewQuiz({
   limit = 25,
   secondsPerQuestion = 30,
 }: questionReqProps): AppThunk {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
       dispatch(setStatus("loading"));
       dispatch(setQuizQueryState({ state: "loading", error: null }));
+
+      const isAdmin =
+        getState().auth.loggedInUser?.roles.includes("admin") ?? false;
       const questions = await questionService.query({
         language,
         level,
         page,
         limit,
-        isRevised: true,
+        isRevised: !isAdmin,
       });
       dispatch(setQuizQuestions(questions));
       dispatch(setQuizQueryState({ state: "succeeded", error: null }));

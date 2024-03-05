@@ -79,12 +79,13 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   function handleArrowUp() {
     if (answerIdx) return;
     let newFocusedBtn = "";
+    const optionsNum = question.options.length;
     if (focusedBtn === "") newFocusedBtn = "option-1";
     else if (focusedBtn.includes("option")) {
       const idx = Number(focusedBtn.split("-")[1]);
-      if (idx === 1) newFocusedBtn = `option-${numQuestions + 1}`;
+      if (idx === 1) newFocusedBtn = `option-${optionsNum + 1}`;
       else newFocusedBtn = `option-${idx - 1}`;
-    } else if (focusedBtn) newFocusedBtn = `option-${numQuestions + 1}`;
+    } else if (focusedBtn) newFocusedBtn = `option-${optionsNum + 1}`;
     else newFocusedBtn = "option-1";
     setFocusedBtn(newFocusedBtn);
   }
@@ -92,9 +93,10 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   function handleArrowDown() {
     if (answerIdx) return;
     let newFocusedBtn = "";
+    const optionsNum = question.options.length;
     if (focusedBtn.includes("option")) {
       const idx = Number(focusedBtn.split("-")[1]);
-      if (idx === numQuestions + 1) newFocusedBtn = "option-1";
+      if (idx === optionsNum + 1) newFocusedBtn = "option-1";
       else newFocusedBtn = `option-${idx + 1}`;
     } else newFocusedBtn = "option-1";
     setFocusedBtn(newFocusedBtn);

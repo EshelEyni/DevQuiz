@@ -83,7 +83,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
     if (focusedBtn === "") newFocusedBtn = "option-1";
     else if (focusedBtn.includes("option")) {
       const idx = Number(focusedBtn.split("-")[1]);
-      if (idx === 1) newFocusedBtn = `option-${optionsNum + 1}`;
+      if (idx === 1) newFocusedBtn = `option-${optionsNum}`;
       else newFocusedBtn = `option-${idx - 1}`;
     } else if (focusedBtn) newFocusedBtn = `option-${optionsNum + 1}`;
     else newFocusedBtn = "option-1";
@@ -96,7 +96,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
     const optionsNum = question.options.length;
     if (focusedBtn.includes("option")) {
       const idx = Number(focusedBtn.split("-")[1]);
-      if (idx === optionsNum + 1) newFocusedBtn = "option-1";
+      if (idx === optionsNum) newFocusedBtn = "option-1";
       else newFocusedBtn = `option-${idx + 1}`;
     } else newFocusedBtn = "option-1";
     setFocusedBtn(newFocusedBtn);

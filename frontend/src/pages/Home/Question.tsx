@@ -8,7 +8,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../../components/Btns/Button";
 import classnames from "classnames";
 import { BtnToggleTimer } from "../../components/Btns/BtnToggleTimer";
-import { useQuestion as useQuestionContext } from "./QuestionContext";
+import { useQuestion } from "./QuestionContext";
 import { useQuiz } from "../../hooks/useQuiz";
 import { BtnArchiveQuestion } from "../../components/Btns/BtnArchiveQuestion";
 
@@ -23,7 +23,7 @@ export const Question = () => {
     onPassQuestion,
     handleQuitClick,
     onOptionSelection,
-  } = useQuestionContext();
+  } = useQuestion();
   const { answerIdx } = useQuiz();
 
   if (!question) return null;

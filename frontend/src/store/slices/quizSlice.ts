@@ -148,13 +148,17 @@ export function startNewQuiz({
 
       const isAdmin =
         getState().auth.loggedInUser?.roles.includes("admin") ?? false;
-      const questions = await questionService.query({
+
+      const options = {
         language,
         level,
         page,
         limit,
-        isRevised: !isAdmin,
-      });
+      } as questionReqProps;
+
+      if (!isAdmin) options.isRevised = true;
+
+      const questions = await questionService.query(options);
       dispatch(setQuizQuestions(questions));
       dispatch(setQuizQueryState({ state: "succeeded", error: null }));
       dispatch(setNumQuestions(questions.length));

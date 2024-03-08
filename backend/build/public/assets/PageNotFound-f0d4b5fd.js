@@ -1,1 +1,0 @@
-import{j as e}from"./index-6af8e44a.js";const t=()=>e("main",{className:"flex h-[50vh] flex-col items-center justify-center",children:e("div",{className:"text-5xl",children:e("p",{children:"Hmm...this page doesn’t exist. Try searching for something else."})})});export{t as default};

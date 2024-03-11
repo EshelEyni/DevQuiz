@@ -159,14 +159,14 @@ const QuizSetting = () => {
         <div className="my-16 flex items-center gap-3">
           <Button
             onClickFn={onGoBack}
-            className="d-flex items-center justify-center rounded-full bg-gray-700 px-8 py-6 text-2xl font-medium uppercase"
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-6 py-3 text-2xl font-medium uppercase"
           >
             <span>close</span>
           </Button>
 
           <Button
             onClickFn={handleSaveClick}
-            className="d-flex items-center justify-center rounded-full bg-gray-700 px-8 py-6 text-2xl font-medium uppercase"
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-6 py-3 text-2xl font-medium uppercase"
           >
             <span>save</span>
           </Button>

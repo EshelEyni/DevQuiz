@@ -11,6 +11,7 @@ import { BtnToggleTimer } from "../../components/Btns/BtnToggleTimer";
 import { useQuestion } from "./QuestionContext";
 import { useQuiz } from "../../hooks/useQuiz";
 import { BtnArchiveQuestion } from "../../components/Btns/BtnArchiveQuestion";
+import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion";
 
 export const Question = () => {
   const { loggedInUser } = useAuth();
@@ -97,6 +98,7 @@ export const Question = () => {
         {isAdmin && (
           <div className="col-start-2 row-start-2 flex  items-center justify-center gap-3 justify-self-end">
             <BtnToggleTimer />
+            <BtnCopyQuestion question={question} />
             <BtnMarkQuesitonToEdit question={question} />
             <BtnApproveQuestion question={question} />
             <BtnQuestionEdit questionId={question.id} />

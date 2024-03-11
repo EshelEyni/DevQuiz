@@ -90,7 +90,7 @@ const QuizSetting = () => {
         className="fixed left-1/2 top-1/2 z-[1000] flex h-full min-h-min w-full max-w-[1200px] flex-1 -translate-x-1/2 -translate-y-1/2 flex-col
     items-center overflow-scroll bg-gray-50 px-3 pt-5 lg:h-[90vh] lg:w-[50vw] lg:rounded-xl"
       >
-        <h1 className="mb-10 text-8xl font-medium tracking-wide text-gray-700 md:text-7xl">
+        <h1 className="mb-10 text-6xl font-medium tracking-wide text-gray-700 md:text-7xl">
           Quiz Setting
         </h1>
         <div className="flex flex-1 flex-col gap-12 px-3">
@@ -100,7 +100,7 @@ const QuizSetting = () => {
                 <Button
                   key={lang}
                   className={classnames(
-                    "w-fit rounded-2xl bg-gray-700 px-8 py-7 text-4xl font-medium md:px-5 md:py-4 md:text-3xl",
+                    "w-fit rounded-2xl bg-gray-700 px-6 py-5 text-2xl font-medium md:px-5 md:py-4 md:text-3xl",
                     {
                       "bg-sky-600 text-gray-50": formtState.language === lang,
                     },
@@ -121,7 +121,7 @@ const QuizSetting = () => {
                 <Button
                   key={level}
                   className={classnames(
-                    "w-fit rounded-2xl bg-gray-700 px-8 py-7 text-4xl font-medium capitalize md:px-5 md:py-4 md:text-3xl",
+                    "w-fit rounded-2xl bg-gray-700 px-6 py-5 text-2xl font-medium capitalize md:px-5 md:py-4 md:text-3xl",
                     {
                       "bg-sky-600 text-gray-50": formtState.level === level,
                     },
@@ -159,14 +159,14 @@ const QuizSetting = () => {
         <div className="my-16 flex items-center gap-3">
           <Button
             onClickFn={onGoBack}
-            className="d-flex items-center justify-center rounded-full bg-gray-700 px-12 py-8 text-4xl font-medium uppercase md:px-8 md:py-6 md:text-3xl"
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-10 py-7 text-3xl font-medium uppercase md:px-8 md:py-6"
           >
             <span>close</span>
           </Button>
 
           <Button
             onClickFn={handleSaveClick}
-            className="d-flex items-center justify-center rounded-full bg-gray-700 px-12 py-8 text-4xl font-medium uppercase md:px-8 md:py-6 md:text-3xl"
+            className="d-flex items-center justify-center rounded-full bg-gray-700 px-10 py-7 text-3xl font-medium uppercase md:px-8 md:py-6"
           >
             <span>save</span>
           </Button>

@@ -11,7 +11,7 @@ export const InputContainer: FC<InputContainerProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="mb-2 text-6xl font-medium text-gray-700 md:text-4xl">
+      <h2 className="mb-2 text-4xl font-medium text-gray-700 md:text-4xl">
         {title}
       </h2>
       {children}

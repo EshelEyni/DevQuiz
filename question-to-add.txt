@@ -27,6 +27,8 @@ of the cmp the children are not rerendering
 
 JAVASCRIPT:
 1. Generator Function
+2. what is a singleton design pattern?
+3. Function Declaration, Function Expression, Arrow Function
 
 TYPESCRIPT:
 1. TUPLE Type

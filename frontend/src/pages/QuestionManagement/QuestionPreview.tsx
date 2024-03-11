@@ -18,6 +18,7 @@ import { TfiFiles } from "react-icons/tfi";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../types/app.types";
 import { getQuestionDuplications } from "../../store/slices/questionSlice";
+import { BtnShuffleOption } from "../../components/Btns/BtnShuffleOption";
 
 type QuestionPreviewProps = {
   question: TypeOfQuestion;
@@ -115,6 +116,8 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
             setQuestionStatus={setStatus}
             isToggled={true}
           />
+          <BtnShuffleOption question={question} />
+
           <BtnMarkQuesitonToEdit
             question={question}
             setQuestionStatus={setStatus}

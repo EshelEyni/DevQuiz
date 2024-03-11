@@ -12,6 +12,7 @@ import { useQuestion } from "./QuestionContext";
 import { useQuiz } from "../../hooks/useQuiz";
 import { BtnArchiveQuestion } from "../../components/Btns/BtnArchiveQuestion";
 import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion";
+import { BtnShuffleOption } from "../../components/Btns/BtnShuffleOption";
 
 export const Question = () => {
   const { loggedInUser } = useAuth();
@@ -74,7 +75,7 @@ export const Question = () => {
           <Button
             onClickFn={onPassQuestion}
             className={classnames(
-              "col-start-2 row-start-1 flex h-20 items-center justify-center justify-self-end rounded-full bg-gray-600 px-7 text-4xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl",
+              "col-start-2 row-start-1 flex h-20 items-center justify-center justify-self-end rounded-full bg-gray-600 px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl",
               {
                 "scale-110 bg-gray-800 text-gray-200": focusedBtn === "next",
               },
@@ -86,7 +87,7 @@ export const Question = () => {
         <Button
           onClickFn={handleQuitClick}
           className={classnames(
-            "col-start-1 row-start-2 flex h-20 items-center justify-center justify-self-start rounded-full bg-gray-600 px-7 text-4xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl",
+            "col-start-1 row-start-2 flex h-20 items-center justify-center justify-self-start rounded-full bg-gray-600 px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl",
             {
               "scale-110 bg-gray-800 text-gray-200": focusedBtn === "quit",
             },
@@ -99,6 +100,7 @@ export const Question = () => {
           <div className="col-start-2 row-start-2 flex  items-center justify-center gap-3 justify-self-end">
             <BtnToggleTimer />
             <BtnCopyQuestion question={question} />
+            <BtnShuffleOption question={question} />
             <BtnMarkQuesitonToEdit question={question} />
             <BtnApproveQuestion question={question} />
             <BtnQuestionEdit questionId={question.id} />

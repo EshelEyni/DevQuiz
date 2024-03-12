@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Question } from "../../../../shared/types/question";
@@ -5,7 +6,7 @@ import { useDispatch } from "react-redux";
 import questionService from "../../services/question.service";
 import { Loader } from "../../components/Loaders/Loader/Loader";
 import { MainScreen } from "../../components/Gen/MainScreen";
-import { updateQuestion } from "../../store/slices/questionSlice";
+import { addQuestion, updateQuestion } from "../../store/slices/questionSlice";
 import { setIsTimerOn } from "../../store/slices/quizSlice";
 import { AppDispatch } from "../../types/app.types";
 import { BtnCopyQuestion } from "../../components/Btns/BtnCopyQuestion";
@@ -15,21 +16,33 @@ import classnames from "classnames";
 import { Select } from "../../components/App/Select";
 import { Button } from "../../components/Btns/Button";
 import { useKey } from "react-use";
+import { useQuestion } from "../../hooks/useQuestion";
+import { FilterBy } from "../QuestionManagement/QuestionManagementPage";
 
-const QuestionEdit = () => {
+type QuestionEditParams = {
+  isNested?: boolean;
+  setFilterBy?: (filterBy: React.SetStateAction<FilterBy>) => void;
+};
+
+const QuestionEdit: FC<QuestionEditParams> = ({
+  isNested = true,
+  setFilterBy,
+}) => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const [question, setQuestion] = useState<Question | null>(null);
   const { programmingLanguages, difficultyLevels } = systemSettings;
-
+  const { filterBy } = useQuestion();
+  const className = isNested
+    ? classnames(
+        "fixed left-0 top-0 z-[1000] flex h-screen w-screen flex-col overflow-scroll bg-gray-800 p-8 md:left-1/2 md:top-1/2 md:h-4/5 md:w-3/5 md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-3xl",
+        {
+          "justify-center": !question,
+        },
+      )
+    : "bg-gray-800 p-8 flex flex-col items-center justify-center gap-4 border border-white rounded-xl w-1/2 mt-10";
   useKey("Escape", onGoBack);
-
-  async function fetchQuestion(id: string) {
-    const question = await questionService.getById(id);
-    if (!question) return;
-    setQuestion(question);
-  }
 
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -69,8 +82,15 @@ const QuestionEdit = () => {
   function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!question) return;
-    dispatch(updateQuestion(question));
-    onGoBack();
+    const { id } = params;
+    if (id) {
+      dispatch(updateQuestion(question));
+      onGoBack();
+    } else {
+      dispatch(addQuestion(question));
+      setQuestion(null);
+      setFilterBy?.("search");
+    }
   }
 
   function onGoBack() {
@@ -79,21 +99,38 @@ const QuestionEdit = () => {
   }
 
   useEffect(() => {
+    async function fetchQuestion(id: string) {
+      const question = await questionService.getById(id);
+      if (!question) return;
+      setQuestion(question);
+    }
+
+    function getDefaultQuestion(): Question {
+      return {
+        id: "",
+        question: "",
+        options: ["", "", "", ""],
+        correctOption: 0,
+        language: filterBy.language,
+        level: filterBy.level,
+        points: 10,
+        isArchived: false,
+        isMarkedToBeRevised: false,
+        isRevised: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+    }
+
     const { id } = params;
     if (id) fetchQuestion(id);
-  }, [params]);
+    else setQuestion(getDefaultQuestion());
+  }, [params, filterBy.language, filterBy.level]);
 
   return (
     <>
-      <MainScreen onClickFn={onGoBack} darkMode={true} />
-      <div
-        className={classnames(
-          "fixed left-0 top-0 z-[1000] flex h-screen w-screen flex-col overflow-scroll bg-gray-800 p-8 md:left-1/2 md:top-1/2 md:h-4/5 md:w-3/5 md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-3xl",
-          {
-            "justify-center": !question,
-          },
-        )}
-      >
+      {isNested && <MainScreen onClickFn={onGoBack} darkMode={true} />}
+      <div className={className}>
         {!question && <Loader />}
         {question && (
           <>

@@ -32,17 +32,19 @@ export const StartScreen = () => {
       <h2 className="w-full text-center text-4xl font-bold text-gray-50">{`Welcome to The ${language} Quiz!`}</h2>
       <h3 className="w-full text-center text-xl font-bold text-gray-50 ">{`${numQuestions} question to test your ${language} mastery`}</h3>
 
-      <Button
-        onClickFn={handleStartQuiz}
-        className={classnames(
-          "mt-10 rounded-full bg-gray-600 px-8 py-6 text-3xl font-medium uppercase text-gray-100 transition-all duration-300",
-          {
-            "scale-110 bg-gray-800 text-gray-200": isFocused,
-          },
-        )}
-      >
-        {"Let's start"}
-      </Button>
+      {numQuestions > 0 && (
+        <Button
+          onClickFn={handleStartQuiz}
+          className={classnames(
+            "mt-10 rounded-full bg-gray-600 px-8 py-6 text-3xl font-medium uppercase text-gray-100 transition-all duration-300",
+            {
+              "scale-110 bg-gray-800 text-gray-200": isFocused,
+            },
+          )}
+        >
+          {"Let's start"}
+        </Button>
+      )}
     </div>
   );
 };

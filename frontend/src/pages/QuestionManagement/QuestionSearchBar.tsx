@@ -1,45 +1,34 @@
 import { useDispatch } from "react-redux";
-import { useState } from "react";
 import {
   getDuplicatedQuestions,
   getQuestions,
+  setFilterBy,
 } from "../../store/slices/questionSlice";
 import { useKey } from "react-use";
 import { AppDispatch } from "../../types/app.types";
 import { Select } from "../../components/App/Select";
 import { systemSettings } from "../../config";
-import { ProgrammingLanguage } from "../../../../shared/types/system";
-import { DifficultyLevels as TypeOfDifficultyLevels } from "../../../../shared/types/system";
+import {
+  ApprovedMarkedValues,
+  LevelOrAll,
+  ProgrammingLanguage,
+} from "../../../../shared/types/system";
 import { Button } from "../../components/Btns/Button";
 import { TfiFiles } from "react-icons/tfi";
-type LevelOrAll = TypeOfDifficultyLevels | "all";
-
-type ApprovedMarkedValues = {
-  name: string;
-  value: boolean | undefined;
-};
-
-type FilterBy = {
-  language: ProgrammingLanguage;
-  level: LevelOrAll;
-  searchTerm: string;
-  Approved: ApprovedMarkedValues;
-  Marked: ApprovedMarkedValues;
-};
+import { questionReqProps } from "../../store/types";
+import { useQuestion } from "../../hooks/useQuestion";
+import { updateLoggedInUser } from "../../store/slices/authSlice";
+import { useAuth } from "../../hooks/useAuth";
 
 export const QuestionSearchBar = () => {
   const dispatch: AppDispatch = useDispatch();
-  useKey("Enter", onSearch);
-  const { programmingLanguages, difficultyLevels } = systemSettings;
-  const [filterBy, setFilterBy] = useState<FilterBy>({
-    language: "HTML",
-    level: "beginner",
-    searchTerm: "",
-    Approved: { name: "All", value: undefined },
-    Marked: { name: "All", value: undefined },
-  });
+  const { loggedInUser } = useAuth();
 
-  const { language, level, searchTerm, Approved, Marked } = filterBy;
+  const { programmingLanguages, difficultyLevels } = systemSettings;
+
+  const { filterBy } = useQuestion();
+
+  const { language, level, searchTerm, approved, marked } = filterBy;
   const approvedValues: ApprovedMarkedValues[] = [
     { name: "Approved only", value: true },
     { name: "Remove approved", value: false },
@@ -52,41 +41,47 @@ export const QuestionSearchBar = () => {
     { name: "All", value: undefined },
   ];
 
+  useKey("Enter", onSearch, {}, [filterBy]);
+
   function handleChangeLangSelect(language: ProgrammingLanguage) {
-    setFilterBy({ ...filterBy, language });
+    dispatch(setFilterBy({ ...filterBy, language }));
   }
 
   function handleChangeDifficultySelect(level: LevelOrAll) {
-    setFilterBy({ ...filterBy, level });
+    dispatch(setFilterBy({ ...filterBy, level }));
   }
 
   function handleInputSearchTermChange(
     event: React.ChangeEvent<HTMLInputElement>,
   ) {
     const searchTerm = event.target.value;
-    setFilterBy({ ...filterBy, searchTerm });
+    dispatch(setFilterBy({ ...filterBy, searchTerm }));
   }
 
   function handleChangeApprovedSelect(approved: ApprovedMarkedValues) {
-    setFilterBy({ ...filterBy, Approved: approved });
+    dispatch(setFilterBy({ ...filterBy, approved }));
   }
 
   function handleChangeMarkedSelect(marked: ApprovedMarkedValues) {
-    setFilterBy({ ...filterBy, Marked: marked });
+    dispatch(setFilterBy({ ...filterBy, marked }));
   }
 
   function onSearch() {
-    dispatch(
-      getQuestions({
-        language,
-        level: level === "all" ? undefined : level,
-        page: 1,
-        limit: 0,
-        searchTerm,
-        isMarkedToBeRevised: Marked.value,
-        isRevised: Approved.value,
-      }),
-    );
+    const options = {
+      language,
+      page: 1,
+      limit: 0,
+      searchTerm,
+      isMarkedToBeRevised: marked.value,
+      isRevised: approved.value,
+    } as questionReqProps;
+
+    if (level && level !== "all") options.level = level;
+    dispatch(getQuestions(options));
+    if (loggedInUser)
+      dispatch(
+        updateLoggedInUser({ ...loggedInUser, searchSettings: filterBy }),
+      );
   }
 
   function handleBtnGetDuplicatesClick() {
@@ -166,7 +161,7 @@ export const QuestionSearchBar = () => {
               className="h-14 w-56 cursor-pointer rounded-xl 
             bg-gray-700 text-2xl capitalize leading-5 outline-none transition-all duration-300"
             >
-              <button type="button">{Approved.name}</button>
+              <button type="button">{approved.name}</button>
             </Select.SelectTrigger>
             <Select.SelectList
               className="z-[1500] mt-1 w-56  min-w-[100px] cursor-pointer 
@@ -190,7 +185,7 @@ export const QuestionSearchBar = () => {
               className="h-14 w-56 cursor-pointer rounded-xl 
             bg-gray-700 text-2xl capitalize leading-5 outline-none transition-all duration-300"
             >
-              <button type="button">{Marked.name}</button>
+              <button type="button">{marked.name}</button>
             </Select.SelectTrigger>
             <Select.SelectList
               className="z-[1500] mt-1 w-56  min-w-[100px] cursor-pointer 

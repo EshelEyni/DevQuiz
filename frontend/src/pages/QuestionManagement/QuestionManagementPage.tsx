@@ -1,72 +1,93 @@
 import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { QuestionSearchBar } from "./QuestionSearchBar";
-import { useEffect } from "react";
-import { QuestionLoader } from "../../components/Loaders/QuestionLoader/QuestionLoader";
-import { useQuestion } from "../../hooks/useQuestion";
+import { useEffect, useState } from "react";
 import { getQuestions } from "../../store/slices/questionSlice";
 import { AppDispatch } from "../../types/app.types";
-import { getRandomBrightColor } from "../../services/utils.service";
-import { QuestionPreview } from "./QuestionPreview";
-import { useIntersectionPagination } from "../../hooks/useIntersectionPagination";
 import { useQuestionEditToast } from "../../hooks/useQuestionEditToast";
+import { Button } from "../../components/Btns/Button";
+import classnames from "classnames";
+import QuestionEdit from "../QuestionEdit/QuestionEdit";
+import { QuestionFetcher } from "./QuestionFetcher";
+import { QuestionList } from "./QuestionList";
+import { useQuestion } from "../../hooks/useQuestion";
+import { questionReqProps } from "../../store/types";
+import { useAuth } from "../../hooks/useAuth";
+
+export type FilterBy = "search" | "add" | "fetch";
+
+type Btn = {
+  name: string;
+  value: FilterBy;
+};
 
 const QuestionManagementPage = () => {
   useQuestionEditToast();
   const dispatch: AppDispatch = useDispatch();
-  const { questions, getQuestionsState } = useQuestion();
-  const { paginationIdx, intersectionRef } = useIntersectionPagination();
-  const isLoading = getQuestionsState.state === "loading";
-  const noQuestionsFound = !isLoading && questions.length === 0;
-  const isQuestionListShown = !isLoading && questions.length > 0;
-  const approvedQuestions = questions.filter(question => question.isRevised);
-  const percentageOfApprovedQuestions = Math.round(
-    (approvedQuestions.length / questions.length) * 100,
-  );
+  const { loggedInUser } = useAuth();
+  const { filterBy: searchFilterBy } = useQuestion();
+
+  const [filterBy, setFilterBy] = useState<FilterBy>("search");
+
+  const btns: Btn[] = [
+    {
+      name: "Search",
+      value: "search",
+    },
+    {
+      name: "Add",
+      value: "add",
+    },
+    {
+      name: "Fetch",
+      value: "fetch",
+    },
+  ];
 
   useEffect(() => {
-    dispatch(
-      getQuestions({
-        language: "HTML",
-        level: "beginner",
-        limit: 0,
-      }),
-    );
-  }, [dispatch]);
+    if (filterBy !== "search" || !loggedInUser) return;
+    const options = {
+      language: searchFilterBy.language,
+      page: 1,
+      limit: 0,
+      level: searchFilterBy.level,
+      searchTerm: searchFilterBy.searchTerm,
+      isMarkedToBeRevised: searchFilterBy.marked.value,
+      isRevised: searchFilterBy.approved.value,
+    } as questionReqProps;
+    dispatch(getQuestions(options));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, filterBy, loggedInUser]);
 
   return (
-    <main className="flex w-screen flex-col items-center">
-      <QuestionSearchBar />
-      {isLoading && <QuestionLoader />}
+    <main className="flex w-screen flex-1 flex-col items-center">
+      <div className="flex w-full justify-center gap-4 bg-gray-800 p-3">
+        {btns.map((btn, i) => (
+          <Button
+            key={i}
+            onClickFn={() => setFilterBy(btn.value)}
+            className={classnames(
+              "rounded-md px-6 py-4 text-3xl font-bold",
+              filterBy === btn.value
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 text-gray-800",
+            )}
+          >
+            {btn.name}
+          </Button>
+        ))}
+      </div>
 
-      {noQuestionsFound && (
-        <h2 className="mt-14 text-center text-2xl font-bold">
-          No questions found.⚠️ Please try another search.
-        </h2>
+      {filterBy === "search" && (
+        <>
+          <QuestionSearchBar />
+          <QuestionList />
+        </>
       )}
-
-      {isQuestionListShown && (
-        <div className="mx-auto mt-4 flex w-11/12 flex-col gap-5 pb-24 md:mt-2">
-          <div className="flex w-full flex-col flex-wrap justify-between gap-1 md:flex-row">
-            <p className="text-3xl font-semibold leading-none">{`Number of Questions: ${questions.length}`}</p>
-            <p className="text-3xl font-semibold leading-none">{`Number of Approved Questions: ${approvedQuestions.length}`}</p>
-            <p className="text-3xl font-semibold leading-none">
-              <em className="mr-[4px]">{percentageOfApprovedQuestions}%</em>
-              of the questions have been approved.
-            </p>
-          </div>
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {questions.slice(0, 40 * paginationIdx).map((q, i) => (
-              <QuestionPreview
-                key={`${q.id}-${i + 1}`}
-                question={q}
-                bcgColor={getRandomBrightColor(i)}
-              />
-            ))}
-          </ul>
-          <div className="h-40 w-full" ref={intersectionRef} />
-        </div>
+      {filterBy === "add" && (
+        <QuestionEdit isNested={false} setFilterBy={setFilterBy} />
       )}
+      {filterBy === "fetch" && <QuestionFetcher />}
       <Outlet />
     </main>
   );

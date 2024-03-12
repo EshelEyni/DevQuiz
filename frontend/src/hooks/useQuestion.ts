@@ -10,6 +10,7 @@ export function useQuestion() {
     addQuestionState,
     updateQuestionState,
     removeQuestionState,
+    filterBy,
     editState,
   } = useSelector((state: RootState) => state.question);
 
@@ -21,6 +22,7 @@ export function useQuestion() {
     addQuestionState,
     updateQuestionState,
     removeQuestionState,
+    filterBy,
     editState,
   };
 }

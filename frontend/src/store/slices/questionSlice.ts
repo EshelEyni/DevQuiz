@@ -10,6 +10,10 @@ import {
   getErrorMessage,
 } from "../../services/utils.service";
 import { setQuizQuestion } from "./quizSlice";
+import {
+  FetchAPIQuestionsParams,
+  SearchFilterBy,
+} from "../../../../shared/types/system";
 
 type QuestionState = {
   questions: Question[];
@@ -19,6 +23,7 @@ type QuestionState = {
   addQuestionState: QueryState;
   updateQuestionState: QueryState;
   removeQuestionState: QueryState;
+  filterBy: SearchFilterBy;
   editState: EditState;
 };
 
@@ -36,6 +41,13 @@ const initialState: QuestionState = {
   addQuestionState: defaultQueryState,
   updateQuestionState: defaultQueryState,
   removeQuestionState: defaultQueryState,
+  filterBy: {
+    language: "HTML",
+    level: "beginner",
+    searchTerm: "",
+    approved: { name: "All", value: undefined },
+    marked: { name: "All", value: undefined },
+  },
   editState: {
     approveCount: 0,
     markCount: 0,
@@ -68,7 +80,7 @@ const questionSlice = createSlice({
       state.updateQuestionState = action.payload;
     },
     addQuestionToState(state, action: PayloadAction<Question>) {
-      state.questions.push(action.payload);
+      state.questions.unshift(action.payload);
     },
     setAddQuestionState(state, action: PayloadAction<QueryState>) {
       state.addQuestionState = action.payload;
@@ -80,6 +92,9 @@ const questionSlice = createSlice({
     },
     setRemoveQuestionState(state, action: PayloadAction<QueryState>) {
       state.removeQuestionState = action.payload;
+    },
+    setFilterBy(state, action: PayloadAction<SearchFilterBy>) {
+      state.filterBy = action.payload;
     },
     setApproveCount(state, action: PayloadAction<number>) {
       const newVal = state.editState.approveCount + action.payload;
@@ -116,6 +131,7 @@ export const {
   setAddQuestionState,
   removeQuestionFromState,
   setRemoveQuestionState,
+  setFilterBy,
   setApproveCount,
   setMarkCount,
   setArchiveCount,
@@ -264,7 +280,7 @@ export function addQuestion(question: Question): AppThunk {
     try {
       dispatch(setAddQuestionState({ state: "loading", error: null }));
       const addedQuestion = await questionService.add(question);
-      dispatch(addQuestion(addedQuestion));
+      dispatch(addQuestionToState(addedQuestion));
       dispatch(setAddQuestionState({ state: "succeeded", error: null }));
     } catch (err) {
       const error = getErrorMessage(err);
@@ -272,6 +288,34 @@ export function addQuestion(question: Question): AppThunk {
     } finally {
       setTimeout(() => {
         dispatch(setAddQuestionState(defaultQueryState));
+      }, QUERY_TIMEOUT);
+    }
+  };
+}
+
+export function fetchQuestionsFromOpenAI({
+  prompt,
+  language,
+  level,
+  numberOfQuestions,
+}: FetchAPIQuestionsParams): AppThunk {
+  return async dispatch => {
+    try {
+      dispatch(setGetQuestionsState({ state: "loading", error: null }));
+      const questions = await questionService.fetchQuestionsFromOpenAI({
+        prompt,
+        language,
+        level,
+        numberOfQuestions,
+      });
+      dispatch(setQuestions(questions));
+      dispatch(setGetQuestionsState({ state: "succeeded", error: null }));
+    } catch (err) {
+      const error = getErrorMessage(err);
+      dispatch(setGetQuestionsState({ state: "failed", error }));
+    } finally {
+      setTimeout(() => {
+        dispatch(setGetQuestionsState(defaultQueryState));
       }, QUERY_TIMEOUT);
     }
   };

@@ -30,7 +30,9 @@ export type ProgrammingLanguage =
   | "React"
   | "NodeJS"
   | "SQL"
-  | "MongoDB";
+  | "MongoDB"
+  | "Git"
+  | "Docker";
 
 export type LanguageInfo = {
   name: ProgrammingLanguage;
@@ -42,47 +44,6 @@ export type systemSettings = {
   programmingLanguages: Record<ProgrammingLanguage, LanguageInfo>;
   difficultyLevels: DifficultyLevels[] | [];
 };
-
-export type ContactMsgType = "contact" | "report";
-
-export type ContactMsgs = Array<ContactMessage | ReportQuestionMessage>;
-
-interface BasicContactMessage {
-  id: string;
-  name: string;
-  markedAsRead: boolean;
-  markedAsSpam: boolean;
-  markedAsDone: boolean;
-  markedAsImportant: boolean;
-  isArchived: boolean;
-  updatedAt: Date;
-  createdAt: Date;
-  email?: string;
-  userDetails?: User;
-}
-
-export interface ContactMessageContent {
-  subject: string;
-  content: string;
-}
-
-export interface ContactMessage
-  extends ContactMessageContent,
-    BasicContactMessage {
-  type: "contact";
-}
-
-export interface ReportQuestionMessageContent {
-  questionId: string;
-  defaultIssue: string;
-  content: string;
-}
-
-export interface ReportQuestionMessage
-  extends ReportQuestionMessageContent,
-    BasicContactMessage {
-  type: "report";
-}
 
 export interface RavenDbDocument {
   "@metadata"?: {
@@ -115,4 +76,26 @@ export type QuestionAnswerCounts = Record<
 export type UserStats = {
   answersCount: QuestionAnswerCounts;
   questionsCount: QuestionAnswerCounts;
+};
+
+export type FetchAPIQuestionsParams = {
+  prompt: string;
+  numberOfQuestions: number;
+  language: ProgrammingLanguage;
+  level: DifficultyLevels;
+};
+
+export type LevelOrAll = DifficultyLevels | "all";
+
+export type ApprovedMarkedValues = {
+  name: string;
+  value: boolean | undefined;
+};
+
+export type SearchFilterBy = {
+  language: ProgrammingLanguage;
+  level: LevelOrAll;
+  searchTerm: string;
+  approved: ApprovedMarkedValues;
+  marked: ApprovedMarkedValues;
 };

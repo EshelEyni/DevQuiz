@@ -1,4 +1,5 @@
 import { Question } from "../../../shared/types/question";
+import { FetchAPIQuestionsParams } from "../../../shared/types/system";
 import { questionReqProps } from "../store/types";
 import { httpService } from "./http.service";
 import { handleServerResponse } from "./utils.service";
@@ -84,6 +85,27 @@ async function add(question: Question): Promise<Question> {
   }
 }
 
+async function fetchQuestionsFromOpenAI({
+  prompt,
+  language,
+  level,
+  numberOfQuestions,
+}: FetchAPIQuestionsParams): Promise<Question[]> {
+  try {
+    const body = {
+      prompt,
+      language,
+      level,
+      numberOfQuestions,
+    };
+    const response = await httpService.post(`question/fetch`, body);
+    return handleServerResponse<Question[]>(response);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function update(question: Question): Promise<Question> {
   try {
     const updatedQuestion = await httpService.put(`question`, question);
@@ -113,6 +135,7 @@ export default {
   getQuestionDuplications,
   getById,
   add,
+  fetchQuestionsFromOpenAI,
   update,
   archive,
 };

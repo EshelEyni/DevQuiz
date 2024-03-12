@@ -175,6 +175,13 @@ async function getDefaultUser(user: BasicUser): Promise<TypeOfUser> {
       numQuestions: 25,
       secondsPerQuestion: 30,
     },
+    searchSettings: {
+      language: "HTML",
+      level: "beginner",
+      searchTerm: "",
+      Approved: { name: "All", value: undefined },
+      Marked: { name: "All", value: undefined },
+    },
   };
 }
 

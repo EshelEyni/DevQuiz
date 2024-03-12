@@ -8,6 +8,7 @@ import {
   removeQuestion,
   findDuplicatedQuestions,
   findQuestionDuplications,
+  fetchQuestions,
 } from "./question.controller";
 import { requireAuth, requireAdmin } from "../../middlewares/requireAuth.middleware";
 
@@ -20,6 +21,7 @@ router.use(requireAuth, requireAdmin);
 router.get("/lang-duplicates", findDuplicatedQuestions);
 router.get("/duplicates/:id", findQuestionDuplications);
 router.post("/", addQuestion);
+router.post("/fetch", fetchQuestions);
 router.put("/archive", archiveQuestion);
 router.put("/", updateQuestion);
 router.delete("/:id", removeQuestion);

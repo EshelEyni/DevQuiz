@@ -94,7 +94,7 @@ export const QuestionPreview: FC<QuestionPreviewProps> = ({
         </div>
       </div>
       <div>
-        <div className="mb-3 mt-8 flex w-full justify-between gap-6 text-3xl font-semibold">
+        <div className="mb-3 mt-8 flex w-full justify-between gap-6 text-2xl font-semibold">
           <div className="flex-1">
             <p>Level: </p>
             <span>{caplitalizeFirstLetter(level)}</span>

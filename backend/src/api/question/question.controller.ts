@@ -1,4 +1,5 @@
 import { AppError, asyncErrorCatcher } from "../../services/error.service";
+import { fetchQuestionsFromOpenAI } from "../../services/openAI.service";
 import { QueryString } from "../../services/util.service";
 import questionService from "./question.service";
 
@@ -31,6 +32,22 @@ const addQuestion = asyncErrorCatcher(async (req, res, next) => {
   res.status(201).json({
     status: "success",
     data: question,
+  });
+});
+
+const fetchQuestions = asyncErrorCatcher(async (req, res, next) => {
+  const { prompt, numberOfQuestions, language, level } = req.body;
+  const questions = await fetchQuestionsFromOpenAI({
+    prompt,
+    numberOfQuestions,
+    language,
+    level,
+  });
+  res.status(201).json({
+    status: "success",
+    requestedAt: new Date().toISOString(),
+    results: questions.length,
+    data: questions,
   });
 });
 
@@ -93,6 +110,7 @@ export {
   getQuestions,
   getQuestionById,
   addQuestion,
+  fetchQuestions,
   updateQuestion,
   archiveQuestion,
   removeQuestion,

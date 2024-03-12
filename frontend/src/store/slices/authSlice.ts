@@ -8,9 +8,9 @@ import {
   getErrorMessage,
   QUERY_TIMEOUT,
 } from "../../services/utils.service";
-import { startNewQuiz } from "./quizSlice";
 import { ThunkDispatch } from "redux-thunk";
 import toast from "react-hot-toast";
+import { setFilterBy } from "./questionSlice";
 
 type AuthState = {
   loggedInUser: UserOrNull;
@@ -70,7 +70,7 @@ export function login(username: string, password: string): AppThunk {
       const user = await authService.login(username, password);
       dispatch(setLoggedInUser(user));
 
-      setQuizSettingByUser({ user, dispatch });
+      setSearchSettingByUser({ user, dispatch });
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
       const error = getErrorMessage(err);
@@ -90,7 +90,8 @@ export function loginWithToken(): AppThunk {
       const user = await authService.loginWithToken();
       dispatch(setLoggedInUser(user));
 
-      if (user) setQuizSettingByUser({ user, dispatch });
+      if (user) setSearchSettingByUser({ user, dispatch });
+
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } finally {
       setTimeout(() => {
@@ -169,7 +170,7 @@ export function updateLoggedInUser(user: User): AppThunk {
   };
 }
 
-function setQuizSettingByUser({
+function setSearchSettingByUser({
   user,
   dispatch,
 }: {
@@ -177,14 +178,6 @@ function setQuizSettingByUser({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dispatch: ThunkDispatch<unknown, unknown, any>;
 }): void {
-  const { language, level, numQuestions, secondsPerQuestion } =
-    user.quizSettings;
-  dispatch(
-    startNewQuiz({
-      language,
-      level,
-      limit: numQuestions,
-      secondsPerQuestion,
-    }),
-  );
+  if (!user.searchSettings) return;
+  dispatch(setFilterBy(user.searchSettings));
 }

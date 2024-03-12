@@ -1,4 +1,8 @@
-import { DifficultyLevels, ProgrammingLanguage } from "./system";
+import {
+  DifficultyLevels,
+  ProgrammingLanguage,
+  SearchFilterBy,
+} from "./system";
 
 export interface BasicUser {
   username: string;
@@ -19,6 +23,7 @@ export interface User extends BasicUser {
     numQuestions: number;
     secondsPerQuestion: number;
   };
+  searchSettings: SearchFilterBy;
 }
 
 export type UserRoles = "user" | "admin" | "editor";

@@ -23,7 +23,7 @@ async function query(queryString: QueryString): Promise<Question[]> {
   const session = ravenStore.openSession();
   const query = session.query<Question>({ collection: COLLECTION_NAME });
 
-  query.whereEquals("isArchived", false);
+  query.randomOrdering().whereEquals("isArchived", false);
   if (isMarkedToBeRevisedBoolean !== undefined)
     query.whereEquals("isMarkedToBeRevised", isMarkedToBeRevisedBoolean);
   if (isRevisedBoolean !== undefined) query.whereEquals("isRevised", isRevisedBoolean);
@@ -33,8 +33,7 @@ async function query(queryString: QueryString): Promise<Question[]> {
   const skip = Number(page) * Number(limit);
   if (skip) query.skip(skip);
 
-  if (!loggedinUserId) query.randomOrdering();
-  else {
+  if (loggedinUserId) {
     const userCorrectAnswersIds = await session
       .query<UserCorrectAnswer>({
         collection: "UserCorrectAnswers",
@@ -162,6 +161,12 @@ async function getDuplicates(question: Question): Promise<Question[]> {
   return [question, ...similarQuestions] as unknown as Question[];
 }
 
+const levelPointsMap = new Map([
+  ["beginner", 10],
+  ["intermediate", 20],
+  ["advanced", 30],
+]);
+
 export default {
   query,
   getById,
@@ -171,4 +176,5 @@ export default {
   archive,
   findDuplicatedQuestions,
   findQuestionDuplications,
+  levelPointsMap,
 };

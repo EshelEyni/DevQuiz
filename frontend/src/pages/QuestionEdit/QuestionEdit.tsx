@@ -41,7 +41,7 @@ const QuestionEdit: FC<QuestionEditParams> = ({
           "justify-center": !question,
         },
       )
-    : "bg-gray-800 p-8 flex flex-col items-center justify-center gap-4 border border-white rounded-xl w-1/2 mt-10";
+    : "min-h-screen bg-gray-800 p-8 flex flex-col gap-4 border border-white rounded-xl w-11/12 md:w-1/2 mt-10 mb-24";
   useKey("Escape", onGoBack);
 
   function handleChange(

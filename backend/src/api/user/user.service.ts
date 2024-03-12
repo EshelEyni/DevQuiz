@@ -179,8 +179,8 @@ async function getDefaultUser(user: BasicUser): Promise<TypeOfUser> {
       language: "HTML",
       level: "beginner",
       searchTerm: "",
-      Approved: { name: "All", value: undefined },
-      Marked: { name: "All", value: undefined },
+      approved: { name: "All", value: undefined },
+      marked: { name: "All", value: undefined },
     },
   };
 }

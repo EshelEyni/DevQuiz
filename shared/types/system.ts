@@ -32,7 +32,8 @@ export type ProgrammingLanguage =
   | "SQL"
   | "MongoDB"
   | "Git"
-  | "Docker";
+  | "Docker"
+  | "Python";
 
 export type LanguageInfo = {
   name: ProgrammingLanguage;

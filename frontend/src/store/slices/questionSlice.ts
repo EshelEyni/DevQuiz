@@ -243,8 +243,12 @@ export function updateQuestion(
     try {
       dispatch(setUpdateQuestionState({ state: "loading", error: null }));
       const updatedQuestion = await questionService.update(question);
-      dispatch(updateQuestionInState(updatedQuestion));
-      dispatch(setQuizQuestion(updatedQuestion));
+      const isManagementPage = window.location.pathname.includes(
+        "question-management",
+      );
+
+      if (isManagementPage) dispatch(updateQuestionInState(updatedQuestion));
+      else dispatch(setQuizQuestion(updatedQuestion));
       dispatch(setUpdateQuestionState({ state: "succeeded", error: null }));
 
       switch (type) {

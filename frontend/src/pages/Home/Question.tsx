@@ -104,7 +104,7 @@ export const Question = () => {
             <BtnMarkQuesitonToEdit question={question} />
             <BtnApproveQuestion question={question} />
             <BtnQuestionEdit questionId={question.id} />
-            <BtnArchiveQuestion question={question} />
+            <BtnArchiveQuestion question={question} isToggled={true} />
           </div>
         )}
       </Footer>

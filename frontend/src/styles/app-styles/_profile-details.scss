@@ -1,0 +1,10 @@
+.stats-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 150px));
+  gap: 1rem;
+
+  @include md-layout {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 170px));
+  }
+}

@@ -51,6 +51,17 @@ const ProfileDetails = () => {
     formState: { errors },
   } = useForm<UserDetails>({});
 
+  const btns = [
+    {
+      onClickFn: handleLogoutClick,
+      text: "Logout",
+    },
+    {
+      onClickFn: handleEditStatsClick,
+      text: isEditShown ? "Stats" : "Edit",
+    },
+  ];
+
   async function fetchUserStats() {
     try {
       setUserStatsQueryState(p => ({ ...p, state: "loading" }));
@@ -100,29 +111,26 @@ const ProfileDetails = () => {
   }
 
   return (
-    <main className="flex min-h-[250px] w-screen flex-col items-center overflow-hidden p-2 pb-24">
+    <main className="flex min-h-[250px] w-screen flex-col items-center overflow-hidden px-8 pb-24">
       {!isCurrUser && <Loader className="mt-52" />}
 
       {isCurrUser && (
-        <div className="mt-5 flex w-full flex-col items-center gap-6 md:w-3/5">
+        <div className="mt-5 flex w-full flex-col items-center gap-6 md:w-4/5">
           <Header className="flex w-full flex-col gap-4">
             <h1 className="text-4xl font-semibold tracking-wider">
               {loggedInUser.username}
             </h1>
 
             <div className="flex items-center gap-3 self-start">
-              <Button
-                onClickFn={handleLogoutClick}
-                className="text-md transform rounded-full bg-gray-800 p-3 font-semibold uppercase transition-all duration-300 ease-in-out hover:scale-105"
-              >
-                logout
-              </Button>
-              <Button
-                onClickFn={handleEditStatsClick}
-                className="text-md transform rounded-full bg-gray-800 p-3 font-semibold uppercase transition-all duration-300 ease-in-out hover:scale-105"
-              >
-                {isEditShown ? "stats" : "edit"}
-              </Button>
+              {btns.map((btn, i) => (
+                <Button
+                  key={i}
+                  onClickFn={btn.onClickFn}
+                  className="transform rounded-full bg-gray-800 px-6 py-4 text-3xl font-semibold uppercase transition-all duration-300 ease-in-out hover:scale-105"
+                >
+                  {btn.text}
+                </Button>
+              ))}
             </div>
           </Header>
           {isEditShown && (
@@ -159,7 +167,7 @@ const ProfileDetails = () => {
             </form>
           )}
 
-          <ul className="flex w-full flex-wrap gap-4 self-start">
+          <ul className="stats-list">
             {isStatsLoading && <Loader className="mt-10 self-center" />}
             {isStatsShown && (
               <>

@@ -147,6 +147,7 @@ export function getQuestions({
   searchTerm,
   isMarkedToBeRevised,
   isRevised,
+  isManagePage,
 }: questionReqProps): AppThunk {
   return async dispatch => {
     try {
@@ -159,6 +160,7 @@ export function getQuestions({
         searchTerm,
         isMarkedToBeRevised,
         isRevised,
+        isManagePage,
       });
 
       dispatch(setQuestions(questions));

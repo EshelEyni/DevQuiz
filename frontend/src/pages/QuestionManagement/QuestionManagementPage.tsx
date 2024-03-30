@@ -53,6 +53,7 @@ const QuestionManagementPage = () => {
       searchTerm: searchFilterBy.searchTerm,
       isMarkedToBeRevised: searchFilterBy.marked.value,
       isRevised: searchFilterBy.approved.value,
+      isManagePage: true,
     } as questionReqProps;
     if (searchFilterBy.level && searchFilterBy.level !== "all")
       options.level = searchFilterBy.level;

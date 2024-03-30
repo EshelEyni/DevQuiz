@@ -74,6 +74,7 @@ export const QuestionSearchBar = () => {
       searchTerm,
       isMarkedToBeRevised: marked.value,
       isRevised: approved.value,
+      isManagePage: true,
     } as questionReqProps;
 
     if (level && level !== "all") options.level = level;

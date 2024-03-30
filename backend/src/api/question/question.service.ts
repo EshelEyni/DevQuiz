@@ -17,13 +17,15 @@ const COLLECTION_NAME = "Questions";
 async function query(queryString: QueryString): Promise<Question[]> {
   const store = asyncLocalStorage.getStore() as alStoreType;
   const loggedinUserId = store?.loggedinUserId;
-  const { language, level, searchTerm, isMarkedToBeRevised, limit, page, isRevised } = queryString;
+  const { language, level, searchTerm, isMarkedToBeRevised, limit, page, isRevised, isManagePage } =
+    queryString;
   const isMarkedToBeRevisedBoolean = convertQueryParamsToBoolean(isMarkedToBeRevised);
   const isRevisedBoolean = convertQueryParamsToBoolean(isRevised);
   const session = ravenStore.openSession();
   const query = session.query<Question>({ collection: COLLECTION_NAME });
 
-  query.randomOrdering().whereEquals("isArchived", false);
+  query.whereEquals("isArchived", false);
+  if (!isManagePage) query.randomOrdering();
   if (isMarkedToBeRevisedBoolean !== undefined)
     query.whereEquals("isMarkedToBeRevised", isMarkedToBeRevisedBoolean);
   if (isRevisedBoolean !== undefined) query.whereEquals("isRevised", isRevisedBoolean);

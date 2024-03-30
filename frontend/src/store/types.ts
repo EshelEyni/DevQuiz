@@ -12,5 +12,6 @@ export type questionReqProps = {
   isMarkedToBeRevised?: boolean;
   isRevised?: boolean;
   secondsPerQuestion?: number;
+  isManagePage?: boolean;
 };
 export type AppStatus = "loading" | "ready" | "error" | "active" | "finished";

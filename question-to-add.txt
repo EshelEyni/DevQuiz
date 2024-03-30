@@ -42,15 +42,8 @@ MongoDB:
 
 HTML and CSS:
 1. put question on all html tags
-2
+2. iframe
 3. difference between positions: static, absolute....
 4. the flex property. understand basis, grow and shrink well
-5. 
+5. difference between display none to vizibilty hidden
 
-
-
-git 
-1. add technology
-2. workflows.
-3. commands
-4. 

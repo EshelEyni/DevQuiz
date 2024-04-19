@@ -88,4 +88,4 @@ dist
 /backend/.env
 
 # text files
-.question-to-add
+question-to-add.txt

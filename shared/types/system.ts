@@ -31,9 +31,9 @@ export type ProgrammingLanguage =
   | "NodeJS"
   | "SQL"
   | "MongoDB"
-  | "Git"
-  | "Docker"
-  | "Python";
+  | "Git";
+// | "Docker"
+// | "Python";
 
 export type LanguageInfo = {
   name: ProgrammingLanguage;

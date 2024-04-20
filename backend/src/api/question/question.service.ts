@@ -35,7 +35,7 @@ async function query(queryString: QueryString): Promise<Question[]> {
   const skip = Number(page) * Number(limit);
   if (skip) query.skip(skip);
 
-  if (loggedinUserId) {
+  if (loggedinUserId && !isManagePage) {
     const userCorrectAnswersIds = await session
       .query<UserCorrectAnswer>({
         collection: "UserCorrectAnswers",

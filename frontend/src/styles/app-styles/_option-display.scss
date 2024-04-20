@@ -3,11 +3,11 @@
     transform: translateX(1.2rem);
   }
   &.correct {
-    background-color: var(--color-theme);
-    color: var(--color-light);
+    background-color: #35cd35;
+    color: var(--color-darkest);
   }
   &.wrong {
-    background-color: var(--color-accent);
-    color: var(--color-darkest);
+    background-color: #d23333;
+    color: var(--color-light);
   }
 }

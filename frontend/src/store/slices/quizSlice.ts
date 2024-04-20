@@ -6,6 +6,7 @@ import { AppThunk, QueryState } from "../../types/app.types";
 import questionService from "../../services/question.service";
 import {
   QUERY_TIMEOUT,
+  changeThemeColors,
   defaultQueryState,
   getErrorMessage,
 } from "../../services/utils.service";
@@ -13,6 +14,7 @@ import {
   DifficultyLevels,
   ProgrammingLanguage,
 } from "../../../../shared/types/system";
+import { systemSettings } from "../../config";
 
 type QuizState = {
   status: AppStatus;
@@ -167,6 +169,12 @@ export function startNewQuiz({
       if (page) dispatch(setPage(page));
       if (secondsPerQuestion)
         dispatch(setSecondsPerQuestion(secondsPerQuestion));
+      const themeColors =
+        systemSettings.programmingLanguages[language as ProgrammingLanguage]
+          .themeColors;
+
+      changeThemeColors(themeColors);
+
       dispatch(setStatus("ready"));
     } catch (err) {
       const error = getErrorMessage(err);

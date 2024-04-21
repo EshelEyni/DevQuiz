@@ -1,12 +1,10 @@
-.option-display {
-  &:not([disabled]):hover {
-    transform: translateX(1.2rem);
-  }
-  &.correct {
+.quiz-summary {
+  .correct-answer {
     background-color: var(--color-success);
     color: var(--color-darkest);
   }
-  &.wrong {
+
+  .wrong-answer {
     background-color: var(--color-danger);
     color: var(--color-light);
   }

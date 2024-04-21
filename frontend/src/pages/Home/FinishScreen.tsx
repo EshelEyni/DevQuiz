@@ -6,6 +6,7 @@ import { resetQuizState, startNewQuiz } from "../../store/slices/quizSlice";
 import { AppDispatch } from "../../types/app.types";
 import { Button } from "../../components/Btns/Button";
 import classnames from "classnames";
+import { QuizSummary } from "./QuizSummary";
 
 type typeOfButton = "newQuiz" | "restart" | "none";
 
@@ -112,6 +113,7 @@ export const FinishScreen = () => {
           Restart
         </Button>
       </div>
+      <QuizSummary />
     </section>
   );
 };

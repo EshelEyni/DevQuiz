@@ -23,6 +23,7 @@ type QuizState = {
   page: number;
   level: DifficultyLevels;
   questions: Question[];
+  answers: number[];
   quizQueryState: QueryState;
   numQuestions: number;
   questionIdx: number;
@@ -40,6 +41,7 @@ const initialState: QuizState = {
   level: "beginner",
   page: 1,
   questions: [],
+  answers: [],
   quizQueryState: defaultQueryState,
   numQuestions: 25,
   questionIdx: 0,
@@ -96,6 +98,7 @@ const quizSlice = createSlice({
       state.answerIdx = null;
     },
     setAnswerIdx(state, action: PayloadAction<number | null>) {
+      state.answers[state.questionIdx] = action.payload ?? -1;
       state.answerIdx = action.payload;
     },
     setPoints(state, action: PayloadAction<number>) {

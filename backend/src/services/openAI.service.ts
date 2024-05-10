@@ -42,7 +42,7 @@ async function queryOpenAI({
       }`;
   const prevQuestions = await getPrevQuestionStr({ language });
   const promptWithQuestions = `
-      generate ${numberOfQuestions} questions for ${prompt}.
+      generate ${numberOfQuestions} questions for ${prompt} in ${language}.
       the level of the questions should be ${level} level.
       built in this format: ${format}.
       always output a json array.

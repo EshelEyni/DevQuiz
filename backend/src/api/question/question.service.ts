@@ -49,7 +49,7 @@ async function query(queryString: QueryString): Promise<Question[]> {
     );
     query.not().whereIn("id()", docIdsToFilter);
   }
-  if (searchTerm) query.search("question", searchTerm);
+  if (searchTerm) query.search("question", `"${searchTerm}"`);
 
   const questions = await query.all();
   for (const question of questions) question.id = trimCollectionNameFromId(question.id);

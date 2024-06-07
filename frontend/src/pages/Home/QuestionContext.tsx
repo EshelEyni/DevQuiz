@@ -15,7 +15,7 @@ import {
 import { updateQuestion } from "../../store/slices/questionSlice";
 import { useAuth } from "../../hooks/useAuth";
 import { Question } from "../../../../shared/types/question";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import userService from "../../services/user.service";
 
 type QuestionContextType = {
@@ -34,6 +34,7 @@ const QuestionContext = createContext<QuestionContextType | undefined>(
 
 function QuestionProvider({ children }: { children: React.ReactNode }) {
   const dispatch: AppDispatch = useDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
   const { loggedInUser } = useAuth();
 
@@ -48,6 +49,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   } = useQuiz();
 
   const [focusedBtn, setFocusedBtn] = useState("");
+  const isEditPageOpen = location.pathname.includes("question-edit");
 
   const question: Question = questions[questionIdx];
   const isAdmin = loggedInUser?.roles.includes("admin");
@@ -60,7 +62,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   useKey("ArrowUp", handleArrowUp, {}, [answerIdx, focusedBtn]);
   useKey("ArrowDown", handleArrowDown, {}, [answerIdx, focusedBtn]);
 
-  useKey("e", handleBtnEditClick, {}, [question.id, isAdmin]);
+  useKey("e", handleBtnEditClick, {}, [question.id, isAdmin, isEditPageOpen]);
   useKey("a", handleBtnApproveClick, {}, [isAdmin, question.isRevised]);
   useKey("m", handleBtnMarkToEditClick, {}, [
     isAdmin,
@@ -142,7 +144,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   }
 
   function handleBtnEditClick() {
-    if (!isAdmin) return;
+    if (!isAdmin || isEditPageOpen) return;
     dispatch(setIsTimerOn(false));
     navigate(`question-edit/${question.id}`);
   }

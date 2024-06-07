@@ -1,0 +1,5 @@
+import{a9 as u,j as l}from"./index-e1173b8c.js";var f={exports:{}};/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/(function(e){(function(){var o={}.hasOwnProperty;function s(){for(var n=[],r=0;r<arguments.length;r++){var t=arguments[r];if(t){var a=typeof t;if(a==="string"||a==="number")n.push(t);else if(Array.isArray(t)){if(t.length){var c=s.apply(null,t);c&&n.push(c)}}else if(a==="object"){if(t.toString!==Object.prototype.toString&&!t.toString.toString().includes("[native code]")){n.push(t.toString());continue}for(var i in t)o.call(t,i)&&t[i]&&n.push(i)}}}return n.join(" ")}e.exports?(s.default=s,e.exports=s):window.classNames=s})()})(f);var p=f.exports;const m=u(p),h=({onClickFn:e,darkMode:o=!1})=>l("div",{className:m("fixed left-0 top-0 z-[100] h-screen w-screen cursor-pointer",{"bg-gray-700 bg-opacity-80":o},{"bg-transparent":!o}),onClick:e}),x=({children:e,className:o,onClickFn:s,type:n="button",disabled:r=!1})=>l("button",{onClick:s,className:o,type:n,disabled:r,children:e});export{x as B,h as M,m as c};

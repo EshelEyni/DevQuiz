@@ -31,9 +31,9 @@ export type ProgrammingLanguage =
   | "NodeJS"
   | "SQL"
   | "MongoDB"
-  | "Git";
-// | "Docker"
-// | "Python";
+  | "Git"
+  | "Docker"
+  | "Python";
 
 export type LanguageInfo = {
   name: ProgrammingLanguage;
@@ -41,7 +41,7 @@ export type LanguageInfo = {
   themeColors: ThemeColors;
 };
 
-export type systemSettings = {
+export type SystemSettings = {
   programmingLanguages: Record<ProgrammingLanguage, LanguageInfo>;
   difficultyLevels: DifficultyLevels[] | [];
 };

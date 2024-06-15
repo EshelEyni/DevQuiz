@@ -27,7 +27,7 @@ const defaultValues: UserCredentials = {
 
 if (process.env.NODE_ENV === "development") {
   defaultValues.username = "TESTPASS22";
-  defaultValues.password = "TESTPASS22";
+  defaultValues.password = "123";
 }
 
 const AuthPage = () => {

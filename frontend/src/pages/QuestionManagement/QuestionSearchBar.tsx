@@ -41,7 +41,7 @@ export const QuestionSearchBar = () => {
     { name: "All", value: undefined },
   ];
 
-  useKey("Enter", onSearch, {}, [filterBy]);
+  useKey("Enter", onSearch, {}, [filterBy, loggedInUser]);
 
   function handleChangeLangSelect(language: ProgrammingLanguage) {
     dispatch(setFilterBy({ ...filterBy, language }));
@@ -79,10 +79,8 @@ export const QuestionSearchBar = () => {
 
     if (level && level !== "all") options.level = level;
     dispatch(getQuestions(options));
-    if (loggedInUser)
-      dispatch(
-        updateLoggedInUser({ ...loggedInUser, searchSettings: filterBy }),
-      );
+    if (!loggedInUser) return;
+    dispatch(updateLoggedInUser({ ...loggedInUser, searchSettings: filterBy }));
   }
 
   function handleBtnGetDuplicatesClick() {

@@ -18,6 +18,10 @@ import { Button } from "../../components/Btns/Button";
 import { useKey } from "react-use";
 import { useQuestion } from "../../hooks/useQuestion";
 import { FilterBy } from "../QuestionManagement/QuestionManagementPage";
+import {
+  DifficultyLevels,
+  ProgrammingLanguage,
+} from "../../../../shared/types/system";
 
 type QuestionEditParams = {
   isNested?: boolean;
@@ -63,12 +67,12 @@ const QuestionEdit: FC<QuestionEditParams> = ({
     setQuestion({ ...question, [name]: value });
   }
 
-  function handleChangeLangSelect(language: string) {
+  function handleChangeLangSelect(language: ProgrammingLanguage) {
     if (!question) return;
     setQuestion({ ...question, language });
   }
 
-  function handleChangeDifficultySelect(level: string) {
+  function handleChangeDifficultySelect(level: DifficultyLevels) {
     if (!question) return;
     setQuestion({ ...question, level });
   }
@@ -106,13 +110,15 @@ const QuestionEdit: FC<QuestionEditParams> = ({
     }
 
     function getDefaultQuestion(): Question {
+      const level = filterBy.level === "all" ? "beginner" : filterBy.level;
+
       return {
         id: "",
         question: "",
         options: ["", "", "", ""],
         correctOption: 0,
         language: filterBy.language,
-        level: filterBy.level,
+        level,
         points: 10,
         isArchived: false,
         isMarkedToBeRevised: false,

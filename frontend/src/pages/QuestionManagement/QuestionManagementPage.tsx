@@ -55,9 +55,12 @@ const QuestionManagementPage = () => {
       isRevised: searchFilterBy.approved.value,
       isManagePage: true,
     } as questionReqProps;
+
     if (searchFilterBy.level && searchFilterBy.level !== "all")
       options.level = searchFilterBy.level;
+
     dispatch(getQuestions(options));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, filterBy, loggedInUser]);
 

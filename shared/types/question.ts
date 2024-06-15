@@ -5,8 +5,8 @@ export interface Question {
   question: string;
   options: string[];
   correctOption: number;
-  language: string;
-  level: string;
+  language: ProgrammingLanguage;
+  level: DifficultyLevels;
   points: number;
   isArchived: boolean;
   isMarkedToBeRevised: boolean;

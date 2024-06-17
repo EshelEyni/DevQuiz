@@ -29,9 +29,11 @@ async function query(queryString: QueryString): Promise<Question[]> {
 
   if (isMarkedToBeRevisedBoolean !== undefined)
     query.whereEquals("isMarkedToBeRevised", isMarkedToBeRevisedBoolean);
-  else query.whereEquals("isMarkedToBeRevised", true);
 
-  if (isRevisedBoolean !== undefined) query.whereEquals("isRevised", isRevisedBoolean);
+  if (isManagePage && isRevisedBoolean !== undefined)
+    query.whereEquals("isRevised", isRevisedBoolean);
+  else query.whereEquals("isRevised", true);
+
   if (language) query.whereEquals("language", language);
   if (level) query.whereEquals("level", level);
   if (limit) query.take(Number(limit));

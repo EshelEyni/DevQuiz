@@ -32,7 +32,8 @@ async function query(queryString: QueryString): Promise<Question[]> {
 
   if (isManagePage && isRevisedBoolean !== undefined)
     query.whereEquals("isRevised", isRevisedBoolean);
-  else query.whereEquals("isRevised", true);
+
+  if (!isManagePage) query.whereEquals("isRevised", true);
 
   if (language) query.whereEquals("language", language);
   if (level) query.whereEquals("level", level);

@@ -55,6 +55,12 @@ const jobApplicationSlice = createSlice({
     setUpdateApplicationState(state, action: PayloadAction<QueryState>) {
       state.updateApplicationState = action.payload;
     },
+    removeApplicationFromState(state, action: PayloadAction<string>) {
+      state.applications = state.applications.filter(
+        application => application.id !== action.payload,
+      );
+      state.application = null;
+    },
     setArchiveApplicationState(state, action: PayloadAction<QueryState>) {
       state.archiveApplicationState = action.payload;
     },
@@ -68,6 +74,7 @@ export const {
   setGetApplicationState,
   setAddApplicationState,
   setUpdateApplicationState,
+  removeApplicationFromState,
   setArchiveApplicationState,
 } = jobApplicationSlice.actions;
 
@@ -181,7 +188,7 @@ export const archiveApplication =
 
     try {
       const archivedApplication = await applicationService.archive(application);
-      dispatch(setApplication(archivedApplication));
+      dispatch(removeApplicationFromState(archivedApplication.id));
       dispatch(setArchiveApplicationState({ state: "succeeded", error: null }));
     } catch (error) {
       console.error(error);

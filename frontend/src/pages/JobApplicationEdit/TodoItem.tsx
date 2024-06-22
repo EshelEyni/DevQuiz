@@ -11,6 +11,8 @@ import {
 } from "../../store/slices/jobApplicationSlice";
 import { CheckBox } from "../../components/App/CheckBox";
 import classnames from "classnames";
+import { Modal } from "../../components/App/Modal";
+import { BiArchiveIn } from "react-icons/bi";
 
 type TodoItemProps = {
   todoItem: TodoItemType;
@@ -50,6 +52,16 @@ export const TodoItem: FC<TodoItemProps> = ({ todoItem }) => {
     dispatch(updateApplication(newApplication));
   }
 
+  function handleBtnRemoveClick() {
+    if (!application) return;
+    const newApplication = {
+      ...application,
+      todoList: application.todoList.filter(todo => todo.id !== todoItem.id),
+    };
+
+    dispatch(updateApplication(newApplication));
+  }
+
   function handleSave() {
     if (!application) return;
     dispatch(updateApplication(application));
@@ -67,10 +79,40 @@ export const TodoItem: FC<TodoItemProps> = ({ todoItem }) => {
             >
               {todoItem.text || "Todo Item"}
             </div>
-            <CheckBox
-              handleClick={handleCheckBoxClick}
-              isChecked={todoItem.completed}
-            />
+            <div className="flex items-center gap-1">
+              <CheckBox
+                handleClick={handleCheckBoxClick}
+                isChecked={todoItem.completed}
+              />
+              <Modal>
+                <Modal.OpenBtn modalName="archiveModal">
+                  <button>
+                    <BiArchiveIn className="text-3xl md:text-4xl" />
+                  </button>
+                </Modal.OpenBtn>
+
+                <Modal.Window
+                  name="archiveModal"
+                  className="fixed left-1/2 top-1/2 z-[1500] flex max-w-[320px] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-lg bg-gray-600 p-8 text-gray-100 shadow-xl"
+                >
+                  <h3 className="text-3xl font-semibold text-gray-200 md:text-3xl">
+                    Are you sure you want to remove this item?
+                  </h3>
+
+                  <div className="mt-2 flex items-center gap-4">
+                    <Modal.CloseBtn className="rounded-full bg-gray-600 px-5 py-3 text-lg font-medium uppercase text-gray-200 transition-all hover:scale-105">
+                      <button>Cancel</button>
+                    </Modal.CloseBtn>
+                    <Modal.CloseBtn
+                      className="rounded-full bg-gray-600 px-5 py-3 text-lg font-medium uppercase text-gray-200 transition-all hover:scale-105"
+                      onClickFn={handleBtnRemoveClick}
+                    >
+                      <button>remove</button>
+                    </Modal.CloseBtn>
+                  </div>
+                </Modal.Window>
+              </Modal>
+            </div>
           </div>
         </JobApplicationField.DisplayElement>
         <div className="flex items-center gap-4">

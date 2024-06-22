@@ -43,7 +43,7 @@ const jobApplicationSlice = createSlice({
     setGetApplicationsState(state, action: PayloadAction<QueryState>) {
       state.getApplicationsState = action.payload;
     },
-    setApplication(state, action: PayloadAction<JobApplication>) {
+    setApplication(state, action: PayloadAction<JobApplication | null>) {
       state.application = action.payload;
     },
     setGetApplicationState(state, action: PayloadAction<QueryState>) {
@@ -216,8 +216,8 @@ function getDefaultJobApplication(userId: string): JobApplication {
     company: "",
     position: "",
     todoList: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: new Date().toString(),
+    updatedAt: new Date().toString(),
     isArchived: false,
   };
 }

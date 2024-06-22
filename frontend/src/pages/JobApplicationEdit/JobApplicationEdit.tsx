@@ -49,11 +49,14 @@ const JobApplicationEdit = () => {
 
   useEffect(() => {
     const { id } = params;
-    if (id) dispatch(getApplication(id));
+    dispatch(getApplication(id || ""));
+
+    return () => {
+      dispatch(setApplication(null));
+    };
   }, [params, dispatch]);
 
   if (getApplicationState.state === "loading") return <Loader />;
-  if (!application) return null;
   return (
     <>
       <MainScreen onClickFn={onGoBack} darkMode={true} />
@@ -76,7 +79,7 @@ const JobApplicationEdit = () => {
         </div>
         <JobApplicationField>
           <JobApplicationField.DisplayElement className="text-3xl text-white">
-            <div>{application.company || "Company"}</div>
+            <div>{application?.company || "Company"}</div>
           </JobApplicationField.DisplayElement>
           <div className="flex items-center gap-4">
             <JobApplicationField.EditElement
@@ -85,7 +88,7 @@ const JobApplicationEdit = () => {
             >
               <input
                 type="text"
-                defaultValue={application.company}
+                defaultValue={application?.company}
                 name="company"
                 placeholder="Company"
               />
@@ -102,7 +105,7 @@ const JobApplicationEdit = () => {
         </JobApplicationField>
         <JobApplicationField>
           <JobApplicationField.DisplayElement className="text-3xl text-white">
-            <div>{application.position || "Position"}</div>
+            <div>{application?.position || "Position"}</div>
           </JobApplicationField.DisplayElement>
           <div className="flex items-center gap-4">
             <JobApplicationField.EditElement
@@ -111,7 +114,7 @@ const JobApplicationEdit = () => {
             >
               <input
                 type="text"
-                defaultValue={application.position}
+                defaultValue={application?.position}
                 name="position"
                 placeholder="Position"
               />
@@ -128,7 +131,7 @@ const JobApplicationEdit = () => {
         </JobApplicationField>
         <JobApplicationField>
           <JobApplicationField.DisplayElement className="text-3xl text-white">
-            <div>{application.status || "Status"}</div>
+            <div>{application?.status || "Status"}</div>
           </JobApplicationField.DisplayElement>
           <div className="flex items-center gap-4">
             <JobApplicationField.EditElement
@@ -137,7 +140,7 @@ const JobApplicationEdit = () => {
             >
               <input
                 type="text"
-                defaultValue={application.status}
+                defaultValue={application?.status}
                 name="status"
                 placeholder="Status"
               />
@@ -155,8 +158,8 @@ const JobApplicationEdit = () => {
         <JobApplicationField>
           <div className="flex flex-wrap items-center gap-4">
             <JobApplicationField.DisplayElement className="text-3xl text-blue-400 hover:underline">
-              <a href={application.url} target="_blank" rel="noreferrer">
-                {application.url || "Link"}
+              <a href={application?.url} target="_blank" rel="noreferrer">
+                {application?.url || "Link"}
               </a>
             </JobApplicationField.DisplayElement>
             <JobApplicationField.EditButton className="cursor-pointer text-4xl">
@@ -172,7 +175,7 @@ const JobApplicationEdit = () => {
             >
               <input
                 type="text"
-                defaultValue={application.url}
+                defaultValue={application?.url}
                 name="url"
                 placeholder="Link"
               />
@@ -189,14 +192,14 @@ const JobApplicationEdit = () => {
         </JobApplicationField>
         <JobApplicationField>
           <JobApplicationField.DisplayElement className="text-3xl text-white">
-            <p>{application.notes || "notes"}</p>
+            <p>{application?.notes || "notes"}</p>
           </JobApplicationField.DisplayElement>
           <div className="flex items-center gap-4">
             <JobApplicationField.EditElement
               onChange={handleChange}
               className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
             >
-              <textarea defaultValue={application.notes} name="notes" />
+              <textarea defaultValue={application?.notes} name="notes" />
             </JobApplicationField.EditElement>
             <JobApplicationField.SaveButton
               onSubmit={handleSave}

@@ -11,6 +11,7 @@ import {
 import { ThunkDispatch } from "redux-thunk";
 import toast from "react-hot-toast";
 import { setFilterBy } from "./questionSlice";
+import { startNewQuiz } from "./quizSlice";
 
 type AuthState = {
   loggedInUser: UserOrNull;
@@ -70,7 +71,7 @@ export function login(username: string, password: string): AppThunk {
       const user = await authService.login(username, password);
       dispatch(setLoggedInUser(user));
 
-      setSearchSettingByUser({ user, dispatch });
+      setSearchSettingAndQuizByUser({ user, dispatch });
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } catch (err) {
       const error = getErrorMessage(err);
@@ -84,13 +85,17 @@ export function login(username: string, password: string): AppThunk {
 }
 
 export function loginWithToken(): AppThunk {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    if (state.auth.loggedInUser !== null) return;
+
     try {
       dispatch(setQueryState({ state: "loading", error: null }));
       const user = await authService.loginWithToken();
-      dispatch(setLoggedInUser(user));
-
-      if (user) setSearchSettingByUser({ user, dispatch });
+      if (user) {
+        dispatch(setLoggedInUser(user));
+        setSearchSettingAndQuizByUser({ user, dispatch });
+      }
 
       dispatch(setQueryState({ state: "succeeded", error: null }));
     } finally {
@@ -170,6 +175,18 @@ export function updateLoggedInUser(user: User): AppThunk {
   };
 }
 
+function setSearchSettingAndQuizByUser({
+  user,
+  dispatch,
+}: {
+  user: User;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dispatch: ThunkDispatch<unknown, unknown, any>;
+}): void {
+  setSearchSettingByUser({ user, dispatch });
+  setQuizByUser({ user, dispatch });
+}
+
 function setSearchSettingByUser({
   user,
   dispatch,
@@ -180,4 +197,26 @@ function setSearchSettingByUser({
 }): void {
   if (!user.searchSettings) return;
   dispatch(setFilterBy(user.searchSettings));
+}
+
+function setQuizByUser({
+  user,
+  dispatch,
+}: {
+  user: User;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dispatch: ThunkDispatch<unknown, unknown, any>;
+}): void {
+  if (!user.quizSettings) return;
+
+  const { language, level, numQuestions, secondsPerQuestion } =
+    user.quizSettings;
+  dispatch(
+    startNewQuiz({
+      language,
+      level,
+      limit: numQuestions,
+      secondsPerQuestion,
+    }),
+  );
 }

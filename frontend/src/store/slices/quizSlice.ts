@@ -142,7 +142,7 @@ export default quizSlice.reducer;
 export function startNewQuiz({
   language,
   level,
-  page,
+  page = 1,
   limit = 25,
   secondsPerQuestion = 30,
 }: questionReqProps): AppThunk {
@@ -166,7 +166,7 @@ export function startNewQuiz({
       const questions = await questionService.query(options);
       dispatch(setQuizQuestions(questions));
       dispatch(setQuizQueryState({ state: "succeeded", error: null }));
-      dispatch(setNumQuestions(questions.length));
+      dispatch(setNumQuestions(limit));
       dispatch(setLanguage(language));
       if (level) dispatch(setLevel(level));
       if (page) dispatch(setPage(page));

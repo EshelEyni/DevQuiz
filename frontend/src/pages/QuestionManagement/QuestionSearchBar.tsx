@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import {
   getDuplicatedQuestions,
-  getQuestions,
   setFilterBy,
 } from "../../store/slices/questionSlice";
 import { useKey } from "react-use";
@@ -15,7 +14,7 @@ import {
 } from "../../../../shared/types/system";
 import { Button } from "../../components/Btns/Button";
 import { TfiFiles } from "react-icons/tfi";
-import { questionReqProps } from "../../store/types";
+
 import { useQuestion } from "../../hooks/useQuestion";
 import { updateLoggedInUser } from "../../store/slices/authSlice";
 import { useAuth } from "../../hooks/useAuth";
@@ -67,18 +66,6 @@ export const QuestionSearchBar = () => {
   }
 
   function onSearch() {
-    const options = {
-      language,
-      page: 1,
-      limit: 0,
-      searchTerm,
-      isMarkedToBeRevised: marked.value,
-      isRevised: approved.value,
-      isManagePage: true,
-    } as questionReqProps;
-
-    if (level && level !== "all") options.level = level;
-    dispatch(getQuestions(options));
     if (!loggedInUser) return;
     dispatch(updateLoggedInUser({ ...loggedInUser, searchSettings: filterBy }));
   }

@@ -97,11 +97,18 @@ export const getApplications = (): AppThunk => async dispatch => {
 
 export const getApplication =
   (id: string): AppThunk =>
-  async dispatch => {
+  async (dispatch, getState) => {
     dispatch(setGetApplicationState({ state: "loading", error: null }));
 
     try {
-      const application = await applicationService.getById(id);
+      let application: JobApplication;
+      if (id) application = await applicationService.getById(id);
+      else {
+        const { loggedInUser } = getState().auth;
+        if (!loggedInUser) throw new Error("User not logged in");
+        application = getDefaultJobApplication(loggedInUser.id);
+      }
+
       dispatch(setApplication(application));
       dispatch(setGetApplicationState({ state: "succeeded", error: null }));
     } catch (error) {
@@ -190,3 +197,20 @@ export const archiveApplication =
       }, QUERY_TIMEOUT);
     }
   };
+
+function getDefaultJobApplication(userId: string): JobApplication {
+  return {
+    id: "",
+    userId,
+    status: "new",
+    url: "",
+    notes: "",
+    contacts: [],
+    company: "",
+    position: "",
+    todoList: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    isArchived: false,
+  };
+}

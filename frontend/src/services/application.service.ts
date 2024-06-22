@@ -36,10 +36,7 @@ async function add(application: JobApplication) {
 
 async function update(application: JobApplication) {
   try {
-    const response = await httpService.put(
-      `${baseUrl}/${application.id}`,
-      application,
-    );
+    const response = await httpService.put(`${baseUrl}`, application);
     return handleServerResponse<JobApplication>(response);
   } catch (error) {
     console.error(error);

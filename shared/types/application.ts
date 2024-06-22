@@ -1,12 +1,12 @@
 export interface JobApplication {
   id: string;
   userId: string;
-  status: "draft" | "submitted" | "approved" | "rejected";
-  url: string;
-  notes: string;
-  contacts: string[];
   company: string;
   position: string;
+  status: string;
+  url: string;
+  notes: string;
+  contacts: Contact[];
   todoList: TodoItem[];
   createdAt: Date;
   updatedAt: Date;
@@ -18,3 +18,9 @@ export type TodoItem = {
   text: string;
   completed: boolean;
 };
+
+export type Contact = {
+  name: string;
+  url: string;
+  email: string;
+}

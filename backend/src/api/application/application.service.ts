@@ -46,6 +46,7 @@ async function update(application: JobApplication): Promise<JobApplication> {
   const id = setIdToCollectionName(COLLECTION_NAME, application.id);
   const doc = await session.load<JobApplication>(id);
   if (doc == null) throw new AppError("JobApplication not found", 404);
+  doc.updatedAt = new Date();
   Object.assign(doc, application);
   await session.saveChanges();
   const updatedJobApplication = {

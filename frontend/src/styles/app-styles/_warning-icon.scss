@@ -1,0 +1,16 @@
+@keyframes pulse-grow {
+  0%,
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+  50% {
+    transform: scale(1.1);
+    color: #ffcc00;
+  }
+}
+
+.warning-icon {
+  display: inline-block;
+  animation: pulse-grow 1s infinite ease-in-out;
+}

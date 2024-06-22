@@ -13,6 +13,7 @@ import setupAsyncLocalStorage from "./middlewares/setupAls.middleware";
 import userRoutes from "./api/user/user.routes";
 import authRoutes from "./api/auth/auth.routes";
 import questionRoutes from "./api/question/question.routes";
+import applicationRoutes from "./api/application/application.routes";
 import { requestLimiter } from "./services/rate-limiter.service";
 
 const isProdEnv = process.env.NODE_ENV === "production";
@@ -62,6 +63,7 @@ if (!isProdEnv) {
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/question", questionRoutes);
+app.use("/api/application", applicationRoutes);
 
 app.get("/**", (req: Request, res: Response) => {
   res.sendFile(path.join(path.resolve(), "build", "public", "index.html"));

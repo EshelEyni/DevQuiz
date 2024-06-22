@@ -26,7 +26,7 @@ export interface User extends BasicUser {
   searchSettings: SearchFilterBy;
 }
 
-export type UserRoles = "user" | "admin" | "editor";
+export type UserRoles = "user" | "admin" | "editor" | "applicant";
 
 export interface UserCorrectAnswer {
   userId: string;

@@ -46,7 +46,7 @@ async function update(application: JobApplication) {
 
 async function archive(application: JobApplication) {
   try {
-    const response = await httpService.delete(`${baseUrl}/${application.id}`);
+    const response = await httpService.put(`${baseUrl}/archive`, application);
     return handleServerResponse<JobApplication>(response);
   } catch (error) {
     console.error(error);

@@ -49,6 +49,9 @@ const jobApplicationSlice = createSlice({
     setGetApplicationState(state, action: PayloadAction<QueryState>) {
       state.getApplicationState = action.payload;
     },
+    addApplicationToState(state, action: PayloadAction<JobApplication>) {
+      state.applications.push(action.payload);
+    },
     setAddApplicationState(state, action: PayloadAction<QueryState>) {
       state.addApplicationState = action.payload;
     },
@@ -72,6 +75,7 @@ export const {
   setGetApplicationsState,
   setApplication,
   setGetApplicationState,
+  addApplicationToState,
   setAddApplicationState,
   setUpdateApplicationState,
   removeApplicationFromState,
@@ -104,17 +108,11 @@ export const getApplications = (): AppThunk => async dispatch => {
 
 export const getApplication =
   (id: string): AppThunk =>
-  async (dispatch, getState) => {
+  async dispatch => {
     dispatch(setGetApplicationState({ state: "loading", error: null }));
 
     try {
-      let application: JobApplication;
-      if (id) application = await applicationService.getById(id);
-      else {
-        const { loggedInUser } = getState().auth;
-        if (!loggedInUser) throw new Error("User not logged in");
-        application = getDefaultJobApplication(loggedInUser.id);
-      }
+      const application = await applicationService.getById(id);
 
       dispatch(setApplication(application));
       dispatch(setGetApplicationState({ state: "succeeded", error: null }));
@@ -133,29 +131,30 @@ export const getApplication =
     }
   };
 
-export const addApplication =
-  (application: JobApplication): AppThunk =>
-  async dispatch => {
-    dispatch(setAddApplicationState({ state: "loading", error: null }));
+export const addApplication = (): AppThunk => async (dispatch, getState) => {
+  dispatch(setAddApplicationState({ state: "loading", error: null }));
 
-    try {
-      const newApplication = await applicationService.add(application);
-      dispatch(setApplication(newApplication));
-      dispatch(setAddApplicationState({ state: "succeeded", error: null }));
-    } catch (error) {
-      console.error(error);
-      dispatch(
-        setAddApplicationState({
-          state: "failed",
-          error: getErrorMessage(error),
-        }),
-      );
-    } finally {
-      setTimeout(() => {
-        dispatch(setAddApplicationState({ state: "idle", error: null }));
-      }, QUERY_TIMEOUT);
-    }
-  };
+  try {
+    const { loggedInUser } = getState().auth;
+    if (!loggedInUser) throw new Error("User not logged in");
+    const application = getDefaultJobApplication(loggedInUser.id);
+    const newApplication = await applicationService.add(application);
+    dispatch(addApplicationToState(newApplication));
+    dispatch(setAddApplicationState({ state: "succeeded", error: null }));
+  } catch (error) {
+    console.error(error);
+    dispatch(
+      setAddApplicationState({
+        state: "failed",
+        error: getErrorMessage(error),
+      }),
+    );
+  } finally {
+    setTimeout(() => {
+      dispatch(setAddApplicationState({ state: "idle", error: null }));
+    }, QUERY_TIMEOUT);
+  }
+};
 
 export const updateApplication =
   (application: JobApplication): AppThunk =>
@@ -213,8 +212,8 @@ function getDefaultJobApplication(userId: string): JobApplication {
     url: "",
     notes: "",
     contacts: [],
-    company: "",
-    position: "",
+    company: "company",
+    position: "developer",
     todoList: [],
     createdAt: new Date().toString(),
     updatedAt: new Date().toString(),

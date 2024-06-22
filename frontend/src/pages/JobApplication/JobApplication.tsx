@@ -1,18 +1,20 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Button } from "../../components/Btns/Button";
 import { Main } from "../../components/Gen/Main";
 import { JobApplicationList } from "./JobApplicationList";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getApplications } from "../../store/slices/jobApplicationSlice";
+import {
+  addApplication,
+  getApplications,
+} from "../../store/slices/jobApplicationSlice";
 import { AppDispatch } from "../../types/app.types";
 
 const JobApplication = () => {
-  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
   function handleAddBtnClick() {
-    navigate("/job-applications/edit");
+    dispatch(addApplication());
   }
 
   useEffect(() => {

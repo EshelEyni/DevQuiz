@@ -49,7 +49,7 @@ const JobApplicationEdit = () => {
 
   useEffect(() => {
     const { id } = params;
-    dispatch(getApplication(id || ""));
+    if (id) dispatch(getApplication(id));
 
     return () => {
       dispatch(setApplication(null));

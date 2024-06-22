@@ -70,6 +70,7 @@ async function archive(application: JobApplication): Promise<JobApplication> {
   if (questionToArchive == null) throw new AppError("Application not found", 404);
   questionToArchive.isArchived = true;
   await session.saveChanges();
+  questionToArchive.id = trimCollectionNameFromId(questionToArchive.id);
   return questionToArchive;
 }
 

@@ -7,6 +7,7 @@ import { BsPatchQuestionFill } from "react-icons/bs";
 import { FaUserCircle, FaBookOpen } from "react-icons/fa";
 import { cloneElement } from "react";
 import { MdSettings } from "react-icons/md";
+import { FaBriefcase } from "react-icons/fa";
 
 type NavLinks = {
   name: string;
@@ -24,7 +25,8 @@ export const AppHeader = () => {
   const isQuestionEditLinkShown =
     loggedInUser &&
     loggedInUser?.roles.some(role => role === "admin" || role === "editor");
-
+  const isjobApplicationLinkShown =
+    loggedInUser && loggedInUser?.roles.some(role => role === "applicant");
   const isSettingShown = status === "ready" && isHomepage;
   const iconClass =
     "cursor-pointer md:text-5xl text-white transition duration-300 ease-in-out hover:text-sky-600 md:hidden text-7xl";
@@ -47,6 +49,12 @@ export const AppHeader = () => {
       icon: <BsPatchQuestionFill />,
       link: "/question-management",
       condition: !!isQuestionEditLinkShown,
+    },
+    {
+      name: "job applications",
+      icon: <FaBriefcase />,
+      link: "/job-applications",
+      condition: !!isjobApplicationLinkShown,
     },
   ];
 

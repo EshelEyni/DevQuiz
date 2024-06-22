@@ -1,4 +1,7 @@
 import { FC, LazyExoticComponent, lazy } from "react";
+const JobApplication = lazy(
+  () => import("./pages/JobApplication/JobApplication"),
+);
 const QuestionEdit = lazy(() => import("./pages/QuestionEdit/QuestionEdit"));
 const About = lazy(() => import("./pages/About/About"));
 const QuestionManagementPage = lazy(
@@ -49,6 +52,10 @@ const routes: Route[] = [
         component: QuestionEdit,
       },
     ],
+  },
+  {
+    path: "/job-applications",
+    component: JobApplication,
   },
   {
     path: "/about",

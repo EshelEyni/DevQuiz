@@ -20,7 +20,9 @@ type TodoItemProps = {
 
 export const TodoItem: FC<TodoItemProps> = ({ todoItem }) => {
   const { application } = useJobApplication();
-
+  const formattedDate = new Date(todoItem.createdAt).toLocaleDateString(
+    "he-IL",
+  );
   const dispatch: AppDispatch = useDispatch();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -70,16 +72,21 @@ export const TodoItem: FC<TodoItemProps> = ({ todoItem }) => {
   return (
     <div className="flex w-full flex-col gap-3 rounded-3xl border p-3">
       <JobApplicationField>
-        <JobApplicationField.DisplayElement className="flex items-center justify-between">
+        <JobApplicationField.DisplayElement className="items-center flex justify-between">
           <div>
             <div
-              className={classnames("text-3xl text-white", {
-                "line-through": todoItem.completed,
-              })}
+              className={classnames(
+                "flex -items-center gap-1 text-3xl text-white",
+                {
+                  "line-through": todoItem.completed,
+                },
+              )}
             >
-              {todoItem.text || "Todo Item"}
+              <span>{todoItem.text || "Todo Item"}</span>
+              <span>-</span>
+              <span>{formattedDate}</span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="items-center flex gap-1">
               <CheckBox
                 handleClick={handleCheckBoxClick}
                 isChecked={todoItem.completed}
@@ -93,13 +100,13 @@ export const TodoItem: FC<TodoItemProps> = ({ todoItem }) => {
 
                 <Modal.Window
                   name="archiveModal"
-                  className="fixed left-1/2 top-1/2 z-[1500] flex max-w-[320px] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center rounded-lg bg-gray-600 p-8 text-gray-100 shadow-xl"
+                  className="items-center fixed left-1/2 top-1/2 z-[1500] flex max-w-[320px] -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg bg-gray-600 p-8 text-gray-100 shadow-xl"
                 >
                   <h3 className="text-3xl font-semibold text-gray-200 md:text-3xl">
                     Are you sure you want to remove this item?
                   </h3>
 
-                  <div className="mt-2 flex items-center gap-4">
+                  <div className="items-center mt-2 flex gap-4">
                     <Modal.CloseBtn className="rounded-full bg-gray-600 px-5 py-3 text-lg font-medium uppercase text-gray-200 transition-all hover:scale-105">
                       <button>Cancel</button>
                     </Modal.CloseBtn>
@@ -115,7 +122,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todoItem }) => {
             </div>
           </div>
         </JobApplicationField.DisplayElement>
-        <div className="flex items-center gap-4">
+        <div className="items-center flex gap-4">
           <JobApplicationField.EditElement
             onChange={handleChange}
             className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
@@ -129,7 +136,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todoItem }) => {
           </JobApplicationField.EditElement>
           <JobApplicationField.SaveButton
             onSubmit={handleSave}
-            className="flex items-center justify-center justify-self-start  px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
+            className="items-center flex justify-center justify-self-start  px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
           >
             <div>
               <FaCheck />

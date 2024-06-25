@@ -32,6 +32,16 @@ function categorizeApplications(applications: JobApplication[]) {
     }
   });
 
+  result.thisWeek.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
+  result.lastWeek.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
+  result.earlier.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
+
   return result;
 }
 

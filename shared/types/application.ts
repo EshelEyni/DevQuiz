@@ -17,6 +17,7 @@ export interface JobApplication {
 export type TodoItem = {
   id: string;
   text: string;
+  createdAt: Date | string;
   completed: boolean;
 };
 

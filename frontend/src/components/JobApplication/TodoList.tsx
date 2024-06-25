@@ -26,6 +26,7 @@ export const TodoList: FC<TodoListProps> = ({ isEdit }) => {
     const defaultTodo: TodoItemType = {
       text: "Todo Item",
       completed: false,
+      createdAt: new Date(),
       id: makeId(),
     };
 

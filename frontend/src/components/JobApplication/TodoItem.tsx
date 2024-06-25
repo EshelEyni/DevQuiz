@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { TodoItem as TodoItemType } from "../../../../shared/types/application";
-import { JobApplicationField } from "./JobApplicationEditField";
+import { JobApplicationField } from "../../pages/JobApplicationDetails/JobApplicationField";
 import { FaCheck } from "react-icons/fa";
 import { useJobApplication } from "../../hooks/useJobApplication";
 import { useDispatch } from "react-redux";
@@ -9,9 +9,9 @@ import {
   setApplication,
   updateApplication,
 } from "../../store/slices/jobApplicationSlice";
-import { CheckBox } from "../../components/App/CheckBox";
+import { CheckBox } from "../App/CheckBox";
 import classnames from "classnames";
-import { Modal } from "../../components/App/Modal";
+import { Modal } from "../App/Modal";
 import { BiArchiveIn } from "react-icons/bi";
 
 type TodoItemProps = {

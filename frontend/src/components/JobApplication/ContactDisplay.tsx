@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Contact } from "../../../../shared/types/application";
-import { JobApplicationField } from "./JobApplicationEditField";
+import { JobApplicationField } from "../../pages/JobApplicationDetails/JobApplicationField";
 import { useDispatch } from "react-redux";
 import { useJobApplication } from "../../hooks/useJobApplication";
 import { AppDispatch } from "../../types/app.types";
@@ -10,7 +10,7 @@ import {
 } from "../../store/slices/jobApplicationSlice";
 import { FaCheck } from "react-icons/fa";
 import { BiArchiveIn, BiEdit } from "react-icons/bi";
-import { Modal } from "../../components/App/Modal";
+import { Modal } from "../App/Modal";
 
 type ContactDisplayProps = {
   contact: Contact;

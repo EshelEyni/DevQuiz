@@ -54,10 +54,29 @@ async function archive(application: JobApplication) {
   }
 }
 
+function getDefaultJobApplication(userId: string): JobApplication {
+  return {
+    id: "",
+    userId,
+    status: "new",
+    url: "",
+    notes: "",
+    imgs: [],
+    contacts: [],
+    company: "company",
+    position: "developer",
+    todoList: [],
+    createdAt: new Date().toString(),
+    updatedAt: new Date().toString(),
+    isArchived: false,
+  };
+}
+
 export const applicationService = {
   query,
   getById,
   add,
   update,
   archive,
+  getDefaultJobApplication,
 };

@@ -46,11 +46,18 @@ const jobApplicationSlice = createSlice({
     setApplication(state, action: PayloadAction<JobApplication | null>) {
       state.application = action.payload;
     },
+    setUpdateApplication(state, action: PayloadAction<JobApplication>) {
+      state.application = action.payload;
+      state.applications = state.applications.map(application =>
+        application.id === action.payload.id ? action.payload : application,
+      );
+    },
     setGetApplicationState(state, action: PayloadAction<QueryState>) {
       state.getApplicationState = action.payload;
     },
     addApplicationToState(state, action: PayloadAction<JobApplication>) {
-      state.applications.push(action.payload);
+      state.applications.unshift(action.payload);
+      state.application = action.payload;
     },
     setAddApplicationState(state, action: PayloadAction<QueryState>) {
       state.addApplicationState = action.payload;
@@ -74,6 +81,7 @@ export const {
   setApplications,
   setGetApplicationsState,
   setApplication,
+  setUpdateApplication,
   setGetApplicationState,
   addApplicationToState,
   setAddApplicationState,
@@ -85,7 +93,7 @@ export const {
 export default jobApplicationSlice.reducer;
 
 export const getApplications = (): AppThunk => async dispatch => {
-  dispatch(setAddApplicationState({ state: "loading", error: null }));
+  dispatch(setGetApplicationsState({ state: "loading", error: null }));
 
   try {
     const applications = await applicationService.query();
@@ -137,7 +145,9 @@ export const addApplication = (): AppThunk => async (dispatch, getState) => {
   try {
     const { loggedInUser } = getState().auth;
     if (!loggedInUser) throw new Error("User not logged in");
-    const application = getDefaultJobApplication(loggedInUser.id);
+    const application = applicationService.getDefaultJobApplication(
+      loggedInUser.id,
+    );
     const newApplication = await applicationService.add(application);
     dispatch(addApplicationToState(newApplication));
     dispatch(setAddApplicationState({ state: "succeeded", error: null }));
@@ -163,7 +173,7 @@ export const updateApplication =
 
     try {
       const updatedApplication = await applicationService.update(application);
-      dispatch(setApplication(updatedApplication));
+      dispatch(setUpdateApplication(updatedApplication));
       dispatch(setUpdateApplicationState({ state: "succeeded", error: null }));
     } catch (error) {
       console.error(error);
@@ -203,21 +213,3 @@ export const archiveApplication =
       }, QUERY_TIMEOUT);
     }
   };
-
-function getDefaultJobApplication(userId: string): JobApplication {
-  return {
-    id: "",
-    userId,
-    status: "new",
-    url: "",
-    notes: "",
-    imgs: [],
-    contacts: [],
-    company: "company",
-    position: "developer",
-    todoList: [],
-    createdAt: new Date().toString(),
-    updatedAt: new Date().toString(),
-    isArchived: false,
-  };
-}

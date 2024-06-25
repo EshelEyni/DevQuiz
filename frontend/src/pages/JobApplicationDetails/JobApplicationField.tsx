@@ -16,19 +16,19 @@ type DisplayElement = {
   className?: string;
 };
 
-type EditElement = {
+type EditElementProps = {
   children: React.ReactElement;
   onChange: AnyFunction;
   className?: string;
 };
 
-type SaveButton = {
+type SaveButtonProps = {
   children: React.ReactElement;
   onSubmit: AnyFunction;
   className?: string;
 };
 
-type EditButton = {
+type EditButtonProps = {
   children: React.ReactElement;
   className?: string;
 };
@@ -39,9 +39,9 @@ const JobApplicationFieldContext = createContext<
 
 export const JobApplicationField: FC<JobApplicationEditFieldProviderProps> & {
   DisplayElement: FC<DisplayElement>;
-  EditElement: FC<EditElement>;
-  SaveButton: FC<SaveButton>;
-  EditButton: FC<EditButton>;
+  EditElement: FC<EditElementProps>;
+  SaveButton: FC<SaveButtonProps>;
+  EditButton: FC<EditButtonProps>;
 } = ({ children }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -82,7 +82,7 @@ export const DisplayElement: FC<DisplayElement> = ({ children, className }) => {
   });
 };
 
-export const EditElement: FC<EditElement> = ({
+export const EditElement: FC<EditElementProps> = ({
   children,
   onChange,
   className,
@@ -97,7 +97,7 @@ export const EditElement: FC<EditElement> = ({
   });
 };
 
-export const SaveButton: FC<SaveButton> = ({
+export const SaveButton: FC<SaveButtonProps> = ({
   children,
   onSubmit,
   className,
@@ -117,7 +117,22 @@ export const SaveButton: FC<SaveButton> = ({
   });
 };
 
-export const EditButton: FC<EditButton> = ({ children, className }) => {
+export const EditButton: FC<EditButtonProps> = ({ children, className }) => {
+  const { isEditing, setIsEditing } = useContext(JobApplicationFieldContext)!;
+
+  function handleClick() {
+    setIsEditing(true);
+  }
+
+  if (isEditing) return null;
+
+  return cloneElement(children, {
+    onClick: handleClick,
+    className,
+  });
+};
+
+export const Title: FC<EditButtonProps> = ({ children, className }) => {
   const { isEditing, setIsEditing } = useContext(JobApplicationFieldContext)!;
 
   function handleClick() {

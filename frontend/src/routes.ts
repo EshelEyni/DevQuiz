@@ -2,6 +2,9 @@ import { FC, LazyExoticComponent, lazy } from "react";
 const JobApplicationEdit = lazy(
   () => import("./pages/JobApplicationEdit/JobApplicationEdit"),
 );
+const JobApplicationDetails = lazy(
+  () => import("./pages/JobApplicationDetails/JobApplicationDetails"),
+);
 const JobApplication = lazy(
   () => import("./pages/JobApplication/JobApplication"),
 );
@@ -63,6 +66,10 @@ const routes: Route[] = [
       {
         path: "edit/:id?",
         component: JobApplicationEdit,
+      },
+      {
+        path: ":id",
+        component: JobApplicationDetails,
       },
     ],
   },

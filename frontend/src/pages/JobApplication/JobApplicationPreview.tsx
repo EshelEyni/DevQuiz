@@ -28,7 +28,7 @@ export const JobApplicationPreview: FC<JobApplicationPreviewProps> = ({
   const navigate = useNavigate();
 
   function handleApplicationClick() {
-    navigate(`/job-applications/edit/${jobApplication.id}`);
+    navigate(`/job-applications/${jobApplication.id}`);
   }
 
   function handleBtnRemoveClick() {

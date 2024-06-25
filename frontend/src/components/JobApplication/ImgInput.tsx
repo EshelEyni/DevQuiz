@@ -3,14 +3,18 @@ import { uploadFileToCloudinary } from "../../services/cloudinaryService";
 import { useJobApplication } from "../../hooks/useJobApplication";
 import { AppDispatch } from "../../types/app.types";
 import { useDispatch } from "react-redux";
-import { updateApplication } from "../../store/slices/jobApplicationSlice";
+import {
+  setApplication,
+  updateApplication,
+} from "../../store/slices/jobApplicationSlice";
 import { FaImage } from "react-icons/fa";
 
 type ImgInputProps = {
+  isEdit?: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const ImgInput: FC<ImgInputProps> = ({ setIsLoading }) => {
+export const ImgInput: FC<ImgInputProps> = ({ setIsLoading, isEdit }) => {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const { application } = useJobApplication();
@@ -29,7 +33,8 @@ export const ImgInput: FC<ImgInputProps> = ({ setIsLoading }) => {
         imgs: [...application.imgs, url],
       };
 
-      dispatch(updateApplication(newApplication));
+      if (isEdit) dispatch(setApplication(newApplication));
+      else dispatch(updateApplication(newApplication));
       setIsLoading(false);
     } catch (err) {
       console.error(err);
@@ -38,7 +43,7 @@ export const ImgInput: FC<ImgInputProps> = ({ setIsLoading }) => {
 
   return (
     <button
-      className="cursor-pointer text-3xl"
+      className="cursor-pointer text-4xl"
       onClick={() => {
         if (fileRef.current) fileRef.current.click();
       }}

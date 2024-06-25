@@ -15,7 +15,10 @@ async function query(): Promise<JobApplication[]> {
   const session = ravenStore.openSession();
   const query = session.query<JobApplication>({ collection: COLLECTION_NAME });
 
-  query.whereEquals("isArchived", false).whereEquals("userId", loggedinUserId);
+  query
+    .whereEquals("isArchived", false)
+    .whereEquals("userId", loggedinUserId)
+    .orderByDescending("createdAt");
 
   const applications = await query.all();
   for (const a of applications) a.id = trimCollectionNameFromId(a.id);

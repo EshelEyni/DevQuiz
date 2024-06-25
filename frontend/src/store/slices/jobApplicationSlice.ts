@@ -211,6 +211,7 @@ function getDefaultJobApplication(userId: string): JobApplication {
     status: "new",
     url: "",
     notes: "",
+    imgs: [],
     contacts: [],
     company: "company",
     position: "developer",

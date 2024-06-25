@@ -8,6 +8,7 @@ export interface JobApplication {
   notes: string;
   contacts: Contact[];
   todoList: TodoItem[];
+  imgs: string[];
   createdAt: Date | string;
   updatedAt: Date | string;
   isArchived: boolean;

@@ -18,6 +18,7 @@ import { BiEdit } from "react-icons/bi";
 import { ContactList } from "./ContactList";
 import { TodoList } from "./TodoList";
 import { Button } from "../../components/Btns/Button";
+import { ImgList } from "./ImgList";
 
 const JobApplicationEdit = () => {
   const { application, getApplicationState } = useJobApplication();
@@ -212,6 +213,7 @@ const JobApplicationEdit = () => {
           </div>
         </JobApplicationField>
 
+        <ImgList />
         <ContactList />
 
         <TodoList />

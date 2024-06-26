@@ -26,6 +26,7 @@ app.use(
     useDefaults: true,
     directives: {
       "img-src": ["'self'", "https: data:"],
+      "connect-src": ["'self'", "https://api.cloudinary.com"],
     },
   })
 );

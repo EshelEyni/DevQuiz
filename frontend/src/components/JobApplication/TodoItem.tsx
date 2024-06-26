@@ -72,7 +72,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todoItem }) => {
   return (
     <div className="flex w-full flex-col gap-3 rounded-3xl border p-3">
       <JobApplicationField>
-        <JobApplicationField.DisplayElement className="items-center flex justify-between">
+        <JobApplicationField.DisplayElement className="flex items-center justify-between">
           <div>
             <div
               className={classnames(

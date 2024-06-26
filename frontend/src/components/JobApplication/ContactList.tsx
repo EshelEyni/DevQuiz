@@ -21,9 +21,9 @@ export const ContactList: FC<ContactListProps> = ({ isEdit }) => {
   function addContact() {
     if (!application) return;
     const defaultContact = {
-      name: "name",
-      url: "link",
-      email: "email",
+      name: "",
+      url: "",
+      email: "",
     };
 
     const newApplication = {

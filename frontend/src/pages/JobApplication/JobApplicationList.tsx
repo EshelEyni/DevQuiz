@@ -4,7 +4,7 @@ import { JobApplicationCategory } from "./JobApplicationCategory";
 export const JobApplicationList = () => {
   const { categorizedApplications } = useJobApplication();
   return (
-    <div className="mt-8 flex w-full max-w-[700px] flex-col gap-8 sm:px-4">
+    <div className="flex w-full max-w-[800px] flex-col gap-8">
       <JobApplicationCategory
         title="This Week"
         applications={categorizedApplications.thisWeek}

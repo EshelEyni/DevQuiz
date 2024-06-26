@@ -180,6 +180,17 @@ function getRandomBrightColor(i: number) {
 function getErrorMessage(error: any) {
   return error.response.data.message;
 }
+function readAsDataURL(file: File): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (reader.result && typeof reader.result === "string")
+        resolve(reader.result);
+      else reject(new Error("Failed to read file."));
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 export {
   QUERY_TIMEOUT,
@@ -197,4 +208,5 @@ export {
   caplitalizeFirstLetter,
   getRandomBrightColor,
   getErrorMessage,
+  readAsDataURL,
 };

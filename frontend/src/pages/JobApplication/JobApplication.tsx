@@ -14,6 +14,7 @@ import { useJobApplication } from "../../hooks/useJobApplication";
 import { Loader } from "../../components/Loaders/Loader/Loader";
 import { applicationService } from "../../services/application.service";
 import { useAuth } from "../../hooks/useAuth";
+import { SocialLinks } from "./SocialLinks";
 
 const JobApplication = () => {
   const { loggedInUser } = useAuth();
@@ -37,9 +38,10 @@ const JobApplication = () => {
   }, [dispatch]);
 
   return (
-    <Main className="flex w-full flex-1 flex-col items-center pb-24">
+    <Main className="flex w-full flex-1 flex-col items-center gap-5 pb-24 pt-5">
+      <SocialLinks />
       <Button
-        className="mt-4 flex h-20 items-center justify-center justify-self-start rounded-full bg-gray-600 px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
+        className="flex h-20 items-center justify-center justify-self-start rounded-full bg-gray-600 px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
         onClickFn={handleAddBtnClick}
       >
         {addApplicationState.state === "loading" ? (

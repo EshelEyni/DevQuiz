@@ -24,6 +24,9 @@ export interface User extends BasicUser {
     secondsPerQuestion: number;
   };
   searchSettings: SearchFilterBy;
+  linkedInProfile?: string;
+  githubProfile?: string;
+  portfolio?: string;
 }
 
 export type UserRoles = "user" | "admin" | "editor" | "applicant";

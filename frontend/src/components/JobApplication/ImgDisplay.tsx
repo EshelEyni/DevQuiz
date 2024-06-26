@@ -25,7 +25,7 @@ export const ImgDisplay: FC<ImgDisplayProps> = ({ src, isEdit }) => {
   const dispatch: AppDispatch = useDispatch();
 
   const className = `relative cursor-pointer ${
-    isOpened ? "fixed inset-0 z-50" : "w-1/4 h-1/4"
+    isOpened ? "fixed inset-0 z-50" : "w-1/4 h-96"
   }`;
 
   function handleBtnRemoveClick() {
@@ -47,7 +47,7 @@ export const ImgDisplay: FC<ImgDisplayProps> = ({ src, isEdit }) => {
           className="absolute right-1 top-1 z-50 cursor-pointer"
         >
           <button>
-            <BiArchiveIn className="text-3xl md:text-4xl" />
+            <BiArchiveIn className="text-3xl text-gray-900 md:text-4xl" />
           </button>
         </Modal.OpenBtn>
 

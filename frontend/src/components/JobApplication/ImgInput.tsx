@@ -8,6 +8,7 @@ import {
   updateApplication,
 } from "../../store/slices/jobApplicationSlice";
 import { FaImage } from "react-icons/fa";
+import { readAsDataURL } from "../../services/utils.service";
 
 type ImgInputProps = {
   isEdit?: boolean;
@@ -26,8 +27,15 @@ export const ImgInput: FC<ImgInputProps> = ({ setIsLoading, isEdit }) => {
     try {
       const file = e.target.files?.[0];
       if (!file) return;
+
       setIsLoading(true);
-      const url = await uploadFileToCloudinary(file, "image");
+
+      const url = isEdit
+        ? await readAsDataURL(file)
+        : await uploadFileToCloudinary(file, "image");
+
+      if (!url) return;
+
       const newApplication = {
         ...application,
         imgs: [...application.imgs, url],

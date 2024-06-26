@@ -28,6 +28,7 @@ const JobApplicationDetails = () => {
     "status",
   ];
 
+  const isLoading = getApplicationState.state === "loading";
   const params = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -62,7 +63,6 @@ const JobApplicationDetails = () => {
     };
   }, [params, dispatch]);
 
-  if (getApplicationState.state === "loading") return <Loader />;
   return (
     <>
       <MainScreen onClickFn={onGoBack} darkMode={true} />
@@ -74,110 +74,118 @@ const JobApplicationDetails = () => {
           },
         )}
       >
-        <div className="mb-5 flex w-full items-center justify-between">
-          <h1 className="text-3xl font-bold text-white">Job Application</h1>
-          <Button
-            onClickFn={onGoBack}
-            className="flex h-16 items-center justify-center gap-2 self-center rounded-full bg-gray-600 px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
-          >
-            <span>Go Back</span>
-          </Button>
-        </div>
-        {textFields.map(field => (
-          <JobApplicationField key={field}>
-            <h2 className="text-3xl font-bold capitalize text-white underline">
-              {field}:
-            </h2>
-            <JobApplicationField.DisplayElement className="text-3xl text-white">
-              <div>{(application?.[field] as string) || field}</div>
-            </JobApplicationField.DisplayElement>
-            <div className="flex items-center gap-4">
-              <JobApplicationField.EditElement
-                onChange={handleChange}
-                className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
+        {isLoading && <Loader />}
+
+        {!isLoading && application && (
+          <>
+            <div className="mb-5 flex w-full items-center justify-between">
+              <h1 className="text-3xl font-bold text-white">Job Application</h1>
+              <Button
+                onClickFn={onGoBack}
+                className="flex h-16 items-center justify-center gap-2 self-center rounded-full bg-gray-600 px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
               >
-                <input
-                  type="text"
-                  defaultValue={application?.[field] as string}
-                  name={field}
-                  placeholder={field}
-                />
-              </JobApplicationField.EditElement>
-              <JobApplicationField.SaveButton
-                onSubmit={handleSave}
-                className="flex items-center justify-center justify-self-start  px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
-              >
-                <div>
-                  <FaCheck />
-                </div>
-              </JobApplicationField.SaveButton>
+                <span>Go Back</span>
+              </Button>
             </div>
-          </JobApplicationField>
-        ))}
+            {textFields.map(field => (
+              <JobApplicationField key={field}>
+                <h2 className="text-3xl font-bold capitalize text-white underline">
+                  {field}:
+                </h2>
+                <JobApplicationField.DisplayElement className="text-3xl text-white">
+                  <div>{(application?.[field] as string) || field}</div>
+                </JobApplicationField.DisplayElement>
+                <div className="flex items-center gap-4">
+                  <JobApplicationField.EditElement
+                    onChange={handleChange}
+                    className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
+                  >
+                    <input
+                      type="text"
+                      defaultValue={application?.[field] as string}
+                      name={field}
+                      placeholder={field}
+                    />
+                  </JobApplicationField.EditElement>
+                  <JobApplicationField.SaveButton
+                    onSubmit={handleSave}
+                    className="flex items-center justify-center justify-self-start  px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
+                  >
+                    <div>
+                      <FaCheck />
+                    </div>
+                  </JobApplicationField.SaveButton>
+                </div>
+              </JobApplicationField>
+            ))}
 
-        <JobApplicationField>
-          <h2 className="text-3xl font-bold text-white underline">Link:</h2>
-          <div className="flex flex-wrap items-center gap-4">
-            <JobApplicationField.DisplayElement className="text-3xl text-blue-400 hover:underline">
-              <a href={application?.url} target="_blank" rel="noreferrer">
-                {application?.url || "Link"}
-              </a>
-            </JobApplicationField.DisplayElement>
-            <JobApplicationField.EditButton className="cursor-pointer text-4xl">
-              <div>
-                <BiEdit />
+            <JobApplicationField>
+              <h2 className="text-3xl font-bold text-white underline">Link:</h2>
+              <div className="flex flex-wrap items-center gap-4">
+                <JobApplicationField.DisplayElement className="text-3xl text-blue-400 hover:underline">
+                  <a href={application?.url} target="_blank" rel="noreferrer">
+                    {application?.url || "Link"}
+                  </a>
+                </JobApplicationField.DisplayElement>
+                <JobApplicationField.EditButton className="cursor-pointer text-4xl">
+                  <div>
+                    <BiEdit />
+                  </div>
+                </JobApplicationField.EditButton>
               </div>
-            </JobApplicationField.EditButton>
-          </div>
-          <div className="flex items-center gap-4">
-            <JobApplicationField.EditElement
-              onChange={handleChange}
-              className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
-            >
-              <input
-                type="text"
-                defaultValue={application?.url}
-                name="url"
-                placeholder="Link"
-              />
-            </JobApplicationField.EditElement>
-            <JobApplicationField.SaveButton
-              onSubmit={handleSave}
-              className="flex items-center justify-center justify-self-start  px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
-            >
-              <div>
-                <FaCheck />
+              <div className="flex items-center gap-4">
+                <JobApplicationField.EditElement
+                  onChange={handleChange}
+                  className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
+                >
+                  <input
+                    type="text"
+                    defaultValue={application?.url}
+                    name="url"
+                    placeholder="Link"
+                  />
+                </JobApplicationField.EditElement>
+                <JobApplicationField.SaveButton
+                  onSubmit={handleSave}
+                  className="flex items-center justify-center justify-self-start  px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
+                >
+                  <div>
+                    <FaCheck />
+                  </div>
+                </JobApplicationField.SaveButton>
               </div>
-            </JobApplicationField.SaveButton>
-          </div>
-        </JobApplicationField>
-        <JobApplicationField>
-          <h2 className="text-3xl font-bold text-white underline">Notes:</h2>
-          <JobApplicationField.DisplayElement className="text-3xl text-white">
-            <p>{application?.notes || "notes"}</p>
-          </JobApplicationField.DisplayElement>
-          <div className="flex items-center gap-4">
-            <JobApplicationField.EditElement
-              onChange={handleChange}
-              className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
-            >
-              <textarea defaultValue={application?.notes} name="notes" />
-            </JobApplicationField.EditElement>
-            <JobApplicationField.SaveButton
-              onSubmit={handleSave}
-              className="flex items-center justify-center justify-self-start  px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
-            >
-              <div>
-                <FaCheck />
+            </JobApplicationField>
+            <JobApplicationField>
+              <h2 className="text-3xl font-bold text-white underline">
+                Notes:
+              </h2>
+              <JobApplicationField.DisplayElement className="text-3xl text-white">
+                <p>{application?.notes || "notes"}</p>
+              </JobApplicationField.DisplayElement>
+              <div className="flex items-center gap-4">
+                <JobApplicationField.EditElement
+                  onChange={handleChange}
+                  className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
+                >
+                  <textarea defaultValue={application?.notes} name="notes" />
+                </JobApplicationField.EditElement>
+                <JobApplicationField.SaveButton
+                  onSubmit={handleSave}
+                  className="flex items-center justify-center justify-self-start  px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
+                >
+                  <div>
+                    <FaCheck />
+                  </div>
+                </JobApplicationField.SaveButton>
               </div>
-            </JobApplicationField.SaveButton>
-          </div>
-        </JobApplicationField>
+            </JobApplicationField>
 
-        <ImgList />
-        <ContactList />
+            <ImgList />
+            <ContactList />
 
-        <TodoList />
+            <TodoList />
+          </>
+        )}
       </div>
     </>
   );

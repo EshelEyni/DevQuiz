@@ -26,7 +26,7 @@ const JobApplicationEdit = () => {
     "url",
     "notes",
   ];
-
+  const isLoading = getApplicationState.state === "loading";
   const params = useParams();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -64,7 +64,6 @@ const JobApplicationEdit = () => {
     };
   }, [params, dispatch]);
 
-  if (getApplicationState.state === "loading") return <Loader />;
   return (
     <>
       <MainScreen onClickFn={onGoBack} darkMode={true} />
@@ -76,54 +75,59 @@ const JobApplicationEdit = () => {
           },
         )}
       >
-        <div className="mb-5 flex w-full items-center justify-between">
-          <h1 className="text-3xl font-bold text-white">Job Application</h1>
-          <Button
-            onClickFn={onGoBack}
-            className="flex h-16 items-center justify-center gap-2 self-center rounded-full bg-gray-600 px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
-          >
-            <span>Go Back</span>
-          </Button>
-        </div>
+        {isLoading && <Loader />}
+        {!isLoading && application && (
+          <>
+            <div className="mb-5 flex w-full items-center justify-between">
+              <h1 className="text-3xl font-bold text-white">Job Application</h1>
+              <Button
+                onClickFn={onGoBack}
+                className="flex h-16 items-center justify-center gap-2 self-center rounded-full bg-gray-600 px-7 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-2xl"
+              >
+                <span>Go Back</span>
+              </Button>
+            </div>
 
-        {textFields.map(field => (
-          <div key={field} className="flex flex-col gap-3">
-            <h2 className="text-3xl font-bold capitalize text-white underline">
-              {field !== "url" ? field : "Link"}
-            </h2>
+            {textFields.map(field => (
+              <div key={field} className="flex flex-col gap-3">
+                <h2 className="text-3xl font-bold capitalize text-white underline">
+                  {field !== "url" ? field : "Link"}
+                </h2>
 
-            {field !== "notes" ? (
-              <input
-                type="text"
-                defaultValue={application?.[field] as string}
-                onChange={handleChange}
-                className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
-                name={field}
-                placeholder={field !== "url" ? field : "Link"}
-              />
-            ) : (
-              <textarea
-                onChange={handleChange}
-                defaultValue={application?.notes}
-                name="notes"
-                className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
-              />
-            )}
-          </div>
-        ))}
+                {field !== "notes" ? (
+                  <input
+                    type="text"
+                    defaultValue={application?.[field] as string}
+                    onChange={handleChange}
+                    className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
+                    name={field}
+                    placeholder={field !== "url" ? field : "Link"}
+                  />
+                ) : (
+                  <textarea
+                    onChange={handleChange}
+                    defaultValue={application?.notes}
+                    name="notes"
+                    className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
+                  />
+                )}
+              </div>
+            ))}
 
-        <ImgList isEdit={true} />
-        <ContactList isEdit={true} />
-        <TodoList isEdit />
+            <ImgList isEdit={true} />
+            <ContactList isEdit={true} />
+            <TodoList isEdit />
 
-        <hr className="mb-5 mt-5 border-t-2 border-gray-600" />
+            <hr className="mb-5 mt-5 border-t-2 border-gray-600" />
 
-        <Button
-          onClickFn={handleSave}
-          className="mt-2 flex h-20 items-center justify-center gap-2 self-center justify-self-start rounded-full bg-gray-600 px-10 py-2 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-3xl"
-        >
-          <span>Save</span>
-        </Button>
+            <Button
+              onClickFn={handleSave}
+              className="mt-2 flex h-20 items-center justify-center gap-2 self-center justify-self-start rounded-full bg-gray-600 px-10 py-2 text-3xl font-medium leading-none tracking-wide text-gray-100 transition-all duration-300 hover:scale-110 md:h-14 md:text-3xl"
+            >
+              <span>Save</span>
+            </Button>
+          </>
+        )}
       </div>
     </>
   );

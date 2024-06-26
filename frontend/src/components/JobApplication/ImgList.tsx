@@ -22,7 +22,7 @@ export const ImgList: FC<ImgListProps> = ({ isEdit = false }) => {
 
       {isLoading && <Loader />}
       {!isLoading && (
-        <div className="flex w-full flex-wrap gap-2">
+        <div className="relative flex w-full flex-wrap">
           {application.imgs.map((img, index) => {
             return <ImgDisplay key={index} src={img} isEdit={isEdit} />;
           })}

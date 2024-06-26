@@ -12,10 +12,14 @@ export const JobApplicationCategory: FC<JobApplicationCategoryProps> = ({
   applications,
 }) => {
   if (applications.length === 0) return null;
-
+  const numOfApplications = applications.length;
+  const numOfApplicationsText =
+    numOfApplications === 1 ? "application" : "applications";
   return (
-    <div className="w-full bg-white p-4 shadow-md sm:rounded-lg">
-      <h2 className="mb-4 text-2xl font-semibold text-gray-800">{title}</h2>
+    <div className="w-full bg-white py-4 shadow-md md:rounded-lg">
+      <h2 className="mb-4 px-2 text-4xl font-semibold text-gray-800 md:px-4">
+        {title} ({numOfApplications} {numOfApplicationsText})
+      </h2>
       <ul>
         {applications.map(application => (
           <li key={application.id}>

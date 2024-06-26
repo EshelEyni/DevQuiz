@@ -36,40 +36,44 @@ export const JobApplicationPreview: FC<JobApplicationPreviewProps> = ({
   }
 
   return (
-    <div className="flex items-center justify-between border-b border-gray-200 py-2 md:text-2xl">
+    <div className="flex items-center justify-between border-b border-gray-200 px-2 py-4 text-3xl md:px-4 md:text-3xl">
       <div
-        className="flex cursor-pointer flex-wrap items-center justify-around gap-1 hover:border-b"
+        className="flex w-9/12 cursor-pointer items-center gap-1"
         onClick={handleApplicationClick}
       >
         {isWarningIconShown && <RiAlarmWarningFill className="warning-icon" />}
-        <span className="text-lg font-semibold text-gray-800 md:text-3xl">
-          {jobApplication.company}
-        </span>
-        <span>-</span>
-        <span>{jobApplication.position}</span>
-        <span>-</span>
-        <span>{jobApplication.status}</span>
-        <span className="hidden sm:inline">-</span>
-        <span className="hidden sm:inline">{formattedDate}</span>
+        <p className="flex items-center gap-[2px] overflow-hidden text-ellipsis whitespace-nowrap">
+          <span className="font-semibold text-gray-800">
+            {jobApplication.company}
+          </span>
+          <span>-</span>
+          <span>{jobApplication.position}</span>
+          <span className="hidden sm:inline">-</span>
+          <span className="hidden sm:inline">{jobApplication.status}</span>
+          <span className="hidden md:inline">-</span>
+          <span className="hidden md:inline">{formattedDate}</span>
+        </p>
       </div>
-      <div className="flex items-center justify-center gap-2 md:gap-4 md:text-2xl">
-        <a
-          href={jobApplication.url}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="ml-2"
-        >
-          <button
-            className="flex items-center justify-center rounded-full bg-gray-600 px-2 py-1 text-gray-100 transition-all duration-300 hover:scale-110 hover:bg-gray-800 md:px-6"
-            type="button"
+      <div className="flex w-3/12 items-center justify-end gap-2 md:gap-4 md:text-2xl">
+        {jobApplication.url && (
+          <a
+            href={jobApplication.url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="ml-2"
           >
-            Link
-          </button>
-        </a>
+            <button
+              className="hidden items-center justify-center rounded-full bg-gray-600 px-4 py-2 text-gray-100 transition-all duration-300 hover:scale-110 hover:bg-gray-800 sm:flex md:px-6"
+              type="button"
+            >
+              Link
+            </button>
+          </a>
+        )}
         <Modal>
           <Modal.OpenBtn modalName="archiveModal">
             <button>
-              <BiArchiveIn className="text-3xl md:text-4xl" />
+              <BiArchiveIn className="text-5xl md:text-6xl" />
             </button>
           </Modal.OpenBtn>
 

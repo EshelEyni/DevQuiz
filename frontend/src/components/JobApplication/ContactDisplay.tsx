@@ -93,7 +93,12 @@ export const ContactDisplay: FC<ContactDisplayProps> = ({ contact }) => {
             onChange={handleChange}
             className="w-full rounded-md bg-gray-700 p-4 text-2xl font-medium text-gray-100 outline-none"
           >
-            <input type="text" defaultValue={contact.name} name="name" />
+            <input
+              type="text"
+              defaultValue={contact.name}
+              name="name"
+              placeholder="Name"
+            />
           </JobApplicationField.EditElement>
           <JobApplicationField.SaveButton
             onSubmit={handleSave}

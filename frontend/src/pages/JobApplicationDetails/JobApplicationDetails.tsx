@@ -19,6 +19,7 @@ import { ContactList } from "../../components/JobApplication/ContactList";
 import { TodoList } from "../../components/JobApplication/TodoList";
 import { ImgList } from "../../components/JobApplication/ImgList";
 import { Button } from "../../components/Btns/Button";
+import { SocialLinks } from "../JobApplication/SocialLinks";
 
 const JobApplicationDetails = () => {
   const { application, getApplicationState } = useJobApplication();
@@ -184,6 +185,9 @@ const JobApplicationDetails = () => {
             <ContactList />
 
             <TodoList />
+            <div className="mt-14">
+              <SocialLinks />
+            </div>
           </>
         )}
       </div>

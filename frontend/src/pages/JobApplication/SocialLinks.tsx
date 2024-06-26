@@ -36,19 +36,21 @@ export const SocialLinks = () => {
   ];
 
   return (
-    <div className="my-3 flex w-full max-w-[700px] items-center justify-between px-3">
-      {links.map(l => {
-        if (!l.link) return null;
-        return (
-          <Button
-            key={l.name}
-            className="rounded-full border-2 border-white px-6 py-3 text-4xl text-white"
-            onClickFn={() => handleBtnClick(l.link as string)}
-          >
-            {l.name}
-          </Button>
-        );
-      })}
+    <div className="my-3 flex w-full items-center justify-center px-3">
+      <div className="my-3 flex w-full max-w-[700px] flex-wrap items-center justify-between gap-6">
+        {links.map(l => {
+          if (!l.link) return null;
+          return (
+            <Button
+              key={l.name}
+              className="rounded-full border-2 border-white px-6 py-3 text-4xl text-white"
+              onClickFn={() => handleBtnClick(l.link as string)}
+            >
+              {l.name}
+            </Button>
+          );
+        })}
+      </div>
     </div>
   );
 };

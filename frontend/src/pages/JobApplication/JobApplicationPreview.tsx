@@ -44,12 +44,14 @@ export const JobApplicationPreview: FC<JobApplicationPreviewProps> = ({
         {isWarningIconShown && <RiAlarmWarningFill className="warning-icon" />}
         <p className="flex items-center gap-[2px] overflow-hidden text-ellipsis whitespace-nowrap">
           <span className="font-semibold text-gray-800">
-            {jobApplication.company}
+            {jobApplication.company || "No Company"}
           </span>
           <span>-</span>
-          <span>{jobApplication.position}</span>
+          <span>{jobApplication.position || "Position"}</span>
           <span className="hidden sm:inline">-</span>
-          <span className="hidden sm:inline">{jobApplication.status}</span>
+          <span className="hidden sm:inline">
+            {jobApplication.status || "Status"}
+          </span>
           <span className="hidden md:inline">-</span>
           <span className="hidden md:inline">{formattedDate}</span>
         </p>

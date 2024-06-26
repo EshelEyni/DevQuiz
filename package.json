@@ -1,0 +1,13 @@
+{
+  "name": "devquiz",
+  "version": "1.0.0",
+  "description": "A quiz app for developers",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "set-build": "node index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

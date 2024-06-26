@@ -58,7 +58,7 @@ export const ContactDisplay: FC<ContactDisplayProps> = ({ contact }) => {
         <Modal>
           <Modal.OpenBtn modalName="archiveModal">
             <button>
-              <BiArchiveIn className="text-3xl md:text-4xl" />
+              <BiArchiveIn className="text-4xl" />
             </button>
           </Modal.OpenBtn>
 

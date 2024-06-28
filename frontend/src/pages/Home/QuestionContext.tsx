@@ -20,7 +20,7 @@ import userService from "../../services/user.service";
 
 type QuestionContextType = {
   focusedBtn: string;
-  question: Question;
+  question: Question | null;
   isNextBtnShown: boolean;
   isLastQuestionIdx: boolean;
   onPassQuestion: () => void;
@@ -62,11 +62,11 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   useKey("ArrowUp", handleArrowUp, {}, [answerIdx, focusedBtn]);
   useKey("ArrowDown", handleArrowDown, {}, [answerIdx, focusedBtn]);
 
-  useKey("e", handleBtnEditClick, {}, [question.id, isAdmin, isEditPageOpen]);
-  useKey("a", handleBtnApproveClick, {}, [isAdmin, question.isRevised]);
+  useKey("e", handleBtnEditClick, {}, [question?.id, isAdmin, isEditPageOpen]);
+  useKey("a", handleBtnApproveClick, {}, [isAdmin, question?.isRevised]);
   useKey("m", handleBtnMarkToEditClick, {}, [
     isAdmin,
-    question.isMarkedToBeRevised,
+    question?.isMarkedToBeRevised,
   ]);
   useKey("t", onToggleTimer, {}, [isTimerOn]);
 
@@ -79,7 +79,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   }
 
   function handleArrowUp() {
-    if (answerIdx) return;
+    if (!question || answerIdx) return;
     let newFocusedBtn = "";
     const optionsNum = question.options.length;
     if (focusedBtn === "") newFocusedBtn = "option-1";
@@ -93,7 +93,7 @@ function QuestionProvider({ children }: { children: React.ReactNode }) {
   }
 
   function handleArrowDown() {
-    if (answerIdx) return;
+    if (!question || answerIdx) return;
     let newFocusedBtn = "";
     const optionsNum = question.options.length;
     if (focusedBtn.includes("option")) {

@@ -11,10 +11,10 @@ import { useAuth } from "../../hooks/useAuth";
 export const StartScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { language, numQuestions } = useQuiz();
+  const { language, questions } = useQuiz();
   const [isFocused, setIsFocused] = useState(false);
   const { loggedInUser } = useAuth();
-
+  const numQuestions = questions.length;
   useKey("Enter", handleStartQuiz);
   useKey("ArrowDown", handleArrowDown);
   useKey("ArrowUp", handleArrowUp);

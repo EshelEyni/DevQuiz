@@ -50,12 +50,6 @@ export const AppHeader = () => {
       link: "/question-management",
       condition: !!isQuestionEditLinkShown,
     },
-    {
-      name: "job applications",
-      icon: <FaBriefcase />,
-      link: "/job-applications",
-      condition: !!isjobApplicationLinkShown,
-    },
   ];
 
   const rightNavLinks: NavLinks[] = [

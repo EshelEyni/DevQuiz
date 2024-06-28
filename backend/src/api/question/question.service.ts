@@ -11,6 +11,7 @@ import { ravenStore } from "../../server";
 import { RavenDbDocument } from "../../../../shared/types/system";
 import { AppError } from "../../services/error.service";
 import { UserCorrectAnswer } from "../../../../shared/types/user";
+import userService from "../user/user.service";
 
 const COLLECTION_NAME = "Questions";
 
@@ -21,6 +22,8 @@ async function query(queryString: QueryString): Promise<Question[]> {
     queryString;
   const isMarkedToBeRevisedBoolean = convertQueryParamsToBoolean(isMarkedToBeRevised);
   const isRevisedBoolean = convertQueryParamsToBoolean(isRevised);
+  const isUserAdmin = await getIsAdminUser(loggedinUserId);
+
   const session = ravenStore.openSession();
   const query = session.query<Question>({ collection: COLLECTION_NAME });
 
@@ -33,7 +36,7 @@ async function query(queryString: QueryString): Promise<Question[]> {
   if (isManagePage && isRevisedBoolean !== undefined)
     query.whereEquals("isRevised", isRevisedBoolean);
 
-  if (!isManagePage) query.whereEquals("isRevised", true);
+  if (!isManagePage && !isUserAdmin) query.whereEquals("isRevised", true);
 
   if (language) query.whereEquals("language", language);
   if (level) query.whereEquals("level", level);
@@ -175,6 +178,17 @@ const levelPointsMap = new Map([
   ["intermediate", 20],
   ["advanced", 30],
 ]);
+
+async function getIsAdminUser(loggedinUserId: string | undefined) {
+  try {
+    if (!loggedinUserId) return false;
+    const user = await userService.getById(loggedinUserId);
+    if (!user) return false;
+    return user.roles.includes("admin");
+  } catch (error) {
+    return false;
+  }
+}
 
 export default {
   query,

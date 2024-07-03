@@ -106,13 +106,21 @@ const systemSettings: systemSettingsType = {
       name: "Docker",
       img: "assets/images/Docker.png",
     },
-    Python: {
+    // Python: {
+    //   themeColors: {
+    //     themeColor: "#3776AB",
+    //     accentColor: "#FFD43B",
+    //   },
+    //   name: "Python",
+    //   img: "assets/images/Python.png",
+    // },
+    Kubernetes: {
       themeColors: {
-        themeColor: "#3776AB",
-        accentColor: "#FFD43B",
+        themeColor: "#326CE5",
+        accentColor: "#FFFFFF",
       },
-      name: "Python",
-      img: "assets/images/Python.png",
+      name: "Kubernetes",
+      img: "assets/images/Kubernetes.png",
     },
   },
   difficultyLevels: ["beginner", "intermediate", "advanced"],

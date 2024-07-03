@@ -16,6 +16,7 @@ import { updateLoggedInUser } from "../../store/slices/authSlice";
 
 const QuizSetting = () => {
   const { loggedInUser } = useAuth();
+
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { programmingLanguages, difficultyLevels } = systemSettings;

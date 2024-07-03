@@ -142,7 +142,7 @@ export default quizSlice.reducer;
 export function startNewQuiz({
   language,
   level,
-  page = 1,
+  page = 0,
   limit = 25,
   secondsPerQuestion = 30,
 }: questionReqProps): AppThunk {

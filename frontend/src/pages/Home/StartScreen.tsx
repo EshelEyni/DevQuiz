@@ -55,16 +55,24 @@ export const StartScreen = () => {
         </Button>
       ) : (
         <>
-          <p className="mt-10 text-center text-2xl font-bold text-gray-50">
-            You have completed all the questions. Go to profile to reset the
-            questions.
-          </p>
-          <Button
-            onClickFn={goToProfilePage}
-            className="mt-10 rounded-full bg-gray-600 px-8 py-6 text-3xl font-medium uppercase text-gray-100 transition-all duration-300"
-          >
-            Go to Profile
-          </Button>
+          {loggedInUser ? (
+            <>
+              <p className="mt-10 text-center text-2xl font-bold text-gray-50">
+                You have completed all the questions. Go to profile to reset the
+                questions.
+              </p>
+              <Button
+                onClickFn={goToProfilePage}
+                className="mt-10 rounded-full bg-gray-600 px-8 py-6 text-3xl font-medium uppercase text-gray-100 transition-all duration-300"
+              >
+                Go to Profile
+              </Button>
+            </>
+          ) : (
+            <p className="mt-10 text-center text-2xl font-bold text-gray-50">
+              No questions available. Please try another language or level.
+            </p>
+          )}
         </>
       )}
     </div>

@@ -48,7 +48,7 @@ const QuestionManagementPage = () => {
     if (filterBy !== "search" || !loggedInUser) return;
     const options = {
       language: searchFilterBy.language,
-      page: 1,
+      page: 0,
       limit: 0,
       searchTerm: searchFilterBy.searchTerm,
       isMarkedToBeRevised: searchFilterBy.marked.value,

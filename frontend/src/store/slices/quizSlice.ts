@@ -39,7 +39,7 @@ const initialState: QuizState = {
   language: "HTML",
   secondsPerQuestion: 30,
   level: "beginner",
-  page: 1,
+  page: 0,
   questions: [],
   answers: [],
   quizQueryState: defaultQueryState,

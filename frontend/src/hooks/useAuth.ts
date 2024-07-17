@@ -5,5 +5,6 @@ export function useAuth() {
   const { loggedInUser, queryState, updateQueryState } = useSelector(
     (state: RootState) => state.auth,
   );
+
   return { loggedInUser, queryState, updateQueryState };
 }

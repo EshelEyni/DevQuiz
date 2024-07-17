@@ -167,7 +167,6 @@ const _sendUserTokenSuccessResponse = (
   res.cookie("dev_quiz_jwt", token, {
     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    // secure: process.env.NODE_ENV === "production",
     secure: true,
     sameSite: "none",
   });

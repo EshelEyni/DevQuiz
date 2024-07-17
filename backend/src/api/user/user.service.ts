@@ -66,7 +66,10 @@ async function update(user: TypeOfUser) {
   Object.assign(doc, user);
   await _validateUser(session, doc);
   await session.saveChanges();
-  const updatedUser = { ...doc };
+  const updatedUser = {
+    ...doc,
+    id: trimCollectionNameFromId(doc.id) || doc.id,
+  };
   return updatedUser;
 }
 

@@ -33,7 +33,8 @@ export type ProgrammingLanguage =
   | "MongoDB"
   | "Git"
   | "Docker"
-  | "Kubernetes";
+  | "Kubernetes"
+  | "Electron";
 // | "Python";
 
 export type LanguageInfo = {

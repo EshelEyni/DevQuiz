@@ -202,7 +202,7 @@ export const QuestionSearchBar = () => {
 
       <Button
         onClickFn={onSearch}
-        className="flex h-14 items-center justify-center self-end rounded-full bg-gray-700 p-10 text-2xl leading-5 text-gray-100 md:self-center"
+        className="flex h-14 transform items-center justify-center self-end rounded-full bg-gray-700 p-10 text-2xl leading-5 text-gray-100 transition-all duration-300 hover:scale-110 md:self-center"
       >
         <span className="text-3xl capitalize">search</span>
       </Button>

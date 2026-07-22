@@ -29,7 +29,7 @@ export interface User extends BasicUser {
   portfolio?: string;
 }
 
-export type UserRoles = "user" | "admin" | "editor" | "applicant";
+export type UserRoles = "user" | "admin" | "editor";
 
 export interface UserCorrectAnswer {
   userId: string;

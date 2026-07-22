@@ -2,7 +2,7 @@ FROM node:current-alpine3.19 as fe-build
 WORKDIR /app
 COPY frontend/package.json .
 COPY shared/ /shared/
-RUN npm install -g typescript
+RUN npm install -g typescript@5.0.4
 WORKDIR /shared
 RUN tsc
 WORKDIR /app
@@ -18,7 +18,7 @@ WORKDIR /app
 COPY backend/package.json .
 RUN npm install
 COPY shared/ /shared/
-RUN npm install -g typescript
+RUN npm install -g typescript@5.0.4
 COPY backend/ .
 RUN tsc
 

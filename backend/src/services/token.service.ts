@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { AppError } from "./error.service";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 import crypto from "crypto";
 require("dotenv").config();
 
@@ -18,8 +18,10 @@ function signToken(id: string) {
   if (!JWT_SECRET_CODE) throw new AppError("jwtSecretCode not found in config", 500);
   if (!JWT_EXPIRATION_TIME) throw new AppError("jwtExpirationTime not found in config", 500);
 
+  const expiresIn = JWT_EXPIRATION_TIME as SignOptions["expiresIn"];
+
   const token = jwt.sign({ id }, JWT_SECRET_CODE, {
-    expiresIn: JWT_EXPIRATION_TIME,
+    expiresIn,
   });
 
   if (!token) throw new AppError("Token not created", 500);

@@ -15,7 +15,7 @@ const certPath = path.resolve(
   __dirname,
   "..",
   "raven_certificate",
-  "free.esheleyni.client.certificate.pfx"
+  "free.esheleyni.client.certificate.2026-07-22.pfx"
 );
 
 const ravenAuthOptions = {

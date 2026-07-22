@@ -1,5 +1,6 @@
 import { Question } from "../../../../shared/types/question";
 import {
+  DEFAULT_QUESTION_LIMIT,
   QueryString,
   convertQueryParamsToBoolean,
   setIdToCollectionName,
@@ -125,7 +126,7 @@ async function findDuplicatedQuestions(queryString: QueryString): Promise<Questi
 
   if (language) query.whereEquals("language", language);
   if (level) query.whereEquals("level", level);
-  query.take(25);
+  query.take(DEFAULT_QUESTION_LIMIT);
   const allQuestions = await query.all();
   let duplicatedQuestions: Question[] = [];
   for (const question of allQuestions) {

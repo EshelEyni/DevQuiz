@@ -2,13 +2,13 @@ import { Question } from "../../../shared/types/question";
 import { FetchAPIQuestionsParams } from "../../../shared/types/system";
 import { questionReqProps } from "../store/types";
 import { httpService } from "./http.service";
-import { handleServerResponse } from "./utils.service";
+import { DEFAULT_QUESTION_LIMIT, handleServerResponse } from "./utils.service";
 
 async function query({
   language,
   level,
   page,
-  limit = 25,
+  limit = DEFAULT_QUESTION_LIMIT,
   searchTerm,
   isMarkedToBeRevised,
   isRevised,

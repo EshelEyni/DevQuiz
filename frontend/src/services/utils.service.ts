@@ -3,6 +3,8 @@ import { QueryState } from "../types/app.types";
 
 const QUERY_TIMEOUT = 3000;
 
+const DEFAULT_QUESTION_LIMIT = 10;
+
 const defaultQueryState: QueryState = { state: "idle", error: null };
 
 function formatDateToRelativeTime(currDate: Date): string {
@@ -193,7 +195,7 @@ function readAsDataURL(file: File): Promise<string> {
 }
 
 export {
-  QUERY_TIMEOUT,
+  QUERY_TIMEOUT,DEFAULT_QUESTION_LIMIT,
   defaultQueryState,
   formatDateToRelativeTime,
   formatNumToK,

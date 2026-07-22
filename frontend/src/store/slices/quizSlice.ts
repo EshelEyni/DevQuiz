@@ -5,6 +5,7 @@ import { AppStatus, questionReqProps } from "../types";
 import { AppThunk, QueryState } from "../../types/app.types";
 import questionService from "../../services/question.service";
 import {
+  DEFAULT_QUESTION_LIMIT,
   QUERY_TIMEOUT,
   changeThemeColors,
   defaultQueryState,
@@ -43,7 +44,7 @@ const initialState: QuizState = {
   questions: [],
   answers: [],
   quizQueryState: defaultQueryState,
-  numQuestions: 25,
+  numQuestions: DEFAULT_QUESTION_LIMIT,
   questionIdx: 0,
   answerIdx: null,
   points: 0,
@@ -143,7 +144,7 @@ export function startNewQuiz({
   language,
   level,
   page = 0,
-  limit = 25,
+  limit = DEFAULT_QUESTION_LIMIT,
   secondsPerQuestion = 30,
 }: questionReqProps): AppThunk {
   return async (dispatch, getState) => {

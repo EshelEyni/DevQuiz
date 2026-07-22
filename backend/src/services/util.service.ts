@@ -12,6 +12,8 @@ export interface QueryString {
   searchField?: string;
 }
 
+export const DEFAULT_QUESTION_LIMIT = 10;
+
 async function queryRavenDB(queryString: QueryString, collection: string): Promise<object[]> {
   const setFilter = (queryString: QueryString, query: IDocumentQuery<object>) => {
     const queryObj: QueryString = { ...queryString };

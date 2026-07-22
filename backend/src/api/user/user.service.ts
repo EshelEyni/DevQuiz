@@ -1,4 +1,5 @@
 import {
+  DEFAULT_QUESTION_LIMIT,
   QueryString,
   queryRavenDB,
   setIdToCollectionName,
@@ -172,7 +173,7 @@ async function getDefaultUser(user: BasicUser): Promise<TypeOfUser> {
     quizSettings: {
       language: "HTML",
       level: "beginner",
-      numQuestions: 25,
+      numQuestions: DEFAULT_QUESTION_LIMIT,
       secondsPerQuestion: 30,
     },
     searchSettings: {

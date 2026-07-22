@@ -5,6 +5,7 @@ import { AppThunk, QueryState } from "../../types/app.types";
 import { questionReqProps } from "../types";
 import questionService from "../../services/question.service";
 import {
+  DEFAULT_QUESTION_LIMIT,
   QUERY_TIMEOUT,
   defaultQueryState,
   getErrorMessage,
@@ -143,7 +144,7 @@ export function getQuestions({
   language,
   level,
   page,
-  limit = 25,
+  limit = DEFAULT_QUESTION_LIMIT,
   searchTerm,
   isMarkedToBeRevised,
   isRevised,

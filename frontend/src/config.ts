@@ -122,14 +122,7 @@ const systemSettings: systemSettingsType = {
       name: "Kubernetes",
       img: "assets/images/Kubernetes.png",
     },
-    Electron: {
-      themeColors: {
-        themeColor: "#2F3242",
-        accentColor: "#A2ECFB",
-      },
-      name: "Electron",
-      img: "assets/images/Electron.png",
-    },
+  
   },
   difficultyLevels: ["beginner", "intermediate", "advanced"],
 };

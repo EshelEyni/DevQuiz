@@ -34,7 +34,6 @@ export type ProgrammingLanguage =
   | "Git"
   | "Docker"
   | "Kubernetes"
-  | "Electron";
 // | "Python";
 
 export type LanguageInfo = {

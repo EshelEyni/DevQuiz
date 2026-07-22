@@ -1,13 +1,5 @@
 import { FC, LazyExoticComponent, lazy } from "react";
-const JobApplicationEdit = lazy(
-  () => import("./pages/JobApplicationEdit/JobApplicationEdit"),
-);
-const JobApplicationDetails = lazy(
-  () => import("./pages/JobApplicationDetails/JobApplicationDetails"),
-);
-const JobApplication = lazy(
-  () => import("./pages/JobApplication/JobApplication"),
-);
+
 const QuestionEdit = lazy(() => import("./pages/QuestionEdit/QuestionEdit"));
 const About = lazy(() => import("./pages/About/About"));
 const QuestionManagementPage = lazy(
@@ -56,20 +48,6 @@ const routes: Route[] = [
       {
         path: "question-edit/:id?",
         component: QuestionEdit,
-      },
-    ],
-  },
-  {
-    path: "/job-applications",
-    component: JobApplication,
-    nestedRoutes: [
-      {
-        path: "edit/:id?",
-        component: JobApplicationEdit,
-      },
-      {
-        path: ":id",
-        component: JobApplicationDetails,
       },
     ],
   },
